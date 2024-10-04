@@ -113,7 +113,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		skip: !commentInquiry.search.commentRefId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getProperties?.list) setPropertyComments(data?.getProperties?.list);
+			if (data?.getComments?.list) setPropertyComments(data?.getComments?.list);
 			setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0);
 		},
 	});
