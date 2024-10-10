@@ -40,7 +40,7 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 	} = useQuery(GET_MEMBER_FOLLOWINGS, {
 		fetchPolicy: 'network-only',
 		variables: { input: followInquiry },
-		skip: !followInquiry?.search?.followerId,
+		// skip: !followInquiry?.search?.followerId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			setMemberFollowings(data?.getMemberFollowings?.list);
@@ -136,7 +136,9 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 												<Button
 													variant="outlined"
 													sx={{ background: '#f78181', ':hover': { background: '#f06363' } }}
-													onClick={() => unsubscribeHandler(follower?.followingData?._id, null, followInquiry)}
+													onClick={() =>
+														unsubscribeHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)
+													}
 												>
 													Unfollow
 												</Button>
@@ -145,7 +147,9 @@ const MemberFollowings = (props: MemberFollowingsProps) => {
 											<Button
 												variant="contained"
 												sx={{ background: '#60eb60d4', ':hover': { background: '#60eb60d4' } }}
-												onClick={() => subscribeHandler(follower?.followingData?._id, null, followInquiry)}
+												onClick={() =>
+													subscribeHandler(follower?.followingData?._id, getMemberFollowingsRefetch, followInquiry)
+												}
 											>
 												Follow
 											</Button>

@@ -59,7 +59,7 @@ const MemberPage: NextPage = () => {
 			await subscribe({
 				variables: { input: id },
 			});
-			await sweetTopSmallSuccessAlert('Subscribed!', 800);
+			// await sweetTopSmallSuccessAlert('Subscribed!', 800);
 			await refetch({ input: query });
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
@@ -72,10 +72,12 @@ const MemberPage: NextPage = () => {
 			if (!id) throw new Error(Messages.error1);
 			if (!user._id) throw new Error(Messages.error2);
 
-			await unsubscribe({
+			const result = await unsubscribe({
 				variables: { input: id },
 			});
-			await sweetTopSmallSuccessAlert('Unsubscribed!', 800);
+			console.log('RESULT', result);
+
+			// await sweetTopSmallSuccessAlert('Unsubscribed!', 800);
 			await refetch({ input: query });
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
