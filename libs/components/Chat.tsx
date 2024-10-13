@@ -146,6 +146,9 @@ const Chat = () => {
 							</Box>
 							{messagesList.map((ele: MessagePayload) => {
 								const { text, memberData } = ele;
+								console.log('RESULTTT', ele);
+								console.log('USER', user);
+
 								const memberImage = memberData?.memberImage
 									? `${REACT_APP_API_URL}/${user?.memberImage}`
 									: '/img/profile/defaultUser.svg';
