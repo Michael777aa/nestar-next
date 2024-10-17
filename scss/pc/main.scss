@@ -48,9 +48,7 @@ body::-webkit-scrollbar {
 		.navbar {
 			.navbar-main {
 				position: fixed;
-				padding: 22px 0px;
 				width: 100%;
-				height: 87px;
 				display: flex;
 				flex-direction: row;
 				box-sizing: border-box;
@@ -61,109 +59,77 @@ body::-webkit-scrollbar {
 					background-color: #181a209e;
 				}
 				.container {
-					flex-direction: row;
-					align-items: center;
-					justify-content: space-between;
-					.logo-box {
-						img {
-							width: 150px;
-							cursor: pointer;
-						}
-					}
-					.router-box {
-						position: relative;
-						width: 617px;
+					display: flex;
+					.navbar-top-menu {
 						display: flex;
 						flex-direction: row;
 						justify-content: space-between;
-						div {
-							position: relative;
-							color: #eeeeeeed;
-							font-family: $font;
-							font-size: 15px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-							cursor: pointer;
-							.community_menu {
-								position: absolute;
-								left: -177%;
-								top: 30px;
-								width: 434px;
-								height: 33px;
-								background: white;
-								transition: all ease 2s;
-								&:before {
-									content: '';
-									display: block;
-									position: absolute;
-									top: 0;
-									right: 50%;
-									width: 10px;
-									height: 10px;
-									background: white;
-									transform: translateY(-50%) rotate(45deg);
-									z-index: 0;
+						align-items: center;
+						height: 40px;
+						background-color: #fff;
+						.left-top-menu {
+							display: flex;
+							flex-direction: row;
+							justify-content: space-between;
+							align-items: center;
+							gap: 14px;
+							.icon {
+								transition: all 0.3s ease;
+								font-size: 15px;
+							}
+							.icon:hover {
+								color: red;
+							}
+						}
+						.right-top-menu {
+							display: flex;
+							flex-direction: row;
+							justify-content: space-between;
+							align-items: center;
+							.right-top-box {
+								display: flex;
+								flex-direction: row;
+								justify-content: space-between;
+								align-items: center;
+								gap: 18px;
+								.link {
+									transition: all 0.3s ease;
+									font-size: 15px;
+								}
+								.link:hover {
+									color: red;
+								}
+								.lan-box {
+									img {
+										width: 22px;
+										height: 15px;
+									}
 								}
 							}
 						}
 					}
-					.user-box {
-						width: 270px;
+					.navbar-middle-menu {
 						display: flex;
 						flex-direction: row;
-						justify-content: flex-end;
-						.join-box {
-							width: 184px;
-							height: 47px;
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							border-radius: 60px;
-							border: 1px solid #ffffff;
-							cursor: pointer;
-							svg {
-								color: #ffffff;
-								margin-right: 10px;
-							}
-							span {
-								font-family: $font;
-								font-size: 14px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								color: #ffffff;
-							}
-						}
-						.login-user {
-							img {
-								width: 42px;
-								height: 42px;
-								border-radius: 50%;
-								object-fit: cover;
-							}
-						}
-					}
-					.lan-box {
-						margin-left: 28px;
-						display: flex;
+						justify-content: space-between;
 						align-items: center;
-						.notification-icon {
-							color: white;
-						}
-						.btn-lang {
-							border-radius: 4px;
-							img {
-								width: 24px;
-								height: 17px;
-								border-radius: 2px;
+						height: 76px;
+						background-color: #fff;
+
+						.left-middle-menu {
+							display: flex;
+							flex-direction: row;
+							justify-content: space-between;
+							align-items: center;
+							.router-box {
+								display: flex;
+								flex-direction: row;
+								justify-content: space-between;
+								align-items: center;
+								position: relative;
+								left: 50px;
+								gap: 30px;
 							}
-						}
-						.img-flag {
-							width: 24px;
-							height: 17px;
-							border-radius: 2px;
-							margin-right: 8px;
 						}
 					}
 				}

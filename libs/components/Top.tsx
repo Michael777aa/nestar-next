@@ -17,7 +17,11 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
-
+import InstagramIcon from '@mui/icons-material/Instagram';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import FacebookIcon from '@mui/icons-material/Facebook';
 const Top = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
@@ -164,122 +168,162 @@ const Top = () => {
 			<Stack className={'navbar'}>
 				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
 					<Stack className={'container'}>
-						<Box component={'div'} className={'logo-box'}>
-							<Link href={'/'}>
-								<img src="/img/logo/logoWhite.svg" alt="" />
-							</Link>
-						</Box>
-						<Box component={'div'} className={'router-box'}>
-							<Link href={'/'}>
-								<div>{t('Home')}</div>
-							</Link>
-							<Link href={'/property'}>
-								<div>{t('Properties')}</div>
-							</Link>
-							<Link href={'/agent'}>
-								<div> {t('Agents')} </div>
-							</Link>
-							<Link href={'/community?articleCategory=FREE'}>
-								<div> {t('Community')} </div>
-							</Link>
-							{user?._id && (
-								<Link href={'/mypage'}>
-									<div> {t('My Page')} </div>
-								</Link>
-							)}
-							<Link href={'/cs'}>
-								<div> {t('CS')} </div>
-							</Link>
-						</Box>
-						<Box component={'div'} className={'user-box'}>
-							{user?._id ? (
-								<>
-									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
-										<img
-											src={
-												user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
-											}
-											alt=""
-										/>
+						<Stack className={'navbar-top-menu'}>
+							<Stack className={'left-top-menu'}>
+								<a href="" className="icon">
+									<InstagramIcon />
+								</a>
+								<a href="" className="icon">
+									<YouTubeIcon />
+								</a>
+								<a href="" className="icon">
+									<TelegramIcon />
+								</a>
+								<a href="" className="icon">
+									<TwitterIcon />
+								</a>
+								<a href="" className="icon">
+									<FacebookIcon />
+								</a>
+							</Stack>
+							<Stack className={'right-top-menu'}>
+								<Box component={'div'} className={'right-top-box'}>
+									<Link href={'/about'} className={'link'}>
+										<div>{t('About')} </div>
+									</Link>
+									<Link href={'/contact'} className={'link'}>
+										<div> {t('Contact')} </div>
+									</Link>
+									<Link href={'/blog'} className={'link'}>
+										<div> {t('Blog')} </div>
+									</Link>
+									<Link href={'/cs'} className={'link'}>
+										<div> {t('Cs')} </div>
+									</Link>
+									<div className={'lan-box'}>
+										{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
+										<Button
+											disableRipple
+											className="btn-lang"
+											onClick={langClick}
+											endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
+										>
+											<Box component={'div'} className={'flag'}>
+												{lang !== null ? (
+													<img src={`/img/flag/lang${lang}.png`} alt={'usaFlag'} />
+												) : (
+													<img src={`/img/flag/langen.png`} alt={'usaFlag'} />
+												)}
+											</Box>
+										</Button>
+
+										<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
+											<MenuItem disableRipple onClick={langChoice} id="en">
+												<img
+													className="img-flag"
+													src={'/img/flag/langen.png'}
+													onClick={langChoice}
+													id="en"
+													alt={'usaFlag'}
+												/>
+												{t('English')}
+											</MenuItem>
+											<MenuItem disableRipple onClick={langChoice} id="kr">
+												<img
+													className="img-flag"
+													src={'/img/flag/langkr.png'}
+													onClick={langChoice}
+													id="uz"
+													alt={'koreanFlag'}
+												/>
+												{t('Korean')}
+											</MenuItem>
+											<MenuItem disableRipple onClick={langChoice} id="ru">
+												<img
+													className="img-flag"
+													src={'/img/flag/langru.png'}
+													onClick={langChoice}
+													id="ru"
+													alt={'russiaFlag'}
+												/>
+												{t('Russian')}
+											</MenuItem>
+										</StyledMenu>
 									</div>
+								</Box>
+							</Stack>
+						</Stack>
+						{/* UPPER SIDE */}
+						<Stack className={'navbar-middle-menu'}>
+							<Stack className={'left-middle-menu'}>
+								<Box component={'div'} className={'logo-box'}>
+									<Link href={'/'} className={'entitlement'}>
+										<h1>PlaySpot</h1>
+									</Link>
+								</Box>
+								<Box component={'div'} className={'router-box'}>
+									<Link href={'/'}>
+										<div>{t('Home')}</div>
+									</Link>
+									<Link href={'/property'}>
+										<div>{t('Rent')}</div>
+									</Link>
+									<Link href={'/agent'}>
+										<div> {t('Agents')} </div>
+									</Link>
+									<Link href={'/community?articleCategory=FREE'}>
+										<div> {t('Community')} </div>
+									</Link>
+									{user?._id && (
+										<Link href={'/mypage'}>
+											<div> {t('My Page')} </div>
+										</Link>
+									)}
+								</Box>
+							</Stack>
+							<Stack className={'right-middle-menu'}>
+								<Box component={'div'} className={'user-box'}>
+									{user?._id ? (
+										<>
+											<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
+												<img
+													src={
+														user?.memberImage
+															? `${REACT_APP_API_URL}/${user?.memberImage}`
+															: '/img/profile/defaultUser.svg'
+													}
+													alt=""
+												/>
+											</div>
 
-									<Menu
-										id="basic-menu"
-										anchorEl={logoutAnchor}
-										open={logoutOpen}
-										onClose={() => {
-											setLogoutAnchor(null);
-										}}
-										sx={{ mt: '5px' }}
-									>
-										<MenuItem onClick={() => logOut()}>
-											<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
-											Logout
-										</MenuItem>
-									</Menu>
-								</>
-							) : (
-								<Link href={'/account/join'}>
-									<div className={'join-box'}>
-										<AccountCircleOutlinedIcon />
-										<span>
-											{t('Login')} / {t('Register')}
-										</span>
-									</div>
-								</Link>
-							)}
-
-							<div className={'lan-box'}>
-								{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
-								<Button
-									disableRipple
-									className="btn-lang"
-									onClick={langClick}
-									endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
-								>
-									<Box component={'div'} className={'flag'}>
-										{lang !== null ? (
-											<img src={`/img/flag/lang${lang}.png`} alt={'usaFlag'} />
-										) : (
-											<img src={`/img/flag/langen.png`} alt={'usaFlag'} />
-										)}
-									</Box>
-								</Button>
-
-								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
-									<MenuItem disableRipple onClick={langChoice} id="en">
-										<img
-											className="img-flag"
-											src={'/img/flag/langen.png'}
-											onClick={langChoice}
-											id="en"
-											alt={'usaFlag'}
-										/>
-										{t('English')}
-									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="kr">
-										<img
-											className="img-flag"
-											src={'/img/flag/langkr.png'}
-											onClick={langChoice}
-											id="uz"
-											alt={'koreanFlag'}
-										/>
-										{t('Korean')}
-									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="ru">
-										<img
-											className="img-flag"
-											src={'/img/flag/langru.png'}
-											onClick={langChoice}
-											id="ru"
-											alt={'russiaFlag'}
-										/>
-										{t('Russian')}
-									</MenuItem>
-								</StyledMenu>
-							</div>
-						</Box>
+											<Menu
+												id="basic-menu"
+												anchorEl={logoutAnchor}
+												open={logoutOpen}
+												onClose={() => {
+													setLogoutAnchor(null);
+												}}
+												sx={{ mt: '5px' }}
+											>
+												<MenuItem onClick={() => logOut()}>
+													<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
+													Logout
+												</MenuItem>
+											</Menu>
+										</>
+									) : (
+										<Link href={'/account/join'}>
+											<div className={'join-box'}>
+												<AccountCircleOutlinedIcon />
+												<span>
+													{t('Login')} / {t('Register')}
+												</span>
+											</div>
+										</Link>
+									)}
+								</Box>
+							</Stack>
+						</Stack>
 					</Stack>
 				</Stack>
 			</Stack>
