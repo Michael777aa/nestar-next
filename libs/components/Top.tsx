@@ -100,7 +100,6 @@ const Top = () => {
 			setAnchorEl(null);
 		}
 	};
-
 	const StyledMenu = styled((props: MenuProps) => (
 		<Menu
 			elevation={0}
@@ -117,27 +116,54 @@ const Top = () => {
 	))(({ theme }) => ({
 		'& .MuiPaper-root': {
 			top: '109px',
-			borderRadius: 6,
+			padding: '10px',
+			border: '1px solid black', // Fixed typo: '1spx' to '1px'
 			marginTop: theme.spacing(1),
 			minWidth: 160,
 			color: theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-			boxShadow:
-				'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+			backgroundColor: theme.palette.background.paper, // Set background color for the menu
+			borderRadius: '0px', // Rounded corners
+			boxShadow: `rgb(255, 255, 255) 0px 0px 0px 0px,
+				rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+				rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+				rgba(0, 0, 0, 0.05) 0px 4px 6px -2px`,
 			'& .MuiMenu-list': {
 				padding: '4px 0',
 			},
 			'& .MuiMenuItem-root': {
-				'& .MuiSvgIcon-root': {
-					fontSize: 18,
-					color: theme.palette.text.secondary,
-					marginRight: theme.spacing(1.5),
+				borderRadius: '0px', // Rounded corners for menu items
+				'&:hover': {
+					backgroundColor: alpha(theme.palette.primary.main, 0.1), // Light background on hover
 				},
 				'&:active': {
 					backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
 				},
+				'& .MuiSvgIcon-root': {
+					fontSize: 15,
+					color: theme.palette.text.secondary,
+					marginRight: theme.spacing(1.5),
+				},
+				// Improved Typography
+				'& span': {
+					fontWeight: 500, // Medium weight for better readability
+					fontSize: '14px', // Adjust font size
+				},
 			},
 		},
 	}));
+
+	const getLanguageLabel = (langCode: string | null) => {
+		switch (langCode) {
+			case 'en':
+				return 'English';
+			case 'kr':
+				return 'Korean';
+			case 'ru':
+				return 'Russian';
+			default:
+				return 'English';
+		}
+	};
 
 	if (typeof window !== 'undefined') {
 		window.addEventListener('scroll', changeNavbarColor);
@@ -201,23 +227,39 @@ const Top = () => {
 										<div> {t('Cs')} </div>
 									</Link>
 									<div className={'lan-box'}>
-										{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
+										{/* {user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />} */}
 										<Button
 											disableRipple
 											className="btn-lang"
 											onClick={langClick}
-											endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
+											endIcon={<CaretDown size={10} color="#000000" weight="fill" />}
 										>
 											<Box component={'div'} className={'flag'}>
 												{lang !== null ? (
-													<img src={`/img/flag/lang${lang}.png`} alt={'usaFlag'} />
+													<>
+														<img src={`/img/flag/lang${lang}.png`} alt={'Flag'} />
+														<span className={'language-label'} style={{ marginLeft: '8px' }}>
+															{getLanguageLabel(lang)}
+														</span>
+													</>
 												) : (
-													<img src={`/img/flag/langen.png`} alt={'usaFlag'} />
+													<img src={`/img/flag/langen.png`} alt={'Flag'} />
 												)}
 											</Box>
 										</Button>
 
-										<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
+										<StyledMenu
+											anchorEl={anchorEl2}
+											open={drop}
+											onClose={langClose}
+											sx={{
+												position: 'absolute',
+												display: 'flex',
+												flexDirection: 'row',
+												justifyContent: 'center',
+												alignItems: 'center',
+											}}
+										>
 											<MenuItem disableRipple onClick={langChoice} id="en">
 												<img
 													className="img-flag"
@@ -258,7 +300,7 @@ const Top = () => {
 							<Stack className={'left-middle-menu'}>
 								<Box component={'div'} className={'logo-box'}>
 									<Link href={'/'} className={'entitlement'}>
-										<h1>PlaySpot</h1>
+										<h1>PlaySpot 🏟️</h1>
 									</Link>
 								</Box>
 								<Box component={'div'} className={'router-box'}>
