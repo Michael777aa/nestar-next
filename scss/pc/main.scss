@@ -47,19 +47,19 @@ body::-webkit-scrollbar {
 	#top {
 		.navbar {
 			.navbar-main {
-				position: fixed;
 				width: 100%;
 				display: flex;
 				flex-direction: row;
 				box-sizing: border-box;
 				z-index: 99;
+				position: fixed;
 				align-items: center;
+				background-color: #fff;
 				border-top: 1px solid rgba(255, 255, 255, 0.07);
-				&.transparent {
-					background-color: #181a209e;
-				}
+
 				.container {
 					display: flex;
+
 					.navbar-top-menu {
 						display: flex;
 						flex-direction: row;
@@ -123,11 +123,11 @@ body::-webkit-scrollbar {
 						}
 					}
 					.navbar-middle-menu {
-						display: flex;
+						position: sticky;
 						flex-direction: row;
 						justify-content: space-between;
 						align-items: center;
-						height: 76px;
+						height: 60px;
 						background-color: #fff;
 
 						.left-middle-menu {
@@ -146,8 +146,50 @@ body::-webkit-scrollbar {
 								justify-content: space-between;
 								align-items: center;
 								position: relative;
-								left: 50px;
+								left: 40px;
 								gap: 30px;
+							}
+						}
+						.right-middle-menu {
+							display: flex;
+							flex-direction: row;
+							justify-content: space-between;
+							align-items: center;
+							.user-box {
+								position: relative;
+								right: 40px;
+								top: 17px;
+							}
+							.notification-icon {
+								position: relative;
+								top: -10px;
+							}
+							.search-b {
+								display: flex;
+								flex-direction: row;
+								justify-content: flex-start;
+								align-items: center;
+
+								.search-buttton {
+									position: relative;
+									right: 60px;
+									width: 240px;
+
+									height: 46px;
+									font-size: 17px;
+									padding-left: 20px;
+								}
+
+								.search-buttton::placeholder {
+									color: #999;
+								}
+
+								.search-buttton-inside {
+									position: relative;
+									right: 95px;
+
+									cursor: pointer;
+								}
 							}
 						}
 					}

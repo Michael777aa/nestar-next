@@ -5,7 +5,7 @@ export default function Document() {
 		<Html lang="en">
 			<Head>
 				<meta name="robots" content="index,follow" />
-				<link rel="icon" type="image/png" href="/img/logo/download.jpeg" />
+				<link rel="icon" type="image/png" href="/img/logo/2024-10-19 21.42.01.jpg" />
 
 				{/* SEO */}
 				<meta name="keyword" content={'playspot, playspot.uz, devex mern, mern nestjs fullstack'} />

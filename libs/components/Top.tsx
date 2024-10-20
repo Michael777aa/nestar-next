@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, TextField } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
 import Menu, { MenuProps } from '@mui/material/Menu';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
@@ -22,6 +22,9 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import SearchIcon from '@mui/icons-material/Search';
+import { PropertiesInquiry } from '../types/property/property.input';
+import { T } from '../types/common';
 const Top = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
@@ -36,8 +39,18 @@ const Top = () => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+	const [searchQuery, setSearchQuery] = useState<string>('');
 
 	/** LIFECYCLES **/
+	const handleSearch = () => {
+		if (searchQuery) {
+			router.push({
+				pathname: '/property',
+				query: { search: searchQuery },
+			});
+		}
+	};
+
 	useEffect(() => {
 		if (localStorage.getItem('locale') === null) {
 			localStorage.setItem('locale', 'en');
@@ -63,6 +76,12 @@ const Top = () => {
 	}, []);
 
 	/** HANDLERS **/
+	const handlePasswordKeyDown = (e: T) => {
+		if (e.key === 'Enter' && searchQuery) {
+			handleSearch();
+		}
+	};
+
 	const langClick = (e: any) => {
 		setAnchorEl2(e.currentTarget);
 	};
@@ -226,8 +245,7 @@ const Top = () => {
 									<Link href={'/cs'} className={'link'}>
 										<div> {t('Cs')} </div>
 									</Link>
-									<div className={'lan-box'}>
-										{/* {user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />} */}
+									<Stack className={'lan-box'}>
 										<Button
 											disableRipple
 											className="btn-lang"
@@ -291,7 +309,7 @@ const Top = () => {
 												{t('Russian')}
 											</MenuItem>
 										</StyledMenu>
-									</div>
+									</Stack>
 								</Box>
 							</Stack>
 						</Stack>
@@ -324,46 +342,59 @@ const Top = () => {
 								</Box>
 							</Stack>
 							<Stack className={'right-middle-menu'}>
-								<Box component={'div'} className={'user-box'}>
-									{user?._id ? (
-										<>
-											<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
-												<img
-													src={
-														user?.memberImage
-															? `${REACT_APP_API_URL}/${user?.memberImage}`
-															: '/img/profile/defaultUser.svg'
-													}
-													alt=""
-												/>
-											</div>
+								<Stack className={'search-b'}>
+									<input
+										className={'search-buttton'}
+										value={searchQuery}
+										onChange={(e) => setSearchQuery(e.target.value)}
+										placeholder="Search properties..."
+										onKeyDown={handlePasswordKeyDown}
+									/>
+									<SearchIcon className={'search-buttton-inside'} onClick={handleSearch} />
+									{/* <Button onClick={handleSearch} variant="contained">
+										Search
+									</Button> */}
+								</Stack>
+								<Stack className={'right-login-and-notif'}>
+									<Stack component={'div'} className={'user-box'}>
+										{user?._id ? (
+											<>
+												<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
+													<img
+														src={
+															user?.memberImage
+																? `${REACT_APP_API_URL}/${user?.memberImage}`
+																: '/img/profile/defaultUser.svg'
+														}
+														alt=""
+													/>
+												</div>
 
-											<Menu
-												id="basic-menu"
-												anchorEl={logoutAnchor}
-												open={logoutOpen}
-												onClose={() => {
-													setLogoutAnchor(null);
-												}}
-												sx={{ mt: '5px' }}
-											>
-												<MenuItem onClick={() => logOut()}>
-													<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
-													Logout
-												</MenuItem>
-											</Menu>
-										</>
-									) : (
-										<Link href={'/account/join'}>
-											<div className={'join-box'}>
-												<AccountCircleOutlinedIcon />
-												<span>
-													{t('Login')} / {t('Register')}
-												</span>
-											</div>
-										</Link>
-									)}
-								</Box>
+												<Menu
+													id="basic-menu"
+													anchorEl={logoutAnchor}
+													open={logoutOpen}
+													onClose={() => {
+														setLogoutAnchor(null);
+													}}
+													sx={{ mt: '5px' }}
+												>
+													<MenuItem onClick={() => logOut()}>
+														<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
+														Logout
+													</MenuItem>
+												</Menu>
+											</>
+										) : (
+											<Link href={'/account/join'}>
+												<div className={'join-box'}>
+													<AccountCircleIcon />
+												</div>
+											</Link>
+										)}
+									</Stack>
+									<NotificationsOutlinedIcon className={'notification-icon'} />
+								</Stack>
 							</Stack>
 						</Stack>
 					</Stack>
