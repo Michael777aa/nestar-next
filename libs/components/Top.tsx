@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box, TextField } from '@mui/material';
+import { Stack, Box, TextField, Drawer, IconButton } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
@@ -23,8 +23,8 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import SearchIcon from '@mui/icons-material/Search';
-import { PropertiesInquiry } from '../types/property/property.input';
 import { T } from '../types/common';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 const Top = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
@@ -40,6 +40,7 @@ const Top = () => {
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
 	const [searchQuery, setSearchQuery] = useState<string>('');
+	const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
 	/** LIFECYCLES **/
 	const handleSearch = () => {
@@ -50,7 +51,6 @@ const Top = () => {
 			});
 		}
 	};
-
 	useEffect(() => {
 		if (localStorage.getItem('locale') === null) {
 			localStorage.setItem('locale', 'en');
@@ -59,7 +59,6 @@ const Top = () => {
 			setLang(localStorage.getItem('locale'));
 		}
 	}, [router]);
-
 	useEffect(() => {
 		switch (router.pathname) {
 			case '/property/detail':
@@ -69,13 +68,16 @@ const Top = () => {
 				break;
 		}
 	}, [router]);
-
 	useEffect(() => {
 		const jwt = getJwtToken();
 		if (jwt) updateUserInfo(jwt);
 	}, []);
 
 	/** HANDLERS **/
+	const toggleNotificationDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+		setIsNotificationOpen(open);
+	};
+
 	const handlePasswordKeyDown = (e: T) => {
 		if (e.key === 'Enter' && searchQuery) {
 			handleSearch();
@@ -351,9 +353,6 @@ const Top = () => {
 										onKeyDown={handlePasswordKeyDown}
 									/>
 									<SearchIcon className={'search-buttton-inside'} onClick={handleSearch} />
-									{/* <Button onClick={handleSearch} variant="contained">
-										Search
-									</Button> */}
 								</Stack>
 								<Stack className={'right-login-and-notif'}>
 									<Stack component={'div'} className={'user-box'}>
@@ -393,9 +392,20 @@ const Top = () => {
 											</Link>
 										)}
 									</Stack>
-									<NotificationsOutlinedIcon className={'notification-icon'} />
+									<NotificationsOutlinedIcon className={'notification-icon'} onClick={toggleNotificationDrawer(true)} />
 								</Stack>
 							</Stack>
+							<Drawer anchor="right" open={isNotificationOpen} onClose={toggleNotificationDrawer(false)}>
+								<Stack sx={{ width: 450, padding: 2 }}>
+									<HighlightOffIcon
+										sx={{ position: 'relative', left: '190px', marginBottom: '10px', cursor: 'pointer' }}
+										onClick={toggleNotificationDrawer(false)}
+									/>
+									<h3>Notifications</h3>
+									{/* Notification content here */}
+									<p>No new notifications</p>
+								</Stack>
+							</Drawer>
 						</Stack>
 					</Stack>
 				</Stack>

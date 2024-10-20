@@ -67,6 +67,7 @@ body::-webkit-scrollbar {
 						align-items: center;
 						height: 40px;
 						background-color: #fff;
+
 						.left-top-menu {
 							display: flex;
 							flex-direction: row;
@@ -76,6 +77,7 @@ body::-webkit-scrollbar {
 							.icon {
 								transition: all 0.3s ease;
 								font-size: 15px;
+								cursor: default;
 							}
 							.icon:hover {
 								color: red;
@@ -138,6 +140,9 @@ body::-webkit-scrollbar {
 							.logo-box {
 								.entitlement {
 									font-size: 25px;
+									h1 {
+										cursor: default;
+									}
 								}
 							}
 							.router-box {
@@ -148,6 +153,10 @@ body::-webkit-scrollbar {
 								position: relative;
 								left: 40px;
 								gap: 30px;
+
+								div:hover {
+									border-bottom: 1px solid #000000;
+								}
 							}
 						}
 						.right-middle-menu {
@@ -163,6 +172,7 @@ body::-webkit-scrollbar {
 							.notification-icon {
 								position: relative;
 								top: -10px;
+								cursor: pointer;
 							}
 							.search-b {
 								display: flex;
