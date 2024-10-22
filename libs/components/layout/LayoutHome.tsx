@@ -14,6 +14,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import Entitlement from '../homepage/Entitlement';
+import Carousel from '../homepage/carousel';
 
 const withLayoutMain = (Component: any) => {
 	return (props: any) => {
@@ -65,6 +66,7 @@ const withLayoutMain = (Component: any) => {
 						<Stack className={'header-main'}>
 							<Stack className={'container'}>
 								<Entitlement />
+								<Carousel />
 								<HeaderFilter />
 							</Stack>
 						</Stack>

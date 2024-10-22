@@ -347,25 +347,11 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Rent type')} </span>
 							<ExpandMoreIcon />
 						</Box>
-						<Box
-							sx={{
-								display: 'flex',
-								alignItems: 'center',
-								borderRadius: '12px',
-								border: '1px solid #181a20',
-								overflow: 'hidden',
-							}}
-						>
-							<InputAdornment
-								position="start"
-								sx={{ backgroundColor: 'white', padding: '8px', borderRight: '1px solid grey.400' }}
-							>
-								<CalendarTodayIcon sx={{ color: 'action.active' }} />
-							</InputAdornment>
-							<TextField
-								variant="outlined" // Use 'standard' variant to remove border
-								placeholder="Check-in Check-out"
-							/>
+						<Box className={`box ${openRooms ? 'on' : ''}`} onClick={roomStateChangeHandler}>
+							<span>
+								{searchFilter?.search?.roomsList ? `${searchFilter?.search?.roomsList[0]} rooms}` : t('Rooms')}
+							</span>
+							<ExpandMoreIcon />
 						</Box>
 					</Stack>
 					<Stack className={'search-box-other'}>
