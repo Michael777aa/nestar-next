@@ -10,6 +10,14 @@ import { propertySquare, propertyYears } from '../../config';
 import { PropertyLocation, PropertyType } from '../../enums/property.enum';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { useRouter } from 'next/router';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
+import { Dayjs } from 'dayjs';
+import { TextField, InputAdornment } from '@mui/material';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'; // Import calendar icon
+
 import { useTranslation } from 'next-i18next';
 
 const style = {
@@ -47,6 +55,16 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	const typeRef: any = useRef();
 	const roomsRef: any = useRef();
 	const router = useRouter();
+	const [startDate, setStartDate] = useState<Dayjs | null>(null);
+	const [endDate, setEndDate] = useState<Dayjs | null>(null);
+
+	const handleStartDateChange = (newValue: Dayjs | null) => {
+		setStartDate(newValue);
+	};
+
+	const handleEndDateChange = (newValue: Dayjs | null) => {
+		setEndDate(newValue);
+	};
 	const [openAdvancedFilter, setOpenAdvancedFilter] = useState(false);
 	const [openLocation, setOpenLocation] = useState(false);
 	const [openType, setOpenType] = useState(false);
@@ -324,16 +342,30 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						<Box component={'div'} className={`box ${openLocation ? 'on' : ''}`} onClick={locationStateChangeHandler}>
 							<span>{searchFilter?.search?.locationList ? searchFilter?.search?.locationList[0] : t('Location')} </span>
 							<ExpandMoreIcon />
-						</Box>
+						</Box>{' '}
 						<Box className={`box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
-							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Property type')} </span>
+							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Rent type')} </span>
 							<ExpandMoreIcon />
 						</Box>
-						<Box className={`box ${openRooms ? 'on' : ''}`} onClick={roomStateChangeHandler}>
-							<span>
-								{searchFilter?.search?.roomsList ? `${searchFilter?.search?.roomsList[0]} rooms}` : t('Rooms')}
-							</span>
-							<ExpandMoreIcon />
+						<Box
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								borderRadius: '12px',
+								border: '1px solid #181a20',
+								overflow: 'hidden',
+							}}
+						>
+							<InputAdornment
+								position="start"
+								sx={{ backgroundColor: 'white', padding: '8px', borderRight: '1px solid grey.400' }}
+							>
+								<CalendarTodayIcon sx={{ color: 'action.active' }} />
+							</InputAdornment>
+							<TextField
+								variant="outlined" // Use 'standard' variant to remove border
+								placeholder="Check-in Check-out"
+							/>
 						</Box>
 					</Stack>
 					<Stack className={'search-box-other'}>
