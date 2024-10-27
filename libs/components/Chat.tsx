@@ -78,6 +78,22 @@ const Chat = () => {
 		setOpenButton(false);
 	}, [router.pathname]);
 
+	// Scroll to the latest message when the chat opens
+	useEffect(() => {
+		if (open && chatContentRef.current) {
+			chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
+		}
+	}, [open, messagesList]);
+
+	// Disable page scroll when chat is open
+	useEffect(() => {
+		if (open) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'unset';
+		}
+	}, [open]);
+
 	/** HANDLERS **/
 	const handleOpenChat = () => {
 		setOpen((prevState) => !prevState);
@@ -112,22 +128,98 @@ const Chat = () => {
 	};
 
 	return (
-		<Stack className="chatting">
-			{openButton ? (
-				<button className="chat-button" onClick={handleOpenChat}>
+		<>
+			{openButton && (
+				<button
+					onClick={handleOpenChat}
+					style={{
+						position: 'fixed',
+						bottom: '30px',
+						right: '30px',
+						zIndex: 1100,
+						background: '#4A90E2',
+						border: 'none',
+						color: 'white',
+						borderRadius: '50%',
+						width: '60px',
+						height: '60px',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+						cursor: 'pointer',
+						transition: 'background 0.3s ease',
+					}}
+					onMouseEnter={(e) => (e.currentTarget.style.background = '#357ABD')}
+					onMouseLeave={(e) => (e.currentTarget.style.background = '#4A90E2')}
+				>
 					{open ? <CloseFullscreenIcon /> : <MarkChatUnreadIcon />}
 				</button>
-			) : null}
-			<Stack className={`chat-frame ${open ? 'open' : ''}`}>
-				<Box className={'chat-top'} component={'div'}>
-					<div style={{ fontFamily: 'Nunito' }}>Online Chat</div>
-					<RippleBadge style={{ margin: '-18px 0 0 21px' }} badgeContent={onlineUsers} />
+			)}
+			<Stack
+				className={`chat-frame ${open ? 'open' : 'closed'}`}
+				sx={{
+					position: 'fixed',
+					top: 0,
+					left: 0,
+					width: '40%',
+					height: '100vh',
+					backgroundColor: '#ffffff',
+					boxShadow: '2px 0 8px rgba(0, 0, 0, 0.1)',
+					transform: open ? 'translateX(0)' : 'translateX(-100%)',
+					transition: 'transform 0.4s ease-in-out',
+					zIndex: 1000,
+				}}
+			>
+				<Box
+					className="chat-top"
+					component="div"
+					sx={{
+						padding: '15px 20px',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						backgroundColor: '#4A90E2',
+						color: 'white',
+						boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+					}}
+				>
+					<div style={{ fontFamily: 'Nunito', fontSize: '20px', fontWeight: 'bold' }}>Online Chat</div>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
+					>
+						<div style={{ fontFamily: 'Nunito', fontSize: '14px' }}>Users Online</div>
+						<RippleBadge style={{ marginLeft: '20px' }} badgeContent={onlineUsers} />
+					</div>
 				</Box>
-				<Box className={'chat-content'} id="chat-content" ref={chatContentRef} component={'div'}>
+				<Box
+					className="chat-content"
+					id="chat-content"
+					ref={chatContentRef}
+					component="div"
+					sx={{
+						padding: '15px',
+						overflowY: 'auto',
+						flexGrow: 1,
+						backgroundColor: '#f9f9f9',
+					}}
+				>
 					<ScrollableFeed>
-						<Stack className={'chat-main'}>
-							<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-								<div className={'welcome'}>Welcome to Live chat!</div>
+						<Stack className="chat-main" spacing={2}>
+							<Box
+								sx={{
+									fontWeight: 700,
+									fontSize: '24px',
+									color: '#4A90E2',
+									marginBottom: '10px',
+								}}
+							>
+								Welcome to Live Chat!
 							</Box>
 							{messagesList.map((ele: MessagePayload) => {
 								const { id, text, memberData, createdAt } = ele;
@@ -139,50 +231,120 @@ const Chat = () => {
 									// Message on the right side for the authenticated user
 									<Box
 										key={id}
-										component={'div'}
-										flexDirection={'row'}
-										style={{ display: 'flex' }}
-										alignItems={'flex-end'}
-										justifyContent={'flex-end'}
-										sx={{ m: '10px 0px' }}
+										component="div"
+										flexDirection="row"
+										display="flex"
+										alignItems="center"
+										justifyContent="flex-end"
+										sx={{
+											backgroundColor: '#4A90E2',
+											color: 'white',
+											padding: '10px 15px',
+											borderRadius: '15px',
+											maxWidth: '70%',
+											marginLeft: 'auto',
+											boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+										}}
 									>
-										<div className={'msg-right'}>{text}</div>
-										<span className="timestamp">{new Date(createdAt).toLocaleTimeString()}</span>
+										<div>{text}</div>
+										<span
+											style={{
+												fontSize: '12px',
+												marginLeft: '10px',
+												color: 'rgba(255, 255, 255, 0.7)',
+												cursor: 'pointer',
+											}}
+										>
+											{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+										</span>
 									</Box>
 								) : (
 									// Message on the left side for other users
 									<Box
 										key={id}
-										flexDirection={'row'}
-										style={{ display: 'flex' }}
-										sx={{ m: '10px 0px' }}
-										component={'div'}
+										flexDirection="row"
+										display="flex"
+										alignItems="center"
+										sx={{
+											backgroundColor: '#e0e0e0',
+											color: '#333',
+											padding: '10px 15px',
+											borderRadius: '15px',
+											maxWidth: '70%',
+											marginRight: 'auto',
+											boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+										}}
 									>
-										<Avatar alt={memberData?.memberNick || 'User'} src={memberImage} />
-										<div className={'msg-left'}>{text}</div>
-										<span className="timestamp">{new Date(createdAt).toLocaleTimeString()}</span>
+										<Avatar alt={memberData?.memberNick || 'User'} src={memberImage} sx={{ marginRight: '10px' }} />
+										<div>{text}</div>
+										<span
+											style={{
+												fontSize: '12px',
+												marginLeft: '10px',
+												color: 'rgba(0, 0, 0, 0.6)',
+												cursor: 'pointer',
+											}}
+										>
+											{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+										</span>
 									</Box>
 								);
 							})}
 						</Stack>
 					</ScrollableFeed>
 				</Box>
-				<Box className={'chat-bott'} component={'div'}>
+				<Box
+					className="chat-bott"
+					component="div"
+					sx={{
+						display: 'flex',
+						alignItems: 'center',
+						padding: '10px',
+						borderTop: '1px solid #ddd',
+						backgroundColor: '#ffffff',
+					}}
+				>
 					<input
-						type={'text'}
-						name={'message'}
+						type="text"
+						name="message"
 						value={messageInput}
-						className={'msg-input'}
-						placeholder={'Type message'}
+						className="msg-input"
+						placeholder="Type a message..."
 						onChange={getInputMessageHandler}
 						onKeyDown={getKeyHandler}
+						style={{
+							flexGrow: 1,
+							padding: '10px',
+							border: '1px solid #ccc',
+							borderRadius: '20px',
+							fontSize: '14px',
+						}}
 					/>
-					<button className={'send-msg-btn'} onClick={onClickHandler}>
-						<SendIcon style={{ color: '#fff' }} />
+					<button
+						className="send-msg-btn"
+						onClick={onClickHandler}
+						style={{
+							backgroundColor: '#4A90E2',
+							border: 'none',
+							borderRadius: '50%',
+							width: '40px',
+							height: '40px',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							cursor: 'pointer',
+							color: 'white',
+							marginLeft: '10px',
+							transition: 'background 0.3s ease',
+						}}
+						onMouseEnter={(e) => (e.currentTarget.style.background = '#357ABD')}
+						onMouseLeave={(e) => (e.currentTarget.style.background = '#4A90E2')}
+					>
+						<SendIcon />
 					</button>
 				</Box>
 			</Stack>
-		</Stack>
+		</>
 	);
 };
 
