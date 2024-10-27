@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Avatar, Box, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Stack, Typography, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useRouter } from 'next/router';
 import ScrollableFeed from 'react-scrollable-feed';
 import { RippleBadge } from '../../scss/MaterialTheme/styled';
@@ -34,6 +35,7 @@ const Chat = () => {
 	const [messageInput, setMessageInput] = useState<string>('');
 	const [open, setOpen] = useState(false);
 	const [openButton, setOpenButton] = useState(false);
+	const [showScrollButton, setShowScrollButton] = useState(false);
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const socket = useReactiveVar(socketVar);
@@ -85,6 +87,15 @@ const Chat = () => {
 		}
 	}, [open, messagesList]);
 
+	// Detect scroll position to show/hide scroll-to-bottom button
+	const handleScroll = () => {
+		if (chatContentRef.current) {
+			const isScrolledToBottom =
+				chatContentRef.current.scrollHeight - chatContentRef.current.scrollTop === chatContentRef.current.clientHeight;
+			setShowScrollButton(!isScrolledToBottom);
+		}
+	};
+
 	// Disable page scroll when chat is open
 	useEffect(() => {
 		if (open) {
@@ -125,6 +136,34 @@ const Chat = () => {
 			socket.send(JSON.stringify(messagePayload));
 			setMessageInput('');
 		}
+	};
+
+	// Scroll to bottom
+	const scrollToBottom = () => {
+		if (chatContentRef.current) {
+			chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
+			setShowScrollButton(false);
+		}
+	};
+
+	// Function to convert text to link if URL is detected
+	const renderMessageText = (text: string = '') => {
+		const urlRegex = /(https?:\/\/[^\s]+)/g;
+		return text.split(urlRegex).map((part, index) =>
+			urlRegex.test(part) ? (
+				<a
+					key={index}
+					href={part}
+					target="_blank"
+					rel="noopener noreferrer"
+					style={{ color: '#1DA1F2', textDecoration: 'underline', display: 'overflow' }}
+				>
+					{part}
+				</a>
+			) : (
+				part
+			),
+		);
 	};
 
 	return (
@@ -175,7 +214,7 @@ const Chat = () => {
 					className="chat-top"
 					component="div"
 					sx={{
-						padding: '15px 20px',
+						padding: '20px 25px',
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'space-between',
@@ -184,7 +223,7 @@ const Chat = () => {
 						boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
 					}}
 				>
-					<div style={{ fontFamily: 'Nunito', fontSize: '20px', fontWeight: 'bold' }}>Chat</div>
+					<div style={{ fontFamily: 'Nunito', fontSize: '22px', fontWeight: 'bold' }}>Chat</div>
 					<div
 						style={{
 							display: 'flex',
@@ -193,7 +232,9 @@ const Chat = () => {
 							justifyContent: 'center',
 						}}
 					>
-						<div style={{ fontFamily: 'Nunito', fontSize: '14px' }}>Users Online</div>
+						<div style={{ fontFamily: 'Nunito', fontSize: '14px', position: 'relative', bottom: 15, left: 5 }}>
+							Users Online
+						</div>
 						<RippleBadge style={{ marginLeft: '20px' }} badgeContent={onlineUsers} />
 					</div>
 				</Box>
@@ -201,6 +242,7 @@ const Chat = () => {
 					className="chat-content"
 					id="chat-content"
 					ref={chatContentRef}
+					onScroll={handleScroll}
 					component="div"
 					sx={{
 						padding: '15px',
@@ -240,7 +282,7 @@ const Chat = () => {
 											lineHeight: '1.6',
 										}}
 									>
-										<div>{text}</div>
+										<div>{renderMessageText(text)}</div>
 										<span
 											style={{
 												fontSize: '12px',
@@ -279,7 +321,7 @@ const Chat = () => {
 												{memberName}
 											</Typography>
 										</Box>
-										<div>{text}</div>
+										<div>{renderMessageText(text)}</div>
 										<span
 											style={{
 												fontSize: '12px',
@@ -295,13 +337,31 @@ const Chat = () => {
 						</Stack>
 					</ScrollableFeed>
 				</Box>
+
+				{/* Scroll-to-bottom button */}
+				{showScrollButton && (
+					<IconButton
+						onClick={scrollToBottom}
+						style={{
+							position: 'fixed',
+							bottom: '85px',
+							right: '15px',
+							backgroundColor: '#25D366',
+							color: 'white',
+							zIndex: 1100,
+						}}
+					>
+						<ArrowDownwardIcon />
+					</IconButton>
+				)}
+
 				<Box
 					className="chat-bott"
 					component="div"
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						padding: '10px',
+						padding: '15px',
 						borderTop: '1px solid #ddd',
 						backgroundColor: '#ffffff',
 					}}
@@ -316,10 +376,10 @@ const Chat = () => {
 						onKeyDown={getKeyHandler}
 						style={{
 							flexGrow: 1,
-							padding: '10px',
+							padding: '12px',
 							border: '1px solid #ccc',
 							borderRadius: '20px',
-							fontSize: '14px',
+							fontSize: '15px',
 						}}
 					/>
 					<button
@@ -329,8 +389,8 @@ const Chat = () => {
 							backgroundColor: '#25D366',
 							border: 'none',
 							borderRadius: '50%',
-							width: '40px',
-							height: '40px',
+							width: '45px',
+							height: '45px',
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center',
