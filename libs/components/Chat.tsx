@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Avatar, Box, Stack } from '@mui/material';
+import { Avatar, Box, Stack, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
@@ -216,6 +216,7 @@ const Chat = () => {
 								const memberImage = memberData?.memberImage
 									? `${REACT_APP_API_URL}/${memberData.memberImage}`
 									: '/img/profile/defaultUser.svg';
+								const memberName = memberData?.memberNick || 'Guest';
 
 								return memberData?._id === user?._id ? (
 									// Message on the right side for the authenticated user
@@ -226,16 +227,17 @@ const Chat = () => {
 										flexDirection="column"
 										alignItems="flex-end"
 										sx={{
-											maxWidth: '70%',
+											maxWidth: '90%',
 											marginLeft: 'auto',
-											padding: '8px 12px',
+											padding: '10px 15px',
 											backgroundColor: '#DCF8C6',
 											color: '#303030',
 											borderRadius: '10px',
 											borderBottomRightRadius: '0px',
 											boxShadow: '0 1px 2px rgba(0, 0, 0, 0.15)',
-											wordWrap: 'break-word',
-											whiteSpace: 'pre-wrap',
+											overflowWrap: 'break-word',
+											wordBreak: 'break-word',
+											lineHeight: '1.6',
 										}}
 									>
 										<div>{text}</div>
@@ -258,26 +260,26 @@ const Chat = () => {
 										flexDirection="column"
 										alignItems="flex-start"
 										sx={{
-											maxWidth: '97%',
+											maxWidth: '90%',
 											marginRight: 'auto',
-											padding: '8px 12px',
+											padding: '10px 15px',
 											backgroundColor: '#ffffff',
 											color: '#303030',
 											borderRadius: '10px',
 											borderBottomLeftRadius: '0px',
 											boxShadow: '0 1px 2px rgba(0, 0, 0, 0.15)',
-											wordWrap: 'break-word',
-											whiteSpace: 'pre-wrap',
+											overflowWrap: 'break-word',
+											wordBreak: 'break-word',
+											lineHeight: '1.6',
 										}}
 									>
-										<Box display="flex" alignItems="flex-start">
-											<Avatar
-												alt={memberData?.memberNick || 'User'}
-												src={memberImage}
-												sx={{ width: 30, height: 30, marginRight: '8px' }}
-											/>
-											<div>{text}</div>
+										<Box display="flex" alignItems="center" mb={1}>
+											<Avatar alt={memberName} src={memberImage} sx={{ width: 30, height: 30, marginRight: '8px' }} />
+											<Typography variant="body2" color="textSecondary" sx={{ fontWeight: 'bold' }}>
+												{memberName}
+											</Typography>
 										</Box>
+										<div>{text}</div>
 										<span
 											style={{
 												fontSize: '12px',
