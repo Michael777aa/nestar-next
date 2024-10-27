@@ -10,14 +10,7 @@ import { propertySquare, propertyYears } from '../../config';
 import { PropertyLocation, PropertyType } from '../../enums/property.enum';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import { useRouter } from 'next/router';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
 import { Dayjs } from 'dayjs';
-import { TextField, InputAdornment } from '@mui/material';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday'; // Import calendar icon
-
 import { useTranslation } from 'next-i18next';
 
 const style = {

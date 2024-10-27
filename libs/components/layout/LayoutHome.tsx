@@ -66,8 +66,9 @@ const withLayoutMain = (Component: any) => {
 						<Stack className={'header-main'}>
 							<Stack className={'container'}>
 								<Entitlement />
-								<Carousel />
+
 								<HeaderFilter />
+								<Carousel />
 							</Stack>
 						</Stack>
 

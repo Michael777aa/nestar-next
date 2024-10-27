@@ -62,8 +62,8 @@ const Carousel: React.FC<CarouselProps> = ({ autoPlayInterval = 5000 }) => {
 	// Use internal images as fallback
 	const fallbackImages = [
 		'/img/carousel/istockphoto-671217268-612x612.jpg',
-		'/img/carousel/photo-1560553814-060afcd8904a.avif',
-		'/img/carousel/istockphoto-1492826571-612x612.webp',
+		'/img/carousel/photo-1531124042451-f3ba1765072c.avif',
+		'/img/carousel/istockphoto-654106834-612x612.webp',
 		'/img/carousel/premium_photo-1687862745559-d6019959d481.avif',
 		'/img/carousel/istockphoto-2161300392-612x612.webp',
 
@@ -105,7 +105,6 @@ const Carousel: React.FC<CarouselProps> = ({ autoPlayInterval = 5000 }) => {
 						left: 0,
 						right: 0,
 						bottom: 0,
-						backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dark overlay
 					}}
 				/>
 			</Box>
