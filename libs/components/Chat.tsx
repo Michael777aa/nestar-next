@@ -137,7 +137,7 @@ const Chat = () => {
 						bottom: '30px',
 						right: '30px',
 						zIndex: 1100,
-						background: '#4A90E2',
+						background: '#25D366',
 						border: 'none',
 						color: 'white',
 						borderRadius: '50%',
@@ -150,8 +150,8 @@ const Chat = () => {
 						cursor: 'pointer',
 						transition: 'background 0.3s ease',
 					}}
-					onMouseEnter={(e) => (e.currentTarget.style.background = '#357ABD')}
-					onMouseLeave={(e) => (e.currentTarget.style.background = '#4A90E2')}
+					onMouseEnter={(e) => (e.currentTarget.style.background = '#1DA855')}
+					onMouseLeave={(e) => (e.currentTarget.style.background = '#25D366')}
 				>
 					{open ? <CloseFullscreenIcon /> : <MarkChatUnreadIcon />}
 				</button>
@@ -164,7 +164,7 @@ const Chat = () => {
 					left: 0,
 					width: '40%',
 					height: '100vh',
-					backgroundColor: '#ffffff',
+					backgroundColor: '#E5DDD5',
 					boxShadow: '2px 0 8px rgba(0, 0, 0, 0.1)',
 					transform: open ? 'translateX(0)' : 'translateX(-100%)',
 					transition: 'transform 0.4s ease-in-out',
@@ -179,12 +179,12 @@ const Chat = () => {
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'space-between',
-						backgroundColor: '#4A90E2',
+						backgroundColor: '#075E54',
 						color: 'white',
 						boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
 					}}
 				>
-					<div style={{ fontFamily: 'Nunito', fontSize: '20px', fontWeight: 'bold' }}>Online Chat</div>
+					<div style={{ fontFamily: 'Nunito', fontSize: '20px', fontWeight: 'bold' }}>Chat</div>
 					<div
 						style={{
 							display: 'flex',
@@ -206,21 +206,11 @@ const Chat = () => {
 						padding: '15px',
 						overflowY: 'auto',
 						flexGrow: 1,
-						backgroundColor: '#f9f9f9',
+						backgroundColor: '#E5DDD5',
 					}}
 				>
 					<ScrollableFeed>
 						<Stack className="chat-main" spacing={2}>
-							<Box
-								sx={{
-									fontWeight: 700,
-									fontSize: '24px',
-									color: '#4A90E2',
-									marginBottom: '10px',
-								}}
-							>
-								Welcome to Live Chat!
-							</Box>
 							{messagesList.map((ele: MessagePayload) => {
 								const { id, text, memberData, createdAt } = ele;
 								const memberImage = memberData?.memberImage
@@ -232,27 +222,29 @@ const Chat = () => {
 									<Box
 										key={id}
 										component="div"
-										flexDirection="row"
 										display="flex"
-										alignItems="center"
-										justifyContent="flex-end"
+										flexDirection="column"
+										alignItems="flex-end"
 										sx={{
-											backgroundColor: '#4A90E2',
-											color: 'white',
-											padding: '10px 15px',
-											borderRadius: '15px',
 											maxWidth: '70%',
 											marginLeft: 'auto',
-											boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+											padding: '8px 12px',
+											backgroundColor: '#DCF8C6',
+											color: '#303030',
+											borderRadius: '10px',
+											borderBottomRightRadius: '0px',
+											boxShadow: '0 1px 2px rgba(0, 0, 0, 0.15)',
+											wordWrap: 'break-word',
+											whiteSpace: 'pre-wrap',
 										}}
 									>
 										<div>{text}</div>
 										<span
 											style={{
 												fontSize: '12px',
-												marginLeft: '10px',
-												color: 'rgba(255, 255, 255, 0.7)',
-												cursor: 'pointer',
+												marginTop: '4px',
+												color: 'rgba(0, 0, 0, 0.5)',
+												alignSelf: 'flex-end',
 											}}
 										>
 											{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -262,27 +254,35 @@ const Chat = () => {
 									// Message on the left side for other users
 									<Box
 										key={id}
-										flexDirection="row"
 										display="flex"
-										alignItems="center"
+										flexDirection="column"
+										alignItems="flex-start"
 										sx={{
-											backgroundColor: '#e0e0e0',
-											color: '#333',
-											padding: '10px 15px',
-											borderRadius: '15px',
-											maxWidth: '70%',
+											maxWidth: '97%',
 											marginRight: 'auto',
-											boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+											padding: '8px 12px',
+											backgroundColor: '#ffffff',
+											color: '#303030',
+											borderRadius: '10px',
+											borderBottomLeftRadius: '0px',
+											boxShadow: '0 1px 2px rgba(0, 0, 0, 0.15)',
+											wordWrap: 'break-word',
+											whiteSpace: 'pre-wrap',
 										}}
 									>
-										<Avatar alt={memberData?.memberNick || 'User'} src={memberImage} sx={{ marginRight: '10px' }} />
-										<div>{text}</div>
+										<Box display="flex" alignItems="flex-start">
+											<Avatar
+												alt={memberData?.memberNick || 'User'}
+												src={memberImage}
+												sx={{ width: 30, height: 30, marginRight: '8px' }}
+											/>
+											<div>{text}</div>
+										</Box>
 										<span
 											style={{
 												fontSize: '12px',
-												marginLeft: '10px',
-												color: 'rgba(0, 0, 0, 0.6)',
-												cursor: 'pointer',
+												marginTop: '4px',
+												color: 'rgba(0, 0, 0, 0.5)',
 											}}
 										>
 											{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -324,7 +324,7 @@ const Chat = () => {
 						className="send-msg-btn"
 						onClick={onClickHandler}
 						style={{
-							backgroundColor: '#4A90E2',
+							backgroundColor: '#25D366',
 							border: 'none',
 							borderRadius: '50%',
 							width: '40px',
@@ -337,8 +337,8 @@ const Chat = () => {
 							marginLeft: '10px',
 							transition: 'background 0.3s ease',
 						}}
-						onMouseEnter={(e) => (e.currentTarget.style.background = '#357ABD')}
-						onMouseLeave={(e) => (e.currentTarget.style.background = '#4A90E2')}
+						onMouseEnter={(e) => (e.currentTarget.style.background = '#1DA855')}
+						onMouseLeave={(e) => (e.currentTarget.style.background = '#25D366')}
 					>
 						<SendIcon />
 					</button>
