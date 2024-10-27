@@ -181,12 +181,12 @@ const Chat = () => {
 							href={part}
 							target="_blank"
 							rel="noopener noreferrer"
-							sx={{ color: '#1DA1F2', textDecoration: 'underline', wordBreak: 'break-word' }}
+							sx={{ color: '#1DA1F2', textDecoration: 'underline', fontSize: 15, wordBreak: 'break-word' }}
 						>
 							{part}
 						</Box>
 					) : (
-						<span key={index} style={{ wordBreak: 'break-word' }}>
+						<span key={index} style={{ wordBreak: 'break-word', fontSize: 15 }}>
 							{part}
 						</span>
 					),
