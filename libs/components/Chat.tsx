@@ -39,6 +39,28 @@ const Chat = () => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const socket = useReactiveVar(socketVar);
+	const chatContainerRef = useRef<HTMLDivElement>(null); // Reference for the chat container
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (chatContainerRef.current && !chatContainerRef.current.contains(event.target as Node)) {
+				setOpen(false); // Close the chat if the click is outside
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside); // Listen for outside clicks
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside); // Cleanup on unmount
+		};
+	}, []);
+
+	// 1. Set initial online users from sessionStorage on client side only
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			const storedOnlineUsers = Number(sessionStorage.getItem('onlineUsers')) || 0;
+			setOnlineUsers(storedOnlineUsers);
+		}
+	}, []);
 
 	// Load messages from local storage on component mount
 	useEffect(() => {
@@ -203,6 +225,7 @@ const Chat = () => {
 				</button>
 			)}
 			<Stack
+				ref={chatContainerRef}
 				className={`chat-frame ${open ? 'open' : 'closed'}`}
 				sx={{
 					position: 'fixed',
