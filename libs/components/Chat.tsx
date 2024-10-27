@@ -147,22 +147,29 @@ const Chat = () => {
 	};
 
 	// Function to convert text to link if URL is detected
-	const renderMessageText = (text: string = '') => {
+	const renderMessageText = (text = '') => {
 		const urlRegex = /(https?:\/\/[^\s]+)/g;
-		return text.split(urlRegex).map((part, index) =>
-			urlRegex.test(part) ? (
-				<a
-					key={index}
-					href={part}
-					target="_blank"
-					rel="noopener noreferrer"
-					style={{ color: '#1DA1F2', textDecoration: 'underline', display: 'overflow' }}
-				>
-					{part}
-				</a>
-			) : (
-				part
-			),
+		return (
+			<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+				{text.split(urlRegex).map((part, index) =>
+					urlRegex.test(part) ? (
+						<Box
+							key={index}
+							component="a"
+							href={part}
+							target="_blank"
+							rel="noopener noreferrer"
+							sx={{ color: '#1DA1F2', textDecoration: 'underline', wordBreak: 'break-word' }}
+						>
+							{part}
+						</Box>
+					) : (
+						<span key={index} style={{ wordBreak: 'break-word' }}>
+							{part}
+						</span>
+					),
+				)}
+			</Box>
 		);
 	};
 
@@ -312,6 +319,7 @@ const Chat = () => {
 											boxShadow: '0 1px 2px rgba(0, 0, 0, 0.15)',
 											overflowWrap: 'break-word',
 											wordBreak: 'break-word',
+											overflow: 'hidden',
 											lineHeight: '1.6',
 										}}
 									>
