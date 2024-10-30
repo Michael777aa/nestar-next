@@ -331,7 +331,7 @@ const Top = () => {
 										<div>{t('Book')}</div>
 									</Link>
 									<Link href={'/agent'}>
-										<div> {t('Agents')} </div>
+										<div> {t('Managers')} </div>
 									</Link>
 									<Link href={'/community?articleCategory=FREE'}>
 										<div> {t('Community')} </div>
