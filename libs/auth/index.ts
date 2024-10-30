@@ -64,9 +64,17 @@ const requestJwtToken = async ({
 	}
 };
 
-export const signUp = async (nick: string, password: string, phone: string, type: string): Promise<void> => {
+export const signUp = async (
+	firstName: string,
+	lastName: string,
+	nick: string,
+	password: string,
+	memberEmail: string,
+	phone: string,
+	type: string,
+): Promise<void> => {
 	try {
-		const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, type });
+		const { jwtToken } = await requestSignUpJwtToken({ firstName, lastName, nick, password, memberEmail, phone, type });
 
 		if (jwtToken) {
 			updateStorage({ jwtToken });
@@ -80,13 +88,19 @@ export const signUp = async (nick: string, password: string, phone: string, type
 };
 
 const requestSignUpJwtToken = async ({
+	firstName,
+	lastName,
 	nick,
 	password,
+	memberEmail,
 	phone,
 	type,
 }: {
+	firstName: string;
+	lastName: string;
 	nick: string;
 	password: string;
+	memberEmail: string;
 	phone: string;
 	type: string;
 }): Promise<{ jwtToken: string }> => {
@@ -96,7 +110,15 @@ const requestSignUpJwtToken = async ({
 		const result = await apolloClient.mutate({
 			mutation: SIGN_UP,
 			variables: {
-				input: { memberNick: nick, memberPassword: password, memberPhone: phone, memberType: type },
+				input: {
+					memberFirstName: firstName,
+					memberLastName: lastName,
+					memberNick: nick,
+					memberPassword: password,
+					memberEmail: memberEmail,
+					memberPhone: phone,
+					memberType: type,
+				},
 			},
 			fetchPolicy: 'network-only',
 		});
@@ -135,7 +157,9 @@ export const updateUserInfo = (jwtToken: any) => {
 		memberAuthType: claims.memberAuthType,
 		memberPhone: claims.memberPhone ?? '',
 		memberNick: claims.memberNick ?? '',
-		memberFullName: claims.memberFullName ?? '',
+		memberFirstName: claims.memberFirstName ?? '',
+		memberLastName: claims.memberFirstName ?? '',
+		memberEmail: claims.memberEmail,
 		memberImage:
 			claims.memberImage === null || claims.memberImage === undefined
 				? '/img/profile/defaultUser.svg'
@@ -171,7 +195,9 @@ const deleteUserInfo = () => {
 		memberAuthType: '',
 		memberPhone: '',
 		memberNick: '',
-		memberFullName: '',
+		memberFirstName: '',
+		memberLastName: '',
+		memberEmail: '',
 		memberImage: '',
 		memberAddress: '',
 		memberDesc: '',

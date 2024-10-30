@@ -8,27 +8,33 @@ export const SIGN_UP = gql`
 	mutation Signup($input: MemberInput!) {
 		signup(input: $input) {
 			_id
-			memberType
-			memberStatus
-			memberAuthType
-			memberPhone
 			memberNick
-			memberFullName
+			memberFirstName
+			memberLastName
+			memberEmail
+			memberPhone
+			memberType
+			memberAuthType
+			accessToken
+			verificationCode
+			memberStatus
 			memberImage
 			memberAddress
 			memberDesc
-			memberWarnings
-			memberBlocks
 			memberProperties
-			memberRank
 			memberArticles
+			memberFollowers
+			memberFollowings
 			memberPoints
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
 			deletedAt
 			createdAt
 			updatedAt
-			accessToken
 		}
 	}
 `;
@@ -38,21 +44,27 @@ export const LOGIN = gql`
 		login(input: $input) {
 			_id
 			memberType
+			memberEmail
 			memberStatus
 			memberAuthType
 			memberPhone
 			memberNick
-			memberFullName
+			memberFirstName
+			memberLastName
 			memberImage
 			memberAddress
 			memberDesc
-			memberWarnings
-			memberBlocks
 			memberProperties
-			memberRank
+			memberArticles
+			memberFollowers
+			memberFollowings
 			memberPoints
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
 			deletedAt
 			createdAt
 			updatedAt
@@ -66,20 +78,25 @@ export const UPDATE_MEMBER = gql`
 		updateMember(input: $input) {
 			_id
 			memberType
+			memberEmail
 			memberStatus
 			memberAuthType
 			memberPhone
 			memberNick
-			memberFullName
+			memberFirstName
+			memberLastName
 			memberImage
 			memberAddress
 			memberDesc
 			memberProperties
-			memberRank
 			memberArticles
+			memberFollowers
+			memberFollowings
 			memberPoints
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
 			memberWarnings
 			memberBlocks
 			deletedAt
@@ -95,21 +112,27 @@ export const LIKE_TARGET_MEMBER = gql`
 		likeTargetMember(memberId: $input) {
 			_id
 			memberType
+			memberEmail
 			memberStatus
 			memberAuthType
 			memberPhone
 			memberNick
-			memberFullName
+			memberFirstName
+			memberLastName
 			memberImage
 			memberAddress
 			memberDesc
-			memberWarnings
-			memberBlocks
 			memberProperties
-			memberRank
+			memberArticles
+			memberFollowers
+			memberFollowings
 			memberPoints
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
 			deletedAt
 			createdAt
 			updatedAt
@@ -123,26 +146,26 @@ export const LIKE_TARGET_MEMBER = gql`
  *************************/
 
 export const CREATE_PROPERTY = gql`
-	mutation CreateProperty($input: PropertyInput!) {
+	mutation CreateProperty($input: RentInput!) {
 		createProperty(input: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
+			rentType
+			availabilityStatus
+			rentLocation
+			rentAddress
+			rentTitle
+			rentalPrice
+			rentSquare
+			rentBalconies
+			rentViews
+			rentLikes
+			rentComments
+			rentRank
+			rentImages
+			rentDesc
+			rentPetsAllowed
 			memberId
-			soldAt
+			availabilityDate
 			deletedAt
 			constructedAt
 			createdAt
@@ -155,23 +178,23 @@ export const UPDATE_PROPERTY = gql`
 	mutation UpdateProperty($input: PropertyUpdate!) {
 		updateProperty(input: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
+			rentType
+			availabilityStatus
+			rentLocation
+			rentAddress
+			rentTitle
+			rentalPrice
+			rentSquare
+			rentBalconies
+			rentViews
+			rentLikes
+			rentComments
+			rentRank
+			rentImages
+			rentDesc
+			rentPetsAllowed
 			memberId
-			soldAt
+			availabilityDate
 			deletedAt
 			constructedAt
 			createdAt
@@ -184,23 +207,23 @@ export const LIKE_TARGET_PROPERTY = gql`
 	mutation LikeTargetProperty($input: String!) {
 		likeTargetProperty(propertyId: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
+			rentType
+			availabilityStatus
+			rentLocation
+			rentAddress
+			rentTitle
+			rentalPrice
+			rentSquare
+			rentBalconies
+			rentViews
+			rentLikes
+			rentComments
+			rentRank
+			rentImages
+			rentDesc
+			rentPetsAllowed
 			memberId
-			soldAt
+			availabilityDate
 			deletedAt
 			constructedAt
 			createdAt
