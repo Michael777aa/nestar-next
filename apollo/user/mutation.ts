@@ -16,7 +16,6 @@ export const SIGN_UP = gql`
 			memberType
 			memberAuthType
 			accessToken
-			verificationCode
 			memberStatus
 			memberImage
 			memberAddress
