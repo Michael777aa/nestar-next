@@ -342,7 +342,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						</Box>
 						<Box className={`box ${openRooms ? 'on' : ''}`} onClick={roomStateChangeHandler}>
 							<span>
-								{searchFilter?.search?.roomsList ? `${searchFilter?.search?.roomsList[0]} rooms}` : t('Rooms')}
+								{searchFilter?.search?.roomsList ? `${searchFilter?.search?.roomsList[0]} balconies}` : t('Balconies')}
 							</span>
 							<ExpandMoreIcon />
 						</Box>
