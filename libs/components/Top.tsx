@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box, TextField, Drawer, IconButton } from '@mui/material';
+import { Stack, Box, TextField, Drawer, IconButton, Typography } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
@@ -13,7 +13,7 @@ import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
@@ -23,13 +23,11 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import SearchIcon from '@mui/icons-material/Search';
-import { T } from '../types/common';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import defaultUserImage from '/public/img/profile/defaultUser.svg';
 import { GET_NOTIFICATIONS } from '../../apollo/user/query';
 import { NotificationInquiry } from '../types/notifications/notifications';
 import { Notification } from '../types/notifications/notifications';
-import { NOTIFICATION } from '../../apollo/user/mutation';
+
 const Top = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
@@ -56,7 +54,6 @@ const Top = () => {
 		},
 	};
 
-	// Fetch notifications
 	const {
 		loading: getNotificationsLoading,
 		data: getNotificationsData,
@@ -71,12 +68,14 @@ const Top = () => {
 	});
 	useEffect(() => {
 		if (user?._id) {
-			getNotificationsRefetch(); // Fetch notifications when user logs in
+			getNotificationsRefetch();
+		} else {
+			setNotifications([]); // Clear notifications when logged out
 		}
 	}, [user]);
 
 	const toggleNotificationDrawer = (open: boolean) => {
-		if (open) {
+		if (open && user?._id) {
 			getNotificationsRefetch(); // Refetch notifications when opening the drawer
 		}
 		setIsNotificationOpen(open);
@@ -403,7 +402,7 @@ const Top = () => {
 														src={
 															user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : `${defaultUserImage}`
 														}
-														alt=""
+														alt="Profile"
 													/>
 												</div>
 												<Menu
@@ -430,68 +429,61 @@ const Top = () => {
 								</Stack>
 								<Stack>
 									<NotificationsOutlinedIcon
-										style={{ position: 'relative', left: 40, top: '5px' }}
+										style={{ position: 'absolute', right: 5, top: '16px' }}
 										onClick={() => toggleNotificationDrawer(true)}
 									/>
-									<Drawer anchor="right" open={isNotificationOpen} onClose={() => toggleNotificationDrawer(false)}>
+									<Drawer
+										anchor="right"
+										open={isNotificationOpen}
+										onClose={() => toggleNotificationDrawer(false)}
+										sx={{
+											'& .MuiDrawer-paper': {
+												width: '450px', // Set the width of the drawer
+												padding: '16px', // Add padding
+												backgroundColor: '#f9f9f9', // Background color
+												boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)', // Add shadow
+												border: 'none', // Remove border
+											},
+										}}
+									>
 										<Stack>
-											<NotificationsOutlinedIcon onClick={() => toggleNotificationDrawer(true)} />
-											<Drawer anchor="right" open={isNotificationOpen} onClose={() => toggleNotificationDrawer(false)}>
-												<Stack sx={{ width: 450, padding: 2 }}>
-													<h3>{t('Notifications')}</h3>
-													{notifications.length === 0 && isNotificationOpen ? (
-														<p>{t('No new notifications')}</p>
-													) : (
-														notifications.map((notification: Notification) => (
-															<Box key={notification.receiverId}>
-																<MenuItem>{notification.notificationTitle}</MenuItem>
-																<p>{notification.notificationDesc}</p>
-																<p>{notification.notificationType}</p>
-																<p>{notification.notificationStatus}</p>
+											<h3 style={{ margin: '0 0 16px 0', fontWeight: 'bold', fontSize: '20px', color: '#333' }}>
+												{t('Notifications')}
+											</h3>
+											{notifications.length === 0 && isNotificationOpen ? (
+												<p style={{ color: '#888' }}>{t('No new notifications')}</p>
+											) : (
+												notifications.map((notification: Notification) => (
+													<Box
+														key={notification.receiverId}
+														sx={{
+															padding: '12px',
+															marginBottom: '8px',
+															border: '1px solid #ddd',
+															borderRadius: '4px',
+															backgroundColor: '#fff',
+															boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+														}}
+													>
+														<MenuItem sx={{ justifyContent: 'space-between', padding: '0' }}>
+															<Box sx={{ flexGrow: 1 }}>
+																<h4 style={{ margin: '0', fontSize: '16px', color: '#333' }}>
+																	{notification.notificationTitle}
+																</h4>
+																<p style={{ margin: '4px 0', color: '#555' }}>{notification.notificationDesc}</p>
+															</Box>
+															<span style={{ fontSize: '12px', color: '#aaa' }}>
 																{new Date(notification.createdAt).toLocaleTimeString([], {
 																	hour: '2-digit',
 																	minute: '2-digit',
 																})}
-															</Box>
-														))
-													)}
-												</Stack>
-											</Drawer>
+															</span>
+														</MenuItem>
+													</Box>
+												))
+											)}
 										</Stack>
 									</Drawer>
-									<Stack component="div" className="user-box">
-										{user?._id ? (
-											<>
-												<div
-													className="login-user"
-													style={{ position: 'relative', bottom: 30, right: 10 }}
-													onClick={(event) => setLogoutAnchor(event.currentTarget)}
-												>
-													<img
-														src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : defaultUserImage}
-														alt="Profile"
-													/>
-												</div>
-												<Menu
-													id="basic-menu"
-													anchorEl={logoutAnchor}
-													open={Boolean(logoutAnchor)}
-													onClose={() => setLogoutAnchor(null)}
-												>
-													<MenuItem onClick={() => logOut()}>
-														<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
-														{t('Logout')}
-													</MenuItem>
-												</Menu>
-											</>
-										) : (
-											<Link href="/account/join">
-												<div className="join-box">
-													<AccountCircleIcon />
-												</div>
-											</Link>
-										)}
-									</Stack>
 								</Stack>
 							</Stack>
 						</Stack>

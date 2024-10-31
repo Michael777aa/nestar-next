@@ -164,6 +164,18 @@ body::-webkit-scrollbar {
 							flex-direction: row;
 							justify-content: space-between;
 							align-items: center;
+							.right-login-and-notif {
+								position: absolute;
+								top: 0px;
+								right: 10px;
+								.login-user {
+									img {
+										position: relative;
+										top: 5px;
+										left: 15px;
+									}
+								}
+							}
 							.user-box {
 								position: relative;
 								right: 40px;
@@ -182,7 +194,7 @@ body::-webkit-scrollbar {
 
 								.search-buttton {
 									position: relative;
-									right: 60px;
+									right: 85px;
 									width: 240px;
 
 									height: 46px;
@@ -196,7 +208,7 @@ body::-webkit-scrollbar {
 
 								.search-buttton-inside {
 									position: relative;
-									right: 95px;
+									right: 120px;
 
 									cursor: pointer;
 								}
