@@ -294,31 +294,36 @@ const Chat = () => {
 									// Message on the right side for the authenticated user
 									<Box
 										key={id}
-										component="div"
 										display="flex"
 										flexDirection="column"
-										alignItems="flex-end"
+										alignItems="flex-start"
 										sx={{
-											maxWidth: '90%',
-											marginLeft: 'auto',
+											maxWidth: 'auto',
+											marginRight: 'auto',
 											padding: '10px 15px',
 											backgroundColor: '#DCF8C6',
 											color: '#303030',
 											borderRadius: '10px',
-											borderBottomRightRadius: '0px',
+											borderBottomLeftRadius: '0px',
 											boxShadow: '0 1px 2px rgba(0, 0, 0, 0.15)',
 											overflowWrap: 'break-word',
 											wordBreak: 'break-word',
+											overflow: 'hidden',
 											lineHeight: '1.6',
 										}}
 									>
+										<Box display="flex" alignItems="center" mb={1}>
+											<Avatar alt={memberName} src={memberImage} sx={{ width: 30, height: 30, marginRight: '8px' }} />
+											<Typography variant="body2" color="textSecondary" sx={{ fontWeight: 'bold' }}>
+												{memberName}
+											</Typography>
+										</Box>
 										<div>{renderMessageText(text)}</div>
 										<span
 											style={{
 												fontSize: '12px',
 												marginTop: '4px',
 												color: 'rgba(0, 0, 0, 0.5)',
-												alignSelf: 'flex-end',
 											}}
 										>
 											{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -332,7 +337,7 @@ const Chat = () => {
 										flexDirection="column"
 										alignItems="flex-start"
 										sx={{
-											maxWidth: '90%',
+											maxWidth: 'auto',
 											marginRight: 'auto',
 											padding: '10px 15px',
 											backgroundColor: '#ffffff',

@@ -13,7 +13,7 @@ import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import { useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
@@ -25,6 +25,11 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import SearchIcon from '@mui/icons-material/Search';
 import { T } from '../types/common';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import defaultUserImage from '/public/img/profile/defaultUser.svg';
+import { GET_NOTIFICATIONS } from '../../apollo/user/query';
+import { NotificationInquiry } from '../types/notifications/notifications';
+import { Notification } from '../types/notifications/notifications';
+import { NOTIFICATION } from '../../apollo/user/mutation';
 const Top = () => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
@@ -34,6 +39,8 @@ const Top = () => {
 	const [lang, setLang] = useState<string | null>('en');
 	const drop = Boolean(anchorEl2);
 	const [colorChange, setColorChange] = useState(false);
+	const [notifications, setNotifications] = useState<Notification[]>([]);
+	const [total, setTotal] = useState<number>(0);
 	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
 	let open = Boolean(anchorEl);
 	const [bgColor, setBgColor] = useState<boolean>(false);
@@ -41,14 +48,52 @@ const Top = () => {
 	const logoutOpen = Boolean(logoutAnchor);
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+	const searchFilter: NotificationInquiry = {
+		page: 1,
+		limit: 10,
+		search: {
+			receiverId: user?._id || '', // Ensure you have a valid user ID
+		},
+	};
 
-	/** LIFECYCLES **/
+	// Fetch notifications
+	const {
+		loading: getNotificationsLoading,
+		data: getNotificationsData,
+		error: getNotificationsError,
+		refetch: getNotificationsRefetch,
+	} = useQuery(GET_NOTIFICATIONS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: searchFilter },
+		onCompleted: (data) => {
+			setNotifications(data?.getNotifications?.list || []);
+		},
+	});
+	useEffect(() => {
+		if (user?._id) {
+			getNotificationsRefetch(); // Fetch notifications when user logs in
+		}
+	}, [user]);
+
+	const toggleNotificationDrawer = (open: boolean) => {
+		if (open) {
+			getNotificationsRefetch(); // Refetch notifications when opening the drawer
+		}
+		setIsNotificationOpen(open);
+	};
+
 	const handleSearch = () => {
 		if (searchQuery) {
 			router.push({
 				pathname: '/property',
 				query: { search: searchQuery },
 			});
+		}
+	};
+
+	const handlePasswordKeyDown = (e: React.KeyboardEvent) => {
+		if (e.key === 'Enter') {
+			handleSearch();
 		}
 	};
 	useEffect(() => {
@@ -72,17 +117,12 @@ const Top = () => {
 		const jwt = getJwtToken();
 		if (jwt) updateUserInfo(jwt);
 	}, []);
-
-	/** HANDLERS **/
-	const toggleNotificationDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-		setIsNotificationOpen(open);
-	};
-
-	const handlePasswordKeyDown = (e: T) => {
-		if (e.key === 'Enter' && searchQuery) {
-			handleSearch();
+	useEffect(() => {
+		if (user?._id) {
+			getNotificationsRefetch(); // Fetch notifications when user logs in
 		}
-	};
+	}, [user]);
+	/** HANDLERS **/
 
 	const langClick = (e: any) => {
 		setAnchorEl2(e.currentTarget);
@@ -354,28 +394,23 @@ const Top = () => {
 									/>
 									<SearchIcon className={'search-buttton-inside'} onClick={handleSearch} />
 								</Stack>
-								<Stack className={'right-login-and-notif'}>
-									<Stack component={'div'} className={'user-box'}>
+								<Stack className="right-login-and-notif">
+									<Stack component="div" className="user-box">
 										{user?._id ? (
 											<>
-												<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
+												<div className="login-user" onClick={(event) => setLogoutAnchor(event.currentTarget)}>
 													<img
 														src={
-															user?.memberImage
-																? `${REACT_APP_API_URL}/${user?.memberImage}`
-																: '/img/profile/defaultUser.svg'
+															user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : `${defaultUserImage}`
 														}
 														alt=""
 													/>
 												</div>
-
 												<Menu
 													id="basic-menu"
 													anchorEl={logoutAnchor}
 													open={logoutOpen}
-													onClose={() => {
-														setLogoutAnchor(null);
-													}}
+													onClose={() => setLogoutAnchor(null)}
 													sx={{ mt: '5px' }}
 												>
 													<MenuItem onClick={() => logOut()}>
@@ -385,27 +420,80 @@ const Top = () => {
 												</Menu>
 											</>
 										) : (
-											<Link href={'/account/join'}>
-												<div className={'join-box'}>
+											<Link href="/account/join">
+												<div className="join-box">
 													<AccountCircleIcon />
 												</div>
 											</Link>
 										)}
 									</Stack>
-									<NotificationsOutlinedIcon className={'notification-icon'} onClick={toggleNotificationDrawer(true)} />
+								</Stack>
+								<Stack>
+									<NotificationsOutlinedIcon
+										style={{ position: 'relative', left: 40, top: '5px' }}
+										onClick={() => toggleNotificationDrawer(true)}
+									/>
+									<Drawer anchor="right" open={isNotificationOpen} onClose={() => toggleNotificationDrawer(false)}>
+										<Stack>
+											<NotificationsOutlinedIcon onClick={() => toggleNotificationDrawer(true)} />
+											<Drawer anchor="right" open={isNotificationOpen} onClose={() => toggleNotificationDrawer(false)}>
+												<Stack sx={{ width: 450, padding: 2 }}>
+													<h3>{t('Notifications')}</h3>
+													{notifications.length === 0 && isNotificationOpen ? (
+														<p>{t('No new notifications')}</p>
+													) : (
+														notifications.map((notification: Notification) => (
+															<Box key={notification.receiverId}>
+																<MenuItem>{notification.notificationTitle}</MenuItem>
+																<p>{notification.notificationDesc}</p>
+																<p>{notification.notificationType}</p>
+																<p>{notification.notificationStatus}</p>
+																{new Date(notification.createdAt).toLocaleTimeString([], {
+																	hour: '2-digit',
+																	minute: '2-digit',
+																})}
+															</Box>
+														))
+													)}
+												</Stack>
+											</Drawer>
+										</Stack>
+									</Drawer>
+									<Stack component="div" className="user-box">
+										{user?._id ? (
+											<>
+												<div
+													className="login-user"
+													style={{ position: 'relative', bottom: 30, right: 10 }}
+													onClick={(event) => setLogoutAnchor(event.currentTarget)}
+												>
+													<img
+														src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : defaultUserImage}
+														alt="Profile"
+													/>
+												</div>
+												<Menu
+													id="basic-menu"
+													anchorEl={logoutAnchor}
+													open={Boolean(logoutAnchor)}
+													onClose={() => setLogoutAnchor(null)}
+												>
+													<MenuItem onClick={() => logOut()}>
+														<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
+														{t('Logout')}
+													</MenuItem>
+												</Menu>
+											</>
+										) : (
+											<Link href="/account/join">
+												<div className="join-box">
+													<AccountCircleIcon />
+												</div>
+											</Link>
+										)}
+									</Stack>
 								</Stack>
 							</Stack>
-							<Drawer anchor="right" open={isNotificationOpen} onClose={toggleNotificationDrawer(false)}>
-								<Stack sx={{ width: 450, padding: 2 }}>
-									<HighlightOffIcon
-										sx={{ position: 'relative', left: '190px', marginBottom: '10px', cursor: 'pointer' }}
-										onClick={toggleNotificationDrawer(false)}
-									/>
-									<h3>Notifications</h3>
-									{/* Notification content here */}
-									<p>No new notifications</p>
-								</Stack>
-							</Drawer>
 						</Stack>
 					</Stack>
 				</Stack>
