@@ -1,30 +1,30 @@
-import { PropertyLocation, PropertyStatus, PropertyType } from '../../enums/property.enum';
 import { Direction } from '../../enums/common.enum';
+import { AvailabilityStatus, RentLocation, RentType } from '../../enums/property.enum';
 
 export interface PropertyInput {
-	propertyType: PropertyType;
-	propertyLocation: PropertyLocation;
-	propertyAddress: string;
-	propertyTitle: string;
-	propertyPrice: number;
-	propertySquare: number;
-	propertyBeds: number;
-	propertyRooms: number;
-	propertyImages: string[];
-	propertyDesc?: string;
+	rentType: RentType;
+	availabilityStatus: AvailabilityStatus;
+	rentLocation: RentLocation;
+	rentAddress: string;
+	rentTitle: string;
+	rentalPrice: number;
+	rentSquare: number;
+	rentBalconies: number;
+	rentImages: string[];
+	rentDesc?: string;
+	rentPetsAllowed?: boolean;
 	propertyBarter?: boolean;
 	propertyRent?: boolean;
+	availabilityDate?: Date;
 	memberId?: string;
 	constructedAt?: Date;
 }
 
 interface PISearch {
 	memberId?: string;
-	locationList?: PropertyLocation[];
-	typeList?: PropertyType[];
-	roomsList?: Number[];
-	options?: string[];
-	bedsList?: Number[];
+	locationList?: RentLocation[];
+	typeList?: RentType[];
+	balconiesList?: Number[];
 	pricesRange?: Range;
 	periodsRange?: PeriodsRange;
 	squaresRange?: Range;
@@ -40,7 +40,7 @@ export interface PropertiesInquiry {
 }
 
 interface APISearch {
-	propertyStatus?: PropertyStatus;
+	availabilityStatus?: AvailabilityStatus;
 }
 
 export interface AgentPropertiesInquiry {
@@ -52,8 +52,8 @@ export interface AgentPropertiesInquiry {
 }
 
 interface ALPISearch {
-	propertyStatus?: PropertyStatus;
-	propertyLocationList?: PropertyLocation[];
+	availabilityStatus?: AvailabilityStatus;
+	propertyLocationList?: RentLocation[];
 }
 
 export interface AllPropertiesInquiry {

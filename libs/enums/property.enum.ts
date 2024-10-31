@@ -1,16 +1,22 @@
-export enum PropertyType {
-	APARTMENT = 'APARTMENT',
-	VILLA = 'VILLA',
-	HOUSE = 'HOUSE',
+export enum RentType {
+	BADMINTON_COURTS = 'BADMINTON COURTS',
+	SWIMMING_POOLS = 'SWIMMING POOLS',
+	GOLF_FACILITIES = 'GOLF FACILITIES',
+	SQUASH_COURTS = 'SQUASH COURTS',
+	FUTSAL_FIELDS = 'FUTSAL FIELDS',
+	SKATING_RINKS = 'SKATING RINKS',
+	DANCE_STUDIOS = 'DANCE STUDIOS',
+	YOGA = 'YOGA',
 }
 
-export enum PropertyStatus {
-	ACTIVE = 'ACTIVE',
-	SOLD = 'SOLD',
+export enum AvailabilityStatus {
+	AVAILABLE = 'AVAILABLE',
+	OCUPPIED = 'OCUPPIED',
+	UNDER_MAINTENANCE = 'UNDER_MAINTENANCE',
 	DELETE = 'DELETE',
 }
 
-export enum PropertyLocation {
+export enum RentLocation {
 	SEOUL = 'SEOUL',
 	BUSAN = 'BUSAN',
 	INCHEON = 'INCHEON',
@@ -20,4 +26,10 @@ export enum PropertyLocation {
 	CHONJU = 'CHONJU',
 	DAEJON = 'DAEJON',
 	JEJU = 'JEJU',
+	POHANG = 'POHANG',
+	CHANGWON = 'CHANGWON',
+	JEONJU = 'JEONJU',
+	ULSAN = 'ULSAN',
+	SUWON = 'SUWON',
+	MOKPO = 'MOKPO',
 }
