@@ -1,4 +1,4 @@
-import { AvailabilityStatus, RentLocation, RentType } from '../../enums/property.enum';
+import { AvailabilityStatus, RentLocation, rentType } from '../../enums/property.enum';
 import { Member } from '../member/member';
 
 export interface MeLiked {
@@ -13,7 +13,7 @@ export interface TotalCounter {
 
 export interface Property {
 	_id: string;
-	rentType: RentType;
+	rentType: rentType;
 	availabilityStatus: AvailabilityStatus;
 	rentLocation: RentLocation;
 	rentAddress: string;

@@ -34,12 +34,12 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 				<Box
 					component={'div'}
 					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
+					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.rentImages[0]})` }}
 					onClick={() => {
 						pushDetailHandler(property._id);
 					}}
 				>
-					<div>${property?.propertyPrice}</div>
+					<div>${property?.rentalPrice}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
 					<strong
@@ -48,9 +48,9 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 							pushDetailHandler(property._id);
 						}}
 					>
-						{property?.propertyTitle}
+						{property?.rentTitle}
 					</strong>
-					<p className={'desc'}>{property?.propertyAddress}</p>
+					<p className={'desc'}>{property?.rentAddress}</p>
 					<div className={'options'}>
 						<div>
 							<img src="/img/icons/bed.svg" alt="" />
@@ -58,11 +58,11 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 						</div>
 						<div>
 							<img src="/img/icons/room.svg" alt="" />
-							<span>{property?.propertyRooms} rooms</span>
+							<span>{property?.rentBalconies} rooms</span>
 						</div>
 						<div>
 							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property?.propertySquare} m2</span>
+							<span>{property?.rentSquare} m2</span>
 						</div>
 					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
@@ -96,12 +96,12 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 				<Box
 					component={'div'}
 					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
+					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.rentImages[0]})` }}
 					onClick={() => {
 						pushDetailHandler(property._id);
 					}}
 				>
-					<div>${property?.propertyPrice}</div>
+					<div>${property?.rentalPrice}</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
 					<strong
@@ -110,9 +110,9 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 							pushDetailHandler(property._id);
 						}}
 					>
-						{property?.propertyTitle}
+						{property?.rentTitle}
 					</strong>
-					<p className={'desc'}>{property?.propertyAddress}</p>
+					<p className={'desc'}>{property?.rentAddress}</p>
 					<div className={'options'}>
 						<div>
 							<img src="/img/icons/bed.svg" alt="" />
@@ -120,11 +120,11 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 						</div>
 						<div>
 							<img src="/img/icons/room.svg" alt="" />
-							<span>{property?.propertyRooms} rooms</span>
+							<span>{property?.rentBalconies} rooms</span>
 						</div>
 						<div>
 							<img src="/img/icons/expand.svg" alt="" />
-							<span>{property?.propertySquare} m2</span>
+							<span>{property?.rentSquare} m2</span>
 						</div>
 					</div>
 					<Divider sx={{ mt: '15px', mb: '17px' }} />

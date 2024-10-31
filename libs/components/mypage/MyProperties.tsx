@@ -10,7 +10,7 @@ import { T } from '../../types/common';
 import { PropertyStatus } from '../../enums/property.enum';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
-import { UPDATE_PROPERTY } from '../../../apollo/user/mutation';
+import { UPDATE_RENT } from '../../../apollo/user/mutation';
 import { GET_AGENT_PROPERTIES } from '../../../apollo/user/query';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../sweetAlert';
 
@@ -24,7 +24,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 
-	const [updateProperty] = useMutation(UPDATE_PROPERTY);
+	const [updateProperty] = useMutation(UPDATE_RENT);
 
 	const {
 		loading: getAgentPropertiesLoading,

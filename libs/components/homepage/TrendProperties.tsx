@@ -9,7 +9,7 @@ import { Property } from '../../types/property/property';
 import { PropertiesInquiry } from '../../types/property/property.input';
 import TrendPropertyCard from './TrendPropertyCard';
 import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { LIKE_TARGET_RENT } from '../../../apollo/user/mutation';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { Message } from '../../enums/common.enum';
@@ -25,7 +25,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 	const [trendProperties, setTrendProperties] = useState<Property[]>([]);
 
 	/** APOLLO REQUESTS **/
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetProperty] = useMutation(LIKE_TARGET_RENT);
 
 	const {
 		loading: getPropertiesLoading,

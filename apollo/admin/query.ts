@@ -47,19 +47,19 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 		getAllPropertiesByAdmin(input: $input) {
 			list {
 				_id
-				propertyType
+				rentType
 				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
+				RentLocation
+				rentAddress
+				rentTitle
+				rentalPrice
+				rentSquare
 				propertyBeds
-				propertyRooms
+				rentBalconies
 				propertyViews
 				propertyLikes
-				propertyImages
-				propertyDesc
+				rentImages
+				rentDesc
 				propertyBarter
 				propertyRent
 				memberId

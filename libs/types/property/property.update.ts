@@ -1,7 +1,7 @@
-import { AvailabilityStatus, RentLocation, RentType } from '../../enums/property.enum';
+import { AvailabilityStatus, RentLocation, rentType } from '../../enums/property.enum';
 
 export interface PropertyUpdate {
-	rentType: RentType;
+	rentType: rentType;
 	availabilityStatus: AvailabilityStatus;
 	rentLocation: RentLocation;
 	rentAddress: string;

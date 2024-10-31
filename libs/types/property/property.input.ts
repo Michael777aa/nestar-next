@@ -1,8 +1,8 @@
 import { Direction } from '../../enums/common.enum';
-import { AvailabilityStatus, RentLocation, RentType } from '../../enums/property.enum';
+import { AvailabilityStatus, RentLocation, rentType } from '../../enums/property.enum';
 
-export interface PropertyInput {
-	rentType: RentType;
+export interface RentInput {
+	rentType: rentType;
 	availabilityStatus: AvailabilityStatus;
 	rentLocation: RentLocation;
 	rentAddress: string;
@@ -23,7 +23,7 @@ export interface PropertyInput {
 interface PISearch {
 	memberId?: string;
 	locationList?: RentLocation[];
-	typeList?: RentType[];
+	typeList?: rentType[];
 	balconiesList?: Number[];
 	pricesRange?: Range;
 	periodsRange?: PeriodsRange;
@@ -53,7 +53,7 @@ export interface AgentPropertiesInquiry {
 
 interface ALPISearch {
 	availabilityStatus?: AvailabilityStatus;
-	propertyLocationList?: RentLocation[];
+	RentLocationList?: RentLocation[];
 }
 
 export interface AllPropertiesInquiry {

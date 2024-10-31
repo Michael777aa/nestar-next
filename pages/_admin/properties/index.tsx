@@ -11,10 +11,10 @@ import TablePagination from '@mui/material/TablePagination';
 import { PropertyPanelList } from '../../../libs/components/admin/properties/PropertyList';
 import { AllPropertiesInquiry } from '../../../libs/types/property/property.input';
 import { Property } from '../../../libs/types/property/property';
-import { PropertyLocation, PropertyStatus } from '../../../libs/enums/property.enum';
+import { RentLocation, PropertyStatus } from '../../../libs/enums/property.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
 import { PropertyUpdate } from '../../../libs/types/property/property.update';
-import { REMOVE_PROPERTY_BY_ADMIN, UPDATE_PROPERTY_BY_ADMIN } from '../../../apollo/admin/mutation';
+import { REMOVE_PROPERTY_BY_ADMIN, UPDATE_RENT_BY_ADMIN } from '../../../apollo/admin/mutation';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ALL_PROPERTIES_BY_ADMIN } from '../../../apollo/admin/query';
 import { T } from '../../../libs/types/common';
@@ -30,7 +30,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [searchType, setSearchType] = useState('ALL');
 
 	/** APOLLO REQUESTS **/
-	const [updatePropertyByAdmin] = useMutation(UPDATE_PROPERTY_BY_ADMIN);
+	const [updatePropertyByAdmin] = useMutation(UPDATE_RENT_BY_ADMIN);
 	const [removePropertyByAdmin] = useMutation(REMOVE_PROPERTY_BY_ADMIN);
 
 	const {
@@ -127,11 +127,11 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 					sort: 'createdAt',
 					search: {
 						...propertiesInquiry.search,
-						propertyLocationList: [newValue as PropertyLocation],
+						RentLocationList: [newValue as RentLocation],
 					},
 				});
 			} else {
-				delete propertiesInquiry?.search?.propertyLocationList;
+				delete propertiesInquiry?.search?.RentLocationList;
 				setPropertiesInquiry({ ...propertiesInquiry });
 			}
 		} catch (err: any) {
@@ -200,7 +200,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 									<MenuItem value={'ALL'} onClick={() => searchTypeHandler('ALL')}>
 										ALL
 									</MenuItem>
-									{Object.values(PropertyLocation).map((location: string) => (
+									{Object.values(RentLocation).map((location: string) => (
 										<MenuItem value={location} onClick={() => searchTypeHandler(location)} key={location}>
 											{location}
 										</MenuItem>

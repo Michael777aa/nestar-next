@@ -149,7 +149,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 
 						{properties.length !== 0 &&
 							properties.map((property: Property, index: number) => {
-								const propertyImage = `${REACT_APP_API_URL}/${property?.propertyImages[0]}`;
+								const propertyImage = `${REACT_APP_API_URL}/${property?.rentImages[0]}`;
 
 								return (
 									<TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -163,7 +163,7 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 														</div>
 													</Link>
 													<Link href={`/property/detail?id=${property?._id}`}>
-														<div>{property.propertyTitle}</div>
+														<div>{property.rentTitle}</div>
 													</Link>
 												</Stack>
 											) : (
@@ -171,14 +171,14 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 													<div>
 														<Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
 													</div>
-													<div style={{ marginTop: '10px' }}>{property.propertyTitle}</div>
+													<div style={{ marginTop: '10px' }}>{property.rentTitle}</div>
 												</Stack>
 											)}
 										</TableCell>
-										<TableCell align="center">{property.propertyPrice}</TableCell>
+										<TableCell align="center">{property.rentalPrice}</TableCell>
 										<TableCell align="center">{property.memberData?.memberNick}</TableCell>
-										<TableCell align="center">{property.propertyLocation}</TableCell>
-										<TableCell align="center">{property.propertyType}</TableCell>
+										<TableCell align="center">{property.RentLocation}</TableCell>
+										<TableCell align="center">{property.rentType}</TableCell>
 										<TableCell align="center">
 											{property.propertyStatus === PropertyStatus.DELETE && (
 												<Button

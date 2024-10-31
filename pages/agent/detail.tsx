@@ -18,7 +18,7 @@ import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Messages, REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { CREATE_COMMENT, LIKE_TARGET_RENT } from '../../apollo/user/mutation';
 import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Message } from '../../libs/enums/common.enum';
@@ -49,7 +49,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 	/** APOLLO REQUESTS **/
 
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetProperty] = useMutation(LIKE_TARGET_RENT);
 	const [createComment] = useMutation(CREATE_COMMENT);
 
 	const {

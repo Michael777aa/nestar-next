@@ -10,7 +10,7 @@ import { PropertiesInquiry } from '../../types/property/property.input';
 import { Property } from '../../types/property/property';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+import { LIKE_TARGET_RENT } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
@@ -24,7 +24,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 	const device = useDeviceDetect();
 	const [topProperties, setTopProperties] = useState<Property[]>([]);
 
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetProperty] = useMutation(LIKE_TARGET_RENT);
 
 	/** APOLLO REQUESTS **/
 	const {

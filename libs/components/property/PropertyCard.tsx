@@ -23,8 +23,8 @@ const PropertyCard = (props: PropertyCardType) => {
 	const { property, likePropertyHandler, myFavorites, recentlyVisited } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
-	const imagePath: string = property?.propertyImages[0]
-		? `${REACT_APP_API_URL}/${property?.propertyImages[0]}`
+	const imagePath: string = property?.rentImages[0]
+		? `${REACT_APP_API_URL}/${property?.rentImages[0]}`
 		: '/img/banner/header1.svg';
 
 	if (device === 'mobile') {
@@ -48,7 +48,7 @@ const PropertyCard = (props: PropertyCardType) => {
 						</Box>
 					)}
 					<Box component={'div'} className={'price-box'}>
-						<Typography>${formatterStr(property?.propertyPrice)}</Typography>
+						<Typography>${formatterStr(property?.rentalPrice)}</Typography>
 					</Box>
 				</Stack>
 				<Stack className="bottom">
@@ -60,12 +60,12 @@ const PropertyCard = (props: PropertyCardType) => {
 									query: { id: property?._id },
 								}}
 							>
-								<Typography>{property.propertyTitle}</Typography>
+								<Typography>{property.rentTitle}</Typography>
 							</Link>
 						</Stack>
 						<Stack className="address">
 							<Typography>
-								{property.propertyAddress}, {property.propertyLocation}
+								{property.rentAddress}, {property.RentLocation}
 							</Typography>
 						</Stack>
 					</Stack>
@@ -74,10 +74,10 @@ const PropertyCard = (props: PropertyCardType) => {
 							<img src="/img/icons/bed.svg" alt="" /> <Typography>{property.propertyBeds} bed</Typography>
 						</Stack>
 						<Stack className="option">
-							<img src="/img/icons/room.svg" alt="" /> <Typography>{property.propertyRooms} room</Typography>
+							<img src="/img/icons/room.svg" alt="" /> <Typography>{property.rentBalconies} room</Typography>
 						</Stack>
 						<Stack className="option">
-							<img src="/img/icons/expand.svg" alt="" /> <Typography>{property.propertySquare} m2</Typography>
+							<img src="/img/icons/expand.svg" alt="" /> <Typography>{property.rentSquare} m2</Typography>
 						</Stack>
 					</Stack>
 					<Stack className="divider"></Stack>
