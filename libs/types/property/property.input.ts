@@ -13,8 +13,6 @@ export interface RentInput {
 	rentImages: string[];
 	rentDesc?: string;
 	rentPetsAllowed?: boolean;
-	propertyBarter?: boolean;
-	propertyRent?: boolean;
 	availabilityDate?: Date;
 	memberId?: string;
 	constructedAt?: Date;
@@ -53,7 +51,7 @@ export interface AgentPropertiesInquiry {
 
 interface ALPISearch {
 	availabilityStatus?: AvailabilityStatus;
-	RentLocationList?: RentLocation[];
+	rentLocationList?: RentLocation[];
 }
 
 export interface AllPropertiesInquiry {

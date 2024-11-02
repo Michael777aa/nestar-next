@@ -10,33 +10,31 @@ export const GET_AGENTS = gql`
 			list {
 				_id
 				memberType
+				memberEmail
 				memberStatus
 				memberAuthType
 				memberPhone
 				memberNick
-				memberFullName
+				memberFirstName
+				memberLastName
 				memberImage
 				memberAddress
 				memberDesc
-				memberWarnings
-				memberBlocks
 				memberProperties
-				memberRank
+				memberArticles
+				memberFollowers
+				memberFollowings
 				memberPoints
 				memberLikes
 				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
 				deletedAt
 				createdAt
 				updatedAt
 				accessToken
-				meLiked {
-					memberId
-					likeRefId
-					myFavorite
-				}
-			}
-			metaCounter {
-				total
 			}
 		}
 	}
@@ -47,21 +45,24 @@ query GetMember($input: String!) {
     getMember(memberId: $input) {
         _id
         memberType
+        memberEmail
         memberStatus
         memberAuthType
         memberPhone
         memberNick
-        memberFullName
+        memberFirstName
+        memberLastName
         memberImage
         memberAddress
         memberDesc
         memberProperties
         memberArticles
+        memberFollowers
+        memberFollowings
         memberPoints
         memberLikes
         memberViews
-        memberFollowings
-				memberFollowers
+        memberComments
         memberRank
         memberWarnings
         memberBlocks
@@ -69,13 +70,9 @@ query GetMember($input: String!) {
         createdAt
         updatedAt
         accessToken
-        meFollowed {
-					followingId
-					followerId
-					myFollowing
-				}
     }
 }
+
 `);
 
 /**************************

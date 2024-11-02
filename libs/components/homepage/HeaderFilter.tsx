@@ -266,7 +266,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						<Box className={`box ${openRooms ? 'on' : ''}`} onClick={roomStateChangeHandler}>
 							<span>
 								{searchFilter?.search?.balconiesList
-									? `${searchFilter?.search?.balconiesList[0]} balconies}`
+									? `${searchFilter?.search?.balconiesList[0]} balconies`
 									: t('Balconies')}
 							</span>
 							<ExpandMoreIcon />
@@ -309,10 +309,10 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					</div>
 
 					<div className={`filter-rooms ${openRooms ? 'on' : ''}`} ref={balconiesRef}>
-						{[1, 2, 3, 4, 5].map((room: number) => {
+						{[1, 2, 3, 4, 5, 6, 7, 8].map((room: number) => {
 							return (
 								<span onClick={() => rentBalconieselectHandler(room)} key={room}>
-									{room} room{room > 1 ? 's' : ''}
+									{room} balcon{room > 1 ? 'ies' : ''}
 								</span>
 							);
 						})}

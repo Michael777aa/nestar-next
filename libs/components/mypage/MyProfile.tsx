@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography, TextField, Avatar, IconButton } from '@mui/material';
 import axios from 'axios';
 import { Messages, REACT_APP_API_URL } from '../../config';
 import { getJwtToken, updateStorage, updateUserInfo } from '../../auth';
@@ -10,6 +10,7 @@ import { userVar } from '../../../apollo/store';
 import { MemberUpdate } from '../../types/member/member.update';
 import { UPDATE_MEMBER } from '../../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinSuccessAlert } from '../../sweetAlert';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -24,6 +25,9 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	useEffect(() => {
 		setUpdateData({
 			...updateData,
+			memberFirstName: user.memberFirstName,
+			memberLastName: user.memberLastName,
+			memberEmail: user.memberEmail,
 			memberNick: user.memberNick,
 			memberPhone: user.memberPhone,
 			memberAddress: user.memberAddress,
@@ -68,8 +72,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 
 			const responseImage = response.data.data.imageUploader;
 			console.log('+responseImage: ', responseImage);
-			updateData.memberImage = responseImage;
-			setUpdateData({ ...updateData });
+			setUpdateData((prev) => ({ ...prev, memberImage: responseImage }));
 
 			return `${REACT_APP_API_URL}/${responseImage}`;
 		} catch (err) {
@@ -83,25 +86,25 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 			updateData._id = user._id;
 			const result = await updateMember({ variables: { input: updateData } });
 
-			//@ts-ignore
 			const jwtToken = result.data.updateMember?.accessToken;
 			await updateStorage({ jwtToken });
 			updateUserInfo(result.data.updateMember?.accessToken);
-			await sweetMixinSuccessAlert('information updated successfully.');
+			await sweetMixinSuccessAlert('Information updated successfully.');
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
 		}
 	}, [updateData]);
 
 	const doDisabledCheck = () => {
-		if (
-			updateData.memberNick === '' ||
-			updateData.memberPhone === '' ||
-			updateData.memberAddress === '' ||
-			updateData.memberImage === ''
-		) {
-			return true;
-		}
+		return !(
+			updateData.memberFirstName &&
+			updateData.memberLastName &&
+			updateData.memberNick &&
+			updateData.memberPhone &&
+			updateData.memberEmail &&
+			updateData.memberAddress &&
+			updateData.memberImage
+		);
 	};
 
 	console.log('+updateData', updateData);
@@ -111,88 +114,77 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	} else
 		return (
 			<div id="my-profile-page">
-				<Stack className="main-title-box">
-					<Stack className="right-box">
-						<Typography className="main-title">My Profile</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
-					</Stack>
-				</Stack>
-				<Stack className="top-box">
-					<Stack className="photo-box">
-						<Typography className="title">Photo</Typography>
-						<Stack className="image-big-box">
-							<Stack className="image-box">
-								<img
-									src={
-										updateData?.memberImage
-											? `${REACT_APP_API_URL}/${updateData?.memberImage}`
-											: `/img/profile/defaultUser.svg`
-									}
-									alt=""
-								/>
-							</Stack>
-							<Stack className="upload-big-box">
-								<input
-									type="file"
-									hidden
-									id="hidden-input"
-									onChange={uploadImage}
-									accept="image/jpg, image/jpeg, image/png"
-								/>
-								<label htmlFor="hidden-input" className="labeler">
-									<Typography>Upload Profile Image</Typography>
-								</label>
-								<Typography className="upload-text">A photo must be in JPG, JPEG or PNG format!</Typography>
-							</Stack>
-						</Stack>
-					</Stack>
-					<Stack className="small-input-box">
-						<Stack className="input-box">
-							<Typography className="title">Username</Typography>
-							<input
-								type="text"
-								placeholder="Your username"
-								value={updateData.memberNick}
-								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberNick: value })}
-							/>
-						</Stack>
-						<Stack className="input-box">
-							<Typography className="title">Phone</Typography>
-							<input
-								type="text"
-								placeholder="Your Phone"
-								value={updateData.memberPhone}
-								onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberPhone: value })}
-							/>
-						</Stack>
-					</Stack>
-					<Stack className="address-box">
-						<Typography className="title">Address</Typography>
+				<Stack spacing={4} padding={3}>
+					<Typography variant="h4">My Profile</Typography>
+					<Typography variant="subtitle1">We are glad to see you again!</Typography>
+
+					<Stack direction="row" spacing={3} alignItems="center">
+						<Avatar
+							src={
+								updateData?.memberImage
+									? `${REACT_APP_API_URL}/${updateData?.memberImage}`
+									: '/img/profile/defaultUser.svg'
+							}
+							sx={{ width: 100, height: 100 }}
+						/>
+						<label htmlFor="file-upload">
+							<IconButton component="span">
+								<PhotoCamera />
+							</IconButton>
+						</label>
 						<input
-							type="text"
-							placeholder="Your address"
+							id="file-upload"
+							type="file"
+							hidden
+							onChange={uploadImage}
+							accept="image/jpg, image/jpeg, image/png"
+						/>
+						<Typography variant="body2">Upload Profile Image</Typography>
+					</Stack>
+
+					<Stack spacing={2}>
+						<TextField
+							label="First Name"
+							value={updateData.memberFirstName}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberFirstName: value })}
+							fullWidth
+						/>
+						<TextField
+							label="Last Name"
+							value={updateData.memberLastName}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberLastName: value })}
+							fullWidth
+						/>
+						<TextField
+							label="Email"
+							type="email"
+							value={updateData.memberEmail}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberEmail: value })}
+							fullWidth
+						/>
+						<TextField
+							label="Username"
+							value={updateData.memberNick}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberNick: value })}
+							fullWidth
+						/>
+						<TextField
+							label="Phone"
+							value={updateData.memberPhone}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberPhone: value })}
+							fullWidth
+						/>
+						<TextField
+							label="Address"
 							value={updateData.memberAddress}
 							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberAddress: value })}
+							fullWidth
 						/>
 					</Stack>
-					<Stack className="about-me-box">
-						<Button className="update-button" onClick={updatePropertyHandler} disabled={doDisabledCheck()}>
-							<Typography>Update Profile</Typography>
-							<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
-								<g clipPath="url(#clip0_7065_6985)">
-									<path
-										d="M12.6389 0H4.69446C4.49486 0 4.33334 0.161518 4.33334 0.361122C4.33334 0.560727 4.49486 0.722245 4.69446 0.722245H11.7672L0.105803 12.3836C-0.0352676 12.5247 -0.0352676 12.7532 0.105803 12.8942C0.176321 12.9647 0.268743 13 0.361131 13C0.453519 13 0.545907 12.9647 0.616459 12.8942L12.2778 1.23287V8.30558C12.2778 8.50518 12.4393 8.6667 12.6389 8.6667C12.8385 8.6667 13 8.50518 13 8.30558V0.361122C13 0.161518 12.8385 0 12.6389 0Z"
-										fill="white"
-									/>
-								</g>
-								<defs>
-									<clipPath id="clip0_7065_6985">
-										<rect width="13" height="13" fill="white" />
-									</clipPath>
-								</defs>
-							</svg>
-						</Button>
-					</Stack>
+
+					<Button variant="contained" onClick={updatePropertyHandler} disabled={doDisabledCheck()}>
+						Update Profile
+					</Button>
 				</Stack>
 			</div>
 		);
@@ -205,6 +197,9 @@ MyProfile.defaultProps = {
 		memberNick: '',
 		memberPhone: '',
 		memberAddress: '',
+		memberFirstName: '',
+		memberLastName: '',
+		memberEmail: '',
 	},
 };
 

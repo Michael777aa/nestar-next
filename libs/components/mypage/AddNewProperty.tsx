@@ -178,7 +178,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 		return (
 			<div id="add-property-page">
 				<Stack className="main-title-box">
-					<Typography className="main-title">Add New Property</Typography>
+					<Typography className="main-title">Add New Sport Facility</Typography>
 					<Typography className="sub-title">We are glad to see you again!</Typography>
 				</Stack>
 
@@ -245,7 +245,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										value={insertRentData.rentLocation || 'select'}
 										onChange={({ target: { value } }) =>
 											// @ts-ignore
-											setinsertRentData({ ...insertRentData, RentLocation: value })
+											setinsertRentData({ ...insertRentData, rentLocation: value })
 										}
 									>
 										<>
@@ -446,12 +446,11 @@ AddProperty.defaultProps = {
 		rentTitle: '',
 		rentalPrice: 0,
 		rentType: '',
-		RentLocation: '',
+		rentLocation: '',
+		availabilityStatus: '',
+		rentPetsAllowed: false,
 		rentAddress: '',
-		propertyBarter: false,
-		propertyRent: false,
 		rentBalconies: 0,
-		propertyBeds: 0,
 		rentSquare: 0,
 		rentDesc: '',
 		rentImages: [],

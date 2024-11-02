@@ -158,7 +158,7 @@ const handleSignUpError = async (errorMessage: string) => {
 	}
 };
 
-export const updateStorage = (jwtToken: string) => {
+export const updateStorage = (jwtToken: any) => {
 	setJwtToken(jwtToken);
 	window.localStorage.setItem('login', Date.now().toString());
 };

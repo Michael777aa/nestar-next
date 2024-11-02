@@ -28,8 +28,6 @@ export interface Property {
 	rentImages: string[];
 	rentDesc?: string;
 	rentPetsAllowed?: boolean;
-	propertyBarter?: boolean;
-	propertyRent?: boolean;
 	availabilityDate?: Date;
 	memberId?: string;
 	constructedAt?: Date;
