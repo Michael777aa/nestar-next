@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { RentLocation, RentType } from '../../enums/property.enum';
 import { REACT_APP_API_URL, rentSquare } from '../../config';
@@ -20,10 +20,13 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 	const [insertRentData, setinsertRentData] = useState<RentInput>(initialValues);
 	const [rentTypes, setrentTypes] = useState<RentType[]>(Object.values(RentType));
 	const [rentLocations, setRentLocations] = useState<RentLocation[]>(Object.values(RentLocation));
+	const [amenities, setAmenities] = useState<string[]>([]);
+	const [includedUtilities, setIncludedUtilities] = useState<string[]>([]);
 
 	const token = getJwtToken();
 	const user = useReactiveVar(userVar);
-
+	const amenitiesOptions = ['Gym', 'Pool', 'WiFi'];
+	const utilitiesOptions = ['Electricity', 'Water', 'Gas'];
 	/** APOLLO REQUESTS **/
 
 	const [createProperty] = useMutation(CREATE_RENT);
@@ -41,22 +44,46 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		setinsertRentData({
-			...insertRentData,
-			rentTitle: getRentData?.getProperty ? getRentData?.getProperty?.rentTitle : '',
-			rentalPrice: getRentData?.getProperty ? getRentData?.getProperty?.rentalPrice : 0,
-			rentType: getRentData?.getProperty ? getRentData?.getProperty?.rentType : '',
-			rentLocation: getRentData?.getProperty ? getRentData?.getProperty?.rentLocation : '',
-			rentAddress: getRentData?.getProperty ? getRentData?.getProperty?.rentAddress : '',
-			rentBalconies: getRentData?.getProperty ? getRentData?.getProperty?.rentBalconies : 0,
-			rentPetsAllowed: getRentData?.getProperty ? getRentData?.getProperty?.rentPetsAllowed : false,
-			rentSquare: getRentData?.getProperty ? getRentData?.getProperty?.rentSquare : 0,
-			rentDesc: getRentData?.getProperty ? getRentData?.getProperty?.rentDesc : '',
-			rentImages: getRentData?.getProperty ? getRentData?.getProperty?.rentImages : [],
-		});
+		if (getRentData?.getProperty) {
+			const property = getRentData.getProperty;
+			setinsertRentData({
+				...insertRentData,
+				rentTitle: property.rentTitle,
+				rentalPrice: property.rentalPrice,
+				rentType: property.rentType,
+				rentLocation: property.rentLocation,
+				rentAddress: property.rentAddress,
+				rentBalconies: property.rentBalconies,
+				rentPetsAllowed: property.rentPetsAllowed,
+				rentSquare: property.rentSquare,
+				rentDesc: property.rentDesc,
+				rentImages: property.rentImages,
+				parkingAvailable: property.parkingAvailable,
+				amenities: property.amenities || [],
+				includedUtilities: property.includedUtilities || [],
+			});
+			setAmenities(property.amenities || []);
+			setIncludedUtilities(property.includedUtilities || []);
+		}
 	}, [getRentLoading, getRentData]);
 
 	/** HANDLERS **/
+
+	const handleAmenityChange = (amenity: string) => {
+		setAmenities((prev) => (prev.includes(amenity) ? prev.filter((a) => a !== amenity) : [...prev, amenity]));
+		setinsertRentData((prev) => ({
+			...prev,
+			amenities,
+		}));
+	};
+
+	const handleUtilityChange = (utility: string) => {
+		setIncludedUtilities((prev) => (prev.includes(utility) ? prev.filter((u) => u !== utility) : [...prev, utility]));
+		setinsertRentData((prev) => ({
+			...prev,
+			includedUtilities,
+		}));
+	};
 	async function uploadImages() {
 		try {
 			const formData = new FormData();
@@ -173,7 +200,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 	console.log('+insertRentData', insertRentData);
 
 	if (device === 'mobile') {
-		return <div>ADD NEW PROPERTY MOBILE PAGE</div>;
+		return <div>ADD NEW SPORT COMPLEX MOBILE PAGE</div>;
 	} else {
 		return (
 			<div id="add-property-page">
@@ -184,6 +211,48 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 				<div>
 					<Stack className="config">
+						<Stack className="price-year-after-price">
+							<Typography className="title">Parking Available</Typography>
+							<select
+								className="select-description"
+								value={insertRentData.parkingAvailable ? 'yes' : 'no'}
+								onChange={({ target: { value } }) =>
+									setinsertRentData({ ...insertRentData, parkingAvailable: value === 'yes' })
+								}
+							>
+								<option value="yes">Yes</option>
+								<option value="no">No</option>
+							</select>
+						</Stack>
+						{/* Amenities */}
+						<Stack className="config-column">
+							<Typography className="title">Amenities</Typography>
+							{amenitiesOptions.map((amenity) => (
+								<FormControlLabel
+									key={amenity}
+									control={
+										<Checkbox checked={amenities.includes(amenity)} onChange={() => handleAmenityChange(amenity)} />
+									}
+									label={amenity}
+								/>
+							))}
+						</Stack>
+						{/* Included Utilities */}
+						<Stack className="config-column">
+							<Typography className="title">Included Utilities</Typography>
+							{utilitiesOptions.map((utility) => (
+								<FormControlLabel
+									key={utility}
+									control={
+										<Checkbox
+											checked={includedUtilities.includes(utility)}
+											onChange={() => handleUtilityChange(utility)}
+										/>
+									}
+									label={utility}
+								/>
+							))}
+						</Stack>
 						<Stack className="description-box">
 							<Stack className="config-column">
 								<Typography className="title">Title</Typography>
@@ -288,7 +357,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										<option disabled={true} selected={true} value={'select'}>
 											Select
 										</option>
-										{[1, 2, 3, 4, 5].map((balcony: number) => (
+										{[1, 2, 3, 4, 5, 6, 7, 8].map((balcony: number) => (
 											<option value={`${balcony}`}>{balcony}</option>
 										))}
 									</select>
@@ -333,7 +402,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 							</Stack>
 						</Stack>
 
-						<Typography className="upload-title">Upload photos of your property</Typography>
+						<Typography className="upload-title">Upload photos of your Sport Complex</Typography>
 						<Stack className="images-box">
 							<Stack className="upload-box">
 								<svg xmlns="http://www.w3.org/2000/svg" width="121" height="120" viewBox="0 0 121 120" fill="none">
@@ -447,12 +516,15 @@ AddProperty.defaultProps = {
 		rentalPrice: 0,
 		rentType: '',
 		rentLocation: '',
-		availabilityStatus: '',
+		availabilityStatus: 'AVAILABLE',
 		rentPetsAllowed: false,
 		rentAddress: '',
 		rentBalconies: 0,
 		rentSquare: 0,
 		rentDesc: '',
+		amenities: [],
+		includedUtilities: [],
+		parkingAvailable: [],
 		rentImages: [],
 	},
 };
