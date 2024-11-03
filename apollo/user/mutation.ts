@@ -161,13 +161,16 @@ export const CREATE_RENT = gql`
 			rentComments
 			rentRank
 			rentImages
+			amenities
+			includedUtilities
 			rentDesc
 			rentPetsAllowed
+			parkingAvailable
 			memberId
-			availabilityDate
 			deletedAt
 			constructedAt
 			createdAt
+			soldAt
 			updatedAt
 		}
 	}
@@ -190,13 +193,16 @@ export const UPDATE_RENT = gql`
 			rentComments
 			rentRank
 			rentImages
+			amenities
+			includedUtilities
 			rentDesc
 			rentPetsAllowed
+			parkingAvailable
 			memberId
-			availabilityDate
 			deletedAt
 			constructedAt
 			createdAt
+			soldAt
 			updatedAt
 		}
 	}
@@ -219,13 +225,16 @@ export const LIKE_TARGET_RENT = gql`
 			rentComments
 			rentRank
 			rentImages
+			amenities
+			includedUtilities
 			rentDesc
 			rentPetsAllowed
+			parkingAvailable
 			memberId
-			availabilityDate
 			deletedAt
 			constructedAt
 			createdAt
+			soldAt
 			updatedAt
 		}
 	}

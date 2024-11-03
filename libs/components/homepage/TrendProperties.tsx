@@ -9,11 +9,11 @@ import { Rent } from '../../types/property/property';
 import { RentsInquiry } from '../../types/property/property.input';
 import TrendPropertyCard from './TrendPropertyCard';
 import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_RENT } from '../../../apollo/user/mutation';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
+import { LIKE_TARGET_RENT } from '../../../apollo/user/mutation';
 
 interface TrendPropertiesProps {
 	initialInput: RentsInquiry;
