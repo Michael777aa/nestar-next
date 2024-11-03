@@ -374,9 +374,10 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<option value="yes">Yes</option>
 									<option value="no">No</option>
 								</select>
-							</Stack>{' '}
+							</Stack>
+
 							<Stack className="price-year-after-price">
-								<Typography className="title">Pet Available</Typography>
+								<Typography className="title">Pet Allowed</Typography>
 								<select
 									className="select-description"
 									value={insertRentData.rentPetsAllowed ? 'yes' : 'no'}
@@ -388,8 +389,9 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<option value="no">No</option>
 								</select>
 							</Stack>
+
 							<Stack className="price-year-after-price">
-								<Typography className="title"> Furnished</Typography>
+								<Typography className="title">Furnished</Typography>
 								<select
 									className="select-description"
 									value={insertRentData.furnished ? 'yes' : 'no'}
@@ -401,6 +403,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<option value="no">No</option>
 								</select>
 							</Stack>
+
 							{/* Amenities */}
 							<Stack className="config-column">
 								<Typography className="title">Amenities</Typography>
