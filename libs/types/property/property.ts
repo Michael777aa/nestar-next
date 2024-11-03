@@ -29,7 +29,9 @@ export interface Rent {
 	amenities: string[]; // Added field to match Property type
 	includedUtilities: string[]; // Added field to match Property type
 	rentDesc?: string;
+
 	rentPetsAllowed?: boolean;
+	furnished?: boolean;
 	parkingAvailable?: boolean; // Added field to match Property type
 	memberId: string; // Changed type to string to match MongoDB ObjectId
 	deletedAt?: Date;

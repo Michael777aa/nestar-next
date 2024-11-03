@@ -55,6 +55,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 				rentAddress: property.rentAddress,
 				rentBalconies: property.rentBalconies,
 				rentPetsAllowed: property.rentPetsAllowed,
+				furnished: property.furnished,
 				rentSquare: property.rentSquare,
 				rentDesc: property.rentDesc,
 				rentImages: property.rentImages,
@@ -68,21 +69,28 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 	}, [getRentLoading, getRentData]);
 
 	/** HANDLERS **/
-
 	const handleAmenityChange = (amenity: string) => {
-		setAmenities((prev) => (prev.includes(amenity) ? prev.filter((a) => a !== amenity) : [...prev, amenity]));
-		setinsertRentData((prev) => ({
-			...prev,
-			amenities,
-		}));
+		setinsertRentData((prev) => {
+			const updatedAmenities = prev.amenities.includes(amenity)
+				? prev.amenities.filter((a) => a !== amenity)
+				: [...prev.amenities, amenity];
+			return {
+				...prev,
+				amenities: updatedAmenities,
+			};
+		});
 	};
 
 	const handleUtilityChange = (utility: string) => {
-		setIncludedUtilities((prev) => (prev.includes(utility) ? prev.filter((u) => u !== utility) : [...prev, utility]));
-		setinsertRentData((prev) => ({
-			...prev,
-			includedUtilities,
-		}));
+		setinsertRentData((prev) => {
+			const updatedUtilities = prev.includedUtilities.includes(utility)
+				? prev.includedUtilities.filter((u) => u !== utility)
+				: [...prev.includedUtilities, utility];
+			return {
+				...prev,
+				includedUtilities: updatedUtilities,
+			};
+		});
 	};
 	async function uploadImages() {
 		try {
@@ -360,7 +368,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									className="select-description"
 									value={insertRentData.parkingAvailable ? 'yes' : 'no'}
 									onChange={({ target: { value } }) =>
-										setinsertRentData({ ...insertRentData, parkingAvailable: value === 'no' })
+										setinsertRentData({ ...insertRentData, parkingAvailable: value === 'yes' })
 									}
 								>
 									<option value="yes">Yes</option>
@@ -373,7 +381,20 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									className="select-description"
 									value={insertRentData.rentPetsAllowed ? 'yes' : 'no'}
 									onChange={({ target: { value } }) =>
-										setinsertRentData({ ...insertRentData, rentPetsAllowed: value === 'no' })
+										setinsertRentData({ ...insertRentData, rentPetsAllowed: value === 'yes' })
+									}
+								>
+									<option value="yes">Yes</option>
+									<option value="no">No</option>
+								</select>
+							</Stack>
+							<Stack className="price-year-after-price">
+								<Typography className="title"> Furnished</Typography>
+								<select
+									className="select-description"
+									value={insertRentData.furnished ? 'yes' : 'no'}
+									onChange={({ target: { value } }) =>
+										setinsertRentData({ ...insertRentData, furnished: value === 'yes' })
 									}
 								>
 									<option value="yes">Yes</option>
@@ -387,7 +408,10 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<FormControlLabel
 										key={amenity}
 										control={
-											<Checkbox checked={amenities.includes(amenity)} onChange={() => handleAmenityChange(amenity)} />
+											<Checkbox
+												checked={insertRentData.amenities.includes(amenity)}
+												onChange={() => handleAmenityChange(amenity)}
+											/>
 										}
 										label={amenity}
 									/>
@@ -401,7 +425,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										key={utility}
 										control={
 											<Checkbox
-												checked={includedUtilities.includes(utility)}
+												checked={insertRentData.includedUtilities.includes(utility)}
 												onChange={() => handleUtilityChange(utility)}
 											/>
 										}
@@ -534,6 +558,7 @@ AddProperty.defaultProps = {
 		amenities: [],
 		includedUtilities: [],
 		parkingAvailable: false,
+		furnished: false,
 		rentImages: [],
 	},
 };
