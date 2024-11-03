@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { RentLocation, rentType } from '../../enums/property.enum';
+import { RentLocation, RentType } from '../../enums/property.enum';
 import { REACT_APP_API_URL, rentSquare } from '../../config';
 import axios from 'axios';
 import { getJwtToken } from '../../auth';
@@ -18,7 +18,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 	const router = useRouter();
 	const inputRef = useRef<any>(null);
 	const [insertRentData, setinsertRentData] = useState<RentInput>(initialValues);
-	const [rentTypes, setrentTypes] = useState<rentType[]>(Object.values(rentType));
+	const [rentTypes, setrentTypes] = useState<RentType[]>(Object.values(RentType));
 	const [rentLocations, setRentLocations] = useState<RentLocation[]>(Object.values(RentLocation));
 
 	const token = getJwtToken();

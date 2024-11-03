@@ -7,10 +7,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { rentSquare, propertyYears } from '../../config';
-import { RentLocation, rentType } from '../../enums/property.enum';
-import { PropertiesInquiry } from '../../types/property/property.input';
+import { RentLocation, RentType } from '../../enums/property.enum';
+import { RentsInquiry } from '../../types/property/property.input';
 import { useRouter } from 'next/router';
-import { Dayjs } from 'dayjs';
 import { useTranslation } from 'next-i18next';
 
 const style = {
@@ -36,14 +35,14 @@ const MenuProps = {
 const thisYear = new Date().getFullYear();
 
 interface HeaderFilterProps {
-	initialInput: PropertiesInquiry;
+	initialInput: RentsInquiry;
 }
 
 const HeaderFilter = (props: HeaderFilterProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const { t, i18n } = useTranslation('common');
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
+	const [searchFilter, setSearchFilter] = useState<RentsInquiry>(initialInput);
 	const locationRef: any = useRef();
 	const typeRef: any = useRef();
 	const balconiesRef: any = useRef();
@@ -53,7 +52,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	const [openLocation, setOpenLocation] = useState(false);
 	const [openType, setOpenType] = useState(false);
 	const [openRooms, setOpenRooms] = useState(false);
-	const [rentTypes, setrentTypes] = useState<rentType[]>(Object.values(rentType));
+	const [rentTypes, setrentTypes] = useState<RentType[]>(Object.values(RentType));
 	const [rentLocations, setRentLocations] = useState<RentLocation[]>(Object.values(RentLocation));
 
 	const [yearCheck, setYearCheck] = useState({ start: 1970, end: thisYear });
@@ -309,10 +308,10 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					</div>
 
 					<div className={`filter-rooms ${openRooms ? 'on' : ''}`} ref={balconiesRef}>
-						{[1, 2, 3, 4, 5, 6, 7, 8].map((room: number) => {
+						{[1, 2, 3, 4, 5, 6, 7, 8].map((balcon: number) => {
 							return (
-								<span onClick={() => rentBalconieselectHandler(room)} key={room}>
-									{room} balcon{room > 1 ? 'ies' : ''}
+								<span onClick={() => rentBalconieselectHandler(balcon)} key={balcon}>
+									{balcon} balcon{balcon > 1 ? 'ies' : ''}
 								</span>
 							);
 						})}
@@ -333,7 +332,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 								<CloseIcon />
 							</div>
 							<div className={'top'}>
-								<span>Find your home</span>
+								<span>Find Your Favorite Sport Complex</span>
 								<div className={'search-input-box'}>
 									<img src="/img/icons/search.svg" alt="" />
 									<input
@@ -444,9 +443,23 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 									<span>Reset all filters</span>
 								</div>
 								<Button
-									startIcon={<img src={'/img/icons/search.svg'} />}
-									className={'search-btn'}
+									startIcon={
+										<img src={'/img/icons/search.svg'} alt="search-icon" style={{ width: '18px', height: '18px' }} />
+									}
+									style={{
+										backgroundColor: '#1976d2', // Main color, adjust to your primary color
+										color: 'white',
+										padding: '10px 20px',
+										fontSize: '16px',
+										fontWeight: 'bold',
+										borderRadius: '8px',
+										boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+										textTransform: 'none',
+										transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
+									}}
 									onClick={pushSearchHandler}
+									onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#1565c0')}
+									onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#1976d2')}
 								>
 									Search
 								</Button>

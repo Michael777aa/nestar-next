@@ -3,7 +3,7 @@ import { Stack, Typography, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Property } from '../../types/property/property';
+import { Rent } from '../../types/property/property';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
 import { REACT_APP_API_URL, topPropertyRank } from '../../config';
@@ -13,18 +13,18 @@ import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 
 interface PropertyCardType {
-	property: Property;
+	rent: Rent;
 	likePropertyHandler?: any;
 	myFavorites?: boolean;
 	recentlyVisited?: boolean;
 }
 
 const PropertyCard = (props: PropertyCardType) => {
-	const { property, likePropertyHandler, myFavorites, recentlyVisited } = props;
+	const { rent, likePropertyHandler, myFavorites, recentlyVisited } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
-	const imagePath: string = property?.rentImages[0]
-		? `${REACT_APP_API_URL}/${property?.rentImages[0]}`
+	const imagePath: string = rent?.rentImages[0]
+		? `${REACT_APP_API_URL}/${rent?.rentImages[0]}`
 		: '/img/banner/header1.svg';
 
 	if (device === 'mobile') {
@@ -36,19 +36,19 @@ const PropertyCard = (props: PropertyCardType) => {
 					<Link
 						href={{
 							pathname: '/property/detail',
-							query: { id: property?._id },
+							query: { id: rent?._id },
 						}}
 					>
 						<img src={imagePath} alt="" />
 					</Link>
-					{property && property?.propertyRank > topPropertyRank && (
+					{rent && rent?.rentRank > topPropertyRank && (
 						<Box component={'div'} className={'top-badge'}>
 							<img src="/img/icons/electricity.svg" alt="" />
 							<Typography>TOP</Typography>
 						</Box>
 					)}
 					<Box component={'div'} className={'price-box'}>
-						<Typography>${formatterStr(property?.rentalPrice)}</Typography>
+						<Typography>${formatterStr(rent?.rentalPrice)}</Typography>
 					</Box>
 				</Stack>
 				<Stack className="bottom">
@@ -57,61 +57,37 @@ const PropertyCard = (props: PropertyCardType) => {
 							<Link
 								href={{
 									pathname: '/property/detail',
-									query: { id: property?._id },
+									query: { id: rent?._id },
 								}}
 							>
-								<Typography>{property.rentTitle}</Typography>
+								<Typography>{rent.rentTitle}</Typography>
 							</Link>
 						</Stack>
 						<Stack className="address">
 							<Typography>
-								{property.rentAddress}, {property.RentLocation}
+								{rent.rentAddress}, {rent.rentLocation}
 							</Typography>
 						</Stack>
 					</Stack>
-					<Stack className="options">
-						<Stack className="option">
-							<img src="/img/icons/bed.svg" alt="" /> <Typography>{property.propertyBeds} bed</Typography>
-						</Stack>
-						<Stack className="option">
-							<img src="/img/icons/room.svg" alt="" /> <Typography>{property.rentBalconies} room</Typography>
-						</Stack>
-						<Stack className="option">
-							<img src="/img/icons/expand.svg" alt="" /> <Typography>{property.rentSquare} m2</Typography>
-						</Stack>
-					</Stack>
+
 					<Stack className="divider"></Stack>
 					<Stack className="type-buttons">
-						<Stack className="type">
-							<Typography
-								sx={{ fontWeight: 500, fontSize: '13px' }}
-								className={property.propertyRent ? '' : 'disabled-type'}
-							>
-								Rent
-							</Typography>
-							<Typography
-								sx={{ fontWeight: 500, fontSize: '13px' }}
-								className={property.propertyBarter ? '' : 'disabled-type'}
-							>
-								Barter
-							</Typography>
-						</Stack>
 						{!recentlyVisited && (
 							<Stack className="buttons">
 								<IconButton color={'default'}>
 									<RemoveRedEyeIcon />
 								</IconButton>
-								<Typography className="view-cnt">{property?.propertyViews}</Typography>
-								<IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
+								<Typography className="view-cnt">{rent?.rentViews}</Typography>
+								<IconButton color={'default'} onClick={() => likePropertyHandler(user, rent?._id)}>
 									{myFavorites ? (
 										<FavoriteIcon color="primary" />
-									) : property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+									) : rent?.meLiked && rent?.meLiked[0]?.myFavorite ? (
 										<FavoriteIcon color="primary" />
 									) : (
 										<FavoriteBorderIcon />
 									)}
 								</IconButton>
-								<Typography className="view-cnt">{property?.propertyLikes}</Typography>
+								<Typography className="view-cnt">{rent?.rentLikes}</Typography>
 							</Stack>
 						)}
 					</Stack>

@@ -7,8 +7,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { rentSquare, propertyYears } from '../../config';
-import { RentLocation, rentType } from '../../enums/property.enum';
-import { PropertiesInquiry } from '../../types/property/property.input';
+import { RentLocation, RentType } from '../../enums/property.enum';
+import { RentsInquiry } from '../../types/property/property.input';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 

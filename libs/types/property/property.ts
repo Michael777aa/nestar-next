@@ -1,4 +1,4 @@
-import { AvailabilityStatus, RentLocation, rentType } from '../../enums/property.enum';
+import { AvailabilityStatus, RentLocation, RentType } from '../../enums/property.enum';
 import { Member } from '../member/member';
 
 export interface MeLiked {
@@ -11,9 +11,9 @@ export interface TotalCounter {
 	total: number;
 }
 
-export interface Property {
+export interface Rent {
 	_id: string;
-	rentType: rentType;
+	rentType: RentType;
 	availabilityStatus: AvailabilityStatus;
 	rentLocation: RentLocation;
 	rentAddress: string;
@@ -31,11 +31,11 @@ export interface Property {
 	availabilityDate?: Date;
 	memberId?: string;
 	constructedAt?: Date;
-
-	// jojjoi
+	meLiked?: MeLiked[];
+	memberData?: Member;
 }
 
 export interface Properties {
-	list: Property[];
+	list: Rent[];
 	metaCounter: TotalCounter[];
 }

@@ -13,7 +13,7 @@ import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Property } from '../../libs/types/property/property';
+import { Rent } from '../../libs/types/property/property';
 import moment from 'moment';
 import { formatterStr } from '../../libs/utils';
 import { REACT_APP_API_URL } from '../../libs/config';
@@ -46,15 +46,15 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [propertyId, setPropertyId] = useState<string | null>(null);
-	const [property, setProperty] = useState<Property | null>(null);
+	const [rentId, setRentId] = useState<string | null>(null);
+	const [rent, setRent] = useState<Rent | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
-	const [destinationProperties, setDestinationProperties] = useState<Property[]>([]);
+	const [destinationRents, setDestinationRents] = useState<Rent[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [propertyComments, setPropertyComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
-		commentGroup: CommentGroup.PROPERTY,
+		commentGroup: CommentGroup.RENT,
 		commentContent: '',
 		commentRefId: '',
 	});
@@ -70,11 +70,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		refetch: getRentRefetch,
 	} = useQuery(GET_RENT, {
 		fetchPolicy: 'network-only',
-		variables: { input: propertyId },
-		skip: !propertyId,
+		variables: { input: rentId },
+		skip: !rentId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getProperty) setProperty(data?.getProperty);
+			if (data?.getProperty) setRentId(data?.getProperty);
 			if (data?.getProperty) setSlideImage(data?.getProperty?.rentImages[0]);
 		},
 	});
@@ -92,13 +92,13 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				limit: 4,
 				sort: 'createdAt',
 				direction: Direction.DESC,
-				search: { locationList: property?.RentLocation ? [property?.RentLocation] : [] },
+				search: { locationList: rent?.rentLocation ? [rent?.rentLocation] : [] },
 			},
 		},
-		skip: !propertyId && !property,
+		skip: !rentId && !rent,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getProperties?.list) setDestinationProperties(data?.getProperties?.list);
+			if (data?.getProperties?.list) setDestinationRents(data?.getProperties?.list);
 		},
 	});
 
@@ -121,7 +121,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.id) {
-			setPropertyId(router.query.id as string);
+			setRentId(router.query.id as string);
 			setCommentInquiry({
 				...commentInquiry,
 				search: {
@@ -159,7 +159,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					limit: 4,
 					sort: 'createdAt',
 					direction: Direction.DESC,
-					search: { locationList: [property?.RentLocation] },
+					search: { locationList: [rent?.rentLocation] },
 				},
 			});
 
@@ -206,33 +206,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<Stack className={'property-info-config'}>
 							<Stack className={'info'}>
 								<Stack className={'left-box'}>
-									<Typography className={'title-main'}>{property?.rentTitle}</Typography>
+									<Typography className={'title-main'}>{rent?.rentTitle}</Typography>
 									<Stack className={'top-box'}>
-										<Typography className={'city'}>{property?.RentLocation}</Typography>
+										<Typography className={'city'}>{rent?.rentLocation}</Typography>
 										<Stack className={'divider'}></Stack>
-										<Stack className={'buy-rent-box'}>
-											{property?.propertyBarter && (
-												<>
-													<Stack className={'circle'}>
-														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-															<circle cx="3" cy="3" r="3" fill="#EB6753" />
-														</svg>
-													</Stack>
-													<Typography className={'buy-rent'}>Barter</Typography>
-												</>
-											)}
 
-											{property?.propertyRent && (
-												<>
-													<Stack className={'circle'}>
-														<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 6 6" fill="none">
-															<circle cx="3" cy="3" r="3" fill="#EB6753" />
-														</svg>
-													</Stack>
-													<Typography className={'buy-rent'}>rent</Typography>
-												</>
-											)}
-										</Stack>
 										<Stack className={'divider'}></Stack>
 										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
 											<g clipPath="url(#clip0_6505_6282)">
@@ -251,17 +229,14 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</clipPath>
 											</defs>
 										</svg>
-										<Typography className={'date'}>{moment().diff(property?.createdAt, 'days')} days ago</Typography>
+										<Typography className={'date'}>{moment().diff(rent?.constructedAt, 'days')} days ago</Typography>
 									</Stack>
 									<Stack className={'bottom-box'}>
 										<Stack className="option">
-											<img src="/img/icons/bed.svg" alt="" /> <Typography>{property?.propertyBeds} bed</Typography>
+											<img src="/img/icons/room.svg" alt="" /> <Typography>{rent?.rentBalconies} room</Typography>
 										</Stack>
 										<Stack className="option">
-											<img src="/img/icons/room.svg" alt="" /> <Typography>{property?.rentBalconies} room</Typography>
-										</Stack>
-										<Stack className="option">
-											<img src="/img/icons/expand.svg" alt="" /> <Typography>{property?.rentSquare} m2</Typography>
+											<img src="/img/icons/expand.svg" alt="" /> <Typography>{rent?.rentSquare} m2</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
@@ -269,10 +244,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Stack className="buttons">
 										<Stack className="button-box">
 											<RemoveRedEyeIcon fontSize="medium" />
-											<Typography>{property?.propertyViews}</Typography>
+											<Typography>{rent?.rentViews}</Typography>
 										</Stack>
 										<Stack className="button-box">
-											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
+											{rent?.meLiked && rent?.meLiked[0]?.myFavorite ? (
 												<FavoriteIcon color="primary" fontSize={'medium'} />
 											) : (
 												<FavoriteBorderIcon
@@ -281,10 +256,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													onClick={() => likePropertyHandler(user, property?._id)}
 												/>
 											)}
-											<Typography>{property?.propertyLikes}</Typography>
+											<Typography>{rent?.rentLikes}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(property?.rentalPrice)}</Typography>
+									<Typography>${formatterStr(rent?.rentalPrice)}</Typography>
 								</Stack>
 							</Stack>
 							<Stack className={'images'}>
@@ -295,7 +270,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className={'sub-images'}>
-									{property?.rentImages.map((subImg: string) => {
+									{rent?.rentImages.map((subImg: string) => {
 										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
 										return (
 											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
@@ -318,18 +293,14 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												/>
 											</svg>
 										</Stack>
-										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Bedroom</Typography>
-											<Typography className={'option-data'}>{property?.propertyBeds}</Typography>
-										</Stack>
 									</Stack>
 									<Stack className={'option'}>
 										<Stack className={'svg-box'}>
 											<img src={'/img/icons/room.svg'} />
 										</Stack>
 										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Room</Typography>
-											<Typography className={'option-data'}>{property?.rentBalconies}</Typography>
+											<Typography className={'title'}>Balconies</Typography>
+											<Typography className={'option-data'}>{rent?.rentBalconies}</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>
@@ -347,7 +318,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className={'option-includes'}>
 											<Typography className={'title'}>Year Build</Typography>
-											<Typography className={'option-data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
+											<Typography className={'option-data'}>{moment(rent?.constructedAt).format('YYYY')}</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>
@@ -375,7 +346,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className={'option-includes'}>
 											<Typography className={'title'}>Size</Typography>
-											<Typography className={'option-data'}>{property?.rentSquare} m2</Typography>
+											<Typography className={'option-data'}>{rent?.rentSquare} m2</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>
@@ -389,15 +360,15 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											</svg>
 										</Stack>
 										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Property Type</Typography>
-											<Typography className={'option-data'}>{property?.rentType}</Typography>
+											<Typography className={'title'}>Rent Type</Typography>
+											<Typography className={'option-data'}>{rent?.rentType}</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
-										<Typography className={'title'}>Property Description</Typography>
-										<Typography className={'desc'}>{property?.rentDesc ?? 'No Description!'}</Typography>
+										<Typography className={'title'}>Rent Description</Typography>
+										<Typography className={'desc'}>{rent?.rentDesc ?? 'No Description!'}</Typography>
 									</Stack>
 									<Stack className={'bottom'}>
 										<Typography className={'title'}>Property Details</Typography>
@@ -405,35 +376,25 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<Stack className={'left'}>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Price</Typography>
-													<Typography className={'data'}>${formatterStr(property?.rentalPrice)}</Typography>
+													<Typography className={'data'}>${formatterStr(rent?.rentalPrice)}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Size</Typography>
-													<Typography className={'data'}>{property?.rentSquare} m2</Typography>
+													<Typography className={'title'}>Rent Size</Typography>
+													<Typography className={'data'}>{rent?.rentSquare} m2</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Rooms</Typography>
-													<Typography className={'data'}>{property?.rentBalconies}</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Bedrooms</Typography>
-													<Typography className={'data'}>{property?.propertyBeds}</Typography>
+													<Typography className={'title'}>Balconies</Typography>
+													<Typography className={'data'}>{rent?.rentBalconies}</Typography>
 												</Box>
 											</Stack>
 											<Stack className={'right'}>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Year Built</Typography>
-													<Typography className={'data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
+													<Typography className={'data'}>{moment(rent?.constructedAt).format('YYYY')}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Type</Typography>
-													<Typography className={'data'}>{property?.rentType}</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Property Options</Typography>
-													<Typography className={'data'}>
-														For {property?.propertyBarter && 'Barter'} {property?.propertyRent && 'Rent'}
-													</Typography>
+													<Typography className={'title'}>Rent Type</Typography>
+													<Typography className={'data'}>{rent?.rentType}</Typography>
 												</Box>
 											</Stack>
 										</Stack>
@@ -535,14 +496,14 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<img
 											className={'member-image'}
 											src={
-												property?.memberData?.memberImage
-													? `${REACT_APP_API_URL}/${property?.memberData?.memberImage}`
+												rent?.memberData?.memberImage
+													? `${REACT_APP_API_URL}/${rent?.memberData?.memberImage}`
 													: '/img/profile/defaultUser.svg'
 											}
 										/>
 										<Stack className={'name-phone-listings'}>
-											<Link href={`/member?memberId=${property?.memberData?._id}`}>
-												<Typography className={'name'}>{property?.memberData?.memberNick}</Typography>
+											<Link href={`/member?memberId=${rent?.memberData?._id}`}>
+												<Typography className={'name'}>{rent?.memberData?.memberNick}</Typography>
 											</Link>
 											<Stack className={'phone-number'}>
 												<svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
@@ -558,7 +519,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'number'}>{property?.memberData?.memberPhone}</Typography>
+												<Typography className={'number'}>{rent?.memberData?.memberPhone}</Typography>
 											</Stack>
 											<Typography className={'listings'}>View Listings</Typography>
 										</Stack>
@@ -600,11 +561,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						{destinationProperties.length !== 0 && (
+						{destinationRents.length !== 0 && (
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
-										<Typography className={'main-title'}>Destination Property</Typography>
+										<Typography className={'main-title'}>Destination Rent</Typography>
 										<Typography className={'sub-title'}>Aliquam lacinia diam quis lacus euismod</Typography>
 									</Stack>
 									<Stack className={'pagination-box'}>
@@ -627,15 +588,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											el: '.swiper-similar-pagination',
 										}}
 									>
-										{destinationProperties.map((property: Property) => {
+										{destinationRents.map((rent: Rent) => {
 											return (
-												<SwiperSlide className={'similar-homes-slide'} key={property.rentTitle}>
-													<PropertyBigCard property={property} key={property?._id} />
-													<PropertyBigCard
-														property={property}
-														likePropertyHandler={likePropertyHandler}
-														key={property?._id}
-													/>
+												<SwiperSlide className={'similar-homes-slide'} key={rent.rentTitle}>
+													<PropertyBigCard property={rent} key={rent?._id} />
+													<PropertyBigCard property={rent} likePropertyHandler={likePropertyHandler} key={rent?._id} />
 												</SwiperSlide>
 											);
 										})}
