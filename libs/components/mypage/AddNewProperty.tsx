@@ -25,8 +25,28 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 	const token = getJwtToken();
 	const user = useReactiveVar(userVar);
-	const amenitiesOptions = ['Gym', 'Pool', 'WiFi'];
-	const utilitiesOptions = ['Electricity', 'Water', 'Gas'];
+	const amenitiesOptions = [
+		'WiFi',
+		'Air Conditioning',
+		'Washer/Dryer',
+		'Elevator',
+		'Security System',
+		'Lounge Area',
+		'24-Hour Maintenance',
+		'Breakfast',
+	];
+
+	const utilitiesOptions = [
+		'Electricity',
+		'Water',
+		'Gas',
+		'Internet',
+		'Cable TV',
+		'Heating',
+		'Sewage',
+		'Trash Collection',
+	];
+
 	/** APOLLO REQUESTS **/
 
 	const [createProperty] = useMutation(CREATE_RENT);
@@ -213,8 +233,8 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 		return (
 			<div id="add-property-page">
 				<Stack className="main-title-box">
-					<Typography className="main-title">Add New Sport Facility</Typography>
-					<Typography className="sub-title">We are glad to see you again!</Typography>
+					<Typography className="main-title">Add New Sport Compex</Typography>
+					<Typography className="sub-title">We're happy to see you once more!</Typography>
 				</Stack>
 
 				<div>
@@ -362,79 +382,81 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									onChange={({ target: { value } }) => setinsertRentData({ ...insertRentData, rentDesc: value })}
 								></textarea>
 							</Stack>
-							<Stack className="price-year-after-price">
-								<Typography className="title">Parking Available</Typography>
-								<select
-									className="select-description"
-									value={insertRentData.parkingAvailable ? 'yes' : 'no'}
-									onChange={({ target: { value } }) =>
-										setinsertRentData({ ...insertRentData, parkingAvailable: value === 'yes' })
-									}
-								>
-									<option value="yes">Yes</option>
-									<option value="no">No</option>
-								</select>
-							</Stack>
-
-							<Stack className="price-year-after-price">
-								<Typography className="title">Pet Allowed</Typography>
-								<select
-									className="select-description"
-									value={insertRentData.rentPetsAllowed ? 'yes' : 'no'}
-									onChange={({ target: { value } }) =>
-										setinsertRentData({ ...insertRentData, rentPetsAllowed: value === 'yes' })
-									}
-								>
-									<option value="yes">Yes</option>
-									<option value="no">No</option>
-								</select>
-							</Stack>
-
-							<Stack className="price-year-after-price">
-								<Typography className="title">Furnished</Typography>
-								<select
-									className="select-description"
-									value={insertRentData.furnished ? 'yes' : 'no'}
-									onChange={({ target: { value } }) =>
-										setinsertRentData({ ...insertRentData, furnished: value === 'yes' })
-									}
-								>
-									<option value="yes">Yes</option>
-									<option value="no">No</option>
-								</select>
-							</Stack>
-
-							{/* Amenities */}
-							<Stack className="config-column">
-								<Typography className="title">Amenities</Typography>
-								{amenitiesOptions.map((amenity) => (
-									<FormControlLabel
-										key={amenity}
-										control={
-											<Checkbox
-												checked={insertRentData.amenities.includes(amenity)}
-												onChange={() => handleAmenityChange(amenity)}
-											/>
+							<Stack className="availaability-stuffs">
+								<Stack className="price-year-after-price">
+									<Typography className="title">Parking Available</Typography>
+									<select
+										className="select-description"
+										value={insertRentData.parkingAvailable ? 'yes' : 'no'}
+										onChange={({ target: { value } }) =>
+											setinsertRentData({ ...insertRentData, parkingAvailable: value === 'yes' })
 										}
-										label={amenity}
-									/>
-								))}
-							</Stack>
-							{/* Included Utilities */}
-							<Stack className="config-column">
-								<Typography className="title">Included Utilities</Typography>
-								{utilitiesOptions.map((utility) => (
-									<FormControlLabel
-										key={utility}
-										control={
-											<Checkbox
-												checked={insertRentData.includedUtilities.includes(utility)}
-												onChange={() => handleUtilityChange(utility)}
-											/>
+									>
+										<option value="yes">Yes</option>
+										<option value="no">No</option>
+									</select>
+								</Stack>
+								<Stack className="price-year-after-price">
+									<Typography className="title">Pet Allowed</Typography>
+									<select
+										className="select-description"
+										value={insertRentData.rentPetsAllowed ? 'yes' : 'no'}
+										onChange={({ target: { value } }) =>
+											setinsertRentData({ ...insertRentData, rentPetsAllowed: value === 'yes' })
 										}
-										label={utility}
-									/>
-								))}
+									>
+										<option value="yes">Yes</option>
+										<option value="no">No</option>
+									</select>
+								</Stack>
+
+								<Stack className="price-year-after-price">
+									<Typography className="title">Furnished</Typography>
+									<select
+										className="select-description"
+										value={insertRentData.furnished ? 'yes' : 'no'}
+										onChange={({ target: { value } }) =>
+											setinsertRentData({ ...insertRentData, furnished: value === 'yes' })
+										}
+									>
+										<option value="yes">Yes</option>
+										<option value="no">No</option>
+									</select>
+								</Stack>
+							</Stack>{' '}
+							<Stack className="amenties_and_utilities">
+								{/* Amenities */}
+								<Stack className="config-column">
+									<Typography className="title">Amenities</Typography>
+									{amenitiesOptions.map((amenity) => (
+										<FormControlLabel
+											key={amenity}
+											control={
+												<Checkbox
+													checked={insertRentData.amenities.includes(amenity)}
+													onChange={() => handleAmenityChange(amenity)}
+												/>
+											}
+											label={amenity}
+										/>
+									))}
+								</Stack>
+								{/* Included Utilities */}
+								<Stack className="config-column">
+									<Typography className="title">Included Utilities</Typography>
+									{utilitiesOptions.map((utility) => (
+										<FormControlLabel
+											key={utility}
+											control={
+												<Checkbox
+													checked={insertRentData.includedUtilities.includes(utility)}
+													onChange={() => handleUtilityChange(utility)}
+												/>
+											}
+											label={utility}
+										/>
+									))}
+								</Stack>
 							</Stack>
 						</Stack>
 
