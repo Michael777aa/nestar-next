@@ -10,18 +10,18 @@ export interface RentUpdate {
 	rentalPrice: number;
 	rentSquare: number;
 	rentBalconies: number;
-	rentViews?: number; // Optional based on the nullable field in Property type
-	rentLikes?: number; // Optional based on the nullable field in Property type
-	rentComments?: number; // Optional based on the nullable field in Property type
-	rentRank?: number; // Optional based on the nullable field in Property type
+	rentViews?: number;
+	rentLikes?: number;
+	rentComments?: number;
+	rentRank?: number;
 	rentImages: string[];
-	amenities: string[]; // Added field to match Property type
-	includedUtilities: string[]; // Added field to match Property type
+	amenities: string[];
+	includedUtilities: string[];
 	rentDesc?: string;
 	rentPetsAllowed?: boolean;
 	furnished?: boolean;
-	parkingAvailable?: boolean; // Added field to match Property type
-	memberId: string; // Changed type to string to match MongoDB ObjectId
+	parkingAvailable?: boolean;
+	memberId: string;
 	deletedAt?: Date;
 	constructedAt?: Date;
 	createdAt: Date;

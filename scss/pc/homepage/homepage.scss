@@ -149,6 +149,7 @@
 					.trend-card-box {
 						position: relative;
 						width: 300px;
+						text-align: center;
 						height: 375px;
 						display: flex;
 						flex-direction: column;
@@ -180,7 +181,7 @@
 							}
 						}
 						.info {
-							padding: 20px 22px 17px;
+							padding: 15px 17px 12px;
 							display: flex;
 							flex-direction: column;
 							box-sizing: border-box;
@@ -195,7 +196,7 @@
 								text-overflow: ellipsis;
 								white-space: nowrap;
 								font-family: $font;
-								font-size: 15px;
+								font-size: 17px;
 								font-style: normal;
 								font-weight: 600;
 								line-height: normal;
@@ -207,12 +208,29 @@
 								overflow: hidden;
 								color: #717171;
 								font-family: $font;
-								font-size: 13px;
+								font-size: 14px;
 								font-style: normal;
-								font-weight: 400;
+								font-weight: 500;
 								line-height: normal;
 								text-overflow: ellipsis;
 								white-space: nowrap;
+							}
+							.two-items {
+								display: flex;
+								flex-direction: row;
+								justify-content: space-between;
+								margin-top: 10px;
+								.decoratis {
+									overflow: hidden;
+									color: #717171;
+									font-family: $font;
+									font-size: 13px;
+									font-style: normal;
+									font-weight: 500;
+									line-height: normal;
+									text-overflow: ellipsis;
+									white-space: nowrap;
+								}
 							}
 							.options {
 								margin-top: 15px;
@@ -270,6 +288,10 @@
 										font-weight: 400;
 										line-height: normal;
 										text-overflow: ellipsis;
+									}
+									.likee-cnt {
+										position: relative;
+										left: 180px;
 									}
 								}
 							}

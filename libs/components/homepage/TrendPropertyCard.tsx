@@ -92,7 +92,7 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 						pushDetailHandler(property._id);
 					}}
 				>
-					<div>${property.rentalPrice}</div>
+					<div>${property.rentalPrice}/week</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
 					<strong
@@ -104,6 +104,11 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 						{property.rentTitle}
 					</strong>
 					<p className={'desc'}>{property.rentDesc ?? 'no description'}</p>
+					<Stack className="two-items">
+						<p className={'decoratis'}>{property.parkingAvailable ? 'parking available' : 'parking unavailable'}</p>
+						<p className={'decoratis'}>{property.furnished ? 'furnished' : 'unfurnished'}</p>
+					</Stack>
+
 					<div className={'options'}>
 						<div>
 							<img src="/img/icons/room.svg" alt="" />
@@ -121,14 +126,14 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 								<RemoveRedEyeIcon />
 							</IconButton>
 							<Typography className="view-cnt">{property?.rentViews}</Typography>
-							<IconButton color={'default'}>
+							<IconButton className="likee-cnt" color={'default'}>
 								{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: 'red' }} />
 								) : (
 									<FavoriteIcon />
 								)}
 							</IconButton>
-							<Typography className="view-cnt">{property?.rentLikes}</Typography>
+							<Typography className="view-cnt likee-cnt">{property?.rentLikes}</Typography>
 						</div>
 					</div>
 				</Box>
