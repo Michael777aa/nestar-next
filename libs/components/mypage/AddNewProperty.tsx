@@ -211,48 +211,6 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 
 				<div>
 					<Stack className="config">
-						<Stack className="price-year-after-price">
-							<Typography className="title">Parking Available</Typography>
-							<select
-								className="select-description"
-								value={insertRentData.parkingAvailable ? 'yes' : 'no'}
-								onChange={({ target: { value } }) =>
-									setinsertRentData({ ...insertRentData, parkingAvailable: value === 'yes' })
-								}
-							>
-								<option value="yes">Yes</option>
-								<option value="no">No</option>
-							</select>
-						</Stack>
-						{/* Amenities */}
-						<Stack className="config-column">
-							<Typography className="title">Amenities</Typography>
-							{amenitiesOptions.map((amenity) => (
-								<FormControlLabel
-									key={amenity}
-									control={
-										<Checkbox checked={amenities.includes(amenity)} onChange={() => handleAmenityChange(amenity)} />
-									}
-									label={amenity}
-								/>
-							))}
-						</Stack>
-						{/* Included Utilities */}
-						<Stack className="config-column">
-							<Typography className="title">Included Utilities</Typography>
-							{utilitiesOptions.map((utility) => (
-								<FormControlLabel
-									key={utility}
-									control={
-										<Checkbox
-											checked={includedUtilities.includes(utility)}
-											onChange={() => handleUtilityChange(utility)}
-										/>
-									}
-									label={utility}
-								/>
-							))}
-						</Stack>
 						<Stack className="description-box">
 							<Stack className="config-column">
 								<Typography className="title">Title</Typography>
@@ -264,7 +222,6 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									onChange={({ target: { value } }) => setinsertRentData({ ...insertRentData, rentTitle: value })}
 								/>
 							</Stack>
-
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
 									<Typography className="title">Price</Typography>
@@ -304,7 +261,6 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
 							</Stack>
-
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
 									<Typography className="title">Select Location</Typography>
@@ -342,7 +298,6 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									/>
 								</Stack>
 							</Stack>
-
 							<Stack className="config-row">
 								<Stack className="price-year-after-price">
 									<Typography className="title">Balconies</Typography>
@@ -388,7 +343,6 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
 							</Stack>
-
 							<Typography className="property-title">Rent Description</Typography>
 							<Stack className="config-column">
 								<Typography className="title">Description</Typography>
@@ -399,6 +353,61 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									value={insertRentData.rentDesc}
 									onChange={({ target: { value } }) => setinsertRentData({ ...insertRentData, rentDesc: value })}
 								></textarea>
+							</Stack>
+							<Stack className="price-year-after-price">
+								<Typography className="title">Parking Available</Typography>
+								<select
+									className="select-description"
+									value={insertRentData.parkingAvailable ? 'yes' : 'no'}
+									onChange={({ target: { value } }) =>
+										setinsertRentData({ ...insertRentData, parkingAvailable: value === 'no' })
+									}
+								>
+									<option value="yes">Yes</option>
+									<option value="no">No</option>
+								</select>
+							</Stack>{' '}
+							<Stack className="price-year-after-price">
+								<Typography className="title">Pet Available</Typography>
+								<select
+									className="select-description"
+									value={insertRentData.rentPetsAllowed ? 'yes' : 'no'}
+									onChange={({ target: { value } }) =>
+										setinsertRentData({ ...insertRentData, rentPetsAllowed: value === 'no' })
+									}
+								>
+									<option value="yes">Yes</option>
+									<option value="no">No</option>
+								</select>
+							</Stack>
+							{/* Amenities */}
+							<Stack className="config-column">
+								<Typography className="title">Amenities</Typography>
+								{amenitiesOptions.map((amenity) => (
+									<FormControlLabel
+										key={amenity}
+										control={
+											<Checkbox checked={amenities.includes(amenity)} onChange={() => handleAmenityChange(amenity)} />
+										}
+										label={amenity}
+									/>
+								))}
+							</Stack>
+							{/* Included Utilities */}
+							<Stack className="config-column">
+								<Typography className="title">Included Utilities</Typography>
+								{utilitiesOptions.map((utility) => (
+									<FormControlLabel
+										key={utility}
+										control={
+											<Checkbox
+												checked={includedUtilities.includes(utility)}
+												onChange={() => handleUtilityChange(utility)}
+											/>
+										}
+										label={utility}
+									/>
+								))}
 							</Stack>
 						</Stack>
 
@@ -524,7 +533,7 @@ AddProperty.defaultProps = {
 		rentDesc: '',
 		amenities: [],
 		includedUtilities: [],
-		parkingAvailable: [],
+		parkingAvailable: false,
 		rentImages: [],
 	},
 };
