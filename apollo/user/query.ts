@@ -84,42 +84,53 @@ export const GET_RENT = gql`
 		getProperty(propertyId: $input) {
 			_id
 			rentType
-			propertyStatus
-			RentLocation
+			availabilityStatus
+			rentLocation
 			rentAddress
 			rentTitle
 			rentalPrice
 			rentSquare
-			propertyBeds
 			rentBalconies
-			propertyViews
-			propertyLikes
+			rentViews
+			rentLikes
+			rentComments
+			rentRank
 			rentImages
+			amenities
+			includedUtilities
 			rentDesc
-			propertyBarter
-			propertyRent
+			rentPetsAllowed
+			parkingAvailable
 			memberId
-			soldAt
 			deletedAt
 			constructedAt
 			createdAt
+			soldAt
 			updatedAt
 			memberData {
 				_id
 				memberType
+				memberEmail
 				memberStatus
 				memberAuthType
 				memberPhone
 				memberNick
-				memberFullName
+				memberFirstName
+				memberLastName
 				memberImage
 				memberAddress
 				memberDesc
-				memberWarnings
-				memberBlocks
+				memberProperties
+				memberArticles
+				memberFollowers
+				memberFollowings
 				memberPoints
 				memberLikes
 				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
 				deletedAt
 				createdAt
 				updatedAt
@@ -140,54 +151,29 @@ export const GET_PROPERTIES = gql`
 			list {
 				_id
 				rentType
-				propertyStatus
-				RentLocation
+				availabilityStatus
+				rentLocation
 				rentAddress
 				rentTitle
 				rentalPrice
 				rentSquare
-				propertyBeds
 				rentBalconies
-				propertyViews
-				propertyLikes
-				propertyRank
+				rentViews
+				rentLikes
+				rentComments
+				rentRank
 				rentImages
+				amenities
+				includedUtilities
 				rentDesc
-				propertyBarter
-				propertyRent
+				rentPetsAllowed
+				parkingAvailable
 				memberId
-				soldAt
 				deletedAt
 				constructedAt
 				createdAt
+				soldAt
 				updatedAt
-				memberData {
-					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberWarnings
-					memberBlocks
-					memberProperties
-					memberRank
-					memberPoints
-					memberLikes
-					memberViews
-					deletedAt
-					createdAt
-					updatedAt
-				}
-				meLiked {
-					memberId
-					likeRefId
-					myFavorite
-				}
 			}
 			metaCounter {
 				total
@@ -202,25 +188,28 @@ export const GET_AGENT_PROPERTIES = gql`
 			list {
 				_id
 				rentType
-				propertyStatus
-				RentLocation
+				availabilityStatus
+				rentLocation
 				rentAddress
 				rentTitle
 				rentalPrice
 				rentSquare
-				propertyBeds
 				rentBalconies
-				propertyViews
-				propertyLikes
+				rentViews
+				rentLikes
+				rentComments
+				rentRank
 				rentImages
+				amenities
+				includedUtilities
 				rentDesc
-				propertyBarter
-				propertyRent
+				rentPetsAllowed
+				parkingAvailable
 				memberId
-				soldAt
 				deletedAt
 				constructedAt
 				createdAt
+				soldAt
 				updatedAt
 			}
 			metaCounter {
@@ -236,47 +225,50 @@ export const GET_FAVORITES = gql`
 			list {
 				_id
 				rentType
-				propertyStatus
-				RentLocation
+				availabilityStatus
+				rentLocation
 				rentAddress
 				rentTitle
 				rentalPrice
 				rentSquare
-				propertyBeds
 				rentBalconies
-				propertyViews
-				propertyLikes
-				propertyComments
-				propertyRank
+				rentViews
+				rentLikes
+				rentComments
+				rentRank
 				rentImages
+				amenities
+				includedUtilities
 				rentDesc
-				propertyBarter
-				propertyRent
+				rentPetsAllowed
+				parkingAvailable
 				memberId
-				soldAt
 				deletedAt
 				constructedAt
 				createdAt
+				soldAt
 				updatedAt
 				memberData {
 					_id
 					memberType
+					memberEmail
 					memberStatus
 					memberAuthType
 					memberPhone
 					memberNick
-					memberFullName
+					memberFirstName
+					memberLastName
 					memberImage
 					memberAddress
 					memberDesc
 					memberProperties
 					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
 					memberComments
-					memberFollowings
-					memberFollowers
 					memberRank
 					memberWarnings
 					memberBlocks
@@ -298,48 +290,52 @@ export const GET_VISITED = gql`
 		getVisited(input: $input) {
 			list {
 				_id
+				_id
 				rentType
-				propertyStatus
-				RentLocation
+				availabilityStatus
+				rentLocation
 				rentAddress
 				rentTitle
 				rentalPrice
 				rentSquare
-				propertyBeds
 				rentBalconies
-				propertyViews
-				propertyLikes
-				propertyComments
-				propertyRank
+				rentViews
+				rentLikes
+				rentComments
+				rentRank
 				rentImages
+				amenities
+				includedUtilities
 				rentDesc
-				propertyBarter
-				propertyRent
+				rentPetsAllowed
+				parkingAvailable
 				memberId
-				soldAt
 				deletedAt
 				constructedAt
 				createdAt
+				soldAt
 				updatedAt
 				memberData {
 					_id
 					memberType
+					memberEmail
 					memberStatus
 					memberAuthType
 					memberPhone
 					memberNick
-					memberFullName
+					memberFirstName
+					memberLastName
 					memberImage
 					memberAddress
 					memberDesc
 					memberProperties
 					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
 					memberComments
-					memberFollowings
-					memberFollowers
 					memberRank
 					memberWarnings
 					memberBlocks
@@ -378,24 +374,31 @@ export const GET_BOARD_ARTICLE = gql`
 			memberData {
 				_id
 				memberType
+				memberEmail
 				memberStatus
 				memberAuthType
 				memberPhone
 				memberNick
-				memberFullName
+				memberFirstName
+				memberLastName
 				memberImage
 				memberAddress
 				memberDesc
-				memberWarnings
-				memberBlocks
 				memberProperties
-				memberRank
+				memberArticles
+				memberFollowers
+				memberFollowings
 				memberPoints
 				memberLikes
 				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
 				deletedAt
 				createdAt
 				updatedAt
+				accessToken
 			}
 			meLiked {
 				memberId
@@ -430,24 +433,31 @@ export const GET_BOARD_ARTICLES = gql`
 				memberData {
 					_id
 					memberType
+					memberEmail
 					memberStatus
 					memberAuthType
 					memberPhone
 					memberNick
-					memberFullName
+					memberFirstName
+					memberLastName
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
 					memberProperties
-					memberRank
+					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
+					accessToken
 				}
 			}
 			metaCounter {
@@ -476,21 +486,27 @@ export const GET_COMMENTS = gql`
 				memberData {
 					_id
 					memberType
+					memberEmail
 					memberStatus
 					memberAuthType
 					memberPhone
 					memberNick
-					memberFullName
+					memberFirstName
+					memberLastName
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
 					memberProperties
-					memberRank
+					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
@@ -529,28 +545,31 @@ export const GET_MEMBER_FOLLOWERS = gql`
 				followerData {
 					_id
 					memberType
+					memberEmail
 					memberStatus
 					memberAuthType
 					memberPhone
 					memberNick
-					memberFullName
+					memberFirstName
+					memberLastName
 					memberImage
 					memberAddress
 					memberDesc
 					memberProperties
 					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
 					memberComments
-					memberFollowings
-					memberFollowers
 					memberRank
 					memberWarnings
 					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
+					accessToken
 				}
 			}
 			metaCounter {
@@ -572,22 +591,24 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 				followingData {
 					_id
 					memberType
+					memberEmail
 					memberStatus
 					memberAuthType
 					memberPhone
 					memberNick
-					memberFullName
+					memberFirstName
+					memberLastName
 					memberImage
 					memberAddress
 					memberDesc
 					memberProperties
 					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
 					memberComments
-					memberFollowings
-					memberFollowers
 					memberRank
 					memberWarnings
 					memberBlocks
