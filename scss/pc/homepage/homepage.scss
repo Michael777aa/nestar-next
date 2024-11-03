@@ -149,7 +149,7 @@
 					.trend-card-box {
 						position: relative;
 						width: 300px;
-						text-align: center;
+
 						height: 375px;
 						display: flex;
 						flex-direction: column;
@@ -301,207 +301,210 @@
 			}
 		}
 		.popular-properties {
-			padding: 132px 0px 94px;
+			padding: 100px 0;
 			width: 100%;
-			height: 816px;
 			display: flex;
-			flex-direction: row;
-			background: #f6f6f6;
+			justify-content: center;
+			background: #eef1f6;
+
 			.container {
+				width: 90%;
+				max-width: 1260px;
+				display: flex;
 				flex-direction: column;
 				align-items: center;
+				gap: 50px;
+
 				.card-box {
-					margin-top: 34px;
-					width: 100%;
-					height: auto;
 					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
+					width: 100%;
+
 					.popular-property-swiper {
 						width: 100%;
-						height: 425px;
-						display: flex;
-						flex-direction: row;
+
 						.popular-property-slide {
-							width: auto;
-							height: auto;
 							display: flex;
-							margin: 10px 0 10px 10px;
+							margin: 15px;
+							width: 330px;
+							padding: 24px;
+							background: #ffffff;
+							border-radius: 16px;
+							box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+							transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+							&:hover {
+								box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+							}
 						}
 					}
+
 					.popular-card-box {
-						position: relative;
-						width: 400px;
-						height: 425px;
 						display: flex;
 						flex-direction: column;
-						transition: transform 0.3s, opacity 0.3s;
-						&:hover {
-							opacity: 1;
-							transform: scale(1.05);
-						}
+						border-radius: 16px;
+						overflow: hidden;
+						transition: all 0.3s ease;
+						width: 100%;
+
 						.card-img {
 							position: relative;
 							width: 100%;
-							height: 203px;
+							height: 240px;
 							background-size: cover;
-							border-radius: 12px 12px 0px 0px;
-							cursor: pointer;
-							div.status {
+							background-position: center;
+							border-radius: 16px 16px 0 0;
+
+							.status {
 								position: absolute;
-								padding: 6px 34px;
-								left: 20px;
-								top: 20px;
-								display: flex;
-								align-items: center;
+								top: 15px;
+								left: 15px;
+								background-color: #ff5a5f;
+								padding: 8px 18px;
 								border-radius: 6px;
-								background: #eb6753;
-								img {
-									width: 14px;
-									height: 14px;
-								}
-								span {
-									margin-left: 5px;
-									color: #fff;
-									font-family: $font;
-									font-size: 12px;
-									font-style: normal;
-									font-weight: 600;
-									line-height: normal;
-									text-transform: uppercase;
-								}
-							}
-							div.price {
-								position: absolute;
-								padding: 8px 12px;
-								left: 20px;
-								bottom: 20px;
-								border-radius: 6px;
-								background: #fff;
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
+								color: #ffffff;
+								font-size: 12px;
+								font-weight: 700;
+								text-transform: uppercase;
+								box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 							}
 						}
+
 						.info {
-							padding: 20px 22px 17px;
 							display: flex;
 							flex-direction: column;
-							box-sizing: border-box;
-							border-radius: 0px 0px 12px 12px;
-							border: 1px solid rgba(196, 196, 196, 0.71);
-							border-top: none;
-							background: #fff;
-							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
+							gap: 10px;
+							background: #ffffff;
+							border-radius: 0 0 16px 16px;
+
 							.title {
-								overflow: hidden;
-								color: #181a20;
-								text-overflow: ellipsis;
-								white-space: nowrap;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
+								font-size: 22px;
+								text-align: center;
 								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-								cursor: pointer;
-							}
-							.desc {
-								margin-top: 5px;
-								overflow: hidden;
-								color: #717171;
-								font-family: $font;
-								font-size: 13px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: normal;
-								text-overflow: ellipsis;
+								color: #2d3748;
 								white-space: nowrap;
-							}
-							.options {
-								margin-top: 15px;
-								display: flex;
-								flex-direction: row;
-								justify-content: space-between;
-								div {
-									display: flex;
-									flex-direction: row;
-									img {
-										margin-right: 5px;
-										width: 17px;
-										height: 17px;
-									}
-									span {
-										color: #181a20;
-										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-									}
+								overflow: hidden;
+								text-overflow: ellipsis;
+								cursor: pointer;
+								transition: color 0.2s;
+
+								&:hover {
+									color: #ff5a5f;
 								}
 							}
-							.bott {
+
+							.desc {
+							}
+							.address {
+								font-size: 15px;
+								color: #4a5568;
+								white-space: nowrap;
+								overflow: hidden;
+								text-overflow: ellipsis;
+							}
+							.div-rent-location {
+								color: #050607;
+								align-items: center;
+								font-size: 17px;
+								.location {
+									color: #050607;
+									font-size: 17px;
+									position: relative;
+									top: 15px;
+									font-weight: 500;
+									margin-bottom: 5px;
+								}
+								.type {
+									font-weight: 600;
+								}
+							}
+							.bottom-card {
 								display: flex;
 								flex-direction: row;
 								justify-content: space-between;
 								align-items: center;
-								p {
-									color: #181a20;
-									font-family: $font;
-									font-size: 13px;
-									font-style: normal;
-									font-weight: 500;
-									line-height: normal;
-									text-transform: capitalize;
+								position: relative;
+								top: 7px;
+								.viewsss {
+									display: flex;
+									justify-content: center;
+									align-items: center;
 								}
-								button {
-									margin-left: 7px;
-									width: 16px;
-									height: 16px;
-									box-sizing: border-box;
+								.price {
+									background: rgba(255, 255, 255, 0.95);
+									color: #2d3748;
+									font-size: 20px;
+									font-weight: 600;
+									border-radius: 6px;
 								}
+							}
+
+							.options {
+								display: flex;
+								flex-direction: row;
+								justify-content: space-between;
+								gap: 18px;
+								margin-top: 12px;
+
+								div {
+									display: flex;
+									align-items: center;
+									gap: 8px;
+
+									img {
+										width: 20px;
+										height: 20px;
+									}
+
+									span {
+										font-size: 14px;
+										color: #4a5568;
+									}
+								}
+							}
+
+							.bott {
+								margin-top: auto;
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+
 								.view-like-box {
 									display: flex;
-									flex-direction: row;
-									gap: 7px;
+									gap: 10px;
 									align-items: center;
-									.view-cnt {
-										color: #717171;
-										font-family: $font;
-										font-size: 13px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-										text-overflow: ellipsis;
+
+									.view-cnt,
+									.like-cnt {
+										font-size: 14px;
+										color: #718096;
 									}
 								}
 							}
 						}
 					}
 				}
+
 				.pagination-box {
 					display: flex;
-					flex-direction: row;
-					justify-content: center;
 					align-items: center;
-					.swiper-pagination-bullet.swiper-pagination-bullet-active {
-						background: #000000;
-					}
+					gap: 18px;
+					margin-top: 25px;
+
+					.swiper-popular-prev,
 					.swiper-popular-next {
-						margin-left: 20px;
+						font-size: 24px;
 						cursor: pointer;
-					}
-					.swiper-popular-prev {
-						margin-right: 20px;
-						cursor: pointer;
+						color: #a0aec0;
+						transition: color 0.2s;
+
+						&:hover {
+							color: #2d3748;
+						}
 					}
 				}
 			}
 		}
+
 		.video-frame {
 			width: 100%;
 			height: 678px;
