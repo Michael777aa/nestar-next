@@ -96,7 +96,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 							<p>Check out our Leading Sports Arenas</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
-							<div className={'pagination-box'}>
+							<div className={'pagination-box'} style={{ position: 'relative', top: 15, right: 18 }}>
 								<WestIcon className={'swiper-top-prev'} />
 								<div className={'swiper-top-pagination'}></div>
 								<EastIcon className={'swiper-top-next'} />
