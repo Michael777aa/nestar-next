@@ -6,8 +6,8 @@ import EastIcon from '@mui/icons-material/East';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
 import TopPropertyCard from './TopPropertyCard';
-import { PropertiesInquiry } from '../../types/property/property.input';
-import { Property } from '../../types/property/property';
+import { RentsInquiry } from '../../types/property/property.input';
+import { Rent } from '../../types/property/property';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { useMutation, useQuery } from '@apollo/client';
 import { LIKE_TARGET_RENT } from '../../../apollo/user/mutation';
@@ -16,13 +16,13 @@ import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
 interface TopPropertiesProps {
-	initialInput: PropertiesInquiry;
+	initialInput: RentsInquiry;
 }
 
 const TopProperties = (props: TopPropertiesProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
-	const [topProperties, setTopProperties] = useState<Property[]>([]);
+	const [topProperties, setTopProperties] = useState<Rent[]>([]);
 
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_RENT);
 
@@ -74,7 +74,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 							spaceBetween={15}
 							modules={[Autoplay]}
 						>
-							{topProperties.map((property: Property) => {
+							{topProperties.map((property: Rent) => {
 								return (
 									<SwiperSlide className={'top-property-slide'} key={property?._id}>
 										<TopPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
@@ -92,8 +92,8 @@ const TopProperties = (props: TopPropertiesProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Top properties</span>
-							<p>Check out our Top Properties</p>
+							<span>Top Sports Arenas</span>
+							<p>Check out our Leading Sports Arenas</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'pagination-box'}>
@@ -117,7 +117,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 								el: '.swiper-top-pagination',
 							}}
 						>
-							{topProperties.map((property: Property) => {
+							{topProperties.map((property: Rent) => {
 								return (
 									<SwiperSlide className={'top-property-slide'} key={property?._id}>
 										<TopPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
@@ -136,7 +136,7 @@ TopProperties.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 8,
-		sort: 'propertyRank',
+		sort: 'rentRank',
 		direction: 'DESC',
 		search: {},
 	},

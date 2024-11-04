@@ -80,7 +80,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
 								<Link href={'/property'}>
-									<span>See All Categories</span>
+									<span>Explore All Categories</span>
 								</Link>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
