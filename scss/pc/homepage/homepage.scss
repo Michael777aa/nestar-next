@@ -694,23 +694,23 @@
 		}
 		.top-agents {
 			position: relative;
-			padding: 153px 0px 135px;
+			padding: 123px 0px 135px;
 			width: 100%;
-			height: 722px;
+			height: 752px;
 			display: flex;
 			flex-direction: row;
-			background: #f6f6f6;
+			background: #bdb9b9;
 			.container {
 				position: relative;
 				flex-direction: column;
 				align-items: center;
 				.wrapper {
 					width: 100%;
-					margin-top: 83px;
+					margin-top: 123px;
 					display: flex;
 					flex-direction: row;
+					justify-content: center;
 					align-items: center;
-					justify-content: space-between;
 					.switch-btn {
 						width: 53px;
 						height: 53px;
@@ -730,13 +730,15 @@
 						}
 					}
 					.card-wrapper {
-						width: 1174px;
+						width: 1260px;
 						height: 280px;
 						display: flex;
 						flex-direction: row;
+						justify-content: center;
+						align-items: center;
 						.top-agents-swiper {
 							width: 99.7%;
-							height: 280px;
+							height: 430px;
 							display: flex;
 							flex-direction: row;
 							.top-agents-slide {
@@ -746,37 +748,114 @@
 							}
 						}
 						.top-agent-card {
-							width: 205px;
-							height: 280px;
+							width: 235px;
+							height: 430px;
+							background-color: #3c3c3c; // Darker background for a more premium look
+							box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 							display: flex;
 							flex-direction: column;
-							img {
-								width: 209px;
-								height: 209px;
+							align-items: center;
+							padding: 20px;
+
+							position: relative;
+
+							&::after {
+								position: absolute;
+								top: 31px;
+								left: 50px;
+								width: 163px;
+								height: 163px;
+								border: 6px solid rgba(212, 201, 129, 0.8);
 								border-radius: 50%;
-								cursor: pointer;
-								object-fit: cover;
+								content: '';
+								opacity: 0.8;
 							}
+
+							&::before {
+								position: absolute;
+								top: 285px;
+								left: 0;
+								width: 100%;
+								height: 40px;
+								background-color: #e8e8e8;
+								border-top: 4px solid rgba(212, 201, 129, 0.8);
+								border-bottom: 4px solid rgba(212, 201, 129, 0.8);
+								content: '';
+							}
+
+							img {
+								position: relative;
+								top: 25px;
+								width: 139px;
+								height: 139px;
+								border-radius: 50%;
+								outline: 8px solid #a8a8a2; // Subtle outline for a polished look
+								border: 4px solid #d1d1cb;
+								margin-bottom: 20px;
+							}
+
 							strong {
-								margin-top: 20px;
-								color: #181a20;
-								text-align: center;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
+								position: relative;
+								top: 45px;
+								color: #ffffff;
+								font-family: 'Arial, sans-serif';
+								font-size: 20px;
 								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-								cursor: pointer;
-							}
-							span {
-								color: #181a20;
 								text-align: center;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 400;
-								line-height: 28px;
+								margin-bottom: 10px;
+								cursor: pointer;
+								transition: color 0.3s ease;
+
+								&:hover {
+									color: #d4c981; // Matching hover color
+								}
+							}
+
+							.order-number {
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								position: absolute;
+								top: 278px;
+								color: #333333;
+								width: 50px;
+								height: 50px;
+								border: 5px solid #cdcdcd;
+								border-radius: 50%;
+								background-color: #f1f1f1;
+								font-family: 'Arial, sans-serif';
+								font-size: 22px;
+								font-weight: 700;
+								text-align: center;
+								cursor: pointer;
+								transition: background-color 0.3s ease;
+
+								&:hover {
+									background-color: #d4c981; // Subtle color change on hover
+								}
+							}
+
+							span {
+								position: relative;
+								top: 170px;
+								color: #d4c981; // Premium gold color
+								font-family: 'Arial, sans-serif';
+								font-size: 18px;
+								letter-spacing: 1.5px;
+								font-weight: 500;
+								text-transform: uppercase;
+								text-align: center;
+							}
+
+							h1 {
+								position: relative;
+								top: 120px;
+								color: #ffffff;
+								font-family: 'Arial, sans-serif';
+								font-weight: 700;
+								font-size: 30px;
+								letter-spacing: 1px;
+								text-align: center;
 							}
 						}
 					}

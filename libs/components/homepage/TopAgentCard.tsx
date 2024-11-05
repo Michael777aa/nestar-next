@@ -6,9 +6,10 @@ import { Member } from '../../types/member/member';
 
 interface TopAgentProps {
 	agent: Member;
+	orderNumber: number;
 }
 const TopAgentCard = (props: TopAgentProps) => {
-	const { agent } = props;
+	const { agent, orderNumber } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const agentImage = agent?.memberImage
@@ -30,9 +31,10 @@ const TopAgentCard = (props: TopAgentProps) => {
 		return (
 			<Stack className="top-agent-card">
 				<img src={agentImage} alt="" />
-
+				<div className="order-number">#{orderNumber}</div>
 				<strong>{agent?.memberNick}</strong>
-				<span>{agent?.memberType}</span>
+				<span>Premium</span>
+				<h1>{agent?.memberType}</h1>
 			</Stack>
 		);
 	}

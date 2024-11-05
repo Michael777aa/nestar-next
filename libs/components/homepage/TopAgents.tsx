@@ -14,10 +14,11 @@ import { T } from '../../types/common';
 
 interface TopAgentsProps {
 	initialInput: AgentsInquiry;
+	orderNumber: number;
 }
 
 const TopAgents = (props: TopAgentsProps) => {
-	const { initialInput } = props;
+	const { initialInput, orderNumber } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const [topAgents, setTopAgents] = useState<Member[]>([]);
@@ -57,7 +58,7 @@ const TopAgents = (props: TopAgentsProps) => {
 							{topAgents.map((agent: Member) => {
 								return (
 									<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
-										<TopAgentCard agent={agent} key={agent?.memberNick} />
+										<TopAgentCard orderNumber={orderNumber} agent={agent} key={agent?.memberNick} />
 									</SwiperSlide>
 								);
 							})}
@@ -72,12 +73,12 @@ const TopAgents = (props: TopAgentsProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>senior managers</span>
+							<span>Best managers</span>
 							<p>Our senior leadership is consistently at your service.</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
-								<span>See All Agents</span>
+								<span>View All Agents</span>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
 						</Box>
@@ -97,10 +98,11 @@ const TopAgents = (props: TopAgentsProps) => {
 									prevEl: '.swiper-agents-prev',
 								}}
 							>
-								{topAgents.map((agent: Member) => {
+								{topAgents.map((agent: Member, index: number) => {
 									return (
-										<SwiperSlide className={'top-agents-slide'} key={agent?._id}>
-											<TopAgentCard agent={agent} key={agent?.memberNick} />
+										<SwiperSlide className="top-agents-slide" key={agent?._id}>
+											{/* Pass the order number as a prop */}
+											<TopAgentCard agent={agent} orderNumber={index + 1} key={agent?.memberNick} />
 										</SwiperSlide>
 									);
 								})}
