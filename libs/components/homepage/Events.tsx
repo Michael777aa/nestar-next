@@ -77,7 +77,6 @@ const Events = () => {
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
 							<span className={'white'}>Events</span>
-							<p className={'white'}>Events waiting your attention!</p>
 						</Box>
 					</Stack>
 					<Stack className={'card-wrapper'}>

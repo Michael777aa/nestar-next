@@ -30,7 +30,6 @@ export interface Member {
 	deletedAt?: Date;
 	createdAt: Date;
 	updatedAt: Date;
-	// Enable for authentications
 	meLiked?: MeLiked[];
 	meFollowed?: MeFollowed[];
 	accessToken?: string;
