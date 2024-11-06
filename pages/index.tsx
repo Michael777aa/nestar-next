@@ -16,8 +16,13 @@ export const getStaticProps = async ({ locale }: any) => ({
 		...(await serverSideTranslations(locale, ['common'])),
 	},
 });
+interface TopAgentsProps {
+	orderNumber?: any; // Make orderNumber optional
+	// Other props go here
+}
 
-const Home: NextPage = () => {
+const Home: NextPage = (props: TopAgentsProps) => {
+	const { orderNumber } = props;
 	const device = useDeviceDetect();
 
 	if (device === 'mobile') {
@@ -27,7 +32,7 @@ const Home: NextPage = () => {
 				<PopularProperties />
 				<Advertisement />
 				<TopProperties />
-				<TopAgents />
+				<TopAgents orderNumber={orderNumber} />
 			</Stack>
 		);
 	} else {
@@ -37,7 +42,7 @@ const Home: NextPage = () => {
 				<PopularProperties />
 				<Advertisement />
 				<TopProperties />
-				<TopAgents />
+				<TopAgents orderNumber={orderNumber} />
 				<Events />
 				<CommunityBoards />
 			</Stack>

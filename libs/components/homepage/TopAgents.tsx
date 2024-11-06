@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, Link } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -78,7 +78,9 @@ const TopAgents = (props: TopAgentsProps) => {
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
-								<span>View All Agents</span>
+								<Link href={'/agent'}>
+									<span>View All Agents</span>
+								</Link>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
 						</Box>
