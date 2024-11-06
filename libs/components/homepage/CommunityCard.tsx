@@ -15,7 +15,7 @@ const CommunityCard = ({ vertical, article, index }: CommunityCardProps) => {
 	const device = useDeviceDetect();
 	const articleImage = article?.articleImage
 		? `${process.env.REACT_APP_API_URL}/${article.articleImage}`
-		: '/img/event.svg';
+		: '/img/events/SPORTS.webp';
 
 	if (!article) {
 		return null; // Render nothing if the article data is missing
@@ -32,18 +32,21 @@ const CommunityCard = ({ vertical, article, index }: CommunityCardProps) => {
 							<div className="community-img" style={{ backgroundImage: `url(${articleImage})` }}>
 								<div>{index + 1}</div>
 							</div>
-							<strong>{article.articleTitle}</strong>
-							<span>Free Board</span>
+							<strong>{article.articleCategory}</strong>
+
+							<span className="time">
+								<Moment format="DD.MM.YY">{article.createdAt}</Moment>
+							</span>
 						</>
 					) : (
 						<>
 							<img src={articleImage} alt={`${article.articleTitle} thumbnail`} />
-							<div>
-								<strong>{article.articleTitle}</strong>
-								<span>
-									<Moment format="DD.MM.YY">{article.createdAt}</Moment>
-								</span>
-							</div>
+							<div className="nummm">{index + 1}</div>
+							<strong>{article.articleCategory}</strong>
+
+							<span>
+								<Moment format="DD.MM.YY">{article.createdAt}</Moment>
+							</span>
 						</>
 					)}
 				</Box>
