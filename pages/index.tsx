@@ -10,6 +10,7 @@ import TopProperties from '../libs/components/homepage/TopProperties';
 import { Stack } from '@mui/material';
 import Advertisement from '../libs/components/homepage/Advertisement';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import AboutUs from '../libs/components/homepage/AboutUs';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -42,6 +43,8 @@ const Home: NextPage = (props: TopAgentsProps) => {
 				<PopularProperties />
 				<Advertisement />
 				<TopProperties />
+				<AboutUs />
+
 				<TopAgents orderNumber={orderNumber} />
 				<Events />
 				<CommunityBoards />

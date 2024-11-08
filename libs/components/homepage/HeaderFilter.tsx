@@ -148,6 +148,28 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 		},
 		[searchFilter],
 	);
+	const rentalPriceHandler = useCallback(
+		(value: number, type: string) => {
+			if (type === 'start') {
+				setSearchFilter((prevFilter: any) => ({
+					...prevFilter,
+					search: {
+						...prevFilter.search,
+						pricesRange: { ...prevFilter.search.pricesRange, start: value * 1 },
+					},
+				}));
+			} else {
+				setSearchFilter((prevFilter: any) => ({
+					...prevFilter,
+					search: {
+						...prevFilter.search,
+						pricesRange: { ...prevFilter.search.pricesRange, end: value * 1 },
+					},
+				}));
+			}
+		},
+		[setSearchFilter],
+	);
 
 	const rentBalconieselectHandler = useCallback(
 		async (value: any) => {
@@ -352,43 +374,31 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							<div className={'middle'}>
 								<div className={'row-box'} style={{ marginTop: '44px' }}>
 									<div className={'box'}>
-										<span>Year Built</span>
-										<div className={'inside space-between align-center'}>
-											<FormControl sx={{ width: '122px' }}>
-												<Select
-													value={yearCheck.start.toString()}
-													onChange={yearStartChangeHandler}
-													displayEmpty
-													inputProps={{ 'aria-label': 'Without label' }}
-													MenuProps={MenuProps}
-												>
-													{propertyYears?.slice(0)?.map((year: number) => (
-														<MenuItem value={year} disabled={yearCheck.end <= year} key={year}>
-															{year}
-														</MenuItem>
-													))}
-												</Select>
-											</FormControl>
-											<div className={'minus-line'}></div>
-											<FormControl sx={{ width: '122px' }}>
-												<Select
-													value={yearCheck.end.toString()}
-													onChange={yearEndChangeHandler}
-													displayEmpty
-													inputProps={{ 'aria-label': 'Without label' }}
-													MenuProps={MenuProps}
-												>
-													{propertyYears
-														?.slice(0)
-														.reverse()
-														.map((year: number) => (
-															<MenuItem value={year} disabled={yearCheck.start >= year} key={year}>
-																{year}
-															</MenuItem>
-														))}
-												</Select>
-											</FormControl>
-										</div>
+										<span>Price Range</span>
+
+										<Stack className="square-year-input">
+											<input
+												type="number"
+												placeholder="0"
+												min={0}
+												onChange={(e: any) => {
+													if (e.target.value >= 0) {
+														rentalPriceHandler(parseInt(e.target.value, 10), 'start');
+													}
+												}}
+											/>
+											<div className="central-divider"></div>
+											<input
+												type="number"
+												placeholder="$50000 max"
+												min={0}
+												onChange={(e: any) => {
+													if (e.target.value >= 0) {
+														rentalPriceHandler(parseInt(e.target.value, 10), 'end');
+													}
+												}}
+											/>
+										</Stack>
 									</div>
 									<div className={'box'}>
 										<span>square meter</span>
@@ -483,7 +493,7 @@ HeaderFilter.defaultProps = {
 			},
 			pricesRange: {
 				start: 0,
-				end: 2000000,
+				end: 500000,
 			},
 		},
 	},

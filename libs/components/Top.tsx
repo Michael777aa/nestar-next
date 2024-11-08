@@ -280,9 +280,6 @@ const Top = () => {
 									<Link href={'/contact'} className={'link'}>
 										<div> {t('Contact')} </div>
 									</Link>
-									<Link href={'/blog'} className={'link'}>
-										<div> {t('Blog')} </div>
-									</Link>
 									<Link href={'/cs'} className={'link'}>
 										<div> {t('Cs')} </div>
 									</Link>
