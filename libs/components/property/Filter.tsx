@@ -387,13 +387,13 @@ const Filter = (props: FilterType) => {
 		return (
 			<Stack className={'filter-main'}>
 				<Stack className={'find-your-home'} mb={'40px'}>
-					<Typography className={'title-main'}>Find Your Home</Typography>
+					<Typography className={'title-main'}>Find Your Sport</Typography>
 					<Stack className={'input-box'}>
 						<OutlinedInput
 							value={searchText}
 							type={'text'}
 							className={'search-input'}
-							placeholder={'What are you looking for?'}
+							placeholder={'Search'}
 							onChange={(e: any) => setSearchText(e.target.value)}
 							onKeyDown={(event: any) => {
 								if (event.key == 'Enter') {
@@ -430,8 +430,8 @@ const Filter = (props: FilterType) => {
 						Location
 					</p>
 					<Stack
-						className={`property-location`}
-						style={{ height: showMore ? '253px' : '115px' }}
+						className="property-location"
+						style={{ height: showMore ? '400px' : '240px' }}
 						onMouseEnter={() => setShowMore(true)}
 						onMouseLeave={() => {
 							if (!searchFilter?.search?.locationList) {
@@ -439,28 +439,26 @@ const Filter = (props: FilterType) => {
 							}
 						}}
 					>
-						{rentLocation.map((location: string) => {
-							return (
-								<Stack className={'input-box'} key={location}>
-									<Checkbox
-										id={location}
-										className="property-checkbox"
-										color="default"
-										size="small"
-										value={location}
-										checked={(searchFilter?.search?.locationList || []).includes(location as RentLocation)}
-										onChange={RentLocationSelectHandler}
-									/>
-									<label htmlFor={location} style={{ cursor: 'pointer' }}>
-										<Typography className="property-type">{location}</Typography>
-									</label>
-								</Stack>
-							);
-						})}
+						{rentLocation.map((location: string) => (
+							<Stack className="input-box" key={location}>
+								<Checkbox
+									id={location}
+									className="property-checkbox"
+									color="default"
+									size="small"
+									value={location}
+									checked={(searchFilter?.search?.locationList || []).includes(location as RentLocation)}
+									onChange={RentLocationSelectHandler}
+								/>
+								<label htmlFor={location} className="label">
+									<Typography className="property-type">{location}</Typography>
+								</label>
+							</Stack>
+						))}
 					</Stack>
 				</Stack>
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Property Type</Typography>
+					<Typography className={'title'}>Facility Type</Typography>
 					{rentType.map((type: string) => (
 						<Stack className={'input-box'} key={type}>
 							<Checkbox
