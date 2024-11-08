@@ -769,9 +769,9 @@ body::-webkit-scrollbar {
 		height: auto;
 		display: flex;
 		flex-direction: row;
-		background: #181a20;
+		background: #060f2b;
 
-		$bg-color: #747d88;
+		$bg-color: #060f2b;
 		$primary-color: #81c408;
 		$secondary-color: #ffb514;
 		$text-color: #ffffff80;
@@ -780,7 +780,6 @@ body::-webkit-scrollbar {
 
 		.main-upper-container {
 			position: relative;
-
 			background-color: $bg-color;
 
 			.left-side-up {

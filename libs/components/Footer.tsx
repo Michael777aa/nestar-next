@@ -17,7 +17,7 @@ const Footer = () => {
 	const Footers = styled.div`
 		width: 100%;
 		padding: 60px 0;
-		background-color: #747d88;
+		background-color: #060f2b;
 		color: #fff;
 	`;
 	const FooterInput = styled(TextField)(({ theme }) => ({
@@ -120,19 +120,19 @@ const Footer = () => {
 
 						{/* Right Side (Icons) */}
 						<Stack className="right-side-up" direction="row" justifyContent="center">
-							<a href="https://youtu.be/eDqm9H1-YiE?si=rtRoEuKm_ZqICOu2" className="icon">
+							<a href="" className="icon">
 								<TwitterIcon />
 							</a>
 
-							<a href="https://youtu.be/ASqHa-hgzVY?si=XYVMacja98nkqMrg" className="icon">
+							<a href="" className="icon">
 								<FacebookIcon />
 							</a>
 
-							<a href="https://youtu.be/Cmm-itIRPU8?si=by1EFWV2b04sbwyD" className="icon">
+							<a href="" className="icon">
 								<YouTubeIcon />
 							</a>
 
-							<a href="https://youtu.be/ANsQzuBNqE8?si=9ReSJ_iraNXY7wPg" className="icon">
+							<a href="" className="icon">
 								<LinkedInIcon />
 							</a>
 						</Stack>
@@ -178,7 +178,7 @@ const Footer = () => {
 						</Stack>
 
 						<Stack className="right-side1 color-hover same">
-							<Link href={'/mypage'} className="ssss">
+							<Link className="ssss">
 								<Typography variant="h1">Account</Typography>
 							</Link>
 
@@ -200,7 +200,7 @@ const Footer = () => {
 						</Stack>
 
 						<Stack className="right-side2 same">
-							<Link href={'/contact'} className="ssss">
+							<Link className="ssss">
 								<Typography variant="h1">Contact</Typography>
 							</Link>
 							<Typography
@@ -232,7 +232,7 @@ const Footer = () => {
 								className="emaillll22"
 								variant="h2"
 								component="a"
-								href="tel:+821075551575"
+								href="tel:+821028771575"
 								sx={{
 									textDecoration: 'none',
 									fontWeight: '600',
@@ -240,7 +240,7 @@ const Footer = () => {
 									color: '#ffffff80',
 								}}
 							>
-								Phone: +82 10 7555 1575
+								Phone: +82 10 2877 1575
 							</Typography>
 							<Typography variant="h2" className="emaillll22234" mt={2}>
 								Payment Accepted

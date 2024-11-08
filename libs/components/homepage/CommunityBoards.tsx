@@ -34,8 +34,8 @@ const CommunityBoards = () => {
 			const articles = data?.getBoardArticles?.list || [];
 
 			// Filter and limit to 6 for each category
-			setNewsArticles(articles.filter((article: T) => article.articleCategory === 'NEWS').slice(0, 6));
-			setFreeArticles(articles.filter((article: T) => article.articleCategory === 'FREE').slice(0, 6));
+			setNewsArticles(articles.filter((article: T) => article.articleCategory === 'NEWS').slice(0, 4));
+			setFreeArticles(articles.filter((article: T) => article.articleCategory === 'FREE').slice(0, 4));
 		},
 	});
 
