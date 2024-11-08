@@ -460,7 +460,23 @@ const Filter = (props: FilterType) => {
 				<Stack className={'find-your-home'} mb={'30px'}>
 					<Typography className={'title'}>Facility Type</Typography>
 					{rentType.map((type: string) => (
-						<Stack className={'input-box'} key={type}>
+						<Stack
+							className={'input-box'}
+							key={type}
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								backgroundColor: '#f7f7f7',
+								padding: '10px 15px',
+								borderRadius: '8px',
+								boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+								transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
+								'&:hover': {
+									backgroundColor: '#ececec',
+									boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)',
+								},
+							}}
+						>
 							<Checkbox
 								id={type}
 								className="property-checkbox"
@@ -469,70 +485,93 @@ const Filter = (props: FilterType) => {
 								value={type}
 								onChange={rentTypeSelectHandler}
 								checked={(searchFilter?.search?.typeList || []).includes(type as RentType)}
+								sx={{
+									marginRight: '10px',
+									'&.Mui-checked': {
+										color: '#007bff',
+									},
+								}}
 							/>
-							<label style={{ cursor: 'pointer' }}>
-								<Typography className="property_type">{type}</Typography>
+							<label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+								<Typography
+									className="property_type"
+									sx={{
+										fontSize: '14px',
+										color: '#333',
+										transition: 'color 0.3s ease',
+										'&:hover': {
+											color: '#000',
+										},
+									}}
+								>
+									{type}
+								</Typography>
 							</label>
 						</Stack>
 					))}
 				</Stack>
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Rooms</Typography>
-					<Stack className="button-group">
+					<Typography className={'title'}>Balconies</Typography>
+					<Stack
+						className="button-group"
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							gap: '5px', // Adds some space between the buttons for better layout
+						}}
+					>
 						<Button
 							sx={{
+								flex: 1, // Ensures all buttons have equal width
 								borderRadius: '12px 0 0 12px',
 								border: !searchFilter?.search?.balconiesList ? '2px solid #181A20' : '1px solid #b9b9b9',
+								backgroundColor: !searchFilter?.search?.balconiesList ? '#f5f5f5' : 'white',
+								color: '#181A20',
+								fontWeight: 'bold',
+								'&:hover': {
+									backgroundColor: '#e0e0e0',
+									borderColor: '#181A20',
+								},
 							}}
 							onClick={() => rentBalconieselectHandler(0)}
 						>
 							Any
 						</Button>
+						{[1, 2, 3, 4].map((num) => (
+							<Button
+								key={num}
+								sx={{
+									flex: 1,
+									borderRadius: 0,
+									border: searchFilter?.search?.balconiesList?.includes(num)
+										? '2px solid #181A20'
+										: '1px solid #b9b9b9',
+									borderLeft: searchFilter?.search?.balconiesList?.includes(num) ? undefined : 'none',
+									backgroundColor: searchFilter?.search?.balconiesList?.includes(num) ? '#f5f5f5' : 'white',
+									color: '#181A20',
+									fontWeight: 'bold',
+									'&:hover': {
+										backgroundColor: '#e0e0e0',
+										borderColor: '#181A20',
+									},
+								}}
+								onClick={() => rentBalconieselectHandler(num)}
+							>
+								{num}
+							</Button>
+						))}
 						<Button
 							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.balconiesList?.includes(1) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.balconiesList?.includes(1) ? undefined : 'none',
-							}}
-							onClick={() => rentBalconieselectHandler(1)}
-						>
-							1
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.balconiesList?.includes(2) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.balconiesList?.includes(2) ? undefined : 'none',
-							}}
-							onClick={() => rentBalconieselectHandler(2)}
-						>
-							2
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.balconiesList?.includes(3) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.balconiesList?.includes(3) ? undefined : 'none',
-							}}
-							onClick={() => rentBalconieselectHandler(3)}
-						>
-							3
-						</Button>
-						<Button
-							sx={{
-								borderRadius: 0,
-								border: searchFilter?.search?.balconiesList?.includes(4) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.balconiesList?.includes(4) ? undefined : 'none',
-								borderRight: searchFilter?.search?.balconiesList?.includes(4) ? undefined : 'none',
-							}}
-							onClick={() => rentBalconieselectHandler(4)}
-						>
-							4
-						</Button>
-						<Button
-							sx={{
+								flex: 1,
 								borderRadius: '0 12px 12px 0',
 								border: searchFilter?.search?.balconiesList?.includes(5) ? '2px solid #181A20' : '1px solid #b9b9b9',
+								backgroundColor: searchFilter?.search?.balconiesList?.includes(5) ? '#f5f5f5' : 'white',
+								color: '#181A20',
+								fontWeight: 'bold',
+								'&:hover': {
+									backgroundColor: '#e0e0e0',
+									borderColor: '#181A20',
+								},
 							}}
 							onClick={() => rentBalconieselectHandler(5)}
 						>
@@ -542,10 +581,57 @@ const Filter = (props: FilterType) => {
 				</Stack>
 
 				<Stack className={'find-your-home'} mb={'30px'}>
-					<Typography className={'title'}>Square meter</Typography>
-					<Stack className="square-year-input">
-						<FormControl>
-							<InputLabel id="demo-simple-select-label">Min</InputLabel>
+					<Typography className={'title'}>Area unit</Typography>
+					<Stack
+						className="square-year-input"
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							alignItems: 'center',
+							gap: '15px', // Adds space between elements for better readability
+							backgroundColor: '#f9f9f9', // Light background for contrast
+							padding: '10px',
+							borderRadius: '8px',
+							boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
+						}}
+					>
+						<FormControl
+							sx={{
+								minWidth: '110px',
+								backgroundColor: '#fff',
+								borderRadius: '8px',
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderColor: '#ccc', // Default border color
+									},
+									'&:hover fieldset': {
+										borderColor: '#888', // Hover border color
+									},
+									'&.Mui-focused fieldset': {
+										borderColor: '#007bff', // Focus border color
+										boxShadow: '0 0 5px rgba(0, 123, 255, 0.3)', // Focus shadow
+									},
+								},
+								'& .MuiSelect-icon': {
+									color: '#888', // Icon color
+									transition: 'color 0.3s ease',
+								},
+								'&:hover .MuiSelect-icon': {
+									color: '#555',
+								},
+							}}
+						>
+							<InputLabel
+								id="demo-simple-select-label"
+								sx={{
+									color: '#717171',
+									'&.Mui-focused': {
+										color: '#007bff', // Label focus color
+									},
+								}}
+							>
+								Min
+							</InputLabel>
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
@@ -553,21 +639,82 @@ const Filter = (props: FilterType) => {
 								label="Min"
 								onChange={(e: any) => rentSquareHandler(e, 'start')}
 								MenuProps={MenuProps}
+								sx={{
+									padding: '10px',
+									color: '#333',
+									'&:focus': {
+										backgroundColor: '#f9f9f9',
+									},
+								}}
 							>
 								{rentSquare.map((square: number) => (
 									<MenuItem
 										value={square}
 										disabled={(searchFilter?.search?.squaresRange?.end || 0) < square}
 										key={square}
+										sx={{
+											'&.Mui-disabled': {
+												color: '#bbb',
+											},
+											'&:hover': {
+												backgroundColor: '#e0e0e0',
+											},
+										}}
 									>
 										{square}
 									</MenuItem>
 								))}
 							</Select>
 						</FormControl>
-						<div className="central-divider"></div>
-						<FormControl>
-							<InputLabel id="demo-simple-select-label">Max</InputLabel>
+
+						<div
+							className="central-divider"
+							style={{
+								width: '5px',
+								height: '10px',
+								transform: 'rotate(90deg)',
+								backgroundColor: '#ccc',
+								margin: '0 10px',
+							}}
+						></div>
+
+						<FormControl
+							sx={{
+								minWidth: '120px',
+								backgroundColor: '#fff',
+								borderRadius: '8px',
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderColor: '#ccc',
+									},
+									'&:hover fieldset': {
+										borderColor: '#888',
+									},
+									'&.Mui-focused fieldset': {
+										borderColor: '#007bff',
+										boxShadow: '0 0 5px rgba(0, 123, 255, 0.3)',
+									},
+								},
+								'& .MuiSelect-icon': {
+									color: '#888',
+									transition: 'color 0.3s ease',
+								},
+								'&:hover .MuiSelect-icon': {
+									color: '#555',
+								},
+							}}
+						>
+							<InputLabel
+								id="demo-simple-select-label"
+								sx={{
+									color: '#717171',
+									'&.Mui-focused': {
+										color: '#007bff',
+									},
+								}}
+							>
+								Max
+							</InputLabel>
 							<Select
 								labelId="demo-simple-select-label"
 								id="demo-simple-select"
@@ -575,12 +722,27 @@ const Filter = (props: FilterType) => {
 								label="Max"
 								onChange={(e: any) => rentSquareHandler(e, 'end')}
 								MenuProps={MenuProps}
+								sx={{
+									padding: '10px',
+									color: '#333',
+									'&:focus': {
+										backgroundColor: '#f9f9f9',
+									},
+								}}
 							>
 								{rentSquare.map((square: number) => (
 									<MenuItem
 										value={square}
 										disabled={(searchFilter?.search?.squaresRange?.start || 0) > square}
 										key={square}
+										sx={{
+											'&.Mui-disabled': {
+												color: '#bbb',
+											},
+											'&:hover': {
+												backgroundColor: '#e0e0e0',
+											},
+										}}
 									>
 										{square}
 									</MenuItem>
@@ -591,7 +753,19 @@ const Filter = (props: FilterType) => {
 				</Stack>
 				<Stack className={'find-your-home'}>
 					<Typography className={'title'}>Price Range</Typography>
-					<Stack className="square-year-input">
+					<Stack
+						className="square-year-input"
+						direction="row"
+						alignItems="center"
+						spacing={1}
+						sx={{
+							border: '1px solid #ccc',
+							borderRadius: '8px',
+							padding: '10px',
+							backgroundColor: '#f9f9f9',
+							boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+						}}
+					>
 						<input
 							type="number"
 							placeholder="$ min"
@@ -602,8 +776,26 @@ const Filter = (props: FilterType) => {
 									rentalPriceHandler(e.target.value, 'start');
 								}
 							}}
+							style={{
+								flex: 1,
+								height: '40px',
+								borderRadius: '5px',
+								border: '1px solid #ddd',
+								padding: '0 10px',
+								fontSize: '14px',
+								outline: 'none',
+								transition: 'border-color 0.3s ease',
+							}}
 						/>
-						<div className="central-divider"></div>
+						<div
+							className="central-divider"
+							style={{
+								width: '2px',
+								height: '10px',
+								backgroundColor: '#ccc',
+								transform: 'rotate(90deg)',
+							}}
+						></div>
 						<input
 							type="number"
 							placeholder="$ max"
@@ -612,6 +804,16 @@ const Filter = (props: FilterType) => {
 								if (e.target.value >= 0) {
 									rentalPriceHandler(e.target.value, 'end');
 								}
+							}}
+							style={{
+								flex: 1,
+								height: '40px',
+								borderRadius: '5px',
+								border: '1px solid #ddd',
+								padding: '0 10px',
+								fontSize: '14px',
+								outline: 'none',
+								transition: 'border-color 0.3s ease',
 							}}
 						/>
 					</Stack>
