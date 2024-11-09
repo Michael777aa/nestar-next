@@ -73,7 +73,7 @@ const TopAgents = (props: TopAgentsProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Best managers</span>
+							<span>Best Agents</span>
 							<p>Our senior leadership is consistently at your service.</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
@@ -86,7 +86,11 @@ const TopAgents = (props: TopAgentsProps) => {
 						</Box>
 					</Stack>
 					<Stack className={'wrapper'}>
-						<Box component={'div'} className={'switch-btn swiper-agents-prev'}>
+						<Box
+							component={'div'}
+							style={{ position: 'relative', right: 20 }}
+							className={'switch-btn swiper-agents-prev'}
+						>
 							<ArrowBackIosNewIcon />
 						</Box>
 						<Box component={'div'} className={'card-wrapper'}>
@@ -110,7 +114,11 @@ const TopAgents = (props: TopAgentsProps) => {
 								})}
 							</Swiper>
 						</Box>
-						<Box component={'div'} className={'switch-btn swiper-agents-next'}>
+						<Box
+							component={'div'}
+							className={'switch-btn swiper-agents-next lefsfdsd'}
+							style={{ position: 'relative', left: 20 }}
+						>
 							<ArrowBackIosNewIcon />
 						</Box>
 					</Stack>
