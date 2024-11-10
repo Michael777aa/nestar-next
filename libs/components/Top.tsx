@@ -94,20 +94,33 @@ const Top = () => {
 	};
 
 	const updateNotifsHandler = async (notificationId: string) => {
-		const updateData = { _id: notificationId, notificationStatus: NotificationStatus.READ };
-
 		try {
-			// Call mutation to update the notification status
-			const response = await updateNotification({
-				variables: {
-					input: updateData,
-				},
-			});
+			// Find the notification in the current state
+			const notification = notifications.find((n) => n._id === notificationId);
 
-			// Check if the mutation was successful and update local state
+			// Proceed only if the notification is not already read
+			if (notification && notification.notificationStatus === NotificationStatus.WAIT) {
+				const updateData = { _id: notificationId, notificationStatus: NotificationStatus.READ };
 
-			// Update the unread count after marking as read
-			setUnreadCount((prev) => Math.max(prev - 1, 0));
+				// Call mutation to update the notification status
+				const response = await updateNotification({
+					variables: {
+						input: updateData,
+					},
+				});
+
+				if (response.data) {
+					// Update the notification status locally
+					setNotifications((prevNotifications) =>
+						prevNotifications.map((n) =>
+							n._id === notificationId ? { ...n, notificationStatus: NotificationStatus.READ } : n,
+						),
+					);
+
+					// Decrease the unread count by 1
+					setUnreadCount((prev) => Math.max(prev - 1, 0));
+				}
+			}
 		} catch (error) {
 			console.error('Error updating notification:', error);
 		}
