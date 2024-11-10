@@ -473,36 +473,93 @@ const Top = () => {
 									<Badge badgeContent={unreadCount} color="secondary">
 										<NotificationsOutlinedIcon
 											onClick={() => toggleNotificationDrawer(true)}
-											style={{ cursor: 'pointer' }}
+											style={{ cursor: 'pointer', fontSize: '28px' }} // Increased icon size for better visibility
 										/>
 									</Badge>
 									<Drawer
 										anchor="right"
 										open={isNotificationOpen}
 										onClose={() => toggleNotificationDrawer(false)}
-										sx={{ '& .MuiDrawer-paper': { width: '450px', padding: '16px', backgroundColor: '#f9f9f9' } }}
+										sx={{
+											'& .MuiDrawer-paper': {
+												width: '450px',
+												padding: '20px',
+												backgroundColor: '#ffffff',
+												boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+												borderRadius: '8px',
+											},
+										}}
 									>
-										<Stack>
-											<Typography variant="h6" gutterBottom>
+										<Stack spacing={2}>
+											<Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', marginBottom: '16px' }}>
 												{t('Notifications')}
 											</Typography>
 											{notifications.length === 0 ? (
-												<Typography variant="body2" color="textSecondary">
+												<Typography
+													variant="body2"
+													color="textSecondary"
+													sx={{ textAlign: 'center', marginTop: '20px' }}
+												>
 													{t('No new notifications')}
 												</Typography>
 											) : (
 												notifications.map((notification) => (
-													<Box key={notification._id} sx={{ marginBottom: '8px' }}>
+													<Box
+														key={notification._id}
+														sx={{
+															position: 'relative',
+															padding: '16px',
+															border: '1px solid #ddd',
+															borderRadius: '8px',
+															marginBottom: '12px',
+															boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
+															transition: 'background-color 0.3s',
+															'&:hover': {
+																backgroundColor: '#f4f4f4',
+															},
+														}}
+													>
 														<MenuItem
 															onClick={() => updateNotifsHandler(notification._id)}
-															sx={{ padding: '12px', borderBottom: '1px solid #ddd' }}
+															sx={{ padding: '0', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
 														>
-															<Box>
-																<Typography variant="body1" fontWeight="bold">
+															{/* Add a green circle for new (unread) notifications */}
+															{notification.notificationStatus === NotificationStatus.WAIT && (
+																<Box
+																	sx={{
+																		width: '10px',
+																		height: '10px',
+																		backgroundColor: 'green',
+																		borderRadius: '50%',
+																		position: 'absolute',
+																		top: '-8px',
+																		left: '-8px',
+																	}}
+																/>
+															)}
+															<Box sx={{ width: '100%' }}>
+																<Typography variant="body1" sx={{ fontWeight: 'bold', marginBottom: '4px' }}>
 																	{notification.notificationTitle}
 																</Typography>
-																<Typography variant="body2" color="textSecondary">
+																<Typography
+																	sx={{
+																		fontSize: '14px',
+																		color: 'textSecondary',
+																		marginBottom: '8px',
+																		wordBreak: 'break-word',
+																		whiteSpace: 'normal',
+																	}}
+																	variant="body2"
+																>
 																	{notification.notificationDesc}
+																</Typography>
+																<Typography
+																	variant="caption"
+																	color="textSecondary"
+																	sx={{ display: 'block', fontStyle: 'italic' }}
+																>
+																	{/* Display the creation date of the notification */}
+																	{new Date(notification.createdAt).toLocaleString()}
 																</Typography>
 															</Box>
 														</MenuItem>
