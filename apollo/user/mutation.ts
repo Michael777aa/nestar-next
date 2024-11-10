@@ -382,3 +382,21 @@ export const NOTIFICATION = gql`
 		}
 	}
 `;
+export const UPDATE_NOTIFICATION = gql`
+	mutation UpdateNotification($input: UpdateNotification!) {
+		updateNotifications(input: $input) {
+			_id
+			notificationType
+			notificationStatus
+			notificationGroup
+			notificationTitle
+			notificationDesc
+			authorId
+			receiverId
+			propertyId
+			articleId
+			createdAt
+			updatedAt
+		}
+	}
+`;

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box, TextField, Drawer, IconButton, Typography } from '@mui/material';
+import { Stack, Box, TextField, Drawer, IconButton, Typography, Badge } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
@@ -13,7 +13,7 @@ import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
@@ -27,6 +27,9 @@ import defaultUserImage from '/public/img/profile/defaultUser.svg';
 import { GET_NOTIFICATIONS } from '../../apollo/user/query';
 import { NotificationInquiry } from '../types/notifications/notifications';
 import { Notification } from '../types/notifications/notifications';
+import { NotificationStatus, NotificationType } from '../enums/notification.enum';
+import { UPDATE_NOTIFICATION } from '../../apollo/user/mutation';
+import { NotificationUpdate } from '../types/notifications/notificationUpdate';
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -46,24 +49,25 @@ const Top = () => {
 	const logoutOpen = Boolean(logoutAnchor);
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+	const [seenNotifications, setSeenNotifications] = useState<string[]>([]);
+	const [unreadCount, setUnreadCount] = useState<number>(0);
+
 	const searchFilter: NotificationInquiry = {
 		page: 1,
-		limit: 10,
+		limit: 500,
 		search: {
 			receiverId: user?._id || '', // Ensure you have a valid user ID
 		},
 	};
+	const [updateNotification] = useMutation(UPDATE_NOTIFICATION);
 
-	const {
-		loading: getNotificationsLoading,
-		data: getNotificationsData,
-		error: getNotificationsError,
-		refetch: getNotificationsRefetch,
-	} = useQuery(GET_NOTIFICATIONS, {
+	const { refetch: getNotificationsRefetch } = useQuery(GET_NOTIFICATIONS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: searchFilter },
 		onCompleted: (data) => {
-			setNotifications(data?.getNotifications?.list || []);
+			const newNotifications = data?.getNotifications?.list || [];
+			setNotifications(newNotifications);
+			setUnreadCount(newNotifications.filter((n: any) => n.notificationStatus === NotificationStatus.WAIT).length);
 		},
 	});
 	useEffect(() => {
@@ -74,11 +78,39 @@ const Top = () => {
 		}
 	}, [user]);
 
+	useEffect(() => {
+		if (user?._id) {
+			getNotificationsRefetch();
+		} else {
+			setNotifications([]); // Clear notifications when logged out
+		}
+	}, [user]);
+
 	const toggleNotificationDrawer = (open: boolean) => {
 		if (open && user?._id) {
-			getNotificationsRefetch(); // Refetch notifications when opening the drawer
+			getNotificationsRefetch(); // Ensure notifications are refreshed when opening
 		}
 		setIsNotificationOpen(open);
+	};
+
+	const updateNotifsHandler = async (notificationId: string) => {
+		const updateData = { _id: notificationId, notificationStatus: NotificationStatus.READ };
+
+		try {
+			// Call mutation to update the notification status
+			const response = await updateNotification({
+				variables: {
+					input: updateData,
+				},
+			});
+
+			// Check if the mutation was successful and update local state
+
+			// Update the unread count after marking as read
+			setUnreadCount((prev) => Math.max(prev - 1, 0));
+		} catch (error) {
+			console.error('Error updating notification:', error);
+		}
 	};
 
 	const handleSearch = () => {
@@ -425,56 +457,41 @@ const Top = () => {
 									</Stack>
 								</Stack>
 								<Stack>
-									<NotificationsOutlinedIcon
-										style={{ position: 'absolute', right: 5, top: '16px' }}
-										onClick={() => toggleNotificationDrawer(true)}
-									/>
+									<Badge badgeContent={unreadCount} color="secondary">
+										<NotificationsOutlinedIcon
+											onClick={() => toggleNotificationDrawer(true)}
+											style={{ cursor: 'pointer' }}
+										/>
+									</Badge>
 									<Drawer
 										anchor="right"
 										open={isNotificationOpen}
 										onClose={() => toggleNotificationDrawer(false)}
-										sx={{
-											'& .MuiDrawer-paper': {
-												width: '450px', // Set the width of the drawer
-												padding: '16px', // Add padding
-												backgroundColor: '#f9f9f9', // Background color
-												boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)', // Add shadow
-												border: 'none', // Remove border
-											},
-										}}
+										sx={{ '& .MuiDrawer-paper': { width: '450px', padding: '16px', backgroundColor: '#f9f9f9' } }}
 									>
 										<Stack>
-											<h3 style={{ margin: '0 0 16px 0', fontWeight: 'bold', fontSize: '20px', color: '#333' }}>
+											<Typography variant="h6" gutterBottom>
 												{t('Notifications')}
-											</h3>
-											{notifications.length === 0 && isNotificationOpen ? (
-												<p style={{ color: '#888' }}>{t('No new notifications')}</p>
+											</Typography>
+											{notifications.length === 0 ? (
+												<Typography variant="body2" color="textSecondary">
+													{t('No new notifications')}
+												</Typography>
 											) : (
-												notifications.map((notification: Notification) => (
-													<Box
-														key={notification.receiverId}
-														sx={{
-															padding: '12px',
-															marginBottom: '8px',
-															border: '1px solid #ddd',
-															borderRadius: '4px',
-															backgroundColor: '#fff',
-															boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-														}}
-													>
-														<MenuItem sx={{ justifyContent: 'space-between', padding: '0' }}>
-															<Box sx={{ flexGrow: 1 }}>
-																<h4 style={{ margin: '0', fontSize: '16px', color: '#333' }}>
+												notifications.map((notification) => (
+													<Box key={notification._id} sx={{ marginBottom: '8px' }}>
+														<MenuItem
+															onClick={() => updateNotifsHandler(notification._id)}
+															sx={{ padding: '12px', borderBottom: '1px solid #ddd' }}
+														>
+															<Box>
+																<Typography variant="body1" fontWeight="bold">
 																	{notification.notificationTitle}
-																</h4>
-																<p style={{ margin: '4px 0', color: '#555' }}>{notification.notificationDesc}</p>
+																</Typography>
+																<Typography variant="body2" color="textSecondary">
+																	{notification.notificationDesc}
+																</Typography>
 															</Box>
-															<span style={{ fontSize: '12px', color: '#aaa' }}>
-																{new Date(notification.createdAt).toLocaleTimeString([], {
-																	hour: '2-digit',
-																	minute: '2-digit',
-																})}
-															</span>
 														</MenuItem>
 													</Box>
 												))

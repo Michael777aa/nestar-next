@@ -2,6 +2,8 @@ import { NotificationGroup, NotificationStatus, NotificationType } from '../../e
 import { Direction } from '../../enums/common.enum';
 
 export interface Notification {
+	_id: string;
+
 	notificationType: NotificationType;
 	notificationStatus?: NotificationStatus; // Optional
 	notificationGroup: NotificationGroup;
