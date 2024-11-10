@@ -110,7 +110,7 @@ const Top = () => {
 				});
 
 				if (response.data) {
-					// Update the notification status locally
+					// Update the notification status locally without removing it from the list
 					setNotifications((prevNotifications) =>
 						prevNotifications.map((n) =>
 							n._id === notificationId ? { ...n, notificationStatus: NotificationStatus.READ } : n,
@@ -125,6 +125,15 @@ const Top = () => {
 			console.error('Error updating notification:', error);
 		}
 	};
+
+	// In the `useEffect`, ensure notifications are refetched when the user logs in or the drawer is opened
+	useEffect(() => {
+		if (user?._id) {
+			getNotificationsRefetch(); // Fetch all notifications for the user
+		} else {
+			setNotifications([]); // Clear notifications when logged out
+		}
+	}, [user, isNotificationOpen]);
 
 	const handleSearch = () => {
 		if (searchQuery) {
