@@ -84,17 +84,23 @@ const Chat = () => {
 					});
 					break;
 				case 'updateMessage':
-					// Ensure `data.data` exists before updating
 					if (data.data && data.data.id) {
-						setMessagesList((prevMessages) =>
-							prevMessages.map((msg) => (msg.id === data.data.id ? { ...msg, text: data.data.newText } : msg)),
-						);
+						setMessagesList((prevMessages) => {
+							const updatedMessages = prevMessages.map((msg) =>
+								msg.id === data.data.id ? { ...msg, text: data.data.newText } : msg,
+							);
+							localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
+							return updatedMessages;
+						});
 					}
 					break;
 				case 'removeMessage':
-					// Ensure `data.data` exists before removing
 					if (data.data && data.data.id) {
-						setMessagesList((prevMessages) => prevMessages.filter((msg) => msg.id !== data.data.id));
+						setMessagesList((prevMessages) => {
+							const updatedMessages = prevMessages.filter((msg) => msg.id !== data.data.id);
+							localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
+							return updatedMessages;
+						});
 					}
 					break;
 				default:
@@ -148,9 +154,16 @@ const Chat = () => {
 		if (newText && newText !== currentText) {
 			const messagePayload = {
 				event: 'updateMessage',
-				data: { id, newText }, // Wrap id and newText in data object
+				data: { id, newText }, // Wrap id and newText in a data object
 			};
 			socket.send(JSON.stringify(messagePayload));
+
+			// Optimistically update the UI by updating the message in messagesList directly
+			setMessagesList((prevMessages) => {
+				const updatedMessages = prevMessages.map((msg) => (msg.id === id ? { ...msg, text: newText } : msg));
+				localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
+				return updatedMessages;
+			});
 		}
 	};
 
