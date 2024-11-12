@@ -42,6 +42,7 @@ const Chat = () => {
 	const user = useReactiveVar(userVar);
 	const socket = useReactiveVar(socketVar);
 	const chatContainerRef = useRef<HTMLDivElement>(null); // Reference for the chat container
+	const [userIsAtBottom, setUserIsAtBottom] = useState(true); // New state
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -117,7 +118,7 @@ const Chat = () => {
 					break;
 			}
 		};
-	}, [socket]);
+	}, [socket, messagesList]);
 
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
@@ -138,13 +139,6 @@ const Chat = () => {
 	}, [open, messagesList]);
 
 	// Detect scroll position to show/hide scroll-to-bottom button
-	const handleScroll = () => {
-		if (chatContentRef.current) {
-			const isScrolledToBottom =
-				chatContentRef.current.scrollHeight - chatContentRef.current.scrollTop === chatContentRef.current.clientHeight;
-			setShowScrollButton(!isScrolledToBottom);
-		}
-	};
 
 	// Disable page scroll when chat is open
 	useEffect(() => {
@@ -159,6 +153,22 @@ const Chat = () => {
 	const handleOpenChat = () => {
 		setOpen((prevState) => !prevState);
 	};
+
+	// Load messages from local storage or request from server if empty
+	useEffect(() => {
+		if (open) {
+			const storedMessages = localStorage.getItem('chatMessages');
+
+			if (storedMessages) {
+				// Load messages from local storage if available
+				setMessagesList(JSON.parse(storedMessages));
+			} else {
+				// Fetch messages from server if not in local storage
+				socket.send(JSON.stringify({ event: 'getMessages' }));
+			}
+		}
+	}, [open]);
+
 	const handleEditMessage = (id: string, currentText: string) => {
 		const newText = prompt('Edit your message:', currentText);
 		if (newText && newText !== currentText) {
@@ -221,8 +231,26 @@ const Chat = () => {
 	// Scroll to bottom
 	const scrollToBottom = () => {
 		if (chatContentRef.current) {
-			chatContentRef.current.scrollTop = chatContentRef.current.scrollHeight;
+			chatContentRef.current.scrollTo({
+				top: chatContentRef.current.scrollHeight,
+				behavior: 'smooth', // Smooth scrolling effect
+			});
 			setShowScrollButton(false);
+		}
+	};
+	useEffect(() => {
+		if (userIsAtBottom) {
+			scrollToBottom(); // Scroll only if the user is already at the bottom
+		}
+	}, [messagesList]);
+
+	const handleScroll = () => {
+		if (chatContentRef.current) {
+			const { scrollTop, scrollHeight, clientHeight } = chatContentRef.current;
+			const isNearBottom = scrollHeight - scrollTop <= clientHeight + 50; // 50px threshold
+
+			setUserIsAtBottom(isNearBottom); // Update the userIsAtBottom state
+			setShowScrollButton(!isNearBottom); // Show "scroll to bottom" button if not at bottom
 		}
 	};
 
@@ -373,58 +401,54 @@ const Chat = () => {
 											</Typography>
 										</Box>
 										<div>{renderMessageText(text)}</div>
-										<span style={{ fontSize: '12px', marginTop: '4px', color: 'rgba(0, 0, 0, 0.5)' }}>
-											{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-											{ele.isEdited && <span style={{ marginLeft: '5px', fontStyle: 'italic' }}>(edited)</span>}
-										</span>
-										{/* Edit and Delete Buttons */}
-										{/* Edit and Delete Buttons */}
-										{/* Edit and Delete Buttons */}
-
-										{memberData?._id === user?._id && (
-											<Box
-												mt={1}
-												display="flex"
-												gap={1}
-												sx={{
-													position: 'relative',
-													top: '5px',
-													right: '10px',
+										{/* Time, edited label, and edit/remove buttons in a single row */}
+										<Box display="flex" alignItems="center" justifyContent="space-between" width="100%" mt={1}>
+											{/* Time and edited label */}
+											<span
+												style={{
+													fontSize: '12px',
+													color: 'rgba(0, 0, 0, 0.5)',
 												}}
 											>
-												{/* Edit Button */}
-												<IconButton
-													onClick={() => handleEditMessage(id, text)}
-													sx={{
-														width: '28px',
-														height: '28px',
-														backgroundColor: '#E0E0E0',
-														color: '#4CAF50',
-														borderRadius: '50%',
-														padding: '4px',
-														'&:hover': { backgroundColor: '#C8E6C9' },
-													}}
-												>
-													<EditIcon fontSize="small" />
-												</IconButton>
+												{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+												{ele.isEdited && <span style={{ marginLeft: '5px', fontStyle: 'italic' }}>(edited)</span>}
+											</span>
 
-												{/* Delete Button */}
-												<IconButton
-													onClick={() => handleRemoveMessage(id)}
-													sx={{
-														width: '28px',
-														height: '28px',
-														backgroundColor: '#E0E0E0',
-														color: '#F44336',
-														borderRadius: '50%',
-														padding: '4px',
-														'&:hover': { backgroundColor: '#FFCDD2' },
-													}}
-												>
-													<DeleteIcon fontSize="small" />
-												</IconButton>
-											</Box>
-										)}
+											{/* Edit and delete buttons for the user's own messages */}
+											{memberData?._id === user?._id && (
+												<Box display="flex" gap={1}>
+													<IconButton
+														onClick={() => handleEditMessage(id, text)}
+														sx={{
+															width: '28px',
+															height: '28px',
+															backgroundColor: '#E0E0E0',
+															color: '#4CAF50',
+															borderRadius: '50%',
+															padding: '4px',
+															'&:hover': { backgroundColor: '#C8E6C9' },
+														}}
+													>
+														<EditIcon fontSize="small" />
+													</IconButton>
+
+													<IconButton
+														onClick={() => handleRemoveMessage(id)}
+														sx={{
+															width: '28px',
+															height: '28px',
+															backgroundColor: '#E0E0E0',
+															color: '#F44336',
+															borderRadius: '50%',
+															padding: '4px',
+															'&:hover': { backgroundColor: '#FFCDD2' },
+														}}
+													>
+														<DeleteIcon fontSize="small" />
+													</IconButton>
+												</Box>
+											)}
+										</Box>
 									</Box>
 								);
 							})}
@@ -435,7 +459,10 @@ const Chat = () => {
 				{/* Scroll-to-bottom button */}
 				{showScrollButton && (
 					<IconButton
-						onClick={scrollToBottom}
+						onClick={() => {
+							scrollToBottom();
+							setUserIsAtBottom(true); // Reset the flag to true after scrolling
+						}}
 						style={{
 							position: 'fixed',
 							bottom: '85px',
