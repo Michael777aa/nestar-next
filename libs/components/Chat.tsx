@@ -105,7 +105,7 @@ const Chat = () => {
 					break;
 
 				case 'removeMessage':
-					// Remove the message if it exists in the list
+					// Ensure the message is only removed if it still exists in the list
 					if (data.data && data.data.id) {
 						setMessagesList((prevMessages) => prevMessages.filter((msg) => msg.id !== data.data.id));
 					}
@@ -174,6 +174,10 @@ const Chat = () => {
 	const handleRemoveMessage = (id: string) => {
 		const confirmDelete = confirm('Are you sure you want to delete this message?');
 		if (confirmDelete) {
+			// Optimistically update the state to remove the message immediately
+			setMessagesList((prevMessages) => prevMessages.filter((msg) => msg.id !== id));
+
+			// Send the delete request to the server
 			const messagePayload = {
 				event: 'removeMessage',
 				data: { id }, // Wrap id in data object
@@ -181,6 +185,7 @@ const Chat = () => {
 			socket.send(JSON.stringify(messagePayload));
 		}
 	};
+
 	const getInputMessageHandler = useCallback(
 		(e: any) => {
 			const text = e.target.value;
