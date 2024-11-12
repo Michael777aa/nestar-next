@@ -14,13 +14,13 @@ import { Messages, REACT_APP_API_URL } from '../config';
 import { sweetErrorAlert } from '../sweetAlert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
 interface MessagePayload {
 	id: string;
 	event: string;
 	text: string;
 	memberData: Member;
 	createdAt: string;
+	isEdited?: boolean; // New flag to track if the message is edited
 }
 
 interface InfoPayload {
@@ -168,8 +168,10 @@ const Chat = () => {
 			};
 			socket.send(JSON.stringify(messagePayload));
 
-			// Optimistically update the message in place
-			setMessagesList((prevMessages) => prevMessages.map((msg) => (msg.id === id ? { ...msg, text: newText } : msg)));
+			// Optimistically update the message in place with "isEdited" flag set to true
+			setMessagesList((prevMessages) =>
+				prevMessages.map((msg) => (msg.id === id ? { ...msg, text: newText, isEdited: true } : msg)),
+			);
 		}
 	};
 
@@ -373,6 +375,7 @@ const Chat = () => {
 										<div>{renderMessageText(text)}</div>
 										<span style={{ fontSize: '12px', marginTop: '4px', color: 'rgba(0, 0, 0, 0.5)' }}>
 											{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+											{ele.isEdited && <span style={{ marginLeft: '5px', fontStyle: 'italic' }}>(edited)</span>}
 										</span>
 										{/* Edit and Delete Buttons */}
 										{/* Edit and Delete Buttons */}
