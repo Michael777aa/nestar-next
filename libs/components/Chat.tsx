@@ -62,11 +62,7 @@ const Chat = () => {
 		}
 	}, []);
 
-	// Load messages from local storage on component mount
 	useEffect(() => {
-		const storedMessages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
-		setMessagesList(storedMessages);
-
 		socket.onmessage = (msg) => {
 			const data = JSON.parse(msg.data);
 			switch (data.event) {
@@ -86,6 +82,22 @@ const Chat = () => {
 						localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
 						return updatedMessages;
 					});
+					break;
+				case 'updateMessage':
+					// Ensure `data.data` exists before updating
+					if (data.data && data.data.id) {
+						setMessagesList((prevMessages) =>
+							prevMessages.map((msg) => (msg.id === data.data.id ? { ...msg, text: data.data.newText } : msg)),
+						);
+					}
+					break;
+				case 'removeMessage':
+					// Ensure `data.data` exists before removing
+					if (data.data && data.data.id) {
+						setMessagesList((prevMessages) => prevMessages.filter((msg) => msg.id !== data.data.id));
+					}
+					break;
+				default:
 					break;
 			}
 		};
@@ -131,7 +143,27 @@ const Chat = () => {
 	const handleOpenChat = () => {
 		setOpen((prevState) => !prevState);
 	};
+	const handleEditMessage = (id: string, currentText: string) => {
+		const newText = prompt('Edit your message:', currentText);
+		if (newText && newText !== currentText) {
+			const messagePayload = {
+				event: 'updateMessage',
+				data: { id, newText }, // Wrap id and newText in data object
+			};
+			socket.send(JSON.stringify(messagePayload));
+		}
+	};
 
+	const handleRemoveMessage = (id: string) => {
+		const confirmDelete = confirm('Are you sure you want to delete this message?');
+		if (confirmDelete) {
+			const messagePayload = {
+				event: 'removeMessage',
+				data: { id }, // Wrap id in data object
+			};
+			socket.send(JSON.stringify(messagePayload));
+		}
+	};
 	const getInputMessageHandler = useCallback(
 		(e: any) => {
 			const text = e.target.value;
@@ -290,8 +322,7 @@ const Chat = () => {
 									: '/img/profile/defaultUser.svg';
 								const memberName = memberData?.memberNick || 'Guest';
 
-								return memberData?._id === user?._id ? (
-									// Message on the right side for the authenticated user
+								return (
 									<Box
 										key={id}
 										display="flex"
@@ -301,15 +332,12 @@ const Chat = () => {
 											maxWidth: 'auto',
 											marginRight: 'auto',
 											padding: '10px 15px',
-											backgroundColor: '#DCF8C6',
+											backgroundColor: memberData?._id === user?._id ? '#DCF8C6' : '#ffffff',
 											color: '#303030',
 											borderRadius: '10px',
-											borderBottomLeftRadius: '0px',
 											boxShadow: '0 1px 2px rgba(0, 0, 0, 0.15)',
 											overflowWrap: 'break-word',
 											wordBreak: 'break-word',
-											overflow: 'hidden',
-											lineHeight: '1.6',
 										}}
 									>
 										<Box display="flex" alignItems="center" mb={1}>
@@ -319,54 +347,16 @@ const Chat = () => {
 											</Typography>
 										</Box>
 										<div>{renderMessageText(text)}</div>
-										<span
-											style={{
-												fontSize: '12px',
-												marginTop: '4px',
-												color: 'rgba(0, 0, 0, 0.5)',
-											}}
-										>
+										<span style={{ fontSize: '12px', marginTop: '4px', color: 'rgba(0, 0, 0, 0.5)' }}>
 											{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
 										</span>
-									</Box>
-								) : (
-									// Message on the left side for other users
-									<Box
-										key={id}
-										display="flex"
-										flexDirection="column"
-										alignItems="flex-start"
-										sx={{
-											maxWidth: 'auto',
-											marginRight: 'auto',
-											padding: '10px 15px',
-											backgroundColor: '#ffffff',
-											color: '#303030',
-											borderRadius: '10px',
-											borderBottomLeftRadius: '0px',
-											boxShadow: '0 1px 2px rgba(0, 0, 0, 0.15)',
-											overflowWrap: 'break-word',
-											wordBreak: 'break-word',
-											overflow: 'hidden',
-											lineHeight: '1.6',
-										}}
-									>
-										<Box display="flex" alignItems="center" mb={1}>
-											<Avatar alt={memberName} src={memberImage} sx={{ width: 30, height: 30, marginRight: '8px' }} />
-											<Typography variant="body2" color="textSecondary" sx={{ fontWeight: 'bold' }}>
-												{memberName}
-											</Typography>
-										</Box>
-										<div>{renderMessageText(text)}</div>
-										<span
-											style={{
-												fontSize: '12px',
-												marginTop: '4px',
-												color: 'rgba(0, 0, 0, 0.5)',
-											}}
-										>
-											{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-										</span>
+										{/* Edit and Delete Buttons */}
+										{memberData?._id === user?._id && (
+											<Box mt={1}>
+												<button onClick={() => handleEditMessage(id, text)}>Edit</button>
+												<button onClick={() => handleRemoveMessage(id)}>Delete</button>
+											</Box>
+										)}
 									</Box>
 								);
 							})}
