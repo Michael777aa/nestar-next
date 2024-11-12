@@ -24,12 +24,11 @@ export interface Rent {
 	rentViews?: number;
 	rentLikes?: number;
 	rentComments?: number;
-	rentRank?: number;
+	rentRank: number;
 	rentImages: string[];
 	amenities: string[];
 	includedUtilities: string[];
 	rentDesc?: string;
-
 	rentPetsAllowed?: boolean;
 	furnished?: boolean;
 	parkingAvailable?: boolean;

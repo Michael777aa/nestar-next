@@ -41,12 +41,12 @@ const PropertyCard = (props: PropertyCardType) => {
 					>
 						<img src={imagePath} alt="" />
 					</Link>
-					{/* {rent && rent?.rentRank > topPropertyRank && (
+					{rent && rent?.rentRank > topPropertyRank && (
 						<Box component={'div'} className={'top-badge'}>
 							<img src="/img/icons/electricity.svg" alt="" />
 							<Typography>TOP</Typography>
 						</Box>
-					)} */}
+					)}
 					<Box component={'div'} className={'price-box'}>
 						<Typography>${formatterStr(rent?.rentalPrice)}</Typography>
 					</Box>

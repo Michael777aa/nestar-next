@@ -6,16 +6,16 @@ import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Filter from '../../libs/components/property/Filter';
 import { useRouter } from 'next/router';
-import { RentsInquiry } from '../../libs/types/property/property.input';
-import { Rent } from '../../libs/types/property/property';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { LIKE_TARGET_RENT } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { Rent } from '../../libs/types/property/property';
+import { LIKE_TARGET_RENT } from '../../apollo/user/mutation';
+import { RentsInquiry } from '../../libs/types/property/property.input';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -173,11 +173,13 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								{properties?.length === 0 ? (
 									<div className={'no-data'}>
 										<img src="/img/icons/icoAlert.svg" alt="" />
-										<p>No Rents found!</p>
+										<p>No Properties found!</p>
 									</div>
 								) : (
-									properties.map((rent: Rent) => {
-										return <PropertyCard rent={rent} likePropertyHandler={likePropertyHandler} key={rent?._id} />;
+									properties.map((property: Rent) => {
+										return (
+											<PropertyCard rent={property} likePropertyHandler={likePropertyHandler} key={property?._id} />
+										);
 									})
 								)}
 							</Stack>
