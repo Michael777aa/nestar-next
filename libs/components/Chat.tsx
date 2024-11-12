@@ -12,6 +12,8 @@ import { socketVar, userVar } from '../../apollo/store';
 import { Member } from '../types/member/member';
 import { Messages, REACT_APP_API_URL } from '../config';
 import { sweetErrorAlert } from '../sweetAlert';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface MessagePayload {
 	id: string;
@@ -373,10 +375,51 @@ const Chat = () => {
 											{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
 										</span>
 										{/* Edit and Delete Buttons */}
+										{/* Edit and Delete Buttons */}
+										{/* Edit and Delete Buttons */}
+
 										{memberData?._id === user?._id && (
-											<Box mt={1}>
-												<button onClick={() => handleEditMessage(id, text)}>Edit</button>
-												<button onClick={() => handleRemoveMessage(id)}>Delete</button>
+											<Box
+												mt={1}
+												display="flex"
+												gap={1}
+												sx={{
+													position: 'relative',
+													top: '5px',
+													right: '10px',
+												}}
+											>
+												{/* Edit Button */}
+												<IconButton
+													onClick={() => handleEditMessage(id, text)}
+													sx={{
+														width: '28px',
+														height: '28px',
+														backgroundColor: '#E0E0E0',
+														color: '#4CAF50',
+														borderRadius: '50%',
+														padding: '4px',
+														'&:hover': { backgroundColor: '#C8E6C9' },
+													}}
+												>
+													<EditIcon fontSize="small" />
+												</IconButton>
+
+												{/* Delete Button */}
+												<IconButton
+													onClick={() => handleRemoveMessage(id)}
+													sx={{
+														width: '28px',
+														height: '28px',
+														backgroundColor: '#E0E0E0',
+														color: '#F44336',
+														borderRadius: '50%',
+														padding: '4px',
+														'&:hover': { backgroundColor: '#FFCDD2' },
+													}}
+												>
+													<DeleteIcon fontSize="small" />
+												</IconButton>
 											</Box>
 										)}
 									</Box>
