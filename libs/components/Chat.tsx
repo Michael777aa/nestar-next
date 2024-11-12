@@ -65,44 +65,52 @@ const Chat = () => {
 	useEffect(() => {
 		socket.onmessage = (msg) => {
 			const data = JSON.parse(msg.data);
+
 			switch (data.event) {
 				case 'info':
-					const newInfo: InfoPayload = data;
-					setOnlineUsers(newInfo.totalClients);
+					setOnlineUsers(data.totalClients);
 					break;
+
 				case 'getMessages':
-					const list: MessagePayload[] = data.list;
-					setMessagesList(list);
-					localStorage.setItem('chatMessages', JSON.stringify(list));
+					setMessagesList(data.list);
+					localStorage.setItem('chatMessages', JSON.stringify(data.list));
 					break;
+
 				case 'message':
-					const newMessage: MessagePayload = data;
+					// Only add new messages if they’re not duplicates
 					setMessagesList((prevMessages) => {
-						const updatedMessages = [...prevMessages, newMessage];
-						localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
-						return updatedMessages;
+						if (!prevMessages.some((msg) => msg.id === data.id)) {
+							const updatedMessages = [...prevMessages, data];
+							localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
+							return updatedMessages;
+						}
+						return prevMessages;
 					});
 					break;
+
 				case 'updateMessage':
+					// Update the message text in place without adding to the bottom
 					if (data.data && data.data.id) {
-						setMessagesList((prevMessages) => {
-							const updatedMessages = prevMessages.map((msg) =>
-								msg.id === data.data.id ? { ...msg, text: data.data.newText } : msg,
-							);
-							localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
-							return updatedMessages;
-						});
+						setMessagesList((prevMessages) =>
+							prevMessages.map((msg) => (msg.id === data.data.id ? { ...msg, text: data.data.newText } : msg)),
+						);
+						// Persist the updated messages list in local storage
+						localStorage.setItem(
+							'chatMessages',
+							JSON.stringify(
+								messagesList.map((msg) => (msg.id === data.data.id ? { ...msg, text: data.data.newText } : msg)),
+							),
+						);
 					}
 					break;
+
 				case 'removeMessage':
+					// Remove the message if it exists in the list
 					if (data.data && data.data.id) {
-						setMessagesList((prevMessages) => {
-							const updatedMessages = prevMessages.filter((msg) => msg.id !== data.data.id);
-							localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
-							return updatedMessages;
-						});
+						setMessagesList((prevMessages) => prevMessages.filter((msg) => msg.id !== data.data.id));
 					}
 					break;
+
 				default:
 					break;
 			}
@@ -154,16 +162,12 @@ const Chat = () => {
 		if (newText && newText !== currentText) {
 			const messagePayload = {
 				event: 'updateMessage',
-				data: { id, newText }, // Wrap id and newText in a data object
+				data: { id, newText },
 			};
 			socket.send(JSON.stringify(messagePayload));
 
-			// Optimistically update the UI by updating the message in messagesList directly
-			setMessagesList((prevMessages) => {
-				const updatedMessages = prevMessages.map((msg) => (msg.id === id ? { ...msg, text: newText } : msg));
-				localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
-				return updatedMessages;
-			});
+			// Optimistically update the message in place
+			setMessagesList((prevMessages) => prevMessages.map((msg) => (msg.id === id ? { ...msg, text: newText } : msg)));
 		}
 	};
 
