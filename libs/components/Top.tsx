@@ -27,9 +27,8 @@ import defaultUserImage from '/public/img/profile/defaultUser.svg';
 import { GET_NOTIFICATIONS } from '../../apollo/user/query';
 import { NotificationInquiry } from '../types/notifications/notifications';
 import { Notification } from '../types/notifications/notifications';
-import { NotificationStatus, NotificationType } from '../enums/notification.enum';
+import { NotificationStatus } from '../enums/notification.enum';
 import { UPDATE_NOTIFICATION } from '../../apollo/user/mutation';
-import { NotificationUpdate } from '../types/notifications/notificationUpdate';
 
 const Top = () => {
 	const device = useDeviceDetect();

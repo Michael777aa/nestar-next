@@ -416,12 +416,12 @@ const Chat = () => {
 
 											{/* Edit and delete buttons for the user's own messages */}
 											{memberData?._id === user?._id && (
-												<Box display="flex" gap={1}>
+												<Box display="flex" gap={1} style={{ position: 'relative', bottom: '65px', left: '5px' }}>
 													<IconButton
 														onClick={() => handleEditMessage(id, text)}
 														sx={{
-															width: '28px',
-															height: '28px',
+															width: '25px',
+															height: '25px',
 															backgroundColor: '#E0E0E0',
 															color: '#4CAF50',
 															borderRadius: '50%',
@@ -435,8 +435,8 @@ const Chat = () => {
 													<IconButton
 														onClick={() => handleRemoveMessage(id)}
 														sx={{
-															width: '28px',
-															height: '28px',
+															width: '25px',
+															height: '25px',
 															backgroundColor: '#E0E0E0',
 															color: '#F44336',
 															borderRadius: '50%',
