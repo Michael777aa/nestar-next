@@ -177,7 +177,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 								) : (
 									properties.map((property: Rent) => {
 										return (
-											<PropertyCard rent={property} likePropertyHandler={likePropertyHandler} key={property?._id} />
+											<PropertyCard property={property} likePropertyHandler={likePropertyHandler} key={property?._id} />
 										);
 									})
 								)}
