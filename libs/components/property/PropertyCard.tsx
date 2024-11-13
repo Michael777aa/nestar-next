@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Stack, Typography, Box, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -13,7 +13,7 @@ import { Rent } from '../../types/property/property';
 
 interface PropertyCardType {
 	rent: Rent;
-	likePropertyHandler?: any;
+	likePropertyHandler?: (user: any, propertyId: string) => Promise<void>;
 	myFavorites?: boolean;
 	recentlyVisited?: boolean;
 }
@@ -24,13 +24,26 @@ const PropertyCard = ({ rent, likePropertyHandler, myFavorites, recentlyVisited 
 	const imagePath = rent?.rentImages[0] ? `${REACT_APP_API_URL}/${rent?.rentImages[0]}` : '/img/banner/header1.svg';
 
 	const [likes, setLikes] = useState(rent?.rentLikes || 0);
-	const [liked, setLiked] = useState(!!rent?.meLiked?.[0]?.myFavorite);
+	const [liked, setLiked] = useState<boolean>(false);
+
+	// Load the liked state from localStorage or backend on component mount
+	useEffect(() => {
+		const likedState = localStorage.getItem(`property_${rent?._id}_liked`);
+		setLiked(likedState === 'true');
+	}, [rent?._id]);
 
 	const handleLike = useCallback(async () => {
 		if (!user?._id) return; // Ensure user is authenticated
-		setLiked(!liked);
-		setLikes(liked ? likes - 1 : likes + 1); // Instant update
-		if (likePropertyHandler) await likePropertyHandler(user, rent?._id); // Trigger actual like mutation
+
+		const newLikedState = !liked;
+		setLiked(newLikedState);
+		setLikes(newLikedState ? likes + 1 : likes - 1); // Instant update
+
+		// Store liked state in localStorage for persistence
+		localStorage.setItem(`property_${rent?._id}_liked`, newLikedState.toString());
+
+		// Trigger actual like mutation if provided
+		if (likePropertyHandler) await likePropertyHandler(user, rent?._id);
 	}, [liked, likes, user, rent?._id, likePropertyHandler]);
 
 	const cardHoverStyle = {
