@@ -29,9 +29,7 @@ const CommunityCard = ({ vertical, article, index }: CommunityCardProps) => {
 				<Box component="div" className={vertical ? 'vertical-card' : 'horizontal-card'}>
 					{vertical ? (
 						<>
-							<div className="community-img" style={{ backgroundImage: `url(${articleImage})` }}>
-								<div>{index + 1}</div>
-							</div>
+							<div className="community-img" style={{ backgroundImage: `url(${articleImage})` }}></div>
 							<strong>{article.articleContent}</strong>
 
 							<span className="time">
@@ -41,7 +39,7 @@ const CommunityCard = ({ vertical, article, index }: CommunityCardProps) => {
 					) : (
 						<>
 							<img src={articleImage} alt={`${article.articleTitle} thumbnail`} />
-							<div className="nummm">{index + 1}</div>
+
 							<strong>{article.articleContent}</strong>
 
 							<span>

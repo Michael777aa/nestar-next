@@ -401,7 +401,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 										</Stack>
 									</div>
 									<div className={'box'}>
-										<span>square meter</span>
+										<span>Area unit</span>
 										<div className={'inside space-between align-center'}>
 											<FormControl sx={{ width: '122px' }}>
 												<Select

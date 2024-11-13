@@ -34,7 +34,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [sortingOpen, setSortingOpen] = useState(false);
-	const [filterSortName, setFilterSortName] = useState('New');
+	const [selectedSortOption, setSelectedSortOption] = useState('Sort by latest');
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_RENT);
@@ -64,8 +64,6 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		setCurrentPage(searchFilter.page === undefined ? 1 : searchFilter.page);
 	}, [router]);
 
-	useEffect(() => {}, [searchFilter]);
-
 	/** HANDLERS **/
 	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
@@ -87,10 +85,8 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 			await likeTargetProperty({ variables: { input: id } });
 
 			await getPropertiesRefetch({ input: initialInput });
-
-			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('Erron on likePropertyHandler', err);
+			console.log('Error on likePropertyHandler', err);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -106,18 +102,24 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	const sortingHandler = (e: React.MouseEvent<HTMLLIElement>) => {
-		switch (e.currentTarget.id) {
-			case 'new':
+		const selectedOption = e.currentTarget.id;
+		setSelectedSortOption(selectedOption); // Update the selected option state
+		switch (selectedOption) {
+			case 'Sort by latest':
 				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: Direction.ASC });
-				setFilterSortName('New');
 				break;
-			case 'lowest':
+			case 'Sort by price:low to high':
 				setSearchFilter({ ...searchFilter, sort: 'rentalPrice', direction: Direction.ASC });
-				setFilterSortName('Lowest Price');
 				break;
-			case 'highest':
+			case 'Sort by price:high to low':
 				setSearchFilter({ ...searchFilter, sort: 'rentalPrice', direction: Direction.DESC });
-				setFilterSortName('Highest Price');
+				break;
+			case 'Sort by popularity':
+				setSearchFilter({ ...searchFilter, sort: 'rentViews', direction: Direction.ASC });
+				break;
+			case 'Sort by liked':
+				setSearchFilter({ ...searchFilter, sort: 'rentLikes', direction: Direction.ASC });
+				break;
 		}
 		setSortingOpen(false);
 		setAnchorEl(null);
@@ -133,33 +135,30 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 						<span>Sort by</span>
 						<div>
 							<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
-								{filterSortName}
+								{selectedSortOption}
 							</Button>
 							<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'new'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
-								>
-									New
-								</MenuItem>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'lowest'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
-								>
-									Lowest Price
-								</MenuItem>
-								<MenuItem
-									onClick={sortingHandler}
-									id={'highest'}
-									disableRipple
-									sx={{ boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px' }}
-								>
-									Highest Price
-								</MenuItem>
+								{[
+									'Sort by popularity',
+									'Sort by latest',
+									'Sort by price:low to high',
+									'Sort by price:high to low',
+									'Sort by liked',
+								].map((label) => (
+									<MenuItem
+										className="inside-item"
+										onClick={sortingHandler}
+										id={label}
+										disableRipple
+										key={label}
+										sx={{
+											color: selectedSortOption === label ? 'red' : 'inherit', // Set color to red if selected
+											fontWeight: selectedSortOption === label ? 'bold' : 'normal', // Make selected option bold
+										}}
+									>
+										{label}
+									</MenuItem>
+								))}
 							</Menu>
 						</div>
 					</Box>

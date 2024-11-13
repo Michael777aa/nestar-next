@@ -427,23 +427,61 @@
 						}
 					}
 					.pagination-config {
-						width: 442px;
-						height: 86px;
+						width: 100%; // Adjust to take full width for better alignment and responsiveness
+						max-width: 500px; // Ensure it doesn’t get too wide on larger screens
+						height: auto; // Allow for dynamic height based on content
+						margin: 0 auto; // Center align the pagination section
+						padding: 20px 0;
+						display: flex;
+						flex-direction: column;
 						align-items: center;
-						gap: 20px;
+						gap: 16px;
+
 						.pagination-box {
 							width: 100%;
+							display: flex;
+							justify-content: center;
 							align-items: center;
+							padding: 10px 0;
+							background: #f7f9fc; // Soft background for pagination box to make it stand out
+							border-radius: 8px;
+							box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); // Subtle shadow for a lifted effect
 						}
+
 						.total-result {
+							width: 100%;
+							text-align: center;
+
 							p {
-								color: #181a20;
-								text-align: center;
-								font-family: $font;
-								font-size: 24px;
-								font-style: normal;
-								font-weight: 275;
-								line-height: 26px;
+								color: #1f2937; // Darker color for better contrast
+								font-family: Arial, sans-serif; // Use a common web-safe font for readability
+								font-size: 18px; // Slightly smaller, cleaner size
+								font-weight: 600; // Use a standard font-weight for better readability (avoid custom weights like 275)
+								line-height: 1.4;
+								margin: 0;
+								padding: 5px 0;
+							}
+						}
+
+						// Styling for pagination controls (if applicable, such as <Pagination /> from MUI)
+						.MuiPagination-root {
+							button {
+								color: #6b7280; // Neutral color for pagination numbers
+								font-size: 14px;
+								transition: color 0.3s ease, background-color 0.3s ease;
+
+								&:hover {
+									color: #0f172a; // Darker color on hover
+									background-color: #e2e8f0; // Light background on hover
+									border-radius: 50%; // Rounded effect on hover
+								}
+
+								&.Mui-selected {
+									background-color: #0f172a; // Active color
+									color: #ffffff; // Contrast text color
+									font-weight: bold;
+									border-radius: 50%; // Rounded for selected state
+								}
 							}
 						}
 					}
