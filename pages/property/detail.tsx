@@ -75,7 +75,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			if (data?.getProperty) setProperty(data?.getProperty);
-			if (data?.getProperty) setSlideImage(data?.getProperty?.propertyImages[0]);
+			if (data?.getProperty) setSlideImage(data?.getProperty?.rentImages[0]);
 		},
 	});
 
@@ -150,9 +150,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			console.log('USER', id);
+			console.log('ID', id);
 
 			await likeTargetProperty({ variables: { input: id } });
-			await getPropertiesRefetch({ input: id });
+			await getPropertyRefetch({ input: propertyId });
 			await getPropertiesRefetch({
 				input: {
 					page: 1,
@@ -189,13 +191,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	};
 
-	if (getPropertyLoading) {
-		return (
-			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1080px' }}>
-				<CircularProgress size={'4rem'} />
-			</Stack>
-		);
-	}
 	if (device === 'mobile') {
 		return <div>PROPERTY DETAIL PAGE</div>;
 	} else {
@@ -248,7 +243,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className="button-box">
 											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-												<FavoriteIcon color="primary" fontSize={'medium'} />
+												<FavoriteIcon
+													color="primary"
+													fontSize={'medium'} // @ts-ignore
+													onClick={() => likePropertyHandler(user, property?._id)}
+												/>
 											) : (
 												<FavoriteBorderIcon
 													fontSize={'medium'}
@@ -591,7 +590,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										{destinationProperties.map((property: Rent) => {
 											return (
 												<SwiperSlide className={'similar-homes-slide'} key={property.rentTitle}>
-													<PropertyBigCard property={property} key={property?._id} />
 													<PropertyBigCard
 														property={property}
 														likePropertyHandler={likePropertyHandler}

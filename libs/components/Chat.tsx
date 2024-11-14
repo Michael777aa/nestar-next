@@ -14,6 +14,7 @@ import { Messages, REACT_APP_API_URL } from '../config';
 import { sweetErrorAlert } from '../sweetAlert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { updateUserInfo } from '../auth';
 interface MessagePayload {
 	id: string;
 	event: string;
@@ -138,9 +139,6 @@ const Chat = () => {
 		}
 	}, [open, messagesList]);
 
-	// Detect scroll position to show/hide scroll-to-bottom button
-
-	// Disable page scroll when chat is open
 	useEffect(() => {
 		if (open) {
 			document.body.style.overflow = 'hidden';
