@@ -262,24 +262,27 @@
 						flex-wrap: wrap;
 						gap: 23px;
 						.card-config {
-							width: 296px;
-							height: 413px;
+							display: flex;
+							flex-direction: row;
+							justify-content: space-between;
+							gap: 20px;
+							align-items: center;
+							width: 905px;
+							height: 232px;
 							margin-bottom: 7px;
 							border-radius: 12px;
 							background: #fff;
 							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
 							.top {
-								position: relative;
-								width: 100%;
-								height: 240px;
-								a {
-									height: 100%;
-								}
+								display: flex;
+
 								img {
-									width: 100%;
-									height: 100%;
+									position: relative;
+									left: 20px;
+									width: 200px;
+									height: 200px;
 									object-fit: cover;
-									border-radius: 12px 12px 0 0;
+									border-radius: 8px;
 								}
 								.top-badge {
 									position: absolute;
@@ -291,7 +294,6 @@
 									justify-content: center;
 									align-items: center;
 									border-radius: 6px;
-									padding: 6px 20px;
 									background: #eb6753;
 									color: #fff;
 									text-align: center;
@@ -309,7 +311,6 @@
 									position: absolute;
 									bottom: 20px;
 									left: 20px;
-									padding: 8px 15px;
 									align-items: center;
 									border-radius: 6px;
 									border: 1px solid rgba(255, 255, 255, 0.5);
@@ -326,8 +327,8 @@
 							}
 							.bottom {
 								width: 100%;
+								margin-left: 10px;
 								height: 173px;
-								padding: 20px 16px 10px 16px;
 								.name-address {
 									width: 100%;
 									height: 48px;
@@ -337,6 +338,11 @@
 										width: 100%;
 										height: 23px;
 										overflow: hidden;
+										.rent-title {
+											position: relative;
+											bottom: 10px;
+											font-size: 25px;
+										}
 										p {
 											color: #181a20;
 											font-family: $font;
@@ -360,35 +366,10 @@
 										}
 									}
 								}
-								.options {
-									flex-direction: row;
-									width: 100%;
-									height: 20px;
-									gap: 20px;
-									margin-bottom: 10px;
-									.option {
-										flex-direction: row;
-										gap: 5px;
-										align-items: center;
-										p {
-											color: #181a20;
-											font-family: $font;
-											font-size: 13px;
-											font-style: normal;
-											font-weight: 400;
-											line-height: normal;
-										}
-									}
-								}
-								.divider {
-									width: 100%;
-									height: 1px;
-									background: #ddd;
-									margin-bottom: 17px;
-								}
 								.type-buttons {
 									flex-direction: row;
 									width: 100%;
+
 									justify-content: space-between;
 									align-items: center;
 									.type {
@@ -410,6 +391,9 @@
 									}
 									.buttons {
 										flex-direction: row;
+										position: relative;
+										top: -155px;
+										right: 15px;
 										width: auto;
 										justify-content: center;
 										align-items: center;
@@ -422,6 +406,41 @@
 											font-size: 13px;
 										}
 									}
+								}
+								.options {
+									flex-direction: row;
+									width: 100%;
+									height: 20px;
+									gap: 20px;
+									margin-bottom: 10px;
+									.option {
+										flex-direction: row;
+										gap: 5px;
+										align-items: center;
+										p {
+											color: #181a20;
+											font-family: $font;
+											font-size: 13px;
+											font-style: normal;
+											font-weight: 400;
+											line-height: normal;
+										}
+									}
+								}
+								.furnishing {
+									font-size: 14px;
+								}
+								.parking-availability {
+									font-weight: 500;
+								}
+								.pets {
+									font-size: 22px;
+								}
+								.divider {
+									width: 100%;
+									height: 1px;
+									background: #ddd;
+									margin-bottom: 17px;
 								}
 							}
 						}
