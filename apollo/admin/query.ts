@@ -10,22 +10,27 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 			list {
 				_id
 				memberType
+				memberEmail
 				memberStatus
 				memberAuthType
 				memberPhone
 				memberNick
-				memberFullName
+				memberFirstName
+				memberLastName
 				memberImage
 				memberAddress
 				memberDesc
-				memberWarnings
-				memberBlocks
 				memberProperties
-				memberRank
 				memberArticles
+				memberFollowers
+				memberFollowings
 				memberPoints
 				memberLikes
 				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
 				deletedAt
 				createdAt
 				updatedAt
@@ -71,21 +76,27 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 				memberData {
 					_id
 					memberType
+					memberEmail
 					memberStatus
 					memberAuthType
 					memberPhone
 					memberNick
-					memberFullName
+					memberFirstName
+					memberLastName
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
 					memberProperties
-					memberRank
+					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
@@ -121,21 +132,27 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
 				memberData {
 					_id
 					memberType
+					memberEmail
 					memberStatus
 					memberAuthType
 					memberPhone
 					memberNick
-					memberFullName
+					memberFirstName
+					memberLastName
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
 					memberProperties
-					memberRank
+					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
@@ -168,21 +185,27 @@ export const GET_COMMENTS = gql`
 				memberData {
 					_id
 					memberType
+					memberEmail
 					memberStatus
 					memberAuthType
 					memberPhone
 					memberNick
-					memberFullName
+					memberFirstName
+					memberLastName
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
 					memberProperties
-					memberRank
+					memberArticles
+					memberFollowers
+					memberFollowings
 					memberPoints
 					memberLikes
 					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt

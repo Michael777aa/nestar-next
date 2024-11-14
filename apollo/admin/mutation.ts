@@ -9,20 +9,25 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 		updateMemberByAdmin(input: $input) {
 			_id
 			memberType
+			memberEmail
 			memberStatus
 			memberAuthType
 			memberPhone
 			memberNick
-			memberFullName
+			memberFirstName
+			memberLastName
 			memberImage
 			memberAddress
 			memberDesc
 			memberProperties
-			memberRank
 			memberArticles
+			memberFollowers
+			memberFollowings
 			memberPoints
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
 			memberWarnings
 			memberBlocks
 			deletedAt

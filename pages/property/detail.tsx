@@ -46,10 +46,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [rentId, setRentId] = useState<string | null>(null);
-	const [rent, setRent] = useState<Rent | null>(null);
+	const [propertyId, setPropertyId] = useState<string | null>(null);
+	const [property, setProperty] = useState<Rent | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
-	const [destinationRents, setDestinationRents] = useState<Rent[]>([]);
+	const [destinationProperties, setDestinationProperties] = useState<Rent[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [propertyComments, setPropertyComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -64,18 +64,18 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [createComment] = useMutation(CREATE_COMMENT);
 
 	const {
-		loading: getRentLoading,
-		data: getRentData,
-		error: getRentError,
-		refetch: getRentRefetch,
+		loading: getPropertyLoading,
+		data: getPropertyData,
+		error: getPropertyError,
+		refetch: getPropertyRefetch,
 	} = useQuery(GET_RENT, {
 		fetchPolicy: 'network-only',
-		variables: { input: rentId },
-		skip: !rentId,
+		variables: { input: propertyId },
+		skip: !propertyId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getProperty) setRentId(data?.getProperty);
-			if (data?.getProperty) setSlideImage(data?.getProperty?.rentImages[0]);
+			if (data?.getProperty) setProperty(data?.getProperty);
+			if (data?.getProperty) setSlideImage(data?.getProperty?.propertyImages[0]);
 		},
 	});
 
@@ -92,13 +92,13 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				limit: 4,
 				sort: 'createdAt',
 				direction: Direction.DESC,
-				search: { locationList: rent?.rentLocation ? [rent?.rentLocation] : [] },
+				search: { locationList: property?.rentLocation ? [property?.rentLocation] : [] },
 			},
 		},
-		skip: !rentId && !rent,
+		skip: !propertyId && !property,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getProperties?.list) setDestinationRents(data?.getProperties?.list);
+			if (data?.getProperties?.list) setDestinationProperties(data?.getProperties?.list);
 		},
 	});
 
@@ -121,7 +121,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.id) {
-			setRentId(router.query.id as string);
+			setPropertyId(router.query.id as string);
 			setCommentInquiry({
 				...commentInquiry,
 				search: {
@@ -159,7 +159,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 					limit: 4,
 					sort: 'createdAt',
 					direction: Direction.DESC,
-					search: { locationList: [rent?.rentLocation] },
+					search: { locationList: [property?.rentLocation] },
 				},
 			});
 
@@ -189,7 +189,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	};
 
-	if (getRentLoading) {
+	if (getPropertyLoading) {
 		return (
 			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1080px' }}>
 				<CircularProgress size={'4rem'} />
@@ -206,9 +206,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<Stack className={'property-info-config'}>
 							<Stack className={'info'}>
 								<Stack className={'left-box'}>
-									<Typography className={'title-main'}>{rent?.rentTitle}</Typography>
+									<Typography className={'title-main'}>{property?.rentTitle}</Typography>
 									<Stack className={'top-box'}>
-										<Typography className={'city'}>{rent?.rentLocation}</Typography>
+										<Typography className={'city'}>{property?.rentLocation}</Typography>
 										<Stack className={'divider'}></Stack>
 
 										<Stack className={'divider'}></Stack>
@@ -229,14 +229,14 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												</clipPath>
 											</defs>
 										</svg>
-										<Typography className={'date'}>{moment().diff(rent?.constructedAt, 'days')} days ago</Typography>
+										<Typography className={'date'}>{moment().diff(property?.createdAt, 'days')} days ago</Typography>
 									</Stack>
 									<Stack className={'bottom-box'}>
 										<Stack className="option">
-											<img src="/img/icons/room.svg" alt="" /> <Typography>{rent?.rentBalconies} room</Typography>
+											<img src="/img/icons/room.svg" alt="" /> <Typography>{property?.rentBalconies} balcon</Typography>
 										</Stack>
 										<Stack className="option">
-											<img src="/img/icons/expand.svg" alt="" /> <Typography>{rent?.rentSquare} m2</Typography>
+											<img src="/img/icons/expand.svg" alt="" /> <Typography>{property?.rentSquare} m2</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
@@ -244,10 +244,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Stack className="buttons">
 										<Stack className="button-box">
 											<RemoveRedEyeIcon fontSize="medium" />
-											<Typography>{rent?.rentViews}</Typography>
+											<Typography>{property?.rentViews}</Typography>
 										</Stack>
 										<Stack className="button-box">
-											{rent?.meLiked && rent?.meLiked[0]?.myFavorite ? (
+											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
 												<FavoriteIcon color="primary" fontSize={'medium'} />
 											) : (
 												<FavoriteBorderIcon
@@ -256,10 +256,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 													onClick={() => likePropertyHandler(user, property?._id)}
 												/>
 											)}
-											<Typography>{rent?.rentLikes}</Typography>
+											<Typography>{property?.rentLikes}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(rent?.rentalPrice)}</Typography>
+									<Typography>${formatterStr(property?.rentalPrice)}</Typography>
 								</Stack>
 							</Stack>
 							<Stack className={'images'}>
@@ -270,7 +270,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className={'sub-images'}>
-									{rent?.rentImages.map((subImg: string) => {
+									{property?.rentImages.map((subImg: string) => {
 										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
 										return (
 											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
@@ -299,8 +299,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<img src={'/img/icons/room.svg'} />
 										</Stack>
 										<Stack className={'option-includes'}>
-											<Typography className={'title'}>Balconies</Typography>
-											<Typography className={'option-data'}>{rent?.rentBalconies}</Typography>
+											<Typography className={'title'}>Balcon</Typography>
+											<Typography className={'option-data'}>{property?.rentBalconies}</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>
@@ -318,7 +318,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className={'option-includes'}>
 											<Typography className={'title'}>Year Build</Typography>
-											<Typography className={'option-data'}>{moment(rent?.constructedAt).format('YYYY')}</Typography>
+											<Typography className={'option-data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>
@@ -346,7 +346,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className={'option-includes'}>
 											<Typography className={'title'}>Size</Typography>
-											<Typography className={'option-data'}>{rent?.rentSquare} m2</Typography>
+											<Typography className={'option-data'}>{property?.rentSquare} m2</Typography>
 										</Stack>
 									</Stack>
 									<Stack className={'option'}>
@@ -361,40 +361,40 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className={'option-includes'}>
 											<Typography className={'title'}>Rent Type</Typography>
-											<Typography className={'option-data'}>{rent?.rentType}</Typography>
+											<Typography className={'option-data'}>{property?.rentType}</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
 								<Stack className={'prop-desc-config'}>
 									<Stack className={'top'}>
 										<Typography className={'title'}>Rent Description</Typography>
-										<Typography className={'desc'}>{rent?.rentDesc ?? 'No Description!'}</Typography>
+										<Typography className={'desc'}>{property?.rentDesc ?? 'No Description!'}</Typography>
 									</Stack>
 									<Stack className={'bottom'}>
-										<Typography className={'title'}>Property Details</Typography>
+										<Typography className={'title'}>Rent Details</Typography>
 										<Stack className={'info-box'}>
 											<Stack className={'left'}>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Price</Typography>
-													<Typography className={'data'}>${formatterStr(rent?.rentalPrice)}</Typography>
+													<Typography className={'data'}>${formatterStr(property?.rentalPrice)}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Rent Size</Typography>
-													<Typography className={'data'}>{rent?.rentSquare} m2</Typography>
+													<Typography className={'data'}>{property?.rentSquare} m2</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Balconies</Typography>
-													<Typography className={'data'}>{rent?.rentBalconies}</Typography>
+													<Typography className={'data'}>{property?.rentBalconies}</Typography>
 												</Box>
 											</Stack>
 											<Stack className={'right'}>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Year Built</Typography>
-													<Typography className={'data'}>{moment(rent?.constructedAt).format('YYYY')}</Typography>
+													<Typography className={'data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
 												</Box>
 												<Box component={'div'} className={'info'}>
 													<Typography className={'title'}>Rent Type</Typography>
-													<Typography className={'data'}>{rent?.rentType}</Typography>
+													<Typography className={'data'}>{property?.rentType}</Typography>
 												</Box>
 											</Stack>
 										</Stack>
@@ -496,14 +496,14 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<img
 											className={'member-image'}
 											src={
-												rent?.memberData?.memberImage
-													? `${REACT_APP_API_URL}/${rent?.memberData?.memberImage}`
+												property?.memberData?.memberImage
+													? `${REACT_APP_API_URL}/${property?.memberData?.memberImage}`
 													: '/img/profile/defaultUser.svg'
 											}
 										/>
 										<Stack className={'name-phone-listings'}>
-											<Link href={`/member?memberId=${rent?.memberData?._id}`}>
-												<Typography className={'name'}>{rent?.memberData?.memberNick}</Typography>
+											<Link href={`/member?memberId=${property?.memberData?._id}`}>
+												<Typography className={'name'}>{property?.memberData?.memberNick}</Typography>
 											</Link>
 											<Stack className={'phone-number'}>
 												<svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
@@ -519,7 +519,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 														</clipPath>
 													</defs>
 												</svg>
-												<Typography className={'number'}>{rent?.memberData?.memberPhone}</Typography>
+												<Typography className={'number'}>{property?.memberData?.memberPhone}</Typography>
 											</Stack>
 											<Typography className={'listings'}>View Listings</Typography>
 										</Stack>
@@ -561,11 +561,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						{destinationRents.length !== 0 && (
+						{destinationProperties.length !== 0 && (
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
-										<Typography className={'main-title'}>Destination Rent</Typography>
+										<Typography className={'main-title'}>Destination Property</Typography>
 										<Typography className={'sub-title'}>Aliquam lacinia diam quis lacus euismod</Typography>
 									</Stack>
 									<Stack className={'pagination-box'}>
@@ -588,11 +588,15 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											el: '.swiper-similar-pagination',
 										}}
 									>
-										{destinationRents.map((rent: Rent) => {
+										{destinationProperties.map((property: Rent) => {
 											return (
-												<SwiperSlide className={'similar-homes-slide'} key={rent.rentTitle}>
-													<PropertyBigCard property={rent} key={rent?._id} />
-													<PropertyBigCard property={rent} likePropertyHandler={likePropertyHandler} key={rent?._id} />
+												<SwiperSlide className={'similar-homes-slide'} key={property.rentTitle}>
+													<PropertyBigCard property={property} key={property?._id} />
+													<PropertyBigCard
+														property={property}
+														likePropertyHandler={likePropertyHandler}
+														key={property?._id}
+													/>
 												</SwiperSlide>
 											);
 										})}

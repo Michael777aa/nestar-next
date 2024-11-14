@@ -101,6 +101,7 @@ export const GET_RENT = gql`
 			rentDesc
 			rentPetsAllowed
 			parkingAvailable
+			furnished
 			memberId
 			deletedAt
 			constructedAt
