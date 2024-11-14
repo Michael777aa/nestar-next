@@ -3,14 +3,14 @@ import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
 import PropertyCard from '../property/PropertyCard';
-import { Property } from '../../types/property/property';
+import { Rent } from '../../types/property/property';
 import { T } from '../../types/common';
 import { GET_VISITED } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
 
 const RecentlyVisited: NextPage = () => {
 	const device = useDeviceDetect();
-	const [recentlyVisited, setRecentlyVisited] = useState<Property[]>([]);
+	const [recentlyVisited, setRecentlyVisited] = useState<Rent[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [searchVisited, setSearchVisited] = useState<T>({ page: 1, limit: 6 });
 
@@ -49,7 +49,7 @@ const RecentlyVisited: NextPage = () => {
 				</Stack>
 				<Stack className="favorites-list-box">
 					{recentlyVisited?.length ? (
-						recentlyVisited?.map((property: Property) => {
+						recentlyVisited?.map((property: Rent) => {
 							return <PropertyCard property={property} recentlyVisited={true} />;
 						})
 					) : (

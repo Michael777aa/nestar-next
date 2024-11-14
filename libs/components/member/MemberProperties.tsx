@@ -3,8 +3,8 @@ import { NextPage } from 'next';
 import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from '../mypage/PropertyCard';
-import { Property } from '../../types/property/property';
-import { PropertiesInquiry } from '../../types/property/property.input';
+import { Rent } from '../../types/property/property';
+import { RentsInquiry } from '../../types/property/property.input';
 import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
@@ -14,8 +14,8 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const { memberId } = router.query;
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>({ ...initialInput });
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+	const [searchFilter, setSearchFilter] = useState<Rent>({ ...initialInput });
+	const [agentProperties, setAgentProperties] = useState<Rent[]>([]);
 	const [total, setTotal] = useState<number>(0);
 
 	/** APOLLO REQUESTS **/
@@ -46,9 +46,9 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	}, [memberId]);
 
 	/** HANDLERS **/
-	const paginationHandler = (e: T, value: number) => {
-		setSearchFilter({ ...searchFilter, page: value });
-	};
+	// const paginationHandler = (e: T, value: number) => {
+	// 	setSearchFilter({ ...searchFilter, page: value });
+	// };
 
 	if (device === 'mobile') {
 		return <div>NESTAR PROPERTIES MOBILE</div>;
@@ -76,20 +76,20 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 								<p>No Property found!</p>
 							</div>
 						)}
-						{agentProperties?.map((property: Property) => {
+						{agentProperties?.map((property: Rent) => {
 							return <PropertyCard property={property} memberPage={true} key={property?._id} />;
 						})}
 
 						{agentProperties.length !== 0 && (
 							<Stack className="pagination-config">
 								<Stack className="pagination-box">
-									<Pagination
+									{/* <Pagination
 										count={Math.ceil(total / searchFilter.limit)}
 										page={searchFilter.page}
 										shape="circular"
 										color="primary"
 										onChange={paginationHandler}
-									/>
+									/> */}
 								</Stack>
 								<Stack className="total-result">
 									<Typography>{total} property available</Typography>

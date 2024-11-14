@@ -37,12 +37,12 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.rentImages?.[0]})` }}
 				>
-					{/* {property && property?.rentRank >= topPropertyRank && (
+					{property && property?.rentRank >= topPropertyRank && (
 						<div className={'status'}>
 							<img src="/img/icons/electricity.svg" alt="" />
 							<span>top</span>
 						</div>
-					)} */}
+					)}
 
 					<div className={'price'}>${formatterStr(property?.rentalPrice)}</div>
 				</Box>

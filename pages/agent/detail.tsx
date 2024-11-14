@@ -8,11 +8,11 @@ import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Property } from '../../libs/types/property/property';
+import { Rent } from '../../libs/types/property/property';
 import { Member } from '../../libs/types/member/member';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { userVar } from '../../apollo/store';
-import { PropertiesInquiry } from '../../libs/types/property/property.input';
+import { RentsInquiry } from '../../libs/types/property/property.input';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
@@ -35,8 +35,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	const user = useReactiveVar(userVar);
 	const [agentId, setAgentId] = useState<string | null>(null);
 	const [agent, setAgent] = useState<Member | null>(null);
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+	const [searchFilter, setSearchFilter] = useState<RentsInquiry>(initialInput);
+	const [agentProperties, setAgentProperties] = useState<Rent[]>([]);
 	const [propertyTotal, setPropertyTotal] = useState<number>(0);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [agentComments, setAgentComments] = useState<Comment[]>([]);
@@ -180,7 +180,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							alt=""
 						/>
 						<Box component={'div'} className={'info'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
-							<strong>{agent?.memberFullName ?? agent?.memberNick}</strong>
+							<strong>{`${agent?.memberFirstName ?? ''} ${agent?.memberLastName ?? ''}`.trim()}</strong>
 							<div>
 								<img src="/img/icons/call.svg" alt="" />
 								<span>{agent?.memberPhone}</span>
@@ -189,14 +189,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					</Stack>
 					<Stack className={'agent-home-list'}>
 						<Stack className={'card-wrap'}>
-							{agentProperties.map((property: Property) => {
+							{agentProperties.map((rent: Rent) => {
 								return (
-									<div className={'wrap-main'} key={property?._id}>
-										<PropertyBigCard
-											property={property}
-											key={property?._id}
-											likePropertyHandler={likePropertyHandler}
-										/>
+									<div className={'wrap-main'} key={rent?._id}>
+										<PropertyBigCard property={rent} key={rent?._id} likePropertyHandler={likePropertyHandler} />
 									</div>
 								);
 							})}

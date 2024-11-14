@@ -4,14 +4,14 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import IconButton from '@mui/material/IconButton';
 import ModeIcon from '@mui/icons-material/Mode';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Property } from '../../types/property/property';
+import { Rent } from '../../types/property/property';
 import { formatterStr } from '../../utils';
 import Moment from 'react-moment';
 import { useRouter } from 'next/router';
-import { PropertyStatus } from '../../enums/property.enum';
+import { AvailabilityStatus } from '../../enums/property.enum';
 
 interface PropertyCardProps {
-	property: Property;
+	property: Rent;
 	deletePropertyHandler?: any;
 	memberPage?: boolean;
 	updatePropertyHandler?: any;
@@ -73,11 +73,11 @@ export const PropertyCard = (props: PropertyCardProps) => {
 				<Stack className="status-box">
 					<Stack className="coloured-box" sx={{ background: '#E5F0FD' }} onClick={handleClick}>
 						<Typography className="status" sx={{ color: '#3554d1' }}>
-							{property.propertyStatus}
+							{property.availabilityStatus}
 						</Typography>
 					</Stack>
 				</Stack>
-				{!memberPage && property.propertyStatus !== 'SOLD' && (
+				{!memberPage && property.availabilityStatus !== 'OCUPPIED' && (
 					<Menu
 						anchorEl={anchorEl}
 						open={open}
@@ -98,13 +98,13 @@ export const PropertyCard = (props: PropertyCardProps) => {
 							},
 						}}
 					>
-						{property.propertyStatus === 'ACTIVE' && (
+						{property.availabilityStatus === 'AVAILABLE' && (
 							<>
 								<MenuItem
 									disableRipple
 									onClick={() => {
 										handleClose();
-										updatePropertyHandler(PropertyStatus.SOLD, property?._id);
+										updatePropertyHandler(AvailabilityStatus.OCUPPIED, property?._id);
 									}}
 								>
 									Sold
@@ -115,9 +115,10 @@ export const PropertyCard = (props: PropertyCardProps) => {
 				)}
 
 				<Stack className="views-box">
-					<Typography className="views">{property.propertyViews.toLocaleString()}</Typography>
+					<Typography className="views">{property.rentViews?.toLocaleString() || '0'}</Typography>
 				</Stack>
-				{!memberPage && property.propertyStatus === PropertyStatus.ACTIVE && (
+
+				{!memberPage && property.availabilityStatus === AvailabilityStatus.AVAILABLE && (
 					<Stack className="action-box">
 						<IconButton className="icon-button" onClick={() => pushEditProperty(property._id)}>
 							<ModeIcon className="buttons" />

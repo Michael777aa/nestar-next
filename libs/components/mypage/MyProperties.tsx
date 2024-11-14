@@ -4,10 +4,10 @@ import { Pagination, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from './PropertyCard';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { Property } from '../../types/property/property';
+import { Rent } from '../../types/property/property';
 import { AgentPropertiesInquiry } from '../../types/property/property.input';
 import { T } from '../../types/common';
-import { PropertyStatus } from '../../enums/property.enum';
+import { AvailabilityStatus } from '../../enums/property.enum';
 import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import { UPDATE_RENT } from '../../../apollo/user/mutation';
@@ -17,7 +17,7 @@ import { sweetConfirmAlert, sweetErrorHandling } from '../../sweetAlert';
 const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const [searchFilter, setSearchFilter] = useState<AgentPropertiesInquiry>(initialInput);
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
+	const [agentProperties, setAgentProperties] = useState<Rent[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
@@ -46,14 +46,14 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 		setSearchFilter({ ...searchFilter, page: value });
 	};
 
-	const changeStatusHandler = (value: PropertyStatus) => {
-		setSearchFilter({ ...searchFilter, search: { propertyStatus: value } });
+	const changeStatusHandler = (value: AvailabilityStatus) => {
+		setSearchFilter({ ...searchFilter, search: { availabilityStatus: value } });
 	};
 
 	const deletePropertyHandler = async (id: string) => {
 		try {
 			if (await sweetConfirmAlert('Are you sure to delete this property?')) {
-				await updateProperty({ variables: { input: { _id: id, propertyStatus: 'DELETE' } } });
+				await updateProperty({ variables: { input: { _id: id, availabilityStatus: 'DELETE' } } });
 			}
 			await getAgentPropertiesRefetch({ input: searchFilter });
 		} catch (err: any) {
@@ -64,7 +64,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	const updatePropertyHandler = async (status: string, id: string) => {
 		try {
 			if (await sweetConfirmAlert(`Are you sure to change ${status} status?`)) {
-				await updateProperty({ variables: { input: { _id: id, propertyStatus: status } } });
+				await updateProperty({ variables: { input: { _id: id, availabilityStatus: status } } });
 			}
 			await getAgentPropertiesRefetch({ input: searchFilter });
 		} catch (err: any) {
@@ -90,14 +90,14 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 				<Stack className="property-list-box">
 					<Stack className="tab-name-box">
 						<Typography
-							onClick={() => changeStatusHandler(PropertyStatus.ACTIVE)}
-							className={searchFilter.search.propertyStatus === 'ACTIVE' ? 'active-tab-name' : 'tab-name'}
+							onClick={() => changeStatusHandler(AvailabilityStatus.AVAILABLE)}
+							className={searchFilter.search.availabilityStatus === 'AVAILABLE' ? 'active-tab-name' : 'tab-name'}
 						>
 							On Sale
 						</Typography>
 						<Typography
-							onClick={() => changeStatusHandler(PropertyStatus.SOLD)}
-							className={searchFilter.search.propertyStatus === 'SOLD' ? 'active-tab-name' : 'tab-name'}
+							onClick={() => changeStatusHandler(AvailabilityStatus.OCUPPIED)}
+							className={searchFilter.search.availabilityStatus === 'OCUPPIED' ? 'active-tab-name' : 'tab-name'}
 						>
 							On Sold
 						</Typography>
@@ -108,7 +108,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							<Typography className="title-text">Date Published</Typography>
 							<Typography className="title-text">Status</Typography>
 							<Typography className="title-text">View</Typography>
-							{searchFilter.search.propertyStatus === 'ACTIVE' && (
+							{searchFilter.search.availabilityStatus === 'AVAILABLE' && (
 								<Typography className="title-text">Action</Typography>
 							)}
 						</Stack>
@@ -119,7 +119,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 								<p>No Property found!</p>
 							</div>
 						) : (
-							agentProperties.map((property: Property) => {
+							agentProperties.map((property: Rent) => {
 								return (
 									<PropertyCard
 										property={property}
@@ -159,7 +159,7 @@ MyProperties.defaultProps = {
 		limit: 5,
 		sort: 'createdAt',
 		search: {
-			propertyStatus: 'ACTIVE',
+			availabilityStatus: 'AVAILABLE',
 		},
 	},
 };
