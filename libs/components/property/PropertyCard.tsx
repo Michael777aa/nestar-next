@@ -11,7 +11,14 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-
+import WifiIcon from '@mui/icons-material/Wifi';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
+import ElevatorIcon from '@mui/icons-material/Elevator';
+import SecurityIcon from '@mui/icons-material/Security';
+import LocalCafeIcon from '@mui/icons-material/LocalCafe';
+import BuildIcon from '@mui/icons-material/Build';
+import WeekendIcon from '@mui/icons-material/Weekend';
 interface PropertyCardType {
 	property: Rent;
 	likePropertyHandler?: any;
@@ -27,7 +34,16 @@ const PropertyCard = (props: PropertyCardType) => {
 		? `${REACT_APP_API_URL}/${property?.rentImages[0]}`
 		: '/img/banner/header1.svg';
 	const isLiked = myFavorites || (property?.meLiked && property?.meLiked[0]?.myFavorite);
-
+	const amenityIcons: any = {
+		WiFi: <WifiIcon />,
+		'Air Conditioning': <AcUnitIcon />,
+		'Washer/Dryer': <LocalLaundryServiceIcon />,
+		Elevator: <ElevatorIcon />,
+		'Security System': <SecurityIcon />,
+		'Lounge Area': <WeekendIcon />,
+		'24-Hour Maintenance': <BuildIcon />,
+		Breakfast: <LocalCafeIcon />,
+	};
 	if (device === 'mobile') {
 		return <div>PROPERTY CARD</div>;
 	} else {
@@ -177,16 +193,34 @@ const PropertyCard = (props: PropertyCardType) => {
 							Book Now
 						</button>
 					</Link>
-					<Stack className="options">
-						<div
-							style={{
-								position: 'relative',
-								top: '-125px',
-								left: '0px',
-							}}
-						>
-							<span>{property?.amenities}</span>
-						</div>
+					<Stack
+						className="amenities"
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							alignItems: 'center',
+							justifyContent: 'flex-start',
+							position: 'relative',
+							top: '-130px',
+						}}
+					>
+						Amenities:
+						{property?.amenities?.map((amenity) => (
+							<Box
+								key={amenity}
+								style={{
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center',
+									justifyContent: 'space-between',
+									margin: '5px',
+									color: '#4CAF50',
+									fontSize: '20px',
+								}}
+							>
+								{amenityIcons[amenity] || <span>{amenity}</span>} {/* Fallback to text if icon not found */}
+							</Box>
+						))}
 					</Stack>
 					<Stack className="divider"></Stack>
 				</Stack>
