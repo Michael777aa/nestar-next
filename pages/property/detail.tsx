@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, IconButton, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
 import { NextPage } from 'next';
@@ -33,9 +33,44 @@ import { Direction, Message } from '../../libs/enums/common.enum';
 import { CREATE_COMMENT, LIKE_TARGET_RENT } from '../../apollo/user/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { GET_COMMENTS } from '../../apollo/admin/query';
-
+import BalconyIcon from '@mui/icons-material/Balcony';
+import OpenWithIcon from '@mui/icons-material/OpenWith';
+import WifiIcon from '@mui/icons-material/Wifi';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
+import ElevatorIcon from '@mui/icons-material/Elevator';
+import SecurityIcon from '@mui/icons-material/Security';
+import LocalCafeIcon from '@mui/icons-material/LocalCafe';
+import MaintenanceIcon from '@mui/icons-material/Build';
+import PowerIcon from '@mui/icons-material/Power';
+import WaterIcon from '@mui/icons-material/Opacity';
+import GasIcon from '@mui/icons-material/LocalGasStation';
+import InternetIcon from '@mui/icons-material/Wifi';
+import TvIcon from '@mui/icons-material/Tv';
+import HeatIcon from '@mui/icons-material/Whatshot';
+import TrashIcon from '@mui/icons-material/Delete';
 SwiperCore.use([Autoplay, Navigation, Pagination]);
+const amenitiesOptions: any = {
+	WiFi: <WifiIcon />,
+	'Air Conditioning': <AcUnitIcon />,
+	'Washer/Dryer': <LocalLaundryServiceIcon />,
+	Elevator: <ElevatorIcon />,
+	'Security System': <SecurityIcon />,
+	'Lounge Area': <LocalCafeIcon />,
+	'24-Hour Maintenance': <MaintenanceIcon />,
+	Breakfast: <LocalCafeIcon />,
+};
 
+const utilitiesOptions: any = {
+	Electricity: <PowerIcon />,
+	Water: <WaterIcon />,
+	Gas: <GasIcon />,
+	Internet: <InternetIcon />,
+	'Cable TV': <TvIcon />,
+	Heating: <HeatIcon />,
+	Sewage: <WaterIcon />,
+	'Trash Collection': <TrashIcon />,
+};
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),
@@ -201,37 +236,111 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<Stack className={'property-info-config'}>
 							<Stack className={'info'}>
 								<Stack className={'left-box'}>
-									<Typography className={'title-main'}>{property?.rentTitle}</Typography>
-									<Stack className={'top-box'}>
-										<Typography className={'city'}>{property?.rentLocation}</Typography>
-										<Stack className={'divider'}></Stack>
+									<Typography
+										className="title-main"
+										style={{
+											color: '#1A1A1A',
+											fontFamily: 'Roboto, sans-serif',
+											fontSize: '2rem',
+											fontWeight: '700',
+											lineHeight: '1.2',
+											letterSpacing: '0.5px',
+											textTransform: 'capitalize',
+											marginBottom: '10px',
+											textShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
+										}}
+									>
+										{property?.rentTitle}
+									</Typography>
 
-										<Stack className={'divider'}></Stack>
-										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-											<g clipPath="url(#clip0_6505_6282)">
-												<path
-													d="M7 14C5.61553 14 4.26216 13.5895 3.11101 12.8203C1.95987 12.0511 1.06266 10.9579 0.532846 9.67879C0.00303297 8.3997 -0.13559 6.99224 0.134506 5.63437C0.404603 4.2765 1.07129 3.02922 2.05026 2.05026C3.02922 1.07129 4.2765 0.404603 5.63437 0.134506C6.99224 -0.13559 8.3997 0.00303297 9.67879 0.532846C10.9579 1.06266 12.0511 1.95987 12.8203 3.11101C13.5895 4.26216 14 5.61553 14 7C14 8.85652 13.2625 10.637 11.9498 11.9498C10.637 13.2625 8.85652 14 7 14ZM7 0.931878C5.79984 0.931878 4.62663 1.28777 3.62873 1.95454C2.63084 2.62132 1.85307 3.56903 1.39379 4.67783C0.934505 5.78664 0.814336 7.00673 1.04848 8.18384C1.28262 9.36094 1.86055 10.4422 2.70919 11.2908C3.55783 12.1395 4.63907 12.7174 5.81617 12.9515C6.99327 13.1857 8.21337 13.0655 9.32217 12.6062C10.431 12.1469 11.3787 11.3692 12.0455 10.3713C12.7122 9.37337 13.0681 8.20016 13.0681 7C13.067 5.39099 12.4273 3.84821 11.2895 2.71047C10.1518 1.57273 8.60901 0.933037 7 0.931878Z"
-													fill="#181A20"
-												/>
-												<path
-													d="M9.0372 9.7275C8.97153 9.72795 8.90643 9.71543 8.84562 9.69065C8.7848 9.66587 8.72948 9.62933 8.68282 9.58313L6.68345 7.58375C6.63724 7.53709 6.6007 7.48177 6.57592 7.42096C6.55115 7.36015 6.53863 7.29504 6.53907 7.22938V2.7275C6.53907 2.59464 6.59185 2.46723 6.6858 2.37328C6.77974 2.27934 6.90715 2.22656 7.04001 2.22656C7.17287 2.22656 7.30028 2.27934 7.39423 2.37328C7.48817 2.46723 7.54095 2.59464 7.54095 2.7275V7.01937L9.39595 8.87438C9.47462 8.9425 9.53001 9.03354 9.55436 9.13472C9.57871 9.2359 9.5708 9.34217 9.53173 9.43863C9.49266 9.53509 9.4244 9.61691 9.3365 9.67264C9.24861 9.72836 9.14548 9.75519 9.04157 9.74938L9.0372 9.7275Z"
-													fill="#181A20"
-												/>
-											</g>
-											<defs>
-												<clipPath id="clip0_6505_6282">
-													<rect width="14" height="14" fill="white" />
-												</clipPath>
-											</defs>
-										</svg>
-										<Typography className={'date'}>{moment().diff(property?.createdAt, 'days')} days ago</Typography>
+									<Stack
+										className="top-box"
+										style={{
+											flexDirection: 'row',
+											alignItems: 'center',
+											gap: '15px',
+										}}
+									>
+										<Typography
+											className="city"
+											style={{
+												color: '#4A4A4A',
+												fontSize: '1rem',
+												fontWeight: '500',
+												textTransform: 'capitalize',
+											}}
+										>
+											{property?.rentLocation}
+										</Typography>
+
+										<Stack
+											className="divider"
+											style={{
+												width: '1px',
+												height: '20px',
+												backgroundColor: '#ddd',
+											}}
+										/>
+
+										<Typography
+											className="date"
+											style={{
+												color: '#6A6A6A',
+												fontSize: '0.9rem',
+												fontWeight: '400',
+											}}
+										>
+											Availability: {property?.availabilityStatus}
+										</Typography>
 									</Stack>
-									<Stack className={'bottom-box'}>
-										<Stack className="option">
-											<img src="/img/icons/room.svg" alt="" /> <Typography>{property?.rentBalconies} balcon</Typography>
+
+									<Stack
+										className="bottom-box"
+										style={{
+											flexDirection: 'row',
+											gap: '20px',
+											marginTop: '15px',
+											alignItems: 'center',
+										}}
+									>
+										<Stack
+											className="option"
+											style={{
+												flexDirection: 'row',
+												alignItems: 'center',
+												gap: '8px',
+											}}
+										>
+											<BalconyIcon style={{ fontSize: '1.2rem', color: '#FF7043' }} />
+											<Typography
+												style={{
+													color: '#3C3C3C',
+													fontSize: '0.95rem',
+													fontWeight: '500',
+												}}
+											>
+												{property?.rentBalconies} balconies
+											</Typography>
 										</Stack>
-										<Stack className="option">
-											<img src="/img/icons/expand.svg" alt="" /> <Typography>{property?.rentSquare} m2</Typography>
+
+										<Stack
+											className="option"
+											style={{
+												flexDirection: 'row',
+												alignItems: 'center',
+												gap: '8px',
+											}}
+										>
+											<OpenWithIcon style={{ fontSize: '1.2rem', color: '#4CAF50' }} />
+											<Typography
+												style={{
+													color: '#3C3C3C',
+													fontSize: '0.95rem',
+													fontWeight: '500',
+												}}
+											>
+												{property?.rentSquare} sq. m
+											</Typography>
 										</Stack>
 									</Stack>
 								</Stack>
@@ -258,13 +367,35 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<Typography>{property?.rentLikes}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(property?.rentalPrice)}</Typography>
+									<Typography
+										style={{
+											color: '#333333',
+											fontFamily: 'Roboto, sans-serif',
+											fontSize: '1.75rem',
+											fontWeight: '700',
+											lineHeight: '1.3',
+											letterSpacing: '0.3px',
+											display: 'flex',
+											alignItems: 'baseline',
+										}}
+									>
+										${formatterStr(property?.rentalPrice)}
+										<span
+											style={{
+												fontSize: '1rem',
+												fontWeight: '500',
+												color: '#555555',
+												marginLeft: '6px',
+												paddingTop: '3px', // Adjusts alignment with the main price text
+												textTransform: 'lowercase', // Adds a subtle emphasis to 'week'
+											}}
+										>
+											/week
+										</span>
+									</Typography>
 								</Stack>
 							</Stack>
 							<Stack className={'images'}>
-								<Stack className={'main-image'}>
-									<img src={`${REACT_APP_API_URL}/${slideImage}`} alt={'main-image'} />
-								</Stack>
 								<Stack className={'sub-images'}>
 									{property?.rentImages.map((subImg: string) => {
 										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
@@ -275,21 +406,14 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										);
 									})}
 								</Stack>
+								<Stack className={'main-image'}>
+									<img src={`${REACT_APP_API_URL}/${slideImage}`} alt={'main-image'} />
+								</Stack>
 							</Stack>
 						</Stack>
 						<Stack className={'property-desc-config'}>
 							<Stack className={'left-config'}>
 								<Stack className={'options-config'}>
-									<Stack className={'option'}>
-										<Stack className={'svg-box'}>
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" viewBox="0 0 24 20" fill="none">
-												<path
-													d="M21.4883 11.1135L21.4071 11.0524V5.26354C21.4071 4.47769 21.0568 3.72395 20.4331 3.16775C19.8094 2.61155 18.9632 2.29835 18.0803 2.29688H6.09625C5.21335 2.29835 4.36717 2.61155 3.74345 3.16775C3.11973 3.72395 2.76942 4.47769 2.76942 5.26354V11.058L2.68828 11.1135C2.31313 11.4484 2.10218 11.9018 2.10156 12.3747V17.1135C2.10156 17.2712 2.17193 17.4224 2.29717 17.5339C2.42242 17.6454 2.5923 17.708 2.76942 17.708H6.09625C6.20637 17.7077 6.31471 17.6833 6.41163 17.6367C6.50855 17.5902 6.59104 17.5231 6.65176 17.4413L7.78775 15.9302H16.3951L17.531 17.4413C17.5918 17.5231 17.6743 17.5902 17.7712 17.6367C17.8681 17.6833 17.9764 17.7077 18.0866 17.708H21.4134C21.5894 17.7065 21.7577 17.6432 21.8816 17.5319C22.0055 17.4206 22.075 17.2702 22.075 17.1135V12.3747C22.0744 11.9018 21.8634 11.4484 21.4883 11.1135ZM6.09625 3.48576H18.0803C18.61 3.48576 19.1181 3.67306 19.4927 4.00646C19.8672 4.33986 20.0777 4.79205 20.0777 5.26354V8.83576C19.778 8.45662 19.3781 8.14887 18.9134 7.93961C18.4486 7.73035 17.9332 7.62601 17.4125 7.63576H6.76411C6.32701 7.63469 5.894 7.71072 5.4901 7.85948C5.08621 8.00824 4.71944 8.22676 4.41099 8.50243C4.29799 8.60664 4.19369 8.71804 4.09891 8.83576V5.26354C4.09891 4.79205 4.30934 4.33986 4.68392 4.00646C5.05849 3.67306 5.56652 3.48576 6.09625 3.48576ZM19.4098 10.5969H4.76677C4.76677 10.1254 4.9772 9.67319 5.35178 9.3398C5.72635 9.0064 6.23438 8.8191 6.76411 8.8191H17.4125C17.9422 8.8191 18.4502 9.0064 18.8248 9.3398C19.1994 9.67319 19.4098 10.1254 19.4098 10.5969ZM20.7393 16.5247H18.4299L17.3001 15.0024C17.2387 14.9217 17.1559 14.8556 17.059 14.8101C16.9621 14.7646 16.8541 14.741 16.7446 14.7413H7.42573C7.31618 14.741 7.20821 14.7646 7.11133 14.8101C7.01446 14.8556 6.93165 14.9217 6.87022 15.0024L5.74047 16.5191H3.43104V12.3747C3.43104 12.2966 3.44832 12.2193 3.48188 12.1472C3.51545 12.075 3.56464 12.0095 3.62666 11.9543C3.68867 11.8991 3.7623 11.8553 3.84333 11.8255C3.92436 11.7956 4.0112 11.7802 4.09891 11.7802H20.0777C20.2548 11.7802 20.4247 11.8428 20.5499 11.9543C20.6752 12.0658 20.7455 12.217 20.7455 12.3747L20.7393 16.5247Z"
-													fill="#181A20"
-												/>
-											</svg>
-										</Stack>
-									</Stack>
 									<Stack className={'option'}>
 										<Stack className={'svg-box'}>
 											<img src={'/img/icons/room.svg'} />
@@ -361,61 +485,235 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 									</Stack>
 								</Stack>
-								<Stack className={'prop-desc-config'}>
-									<Stack className={'top'}>
-										<Typography className={'title'}>Rent Description</Typography>
-										<Typography className={'desc'}>{property?.rentDesc ?? 'No Description!'}</Typography>
+								<Stack
+									className="prop-desc-config"
+									style={{
+										padding: '20px 30px',
+										backgroundColor: '#f9f9f9',
+										borderRadius: '12px',
+										boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.1)',
+										gap: '25px',
+									}}
+								>
+									<Stack
+										className="top"
+										style={{
+											borderBottom: '1px solid #e0e0e0',
+											paddingBottom: '15px',
+											marginBottom: '15px',
+										}}
+									>
+										<Typography
+											className="title"
+											style={{
+												fontSize: '1.1rem',
+												fontWeight: '600',
+												color: '#333333',
+												marginBottom: '10px',
+											}}
+										>
+											Facility Description
+										</Typography>
+										<Typography
+											className="desc"
+											style={{
+												fontSize: '1rem',
+												color: '#555555',
+												lineHeight: '1.6',
+											}}
+										>
+											{property?.rentDesc ?? 'No Description!'}
+										</Typography>
 									</Stack>
-									<Stack className={'bottom'}>
-										<Typography className={'title'}>Rent Details</Typography>
-										<Stack className={'info-box'}>
-											<Stack className={'left'}>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Price</Typography>
-													<Typography className={'data'}>${formatterStr(property?.rentalPrice)}</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Rent Size</Typography>
-													<Typography className={'data'}>{property?.rentSquare} m2</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Balconies</Typography>
-													<Typography className={'data'}>{property?.rentBalconies}</Typography>
-												</Box>
+
+									<Stack className="bottom" style={{ gap: '20px' }}>
+										<Typography
+											className="title"
+											style={{
+												fontSize: '1.1rem',
+												fontWeight: '600',
+												color: '#333333',
+												marginBottom: '10px',
+											}}
+										>
+											Facility Details
+										</Typography>
+
+										<Stack
+											className="info-box"
+											style={{
+												display: 'flex',
+												flexDirection: 'row',
+												justifyContent: 'space-between',
+												gap: '20px',
+												backgroundColor: '#fafafa',
+												padding: '20px 30px',
+												borderRadius: '12px',
+												boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+												border: '1px solid #e0e0e0',
+											}}
+										>
+											{/* Left Column */}
+											<Stack className="left" style={{ gap: '15px' }}>
+												{[
+													{ label: 'Price', value: `$${formatterStr(property?.rentalPrice)}` },
+													{ label: 'Rent Size', value: `${property?.rentSquare} m²` },
+													{ label: 'Balconies', value: property?.rentBalconies },
+												].map((item) => (
+													<Box
+														key={item.label}
+														component="div"
+														className="info"
+														style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+													>
+														<Typography
+															className="title"
+															style={{ fontSize: '1rem', fontWeight: '500', color: '#777777' }}
+														>
+															{item.label}
+														</Typography>
+														<Typography
+															className="data"
+															style={{ fontSize: '1rem', fontWeight: '600', color: '#333333' }}
+														>
+															{item.value}
+														</Typography>
+													</Box>
+												))}
 											</Stack>
-											<Stack className={'right'}>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Year Built</Typography>
-													<Typography className={'data'}>{moment(property?.createdAt).format('YYYY')}</Typography>
-												</Box>
-												<Box component={'div'} className={'info'}>
-													<Typography className={'title'}>Rent Type</Typography>
-													<Typography className={'data'}>{property?.rentType}</Typography>
-												</Box>
+
+											{/* Right Column */}
+											<Stack className="right" style={{ gap: '15px' }}>
+												{[
+													{ label: 'Year Built', value: moment(property?.createdAt).format('YYYY') },
+													{ label: 'Rent Type', value: property?.rentType },
+												].map((item) => (
+													<Box
+														key={item.label}
+														component="div"
+														className="info"
+														style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+													>
+														<Typography
+															className="title"
+															style={{ fontSize: '1rem', fontWeight: '500', color: '#777777' }}
+														>
+															{item.label}
+														</Typography>
+														<Typography
+															className="data"
+															style={{ fontSize: '1rem', fontWeight: '600', color: '#333333' }}
+														>
+															{item.value}
+														</Typography>
+													</Box>
+												))}
+											</Stack>
+
+											{/* Options Column */}
+											<Stack className="options" style={{ gap: '25px', paddingTop: '10px' }}>
+												{[
+													{ label: 'Furnished', value: property?.furnished ? 'Furnished' : 'Not Furnished' },
+													{ label: 'Parking', value: property?.parkingAvailable ? 'Available' : 'Unavailable' },
+													{ label: 'Pets', value: property?.rentPetsAllowed ? 'Allowed' : 'Not Allowed' },
+												].map((item) => (
+													<Box key={item.label} className="option" style={{ display: 'flex', gap: '5px' }}>
+														<Typography style={{ fontSize: '0.9rem', fontWeight: '500', color: '#555555' }}>
+															{item.label}:
+														</Typography>
+														<Typography
+															style={{
+																fontSize: '0.9rem',
+																fontWeight: '600',
+																color: item.value.includes('Not') ? '#D9534F' : '#5CB85C',
+															}}
+														>
+															{item.value}
+														</Typography>
+													</Box>
+												))}
+											</Stack>
+										</Stack>
+
+										<Stack
+											className="prop-desc-config"
+											style={{
+												padding: '20px 30px',
+												backgroundColor: '#f9f9f9',
+												borderRadius: '12px',
+												boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.1)',
+												gap: '25px',
+											}}
+										>
+											{/* Other existing code sections */}
+
+											{/* Amenities and Utilities Side-by-Side */}
+											<Stack
+												direction="row"
+												style={{
+													marginTop: '20px',
+													gap: '40px',
+													justifyContent: 'space-between',
+												}}
+											>
+												{/* Amenities Section on the Left */}
+												{property?.amenities && (
+													<Stack style={{ flex: '1' }}>
+														<Typography
+															className="title"
+															style={{
+																fontSize: '1.1rem',
+																fontWeight: '600',
+																color: '#333333',
+																marginBottom: '10px',
+															}}
+														>
+															Amenities
+														</Typography>
+														<Stack style={{ display: 'flex', flexWrap: 'wrap', gap: '15px' }}>
+															{property.amenities
+																.filter((amenity) => amenitiesOptions[amenity])
+																.map((amenity, index) => (
+																	<Stack key={index} direction="row" alignItems="center" style={{ gap: '8px' }}>
+																		{amenitiesOptions[amenity]}
+																		<Typography style={{ fontSize: '1rem', color: '#555555' }}>{amenity}</Typography>
+																	</Stack>
+																))}
+														</Stack>
+													</Stack>
+												)}
+
+												{/* Utilities Section on the Right */}
+												{property?.includedUtilities && (
+													<Stack style={{ flex: '1' }}>
+														<Typography
+															className="title"
+															style={{
+																fontSize: '1.1rem',
+																fontWeight: '600',
+																color: '#333333',
+																marginBottom: '10px',
+															}}
+														>
+															Included Utilities
+														</Typography>
+														<Stack style={{ display: 'flex', flexWrap: 'wrap', gap: '15px' }}>
+															{property.includedUtilities
+																.filter((utility) => utilitiesOptions[utility])
+																.map((utility, index) => (
+																	<Stack key={index} direction="row" alignItems="center" style={{ gap: '8px' }}>
+																		{utilitiesOptions[utility]}
+																		<Typography style={{ fontSize: '1rem', color: '#555555' }}>{utility}</Typography>
+																	</Stack>
+																))}
+														</Stack>
+													</Stack>
+												)}
 											</Stack>
 										</Stack>
 									</Stack>
 								</Stack>
-								<Stack className={'floor-plans-config'}>
-									<Typography className={'title'}>Floor Plans</Typography>
-									<Stack className={'image-box'}>
-										<img src={'/img/property/floorPlan.png'} alt={'image'} />
-									</Stack>
-								</Stack>
-								<Stack className={'address-config'}>
-									<Typography className={'title'}>Address</Typography>
-									<Stack className={'map-box'}>
-										<iframe
-											src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25867.098915951767!2d128.68632810247993!3d35.86402299180927!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35660bba427bf179%3A0x1fc02da732b9072f!2sGeumhogangbyeon-ro%2C%20Dong-gu%2C%20Daegu!5e0!3m2!1suz!2skr!4v1695537640704!5m2!1suz!2skr"
-											width="100%"
-											height="100%"
-											style={{ border: 0 }}
-											allowFullScreen={true}
-											loading="lazy"
-											referrerPolicy="no-referrer-when-downgrade"
-										></iframe>
-									</Stack>
-								</Stack>
+
 								{commentTotal !== 0 && (
 									<Stack className={'reviews-config'}>
 										<Stack className={'filter-box'}>
@@ -558,22 +856,36 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</Stack>
 						</Stack>
 						{destinationProperties.length !== 0 && (
-							<Stack className={'similar-properties-config'}>
-								<Stack className={'title-pagination-box'}>
-									<Stack className={'title-box'}>
-										<Typography className={'main-title'}>Destination Property</Typography>
-										<Typography className={'sub-title'}>Aliquam lacinia diam quis lacus euismod</Typography>
+							<Stack className="similar-properties-config" style={{ width: '100%', padding: '20px 0', gap: '40px' }}>
+								<Stack
+									className="title-pagination-box"
+									style={{
+										width: '100%',
+										display: 'flex',
+										flexDirection: 'row',
+										justifyContent: 'space-between',
+										alignItems: 'center',
+									}}
+								>
+									<Stack className="title-box" style={{ flex: 1 }}>
+										<Typography className="main-title" style={{ fontSize: '1.5rem', fontWeight: '700', color: '#333' }}>
+											Related Facilities
+										</Typography>
 									</Stack>
-									<Stack className={'pagination-box'}>
-										<WestIcon className={'swiper-similar-prev'} />
-										<div className={'swiper-similar-pagination'}></div>
-										<EastIcon className={'swiper-similar-next'} />
+									<Stack className="pagination-box" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+										<IconButton className="swiper-similar-prev" style={{ padding: '6px' }}>
+											<WestIcon fontSize="small" />
+										</IconButton>
+										<div className="swiper-similar-pagination" style={{ flex: '0 1 60px' }}></div>
+										<IconButton className="swiper-similar-next" style={{ padding: '6px' }}>
+											<EastIcon fontSize="small" />
+										</IconButton>
 									</Stack>
 								</Stack>
-								<Stack className={'cards-box'}>
+								<Stack className="cards-box" style={{ width: '100%' }}>
 									<Swiper
-										className={'similar-homes-swiper'}
-										slidesPerView={'auto'}
+										className="similar-homes-swiper"
+										slidesPerView="auto"
 										spaceBetween={35}
 										modules={[Autoplay, Navigation, Pagination]}
 										navigation={{
@@ -584,17 +896,15 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											el: '.swiper-similar-pagination',
 										}}
 									>
-										{destinationProperties.map((property: Rent) => {
-											return (
-												<SwiperSlide className={'similar-homes-slide'} key={property.rentTitle}>
-													<PropertyBigCard
-														property={property}
-														likePropertyHandler={likePropertyHandler}
-														key={property?._id}
-													/>
-												</SwiperSlide>
-											);
-										})}
+										{destinationProperties.map((property: Rent) => (
+											<SwiperSlide
+												className="similar-homes-slide"
+												key={property.rentTitle}
+												style={{ width: '350px', position: 'relative', top: '5px' }}
+											>
+												<PropertyBigCard property={property} likePropertyHandler={likePropertyHandler} />
+											</SwiperSlide>
+										))}
 									</Swiper>
 								</Stack>
 							</Stack>
