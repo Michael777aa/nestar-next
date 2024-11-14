@@ -3,7 +3,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TelegramIcon from '@mui/icons-material/Telegram';
 
 import useDeviceDetect from '../hooks/useDeviceDetect';
-import { Stack, Box, Container, Typography, Link } from '@mui/material';
+import { Stack, Box, Container, Typography, Link, Input } from '@mui/material';
 import moment from 'moment';
 import styled from 'styled-components';
 import { Button, TextField } from '@mui/material';
@@ -14,23 +14,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const Footer = () => {
 	const device = useDeviceDetect();
-	const Footers = styled.div`
-		width: 100%;
-		padding: 60px 0;
-		background-color: #060f2b;
-		color: #fff;
-	`;
-	const FooterInput = styled(TextField)(({ theme }) => ({
-		'& .MuiOutlinedInput-root': {
-			borderRadius: '50px',
-			backgroundColor: '#fff',
-			width: '636px',
-			height: '59px',
-			'& fieldset': {
-				border: 'none',
-			},
-		},
-	}));
+
 	if (device == 'mobile') {
 		return (
 			<Stack className={'footer-container'}>
@@ -91,7 +75,7 @@ const Footer = () => {
 		);
 	} else {
 		return (
-			<Footers>
+			<div style={{ width: '100%', padding: '60px 0', backgroundColor: '#060f2b', color: '#fff' }}>
 				<Container>
 					<Stack
 						className="main-upper-container"
@@ -113,7 +97,11 @@ const Footer = () => {
 						{/* Middle Side (Search Box) */}
 						<Stack className="middle-side-up" width={{ xs: '100%', md: '50%' }}>
 							<Box className="search-box-main" display="flex" alignItems="center">
-								<FooterInput placeholder="Enter your email" />
+								<input
+									style={{ borderRadius: '50px', backgroundColor: '#fff', width: '636px', height: '59px' }}
+									placeholder="Enter your email"
+									type="text"
+								/>
 								<Button className="search-icon">Subscribe </Button>
 							</Box>
 						</Stack>
@@ -254,7 +242,7 @@ const Footer = () => {
 						</Stack>
 					</Stack>
 				</Container>
-			</Footers>
+			</div>
 		);
 	}
 };

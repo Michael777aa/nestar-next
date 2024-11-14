@@ -263,10 +263,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</Stack>
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
-									<img
-										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/property/bigImage.png'}
-										alt={'main-image'}
-									/>
+									<img src={`${REACT_APP_API_URL}/${slideImage}`} alt={'main-image'} />
 								</Stack>
 								<Stack className={'sub-images'}>
 									{property?.rentImages.map((subImg: string) => {
