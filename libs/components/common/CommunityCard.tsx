@@ -54,6 +54,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 				}}
 			>
 				<img
+					onClick={chooseArticleHandler}
 					src={imagePath}
 					alt="Community"
 					style={{
