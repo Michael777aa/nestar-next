@@ -10,10 +10,10 @@ import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
 import { PropertyPanelList } from '../../../libs/components/admin/properties/PropertyList';
 import { AllPropertiesInquiry } from '../../../libs/types/property/property.input';
-import { Property } from '../../../libs/types/property/property';
-import { RentLocation, PropertyStatus } from '../../../libs/enums/property.enum';
+import { Rent } from '../../../libs/types/property/property';
+import { RentLocation, AvailabilityStatus } from '../../../libs/enums/property.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
-import { PropertyUpdate } from '../../../libs/types/property/property.update';
+import { RentUpdate } from '../../../libs/types/property/property.update';
 import { REMOVE_PROPERTY_BY_ADMIN, UPDATE_RENT_BY_ADMIN } from '../../../apollo/admin/mutation';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_ALL_PROPERTIES_BY_ADMIN } from '../../../apollo/admin/query';
@@ -22,10 +22,10 @@ import { T } from '../../../libs/types/common';
 const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
 	const [propertiesInquiry, setPropertiesInquiry] = useState<AllPropertiesInquiry>(initialInquiry);
-	const [properties, setProperties] = useState<Property[]>([]);
+	const [properties, setProperties] = useState<Rent[]>([]);
 	const [propertiesTotal, setPropertiesTotal] = useState<number>(0);
 	const [value, setValue] = useState(
-		propertiesInquiry?.search?.propertyStatus ? propertiesInquiry?.search?.propertyStatus : 'ALL',
+		propertiesInquiry?.search?.availabilityStatus ? propertiesInquiry?.search?.availabilityStatus : 'ALL',
 	);
 	const [searchType, setSearchType] = useState('ALL');
 
@@ -83,17 +83,17 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 		setPropertiesInquiry({ ...propertiesInquiry, page: 1, sort: 'createdAt' });
 
 		switch (newValue) {
-			case 'ACTIVE':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.ACTIVE } });
+			case 'AVAILABLE':
+				setPropertiesInquiry({ ...propertiesInquiry, search: { availabilityStatus: AvailabilityStatus.AVAILABLE } });
 				break;
-			case 'SOLD':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.SOLD } });
+			case 'OCUPPIED':
+				setPropertiesInquiry({ ...propertiesInquiry, search: { availabilityStatus: AvailabilityStatus.OCUPPIED } });
 				break;
 			case 'DELETE':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.DELETE } });
+				setPropertiesInquiry({ ...propertiesInquiry, search: { availabilityStatus: AvailabilityStatus.DELETE } });
 				break;
 			default:
-				delete propertiesInquiry?.search?.propertyStatus;
+				delete propertiesInquiry?.search?.availabilityStatus;
 				setPropertiesInquiry({ ...propertiesInquiry });
 				break;
 		}
@@ -127,11 +127,11 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 					sort: 'createdAt',
 					search: {
 						...propertiesInquiry.search,
-						RentLocationList: [newValue as RentLocation],
+						rentLocationList: [newValue as RentLocation],
 					},
 				});
 			} else {
-				delete propertiesInquiry?.search?.RentLocationList;
+				delete propertiesInquiry?.search?.rentLocationList;
 				setPropertiesInquiry({ ...propertiesInquiry });
 			}
 		} catch (err: any) {
@@ -139,7 +139,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 		}
 	};
 
-	const updatePropertyHandler = async (updateData: PropertyUpdate) => {
+	const updatePropertyHandler = async (updateData: RentUpdate) => {
 		try {
 			console.log('+updateData: ', updateData);
 			await updatePropertyByAdmin({
@@ -173,18 +173,18 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 									All
 								</ListItem>
 								<ListItem
-									onClick={(e) => tabChangeHandler(e, 'ACTIVE')}
-									value="ACTIVE"
-									className={value === 'ACTIVE' ? 'li on' : 'li'}
+									onClick={(e) => tabChangeHandler(e, 'AVAILABLE')}
+									value="AVAILABLE"
+									className={value === 'AVAILABLE' ? 'li on' : 'li'}
 								>
-									Active
+									AVAILABLE
 								</ListItem>
 								<ListItem
-									onClick={(e) => tabChangeHandler(e, 'SOLD')}
-									value="SOLD"
-									className={value === 'SOLD' ? 'li on' : 'li'}
+									onClick={(e) => tabChangeHandler(e, 'OCUPPIED')}
+									value="OCUPPIED"
+									className={value === 'OCUPPIED' ? 'li on' : 'li'}
 								>
-									Sold
+									OCUPPIED
 								</ListItem>
 								<ListItem
 									onClick={(e) => tabChangeHandler(e, 'DELETE')}

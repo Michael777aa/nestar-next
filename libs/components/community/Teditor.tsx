@@ -79,7 +79,45 @@ const TuiEditor = () => {
 		memoizedValues.articleTitle = e.target.value;
 	};
 
-	const handleRegisterButton = async () => {};
+	const handleRegisterButton = async () => {
+		try {
+			// Validate if the title or content is empty
+			if (!memoizedValues.articleTitle || !editorRef.current?.getInstance().getMarkdown()) {
+				alert('Please provide both a title and content for the article.');
+				return;
+			}
+
+			// Retrieve content from the editor
+			const articleContent = editorRef.current.getInstance().getMarkdown();
+			memoizedValues.articleContent = articleContent;
+
+			// Construct the data for the mutation
+			const articleData = {
+				articleTitle: memoizedValues.articleTitle,
+				articleContent: memoizedValues.articleContent,
+				articleImage: memoizedValues.articleImage, // Optional, can be empty if no image
+				articleCategory,
+			};
+
+			// Execute the mutation
+			const { data } = await createboardArticle({
+				variables: {
+					input: articleData,
+				},
+			});
+
+			if (data?.createBoardArticle) {
+				alert('Article successfully created!');
+				// Redirect to the article list or detail page
+				router.push('/community');
+			} else {
+				alert('Failed to create the article. Please try again.');
+			}
+		} catch (error) {
+			console.error('Error while creating article:', error);
+			alert('An error occurred while creating the article.');
+		}
+	};
 
 	const doDisabledCheck = () => {
 		if (memoizedValues.articleContent === '' || memoizedValues.articleTitle === '') {

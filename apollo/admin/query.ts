@@ -53,25 +53,29 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 			list {
 				_id
 				rentType
-				propertyStatus
-				RentLocation
+				availabilityStatus
+				rentLocation
 				rentAddress
 				rentTitle
 				rentalPrice
 				rentSquare
-				propertyBeds
 				rentBalconies
-				propertyViews
-				propertyLikes
+				rentViews
+				rentLikes
+				rentComments
+				rentRank
 				rentImages
+				amenities
+				includedUtilities
 				rentDesc
-				propertyBarter
-				propertyRent
+				rentPetsAllowed
+				parkingAvailable
+				furnished
 				memberId
-				soldAt
 				deletedAt
 				constructedAt
 				createdAt
+				soldAt
 				updatedAt
 				memberData {
 					_id
@@ -101,6 +105,11 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 					createdAt
 					updatedAt
 					accessToken
+				}
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
 				}
 			}
 			metaCounter {
