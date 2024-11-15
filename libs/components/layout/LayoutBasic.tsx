@@ -41,7 +41,7 @@ const withLayoutBasic = (Component: any) => {
 				case '/agent/detail':
 					title = 'Manager Detail Page';
 					desc = 'Agent/detail';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/9ed73c93-f122-4e05-87ac-539f413f649f.webp';
 					break;
 				case '/mypage':
 					title = 'my page';
@@ -51,12 +51,12 @@ const withLayoutBasic = (Component: any) => {
 				case '/community':
 					title = 'Community';
 					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/9ed73c93-f122-4e05-87ac-539f413f649f.webp';
 					break;
 				case '/community/detail':
 					title = 'Community Detail';
 					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/9ed73c93-f122-4e05-87ac-539f413f649f.webp';
 					break;
 				case '/cs':
 					title = 'CS';

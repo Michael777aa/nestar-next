@@ -30,7 +30,7 @@ const CommunityCard = ({ vertical, article, index }: CommunityCardProps) => {
 					{vertical ? (
 						<>
 							<div className="community-img" style={{ backgroundImage: `url(${articleImage})` }}></div>
-							<strong>{article.articleContent}</strong>
+							<strong>{article.articleTitle}</strong>
 
 							<span className="time">
 								<Moment format="DD.MM.YY">{article.createdAt}</Moment>
@@ -40,7 +40,7 @@ const CommunityCard = ({ vertical, article, index }: CommunityCardProps) => {
 						<>
 							<img src={articleImage} alt={`${article.articleTitle} thumbnail`} />
 
-							<strong>{article.articleContent}</strong>
+							<strong>{article.articleTitle}</strong>
 
 							<span>
 								<Moment format="DD.MM.YY">{article.createdAt}</Moment>
