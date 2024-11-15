@@ -118,7 +118,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 				setSearchFilter({ ...searchFilter, sort: 'rentViews', direction: Direction.DESC });
 				break;
 			case 'Sort by liked':
-				setSearchFilter({ ...searchFilter, sort: 'rentLikes', direction: Direction.ASC });
+				setSearchFilter({ ...searchFilter, sort: 'rentLikes', direction: Direction.DESC });
 				break;
 		}
 		setSortingOpen(false);

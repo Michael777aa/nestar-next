@@ -111,39 +111,93 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 						<Stack className="main-box">
 							<Stack className="left-config">
 								<Stack className={'image-info'}>
-									<img src={'/img/logo/logoText.svg'} />
+									<img src={'/img/logo/2024-10-19 21.42.01.jpg'} />
 									<Stack className={'community-name'}>
 										<Typography className={'name'}>PlaySpot Community</Typography>
 									</Stack>
 								</Stack>
 
 								<TabList
-									orientation="vertical"
-									aria-label="lab API tabs example"
+									orientation="horizontal"
+									aria-label="community tabs"
 									TabIndicatorProps={{
-										style: { display: 'none' },
+										style: { display: 'none' }, // Hide the default tab indicator
 									}}
 									onChange={tabChangeHandler}
+									style={{
+										display: 'flex',
+										marginTop: '10px',
+										gap: '16px',
+										borderBottom: '2px solid #e0e0e0',
+										paddingBottom: '8px',
+									}}
 								>
 									<Tab
-										value={'FREE'}
-										label={'Free Board'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'FREE' ? 'active' : ''}`}
+										value="FREE"
+										label="Free Board"
+										className={`tab-button ${searchCommunity.search.articleCategory === 'FREE' ? 'active' : ''}`}
+										style={{
+											padding: '10px 20px',
+											borderRadius: '6px',
+											fontSize: '14px',
+											width: '300px',
+											marginRight: 20,
+											fontWeight: '600',
+											textTransform: 'none',
+											color: searchCommunity.search.articleCategory === 'FREE' ? '#ffffff' : '#333',
+											backgroundColor: searchCommunity.search.articleCategory === 'FREE' ? '#007bff' : '#f4f4f4',
+											transition: 'background-color 0.3s ease, color 0.3s ease',
+										}}
 									/>
 									<Tab
-										value={'RECOMMEND'}
-										label={'Recommendation'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'RECOMMEND' ? 'active' : ''}`}
+										value="RECOMMEND"
+										label="Recommendation"
+										className={`tab-button ${searchCommunity.search.articleCategory === 'RECOMMEND' ? 'active' : ''}`}
+										style={{
+											padding: '10px 20px',
+											borderRadius: '6px',
+											width: '300px',
+											marginRight: 20,
+											fontSize: '14px',
+											fontWeight: '600',
+											textTransform: 'none',
+											color: searchCommunity.search.articleCategory === 'RECOMMEND' ? '#ffffff' : '#333',
+											backgroundColor: searchCommunity.search.articleCategory === 'RECOMMEND' ? '#007bff' : '#f4f4f4',
+											transition: 'background-color 0.3s ease, color 0.3s ease',
+										}}
 									/>
 									<Tab
-										value={'NEWS'}
-										label={'News'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'NEWS' ? 'active' : ''}`}
+										value="NEWS"
+										label="News"
+										className={`tab-button ${searchCommunity.search.articleCategory === 'NEWS' ? 'active' : ''}`}
+										style={{
+											padding: '10px 20px',
+											width: '300px',
+											marginRight: 20,
+											borderRadius: '6px',
+											fontSize: '14px',
+											fontWeight: '600',
+											textTransform: 'none',
+											color: searchCommunity.search.articleCategory === 'NEWS' ? '#ffffff' : '#333',
+											backgroundColor: searchCommunity.search.articleCategory === 'NEWS' ? '#007bff' : '#f4f4f4',
+											transition: 'background-color 0.3s ease, color 0.3s ease',
+										}}
 									/>
 									<Tab
-										value={'HUMOR'}
-										label={'Humor'}
-										className={`tab-button ${searchCommunity.search.articleCategory == 'HUMOR' ? 'active' : ''}`}
+										value="HUMOR"
+										label="Humor"
+										className={`tab-button ${searchCommunity.search.articleCategory === 'HUMOR' ? 'active' : ''}`}
+										style={{
+											padding: '10px 20px',
+											borderRadius: '6px',
+											width: '300px',
+											fontSize: '14px',
+											fontWeight: '600',
+											textTransform: 'none',
+											color: searchCommunity.search.articleCategory === 'HUMOR' ? '#ffffff' : '#333',
+											backgroundColor: searchCommunity.search.articleCategory === 'HUMOR' ? '#007bff' : '#f4f4f4',
+											transition: 'background-color 0.3s ease, color 0.3s ease',
+										}}
 									/>
 								</TabList>
 							</Stack>
@@ -152,9 +206,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 									<Stack className="title-box">
 										<Stack className="left">
 											<Typography className="title">{searchCommunity.search.articleCategory} BOARD</Typography>
-											<Typography className="sub-title">
-												Express your opinions freely here without content restrictions
-											</Typography>
+											<Typography className="sub-title">Share your thoughts openly without limitations</Typography>
 										</Stack>
 										<Button
 											onClick={() =>

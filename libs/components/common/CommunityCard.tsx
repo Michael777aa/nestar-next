@@ -2,25 +2,23 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Stack, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import { BoardArticle } from '../../types/board-article/board-article';
 import Moment from 'react-moment';
 import { REACT_APP_API_URL } from '../../config';
-import { useReactiveVar } from '@apollo/client';
-import { userVar } from '../../../apollo/store';
-import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { userVar } from '../../../apollo/store';
+import { useReactiveVar } from '@apollo/client';
 
 interface CommunityCardProps {
 	boardArticle: BoardArticle;
-	size?: string;
 	likeArticleHandler: any;
 }
 
 const CommunityCard = (props: CommunityCardProps) => {
-	const { boardArticle, size = 'normal', likeArticleHandler } = props;
-	const device = useDeviceDetect();
+	const { boardArticle, likeArticleHandler } = props;
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = boardArticle?.articleImage
@@ -28,73 +26,95 @@ const CommunityCard = (props: CommunityCardProps) => {
 		: '/img/community/communityImg.png';
 
 	/** HANDLERS **/
-	const chooseArticleHandler = (e: React.SyntheticEvent, boardArticle: BoardArticle) => {
-		router.push(
-			{
-				pathname: '/community/detail',
-				query: { articleCategory: boardArticle?.articleCategory, id: boardArticle?._id },
-			},
-			undefined,
-			{ shallow: true },
-		);
+	const chooseArticleHandler = (e: React.SyntheticEvent) => {
+		router.push({
+			pathname: '/community/detail',
+			query: { articleCategory: boardArticle?.articleCategory, id: boardArticle?._id },
+		});
 	};
 
-	const goMemberPage = (id: string) => {
-		if (id === user?._id) router.push('/mypage');
-		else router.push(`/member?memberId=${id}`);
-	};
-
-	if (device === 'mobile') {
-		return <div>COMMUNITY CARD MOBILE</div>;
-	} else {
-		return (
-			<Stack
-				sx={{ width: size === 'small' ? '285px' : '317px' }}
-				className="community-general-card-config"
-				onClick={(e) => chooseArticleHandler(e, boardArticle)}
+	return (
+		<Stack
+			sx={{
+				width: 320,
+				backgroundColor: '#fff',
+				borderRadius: '12px',
+				boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+				overflow: 'hidden',
+				cursor: 'pointer',
+				transition: 'transform 0.3s ease',
+			}}
+			onClick={chooseArticleHandler}
+		>
+			{/* Image Section */}
+			<div
+				style={{ position: 'relative' }}
+				onClick={(e) => {
+					e.stopPropagation();
+				}}
 			>
-				<Stack className="image-box">
-					<img src={imagePath} alt="" className="card-img" />
-				</Stack>
-				<Stack className="desc-box" sx={{ marginTop: '-20px' }}>
-					<Stack>
-						<Typography
-							className="desc"
-							onClick={(e) => {
-								e.stopPropagation();
-								goMemberPage(boardArticle?.memberData?._id as string);
-							}}
-						>
-							{boardArticle?.memberData?.memberNick}
-						</Typography>
-						<Typography className="title">{boardArticle?.articleTitle}</Typography>
-					</Stack>
-					<Stack className={'buttons'}>
-						<IconButton color={'default'}>
-							<RemoveRedEyeIcon />
-						</IconButton>
-						<Typography className="view-cnt">{boardArticle?.articleViews}</Typography>
-						<IconButton color={'default'} onClick={(e: any) => likeArticleHandler(e, user, boardArticle?._id)}>
-							{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
-								<FavoriteIcon color={'primary'} />
-							) : (
-								<FavoriteBorderIcon />
-							)}
-						</IconButton>
-						<Typography className="view-cnt">{boardArticle?.articleLikes}</Typography>
-					</Stack>
-				</Stack>
-				<Stack className="date-box">
-					<Moment className="month" format={'MMMM'}>
-						{boardArticle?.createdAt}
-					</Moment>
-					<Typography className="day">
-						<Moment format={'DD'}>{boardArticle?.createdAt}</Moment>
-					</Typography>
-				</Stack>
+				<img
+					src={imagePath}
+					alt="Community"
+					style={{
+						width: '100%',
+						height: '200px',
+						objectFit: 'cover',
+					}}
+				/>
+				<IconButton
+					onClick={(e: any) => likeArticleHandler(e, user, boardArticle?._id)}
+					aria-label="Like this article"
+					size="medium"
+					sx={{
+						position: 'absolute',
+						right: '1rem',
+						bottom: '-17px',
+						backgroundColor: '#ff6b6b',
+						color: '#fff',
+						borderRadius: '50%',
+						'&:hover': { backgroundColor: '#ff8787' },
+					}}
+				>
+					{boardArticle?.meLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+				</IconButton>
+			</div>
+
+			{/* Content Section */}
+			<Stack sx={{ padding: '16px', gap: '8px' }}>
+				<Typography
+					sx={{
+						color: '#2E3A59',
+						fontSize: '16px',
+						fontWeight: '600',
+					}}
+				>
+					{boardArticle?.articleTitle}
+				</Typography>
+				<Typography sx={{ color: '#6A737D', fontSize: '14px' }}>{boardArticle?.memberData?.memberNick}</Typography>
 			</Stack>
-		);
-	}
+
+			{/* Footer Section */}
+			<Stack
+				sx={{
+					padding: '12px 16px',
+					backgroundColor: '#f9f9fb',
+					display: 'flex',
+					flexDirection: 'row',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					fontSize: '14px',
+					color: '#6A737D',
+				}}
+			>
+				<Stack direction="row" alignItems="center" gap={1}>
+					<RemoveRedEyeIcon sx={{ fontSize: '20px' }} />
+					<Typography>{boardArticle?.articleViews} views</Typography>
+				</Stack>
+				<Moment format="MMM DD">{boardArticle?.createdAt}</Moment>
+			</Stack>
+		</Stack>
+	);
 };
 
 export default CommunityCard;
