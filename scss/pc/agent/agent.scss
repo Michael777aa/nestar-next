@@ -70,6 +70,7 @@
 				width: 100%;
 				min-height: 500px;
 				height: auto;
+				overflow: hidden;
 				display: flex;
 				flex-direction: row;
 				flex-wrap: wrap;
@@ -78,7 +79,27 @@
 					width: 300px;
 					height: 450px;
 					border-radius: 10px;
-
+					.namee2 {
+						color: #fff;
+						position: relative;
+						top: -225px;
+						left: 10px;
+						font-size: 12px;
+					}
+					.namee4 {
+						color: #fff;
+						position: relative;
+						top: -215px;
+						left: 10px;
+						font-size: 12px;
+					}
+					.namee3 {
+						color: #fff;
+						position: relative;
+						top: -235px;
+						left: 10px;
+						font-size: 13px;
+					}
 					.agent-img {
 						margin-top: 20px;
 						margin-left: 10px;
@@ -144,7 +165,13 @@
 							color: #fff;
 							.namee {
 								color: #fff;
-								font-size: 25px;
+								position: relative;
+								top: -125px;
+								font-size: 20px;
+								transition: all 0.5 ease-in;
+								&:hover {
+									color: rgb(0, 208, 255);
+								}
 							}
 						}
 						.buttons {

@@ -106,6 +106,7 @@ const AgentCard = (props: AgentCardProps) => {
 						<Typography className="view-cnt">{agent?.memberLikes}</Typography>
 					</Box>
 				</Stack>
+
 				<Stack
 					className="follow-button-box"
 					direction="row"
@@ -117,7 +118,7 @@ const AgentCard = (props: AgentCardProps) => {
 					{member?.meFollowed && member?.meFollowed[0]?.myFollowing ? (
 						<Button
 							className="buttons"
-							variant="outlined"
+							variant="contained"
 							sx={{
 								background: 'linear-gradient(135deg, #ff8a8a 0%, #e57373 100%)',
 								color: '#fff',
@@ -129,10 +130,6 @@ const AgentCard = (props: AgentCardProps) => {
 								alignItems: 'center',
 								justifyContent: 'center',
 								boxShadow: '0px 6px 10px rgba(255, 90, 90, 0.4)',
-								':hover': {
-									background: 'linear-gradient(135deg, #ff5e5e 0%, #e53935 100%)',
-									boxShadow: '0px 8px 12px rgba(255, 90, 90, 0.6)',
-								},
 							}}
 							onClick={() => unsubscribeHandler(member?._id, getMemberRefetch, agent._id)}
 						>
@@ -154,10 +151,6 @@ const AgentCard = (props: AgentCardProps) => {
 								alignItems: 'center',
 								justifyContent: 'center',
 								boxShadow: '0px 6px 10px rgba(255, 111, 0, 0.4)',
-								':hover': {
-									background: 'linear-gradient(135deg, #ff7043 0%, #ff5722 100%)',
-									boxShadow: '0px 8px 12px rgba(255, 111, 0, 0.6)',
-								},
 							}}
 							onClick={() => subscribeHandler(member?._id, getMemberRefetch, agent._id)}
 						>
@@ -166,6 +159,10 @@ const AgentCard = (props: AgentCardProps) => {
 						</Button>
 					)}
 				</Stack>
+				{agent?.memberEmail && <strong className="namee3">email: {agent.memberEmail}</strong>}
+
+				<strong className="namee2">address: {agent?.memberAddress ? agent.memberAddress : 'address not set'}</strong>
+				<strong className="namee4">phone: {agent?.memberPhone}</strong>
 			</Stack>
 		);
 	}
