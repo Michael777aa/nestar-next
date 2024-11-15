@@ -102,6 +102,16 @@ export const UPDATE_MEMBER = gql`
 			createdAt
 			updatedAt
 			accessToken
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
+			meFollowed {
+				followingId
+				followerId
+				myFollowing
+			}
 		}
 	}
 `;

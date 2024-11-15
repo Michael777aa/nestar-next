@@ -7,9 +7,11 @@ import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
 
 export function getJwtToken(): string | null {
 	if (typeof window !== 'undefined') {
-		return localStorage.getItem('accessToken');
+		const token = localStorage.getItem('accessToken');
+		// Return null if the token is empty or malformed
+		return token && token.split('.').length === 3 ? token : null;
 	}
-	return null; // Return null if window is not defined
+	return null;
 }
 
 export function setJwtToken(token: string) {
@@ -21,13 +23,13 @@ export const logIn = async (nick: string, password: string): Promise<void> => {
 		const { jwtToken } = await requestJwtToken({ nick, password });
 
 		if (jwtToken) {
-			updateStorage(jwtToken);
+			updateStorage({ jwtToken });
 			updateUserInfo(jwtToken);
 		}
 	} catch (err) {
-		console.warn('Login error:', err);
+		console.warn('login err', err);
 		logOut();
-		throw new Error('Login Error');
+		throw new Error('Login Err');
 	}
 };
 
@@ -47,70 +49,62 @@ const requestJwtToken = async ({
 			fetchPolicy: 'network-only',
 		});
 
+		console.log('---------- login ----------');
 		const { accessToken } = result?.data?.login;
 
 		return { jwtToken: accessToken };
 	} catch (err: any) {
-		console.error('Request token error:', err.graphQLErrors);
-		const errorMessage = err.graphQLErrors[0]?.message;
-		if (errorMessage) {
-			handleLoginError(errorMessage);
+		console.log('request token err', err.graphQLErrors);
+		switch (err.graphQLErrors[0].message) {
+			case 'Definer: login and password do not match':
+				await sweetMixinErrorAlert('Please check your password again');
+				break;
+			case 'Definer: user has been blocked!':
+				await sweetMixinErrorAlert('User has been blocked!');
+				break;
 		}
-		throw new Error('Token error');
-	}
-};
-
-const handleLoginError = async (errorMessage: string) => {
-	switch (errorMessage) {
-		case 'Definer: login and password do not match':
-			await sweetMixinErrorAlert('Please check your password again');
-			break;
-		case 'Definer: user has been blocked!':
-			await sweetMixinErrorAlert('User has been blocked!');
-			break;
-		default:
-			await sweetMixinErrorAlert('An unknown error occurred');
+		throw new Error('token error');
 	}
 };
 
 export const signUp = async (
-	firstName: string,
-	lastName: string,
 	nick: string,
 	password: string,
+	firstName: string,
+	lastName: string,
 	memberEmail: string,
 	phone: string,
 	type: string,
 ): Promise<void> => {
 	try {
-		const { jwtToken } = await requestSignUpJwtToken({ firstName, lastName, nick, password, memberEmail, phone, type });
+		const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, type, firstName, lastName, memberEmail });
 
 		if (jwtToken) {
-			updateStorage(jwtToken);
+			updateStorage({ jwtToken });
 			updateUserInfo(jwtToken);
 		}
 	} catch (err) {
-		console.warn('Sign up error:', err);
+		console.warn('login err', err);
 		logOut();
-		throw new Error('Sign Up Error');
+		throw new Error('Login Err');
 	}
 };
 
 const requestSignUpJwtToken = async ({
-	firstName,
-	lastName,
 	nick,
 	password,
-	memberEmail,
 	phone,
 	type,
+	firstName,
+	lastName,
+	memberEmail,
 }: {
-	firstName: string;
-	lastName: string;
 	nick: string;
 	password: string;
-	memberEmail: string;
 	phone: string;
+	firstName: string;
+	lastName: string;
+	memberEmail: string;
 	type: string;
 }): Promise<{ jwtToken: string }> => {
 	const apolloClient = await initializeApollo();
@@ -120,11 +114,11 @@ const requestSignUpJwtToken = async ({
 			mutation: SIGN_UP,
 			variables: {
 				input: {
-					memberFirstName: firstName,
-					memberLastName: lastName,
 					memberNick: nick,
 					memberPassword: password,
 					memberEmail: memberEmail,
+					firstName: firstName,
+					lastName: lastName,
 					memberPhone: phone,
 					memberType: type,
 				},
@@ -132,39 +126,31 @@ const requestSignUpJwtToken = async ({
 			fetchPolicy: 'network-only',
 		});
 
+		console.log('---------- login ----------');
 		const { accessToken } = result?.data?.signup;
 
 		return { jwtToken: accessToken };
 	} catch (err: any) {
-		console.error('Request token error:', err.graphQLErrors);
-		const errorMessage = err.graphQLErrors[0]?.message;
-		if (errorMessage) {
-			handleSignUpError(errorMessage);
+		console.log('request token err', err.graphQLErrors);
+		switch (err.graphQLErrors[0].message) {
+			case 'Definer: login and password do not match':
+				await sweetMixinErrorAlert('Please check your password again');
+				break;
+			case 'Definer: user has been blocked!':
+				await sweetMixinErrorAlert('User has been blocked!');
+				break;
 		}
-		throw new Error('Token error');
+		throw new Error('token error');
 	}
 };
 
-const handleSignUpError = async (errorMessage: string) => {
-	switch (errorMessage) {
-		case 'Definer: login and password do not match':
-			await sweetMixinErrorAlert('Please check your password again');
-			break;
-		case 'Definer: user has been blocked!':
-			await sweetMixinErrorAlert('User has been blocked!');
-			break;
-		default:
-			await sweetMixinErrorAlert('An unknown error occurred');
-	}
-};
-
-export const updateStorage = (jwtToken: any) => {
+export const updateStorage = ({ jwtToken }: { jwtToken: any }) => {
 	setJwtToken(jwtToken);
 	window.localStorage.setItem('login', Date.now().toString());
 };
 
-export const updateUserInfo = (jwtToken: string) => {
-	if (!jwtToken) return;
+export const updateUserInfo = (jwtToken: any) => {
+	if (!jwtToken) return false;
 
 	const claims = decodeJWT<CustomJwtPayload>(jwtToken);
 	userVar({
@@ -175,19 +161,22 @@ export const updateUserInfo = (jwtToken: string) => {
 		memberPhone: claims.memberPhone ?? '',
 		memberNick: claims.memberNick ?? '',
 		memberFirstName: claims.memberFirstName ?? '',
-		memberLastName: claims.memberLastName ?? '', // Fixed: updated last name retrieval
+		memberLastName: claims.memberLastName ?? '',
 		memberEmail: claims.memberEmail ?? '',
-		memberImage: claims.memberImage ? `${claims.memberImage}` : '/img/profile/defaultUser.svg', // Ensure valid image path
+		memberImage:
+			claims.memberImage === null || claims.memberImage === undefined
+				? '/img/profile/defaultUser.svg'
+				: `${claims.memberImage}`,
 		memberAddress: claims.memberAddress ?? '',
 		memberDesc: claims.memberDesc ?? '',
-		memberProperties: claims.memberProperties ?? 0,
-		memberRank: claims.memberRank ?? 0,
-		memberArticles: claims.memberArticles ?? 0,
-		memberPoints: claims.memberPoints ?? 0,
-		memberLikes: claims.memberLikes ?? 0,
-		memberViews: claims.memberViews ?? 0,
-		memberWarnings: claims.memberWarnings ?? 0,
-		memberBlocks: claims.memberBlocks ?? 0,
+		memberProperties: claims.memberProperties,
+		memberRank: claims.memberRank,
+		memberArticles: claims.memberArticles,
+		memberPoints: claims.memberPoints,
+		memberLikes: claims.memberLikes,
+		memberViews: claims.memberViews,
+		memberWarnings: claims.memberWarnings,
+		memberBlocks: claims.memberBlocks,
 	});
 };
 
@@ -209,9 +198,9 @@ const deleteUserInfo = () => {
 		memberAuthType: '',
 		memberPhone: '',
 		memberNick: '',
+		memberEmail: '',
 		memberFirstName: '',
 		memberLastName: '',
-		memberEmail: '',
 		memberImage: '',
 		memberAddress: '',
 		memberDesc: '',

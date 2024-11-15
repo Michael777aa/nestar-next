@@ -122,11 +122,15 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 					<Divider sx={{ mt: '15px', mb: '17px' }} />
 					<div className={'bott'}>
 						<div className="view-like-box">
-							<IconButton color={'default'} onClick={() => likePropertyHandler(user, property?._id)}>
+							<IconButton color={'default'}>
 								<RemoveRedEyeIcon />
 							</IconButton>
 							<Typography className="view-cnt">{property?.rentViews}</Typography>
-							<IconButton className="likee-cnt" color={'default'}>
+							<IconButton
+								className="likee-cnt"
+								color={'default'}
+								onClick={() => likePropertyHandler(user, property?._id)}
+							>
 								{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: 'red' }} />
 								) : (
