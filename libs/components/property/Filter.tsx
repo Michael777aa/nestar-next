@@ -41,13 +41,11 @@ const Filter = (props: FilterType) => {
 	const [rentLocation, setRentLocation] = useState<RentLocation[]>(Object.values(RentLocation));
 	const [rentType, setrentType] = useState<RentType[]>(Object.values(RentType));
 	const [searchText, setSearchText] = useState<string>('');
-	const [showMore, setShowMore] = useState<boolean>(false);
 
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (searchFilter?.search?.locationList?.length == 0) {
 			delete searchFilter.search.locationList;
-			setShowMore(false);
 			router
 				.push(
 					`/property?input=${JSON.stringify({
@@ -108,8 +106,6 @@ const Filter = (props: FilterType) => {
 				)
 				.then();
 		}
-
-		if (searchFilter?.search?.locationList) setShowMore(true);
 	}, [searchFilter]);
 
 	/** HANDLERS **/
@@ -429,16 +425,7 @@ const Filter = (props: FilterType) => {
 					<p className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>
 						Location
 					</p>
-					<Stack
-						className="property-location"
-						style={{ height: showMore ? '400px' : '240px' }}
-						onMouseEnter={() => setShowMore(true)}
-						onMouseLeave={() => {
-							if (!searchFilter?.search?.locationList) {
-								setShowMore(false);
-							}
-						}}
-					>
+					<Stack className="property-location" style={{ height: '400px' }}>
 						{rentLocation.map((location: string) => (
 							<Stack className="input-box" key={location}>
 								<Checkbox
@@ -450,11 +437,11 @@ const Filter = (props: FilterType) => {
 									checked={(searchFilter?.search?.locationList || []).includes(location as RentLocation)}
 									onChange={RentLocationSelectHandler}
 								/>
-								<label htmlFor={location} className="label">
+								<label className="label">
 									<Typography className="property-type">{location}</Typography>
-								</label>
+								</label>{' '}
 							</Stack>
-						))}
+						))}{' '}
 					</Stack>
 				</Stack>
 				<Stack className={'find-your-home'} mb={'30px'}>
