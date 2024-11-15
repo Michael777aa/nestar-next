@@ -389,6 +389,45 @@ export const SUBSCRIBE = gql`
 			followerId
 			createdAt
 			updatedAt
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
+			meFollowed {
+				followingId
+				followerId
+				myFollowing
+			}
+			followerData {
+				_id
+				memberType
+				memberEmail
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFirstName
+				memberLastName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
 		}
 	}
 `;
@@ -401,6 +440,45 @@ export const UNSUBSCRIBE = gql`
 			followerId
 			createdAt
 			updatedAt
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
+			meFollowed {
+				followingId
+				followerId
+				myFollowing
+			}
+			followerData {
+				_id
+				memberType
+				memberEmail
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFirstName
+				memberLastName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
 		}
 	}
 `;

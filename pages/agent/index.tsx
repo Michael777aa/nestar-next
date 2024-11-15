@@ -9,12 +9,13 @@ import AgentCard from '../../libs/components/common/AgentCard';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Member } from '../../libs/types/member/member';
-import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { GET_AGENTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { Messages } from '../../libs/config';
+import { userVar } from '../../apollo/store';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -26,7 +27,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const [anchorEl2, setAnchorEl2] = useState<null | HTMLElement>(null);
-	const [filterSortName, setFilterSortName] = useState('Recent');
+	const [filterSortName, setFilterSortName] = useState('New');
 	const [sortingOpen, setSortingOpen] = useState(false);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [searchFilter, setSearchFilter] = useState<any>(
@@ -36,11 +37,14 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [searchText, setSearchText] = useState<string>('');
+	const [selectedSort, setSelectedSort] = useState(''); // Track selected sort option
+	const user = useReactiveVar(userVar);
 
 	/** APOLLO REQUESTS **/
 
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
-
+	const [subscribe] = useMutation(SUBSCRIBE);
+	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 	const {
 		loading: getAgentsLoading,
 		data: getAgentsData,
@@ -71,6 +75,39 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 		setAnchorEl(e.currentTarget);
 		setSortingOpen(true);
 	};
+	const subscribeHandler = async (id: string, refetch: any, query: any) => {
+		try {
+			console.log('id', id);
+			if (!id) throw new Error(Messages.error1);
+			if (!user._id) throw new Error(Messages.error2);
+
+			await subscribe({
+				variables: { input: id },
+			});
+			await sweetTopSmallSuccessAlert('Subscribed!', 800);
+			await refetch({ input: query });
+		} catch (err: any) {
+			sweetErrorHandling(err).then();
+		}
+	};
+
+	const unsubscribeHandler = async (id: string, refetch: any, query: any) => {
+		try {
+			console.log('id', id);
+			if (!id) throw new Error(Messages.error1);
+			if (!user._id) throw new Error(Messages.error2);
+
+			const result = await unsubscribe({
+				variables: { input: id },
+			});
+			console.log('RESULT', result);
+
+			await sweetTopSmallSuccessAlert('Unsubscribed!', 800);
+			await refetch({ input: query });
+		} catch (err: any) {
+			sweetErrorHandling(err).then();
+		}
+	};
 
 	const sortingCloseHandler = () => {
 		setSortingOpen(false);
@@ -79,9 +116,9 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 	const sortingHandler = (e: React.MouseEvent<HTMLLIElement>) => {
 		switch (e.currentTarget.id) {
-			case 'recent':
+			case 'New':
 				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: 'DESC' });
-				setFilterSortName('Recent');
+				setFilterSortName('New');
 				break;
 			case 'old':
 				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: 'ASC' });
@@ -100,6 +137,11 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 		setAnchorEl2(null);
 	};
 
+	const handleSortingClick = (e: any) => {
+		const sortId = e.currentTarget.id;
+		setSelectedSort(sortId); // Update selected sort option
+		sortingHandler(e); // Call the existing sorting handler
+	};
 	const paginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
 		await router.push(`/agent?input=${JSON.stringify(searchFilter)}`, `/agent?input=${JSON.stringify(searchFilter)}`, {
@@ -154,16 +196,44 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 									{filterSortName}
 								</Button>
 								<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
-									<MenuItem onClick={sortingHandler} id={'recent'} disableRipple>
-										Recent
+									<MenuItem
+										onClick={handleSortingClick}
+										id={'New'}
+										disableRipple
+										sx={{
+											color: selectedSort === 'New' ? 'red' : 'inherit',
+										}}
+									>
+										New
 									</MenuItem>
-									<MenuItem onClick={sortingHandler} id={'old'} disableRipple>
+									<MenuItem
+										onClick={handleSortingClick}
+										id={'old'}
+										disableRipple
+										sx={{
+											color: selectedSort === 'old' ? 'red' : 'inherit',
+										}}
+									>
 										Oldest
 									</MenuItem>
-									<MenuItem onClick={sortingHandler} id={'likes'} disableRipple>
+									<MenuItem
+										onClick={handleSortingClick}
+										id={'likes'}
+										disableRipple
+										sx={{
+											color: selectedSort === 'likes' ? 'red' : 'inherit',
+										}}
+									>
 										Likes
 									</MenuItem>
-									<MenuItem onClick={sortingHandler} id={'views'} disableRipple>
+									<MenuItem
+										onClick={handleSortingClick}
+										id={'views'}
+										disableRipple
+										sx={{
+											color: selectedSort === 'views' ? 'red' : 'inherit',
+										}}
+									>
 										Views
 									</MenuItem>
 								</Menu>
@@ -178,7 +248,15 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 							</div>
 						) : (
 							agents.map((agent: Member) => {
-								return <AgentCard agent={agent} key={agent._id} likeMemberHandler={likeMemberHandler} />;
+								return (
+									<AgentCard
+										agent={agent}
+										subscribeHandler={subscribeHandler}
+										unsubscribeHandler={unsubscribeHandler}
+										key={agent._id}
+										likeMemberHandler={likeMemberHandler}
+									/>
+								);
 							})
 						)}
 					</Stack>

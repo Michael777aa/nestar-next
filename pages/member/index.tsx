@@ -59,7 +59,7 @@ const MemberPage: NextPage = () => {
 			await subscribe({
 				variables: { input: id },
 			});
-			// await sweetTopSmallSuccessAlert('Subscribed!', 800);
+			await sweetTopSmallSuccessAlert('Subscribed!', 800);
 			await refetch({ input: query });
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
@@ -77,7 +77,7 @@ const MemberPage: NextPage = () => {
 			});
 			console.log('RESULT', result);
 
-			// await sweetTopSmallSuccessAlert('Unsubscribed!', 800);
+			await sweetTopSmallSuccessAlert('Unsubscribed!', 800);
 			await refetch({ input: query });
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
