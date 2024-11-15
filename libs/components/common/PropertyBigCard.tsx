@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Stack, Box, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -11,6 +11,7 @@ import { userVar } from '../../../apollo/store';
 import { useRouter } from 'next/router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import BalconyIcon from '@mui/icons-material/Balcony';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 
 interface PropertyBigCardProps {
 	property: Rent;
@@ -22,7 +23,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const router = useRouter();
-
+	const [hovered, setHovered] = useState(false);
 	/** HANDLERS **/
 	const goPropertyDetatilPage = (propertyId: string) => {
 		router.push(`/property/detail?id=${propertyId}`);
@@ -34,10 +35,8 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 		return (
 			<Stack
 				className="property-big-card-box"
-				onClick={() => goPropertyDetatilPage(property?._id)}
 				style={{
-					width: '100%',
-					maxWidth: '350px',
+					width: '300px',
 
 					borderRadius: '12px',
 					overflow: 'hidden',
@@ -49,6 +48,7 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 				<Box
 					component="div"
 					className="card-img"
+					onClick={() => goPropertyDetatilPage(property?._id)}
 					style={{
 						width: '100%',
 						height: '220px',
@@ -70,15 +70,23 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 					}}
 				>
 					<strong
+						onClick={() => goPropertyDetatilPage(property?._id)}
+						onMouseEnter={() => setHovered(true)} // Set hover state
+						onMouseLeave={() => setHovered(false)} // Reset hover state
 						className="title"
 						style={{
 							fontSize: '1.25rem',
 							fontWeight: '600',
-							color: '#333',
+							color: hovered ? '#007bff' : '#333', // Change color on hover
 							marginBottom: '6px',
+							cursor: 'pointer',
+							display: 'flex',
+							alignItems: 'center',
+							gap: '5px',
 						}}
 					>
 						{property?.rentTitle}
+						<ArrowOutwardIcon style={{ color: hovered ? '#007bff' : '#333', fontSize: '1rem' }} />
 					</strong>
 					<p
 						className="desc"
@@ -99,9 +107,12 @@ const PropertyBigCard = (props: PropertyBigCardProps) => {
 							color: '#777',
 						}}
 					>
-						<BalconyIcon style={{ fontSize: '18px', color: '#555' }} />
+						<div>
+							<span style={{ fontSize: '12px' }}>availability: {property?.availabilityStatus} </span>
+						</div>
 						<span style={{ fontSize: '0.85rem' }}>{property?.rentBalconies} balconies</span>
 					</div>
+
 					<Divider sx={{ mt: '8px', mb: '8px' }} />
 					<div
 						className="bott"

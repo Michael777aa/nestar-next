@@ -22,7 +22,7 @@ import { CREATE_COMMENT, LIKE_TARGET_RENT } from '../../apollo/user/mutation';
 import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Message } from '../../libs/enums/common.enum';
-
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),
@@ -180,7 +180,10 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							alt=""
 						/>
 						<Box component={'div'} className={'info'} onClick={() => redirectToMemberPageHandler(agent?._id as string)}>
-							<strong>{`${agent?.memberFirstName ?? ''} ${agent?.memberLastName ?? ''}`.trim()}</strong>
+							<strong>
+								{`${agent?.memberFirstName ?? ''} ${agent?.memberLastName ?? ''}`.trim()}
+								<ArrowOutwardIcon />
+							</strong>
 							<div>
 								<img src="/img/icons/call.svg" alt="" />
 								<span>{agent?.memberPhone}</span>

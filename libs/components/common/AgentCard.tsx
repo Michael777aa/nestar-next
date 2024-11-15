@@ -13,7 +13,7 @@ import { Member } from '../../types/member/member';
 import { useRouter } from 'next/router';
 import { GET_MEMBER } from '../../../apollo/user/query';
 import { T } from '../../types/common';
-import CallMadeIcon from '@mui/icons-material/CallMade';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 interface AgentCardProps {
 	agent: any;
 	likeMemberHandler: any;
@@ -88,7 +88,10 @@ const AgentCard = (props: AgentCardProps) => {
 								query: { agentId: 'id' },
 							}}
 						>
-							<strong className="namee">{agent?.memberFirstName ?? agent?.memberNick}</strong>
+							<strong className="namee">
+								{agent?.memberFirstName ?? agent?.memberNick}
+								<ArrowOutwardIcon />
+							</strong>
 						</Link>
 					</Box>
 					<Box component={'div'} className={'buttons'}>
@@ -163,17 +166,6 @@ const AgentCard = (props: AgentCardProps) => {
 
 				<strong className="namee2">phone: {agent?.memberPhone}</strong>
 				<strong className="namee4">address: {agent?.memberAddress ? agent.memberAddress : 'address not set'}</strong>
-
-				<Box className="namee5">
-					<Link
-						href={{
-							pathname: '/agent/detail',
-							query: { agentId: 'id' },
-						}}
-					>
-						<CallMadeIcon style={{ color: '#fff' }} />
-					</Link>
-				</Box>
 			</Stack>
 		);
 	}
