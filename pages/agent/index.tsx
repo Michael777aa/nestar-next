@@ -139,8 +139,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 	const handleSortingClick = (e: any) => {
 		const sortId = e.currentTarget.id;
-		setSelectedSort(sortId); // Update selected sort option
-		sortingHandler(e); // Call the existing sorting handler
+		setSelectedSort(sortId);
+		sortingHandler(e);
 	};
 	const paginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
