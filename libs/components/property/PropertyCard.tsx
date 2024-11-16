@@ -141,8 +141,8 @@ const PropertyCard = (props: PropertyCardType) => {
 							borderRadius: '50px', // Fully rounded for a pill shape
 							color: '#ffffff', // White text for contrast
 							fontWeight: '600',
-							width: '40%',
-							fontSize: '18px',
+							width: '150px',
+							fontSize: '10px',
 							textAlign: 'center',
 							boxShadow: '0px 6px 12px rgba(0, 0, 0, 0.15)',
 							transition: 'transform 0.3s ease, box-shadow 0.3s ease',
@@ -157,7 +157,7 @@ const PropertyCard = (props: PropertyCardType) => {
 							e.currentTarget.style.boxShadow = '0px 6px 12px rgba(0, 0, 0, 0.15)';
 						}}
 					>
-						<Typography>${formatterStr(property?.rentalPrice)}/week</Typography>
+						<Typography style={{ fontSize: '15px' }}>${formatterStr(property?.rentalPrice)}/week</Typography>
 					</Box>
 					<Link
 						href={{

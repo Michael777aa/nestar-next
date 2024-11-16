@@ -64,17 +64,21 @@ const MyFavorites: NextPage = () => {
 						<Typography className="sub-title">We are glad to see you again!</Typography>
 					</Stack>
 				</Stack>
-				<Stack className="favorites-list-box">
-					{myFavorites?.length ? (
-						myFavorites?.map((property: Rent) => {
-							return <PropertyCard property={property} myFavorites={true} likePropertyHandler={likePropertyHandler} />;
-						})
-					) : (
-						<div className={'no-data'}>
-							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Favorites found!</p>
-						</div>
-					)}
+				<Stack className="main-config">
+					<Stack className="favorites-list-box">
+						{myFavorites?.length ? (
+							myFavorites?.map((property: Rent) => {
+								return (
+									<PropertyCard property={property} myFavorites={true} likePropertyHandler={likePropertyHandler} />
+								);
+							})
+						) : (
+							<div className={'no-data'}>
+								<img src="/img/icons/icoAlert.svg" alt="" />
+								<p>No Favorites found!</p>
+							</div>
+						)}
+					</Stack>
 				</Stack>
 				{myFavorites?.length ? (
 					<Stack className="pagination-config">

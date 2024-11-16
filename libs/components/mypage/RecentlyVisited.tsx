@@ -40,24 +40,28 @@ const RecentlyVisited: NextPage = () => {
 		return <div>NESTAR MY FAVORITES MOBILE</div>;
 	} else {
 		return (
-			<div id="my-favorites-page">
+			<div id="my-favoritess-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
 						<Typography className="main-title">Recently Visited</Typography>
 						<Typography className="sub-title">We are glad to see you again!</Typography>
 					</Stack>
 				</Stack>
-				<Stack className="favorites-list-box">
-					{recentlyVisited?.length ? (
-						recentlyVisited?.map((property: Rent) => {
-							return <PropertyCard property={property} recentlyVisited={true} />;
-						})
-					) : (
-						<div className={'no-data'}>
-							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Recently Visited Properties found!</p>
-						</div>
-					)}
+				<Stack>
+					<Stack className="main-config">
+						<Stack className="favorites-list-box">
+							{recentlyVisited?.length ? (
+								recentlyVisited?.map((property: Rent) => {
+									return <PropertyCard property={property} recentlyVisited={true} />;
+								})
+							) : (
+								<div className={'no-data'}>
+									<img src="/img/icons/icoAlert.svg" alt="" />
+									<p>No Recently Visited Facilities found!</p>
+								</div>
+							)}
+						</Stack>
+					</Stack>
 				</Stack>
 				{recentlyVisited?.length ? (
 					<Stack className="pagination-config">
