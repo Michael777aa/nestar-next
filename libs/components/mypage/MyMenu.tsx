@@ -73,7 +73,12 @@ const MyMenu = () => {
 										>
 											<div className={'flex-box'}>
 												{category === 'addProperty' ? (
-													<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} />
+													<img
+														className={'com-icon'}
+														style={{ backgroundColor: 'red' }}
+														src={'/img/icons/whiteTab.svg'}
+														alt={'com-icon'}
+													/>
 												) : (
 													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 												)}
@@ -96,7 +101,12 @@ const MyMenu = () => {
 										>
 											<div className={'flex-box'}>
 												{category === 'myProperties' ? (
-													<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
+													<img
+														style={{ backgroundColor: 'red' }}
+														className={'com-icon'}
+														src={'/img/icons/homeWhite.svg'}
+														alt={'com-icon'}
+													/>
 												) : (
 													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
 												)}
@@ -121,7 +131,12 @@ const MyMenu = () => {
 								>
 									<div className={'flex-box'}>
 										{category === 'myFavorites' ? (
-											<img className={'com-icon'} src={'/img/icons/likeWhite.svg'} alt={'com-icon'} />
+											<img
+												style={{ backgroundColor: 'red' }}
+												className={'com-icon'}
+												src={'/img/icons/likeWhite.svg'}
+												alt={'com-icon'}
+											/>
 										) : (
 											<img className={'com-icon'} src={'/img/icons/like.svg'} alt={'com-icon'} />
 										)}
@@ -142,7 +157,12 @@ const MyMenu = () => {
 								>
 									<div className={'flex-box'}>
 										{category === 'recentlyVisited' ? (
-											<img className={'com-icon'} src={'/img/icons/searchWhite.svg'} alt={'com-icon'} />
+											<img
+												style={{ backgroundColor: 'red' }}
+												className={'com-icon'}
+												src={'/img/icons/searchWhite.svg'}
+												alt={'com-icon'}
+											/>
 										) : (
 											<img className={'com-icon'} src={'/img/icons/search.svg'} alt={'com-icon'} />
 										)}
@@ -164,7 +184,7 @@ const MyMenu = () => {
 									<div className={'flex-box'}>
 										<svg
 											className={'com-icon'}
-											fill={category === 'followers' ? 'white' : 'black'}
+											fill={category === 'followers' ? 'red' : 'black'}
 											height="16px"
 											width="16px"
 											version="1.1"
@@ -211,7 +231,7 @@ const MyMenu = () => {
 									<div className={'flex-box'}>
 										<svg
 											className={'com-icon'}
-											fill={category === 'followings' ? 'white' : 'black'}
+											fill={category === 'followings' ? 'red' : 'black'}
 											height="16px"
 											width="16px"
 											version="1.1"
@@ -266,7 +286,12 @@ const MyMenu = () => {
 									>
 										<div className={'flex-box'}>
 											{category === 'myArticles' ? (
-												<img className={'com-icon'} src={'/img/icons/discoveryWhite.svg'} alt={'com-icon'} />
+												<img
+													style={{ backgroundColor: 'red' }}
+													className={'com-icon'}
+													src={'/img/icons/discoveryWhite.svg'}
+													alt={'com-icon'}
+												/>
 											) : (
 												<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} />
 											)}
@@ -287,7 +312,12 @@ const MyMenu = () => {
 									>
 										<div className={'flex-box'}>
 											{category === 'writeArticle' ? (
-												<img className={'com-icon'} src={'/img/icons/whiteTab.svg'} alt={'com-icon'} />
+												<img
+													style={{ backgroundColor: 'red' }}
+													className={'com-icon'}
+													src={'/img/icons/whiteTab.svg'}
+													alt={'com-icon'}
+												/>
 											) : (
 												<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 											)}
@@ -315,7 +345,12 @@ const MyMenu = () => {
 								>
 									<div className={'flex-box'}>
 										{category === 'myProfile' ? (
-											<img className={'com-icon'} src={'/img/icons/userWhite.svg'} alt={'com-icon'} />
+											<img
+												style={{ backgroundColor: 'red' }}
+												className={'com-icon'}
+												src={'/img/icons/userWhite.svg'}
+												alt={'com-icon'}
+											/>
 										) : (
 											<img className={'com-icon'} src={'/img/icons/user.svg'} alt={'com-icon'} />
 										)}

@@ -146,11 +146,10 @@
 									}
 									.focus {
 										height: 50px;
-										color: #007bff;
 										border-radius: 10px;
 										p {
 											font-size: 14px;
-											color: #ffffff;
+											color: #ee1515;
 										}
 									}
 									.flex-box {
@@ -166,7 +165,9 @@
 											border-radius: 50%; /* Circular shape for a clean design */
 											box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 											transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover effect */
-
+											.focus {
+												background-color: #007bff;
+											}
 											&:hover {
 												/* Interactive blue background on hover */
 												transform: scale(1.1); /* Slight zoom for feedback */
@@ -192,7 +193,7 @@
 											transition: color 0.3s ease; /* Smooth color transition on hover */
 
 											&:hover {
-												color: #007bff; /* Blue for interactivity */
+												color: #e64a19; /* Blue for interactivity */
 											}
 											.focus {
 												color: #007bff;
@@ -205,7 +206,6 @@
 									height: 16px;
 								}
 								.sub-title {
-									margin-left: 10px; /* Slightly reduced margin for cleaner alignment */
 									color: #333333; /* Neutral dark gray for modern text appearance */
 									font-family: 'Roboto', sans-serif; /* Sleek and modern font */
 									font-size: 20px; /* Slightly larger for better readability */
@@ -217,7 +217,6 @@
 
 									&:hover {
 										color: #007bff; /* Interactive blue for hover state */
-										transform: translateX(5px); /* Slight slide effect to the right */
 									}
 								}
 							}
