@@ -136,98 +136,100 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 		<Stack>
 			<TableContainer>
 				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
-					{/*@ts-ignore*/}
-					<EnhancedTableHead />
+					{/* Table Header */}
+
 					<TableBody>
+						{/* No Data Row */}
 						{properties.length === 0 && (
 							<TableRow>
-								<TableCell align="center" colSpan={8}>
-									<span className={'no-data'}>data not found!</span>
+								<TableCell align="center" colSpan={headCells.length}>
+									<span className="no-data">No data found!</span>
 								</TableCell>
 							</TableRow>
 						)}
 
+						{/* Data Rows */}
 						{properties.length !== 0 &&
 							properties.map((property: Rent, index: number) => {
 								const propertyImage = `${REACT_APP_API_URL}/${property?.rentImages[0]}`;
 
 								return (
 									<TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+										{/* Property ID */}
 										<TableCell align="left">{property._id}</TableCell>
-										<TableCell align="left" className={'name'}>
-											{property.availabilityStatus === AvailabilityStatus.AVAILABLE ? (
-												<Stack direction={'row'}>
-													<Link href={`/property/detail?id=${property?._id}`}>
-														<div>
-															<Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
-														</div>
-													</Link>
-													<Link href={`/property/detail?id=${property?._id}`}>
-														<div>{property.rentTitle}</div>
-													</Link>
-												</Stack>
-											) : (
-												<Stack direction={'row'}>
-													<div>
-														<Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
-													</div>
-													<div style={{ marginTop: '10px' }}>{property.rentTitle}</div>
-												</Stack>
-											)}
+
+										{/* Property Title with Image */}
+										<TableCell align="left">
+											<Stack direction={'row'}>
+												<Link href={`/property/detail?id=${property?._id}`}>
+													<Avatar
+														alt={property.rentTitle}
+														src={propertyImage}
+														sx={{ ml: '2px', mr: '10px', width: 50, height: 50 }}
+													/>
+												</Link>
+												<Link href={`/property/detail?id=${property?._id}`}>
+													<Typography>{property.rentTitle}</Typography>
+												</Link>
+											</Stack>
 										</TableCell>
-										<TableCell align="center">{property.rentalPrice}</TableCell>
-										<TableCell align="center">{property.memberData?.memberNick}</TableCell>
+
+										{/* Rental Price */}
+										<TableCell align="center">${property.rentalPrice}</TableCell>
+
+										{/* Agent */}
+										<TableCell align="center">{property.memberData?.memberNick || 'N/A'}</TableCell>
+
+										{/* Location */}
 										<TableCell align="center">{property.rentLocation}</TableCell>
+
+										{/* Type */}
 										<TableCell align="center">{property.rentType}</TableCell>
+
+										{/* Status */}
 										<TableCell align="center">
-											{property.availabilityStatus === AvailabilityStatus.OCUPPIED && (
-												<Button
-													variant="outlined"
-													sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
-													onClick={() => removePropertyHandler(property._id)}
-												>
-													<DeleteIcon fontSize="small" />
-												</Button>
-											)}
+											{/* Status Dropdown */}
+											<Button
+												className={`badge ${property.availabilityStatus.toLowerCase()}`}
+												onClick={(e) => menuIconClickHandler(e, index)}
+											>
+												{property.availabilityStatus}
+											</Button>
+											<Menu
+												anchorEl={anchorEl[index]}
+												open={Boolean(anchorEl[index])}
+												onClose={menuIconCloseHandler}
+												TransitionComponent={Fade}
+											>
+												{Object.values(AvailabilityStatus)
+													.filter((status) => status !== property.availabilityStatus)
+													.map((status) => (
+														<MenuItem
+															key={status}
+															onClick={() =>
+																updatePropertyHandler({
+																	_id: property._id,
+																	availabilityStatus: status,
+																})
+															}
+														>
+															<Typography>{status}</Typography>
+														</MenuItem>
+													))}
+											</Menu>
+										</TableCell>
 
-											{property.availabilityStatus === AvailabilityStatus.OCUPPIED && (
-												<Button className={'badge warning'}>{property.availabilityStatus}</Button>
-											)}
-
-											{property.availabilityStatus === AvailabilityStatus.AVAILABLE && (
-												<>
-													<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
-														{property.availabilityStatus}
-													</Button>
-
-													<Menu
-														className={'menu-modal'}
-														MenuListProps={{
-															'aria-labelledby': 'fade-button',
-														}}
-														anchorEl={anchorEl[index]}
-														open={Boolean(anchorEl[index])}
-														onClose={menuIconCloseHandler}
-														TransitionComponent={Fade}
-														sx={{ p: 1 }}
-													>
-														{Object.values(AvailabilityStatus)
-															.filter((ele) => ele !== property.availabilityStatus)
-															.map((status: string) => (
-																<MenuItem
-																	onClick={() =>
-																		updatePropertyHandler({ _id: property._id, availabilityStatus: status })
-																	}
-																	key={status}
-																>
-																	<Typography variant={'subtitle1'} component={'span'}>
-																		{status}
-																	</Typography>
-																</MenuItem>
-															))}
-													</Menu>
-												</>
-											)}
+										{/* Actions */}
+										<TableCell align="center">
+											{/* Delete Action */}
+											<Button
+												variant="outlined"
+												color="error"
+												onClick={() => removePropertyHandler(property._id)}
+												sx={{ p: '3px' }}
+											>
+												<DeleteIcon fontSize="small" />
+											</Button>
 										</TableCell>
 									</TableRow>
 								);

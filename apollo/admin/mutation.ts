@@ -34,6 +34,16 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 			createdAt
 			updatedAt
 			accessToken
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
+			meFollowed {
+				followingId
+				followerId
+				myFollowing
+			}
 		}
 	}
 `;
@@ -47,26 +57,64 @@ export const UPDATE_RENT_BY_ADMIN = gql`
 		updatePropertyByAdmin(input: $input) {
 			_id
 			rentType
-			propertyStatus
-			RentLocation
+			availabilityStatus
+			rentLocation
 			rentAddress
 			rentTitle
 			rentalPrice
 			rentSquare
-			propertyBeds
 			rentBalconies
-			propertyViews
-			propertyLikes
+			rentViews
+			rentLikes
+			rentComments
+			rentRank
 			rentImages
+			amenities
+			includedUtilities
 			rentDesc
-			propertyBarter
-			propertyRent
+			rentPetsAllowed
+			parkingAvailable
+			furnished
 			memberId
-			soldAt
 			deletedAt
 			constructedAt
 			createdAt
+			soldAt
 			updatedAt
+			memberData {
+				_id
+				memberType
+				memberEmail
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFirstName
+				memberLastName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
 		}
 	}
 `;
@@ -76,26 +124,64 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
 		removePropertyByAdmin(propertyId: $input) {
 			_id
 			rentType
-			propertyStatus
-			RentLocation
+			availabilityStatus
+			rentLocation
 			rentAddress
 			rentTitle
 			rentalPrice
 			rentSquare
-			propertyBeds
 			rentBalconies
-			propertyViews
-			propertyLikes
+			rentViews
+			rentLikes
+			rentComments
+			rentRank
 			rentImages
+			amenities
+			includedUtilities
 			rentDesc
-			propertyBarter
-			propertyRent
+			rentPetsAllowed
+			parkingAvailable
+			furnished
 			memberId
-			soldAt
 			deletedAt
 			constructedAt
 			createdAt
+			soldAt
 			updatedAt
+			memberData {
+				_id
+				memberType
+				memberEmail
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFirstName
+				memberLastName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
 		}
 	}
 `;

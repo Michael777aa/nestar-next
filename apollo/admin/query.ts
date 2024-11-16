@@ -35,6 +35,16 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 				createdAt
 				updatedAt
 				accessToken
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
+				meFollowed {
+					followingId
+					followerId
+					myFollowing
+				}
 			}
 			metaCounter {
 				total

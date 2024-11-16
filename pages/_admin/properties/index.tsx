@@ -93,20 +93,13 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 				setPropertiesInquiry({ ...propertiesInquiry, search: { availabilityStatus: AvailabilityStatus.DELETE } });
 				break;
 			default:
-				delete propertiesInquiry?.search?.availabilityStatus;
-				setPropertiesInquiry({ ...propertiesInquiry });
-				break;
 		}
 	};
 
 	const removePropertyHandler = async (id: string) => {
 		try {
-			if (await sweetConfirmAlert('Are you sure to remove?')) {
-				await removePropertyByAdmin({
-					variables: {
-						input: id,
-					},
-				});
+			if (await sweetConfirmAlert('Are you sure to remove this property?')) {
+				await removePropertyByAdmin({ variables: { input: id } });
 				await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
 			}
 
@@ -135,30 +128,49 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 				setPropertiesInquiry({ ...propertiesInquiry });
 			}
 		} catch (err: any) {
-			console.log('searchTypeHandler: ', err.message);
+			console.log('searchTypeHandler:', err.message);
 		}
 	};
 
 	const updatePropertyHandler = async (updateData: RentUpdate) => {
 		try {
-			console.log('+updateData: ', updateData);
-			await updatePropertyByAdmin({
-				variables: {
-					input: updateData,
-				},
-			});
+			let confirmMessage = '';
+			if (updateData.availabilityStatus === AvailabilityStatus.AVAILABLE) {
+				confirmMessage = `Do you want to mark this property as AVAILABLE?`;
+				updateData.availabilityStatus = AvailabilityStatus.AVAILABLE;
+			} else if (updateData.availabilityStatus === AvailabilityStatus.OCUPPIED) {
+				confirmMessage = `Do you want to mark this property as OCUPPIED?`;
+				updateData.availabilityStatus = AvailabilityStatus.OCUPPIED;
+			}
+
+			// Confirm the action with the user
+			if (!(await sweetConfirmAlert(confirmMessage))) return;
+
+			// Call the mutation
+			const { data } = await updatePropertyByAdmin({ variables: { input: updateData } });
+
+			if (data) {
+				// Update the local properties state after the mutation
+				setProperties((prevProperties) =>
+					prevProperties.map((property) =>
+						property._id === updateData._id
+							? { ...property, availabilityStatus: updateData.availabilityStatus }
+							: property,
+					),
+				);
+			}
+
 			menuIconCloseHandler();
-			await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
 		} catch (err: any) {
 			menuIconCloseHandler();
-			sweetErrorHandling(err).then();
+			sweetErrorHandling(err);
 		}
 	};
 
 	return (
 		<Box component={'div'} className={'content'}>
 			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
-				Property List
+				Facilities List
 			</Typography>
 			<Box component={'div'} className={'table-wrap'}>
 				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
@@ -184,14 +196,14 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 									value="OCUPPIED"
 									className={value === 'OCUPPIED' ? 'li on' : 'li'}
 								>
-									OCUPPIED
+									OCCUPIED
 								</ListItem>
 								<ListItem
 									onClick={(e) => tabChangeHandler(e, 'DELETE')}
 									value="DELETE"
 									className={value === 'DELETE' ? 'li on' : 'li'}
 								>
-									Delete
+									Deleted
 								</ListItem>
 							</List>
 							<Divider />

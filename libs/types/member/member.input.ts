@@ -8,7 +8,7 @@ export interface MemberInput {
 	memberLastName?: string;
 	memberEmail?: string;
 	memberPhone: string;
-	memberType?: MemberType;
+	memberType: MemberType;
 	memberAuthType?: MemberAuthType;
 }
 
