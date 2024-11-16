@@ -29,8 +29,14 @@ import { NotificationInquiry } from '../types/notifications/notifications';
 import { Notification } from '../types/notifications/notifications';
 import { NotificationStatus } from '../enums/notification.enum';
 import { UPDATE_NOTIFICATION } from '../../apollo/user/mutation';
+import { RentsInquiry } from '../types/property/property.input';
+import { RentLocation, RentType } from '../enums/property.enum';
 
-const Top = () => {
+interface topFilter {
+	initialInput: RentsInquiry;
+}
+const Top = (props: topFilter) => {
+	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const { t, i18n } = useTranslation('common');
@@ -40,15 +46,13 @@ const Top = () => {
 	const drop = Boolean(anchorEl2);
 	const [colorChange, setColorChange] = useState(false);
 	const [notifications, setNotifications] = useState<Notification[]>([]);
-	const [total, setTotal] = useState<number>(0);
 	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
 	let open = Boolean(anchorEl);
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
-	const [searchQuery, setSearchQuery] = useState<string>('');
+	const [searchFiltere, setSearchFiltere] = useState<RentsInquiry>(initialInput);
 	const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-	const [seenNotifications, setSeenNotifications] = useState<string[]>([]);
 	const [unreadCount, setUnreadCount] = useState<number>(0);
 
 	const searchFilter: NotificationInquiry = {
@@ -134,18 +138,27 @@ const Top = () => {
 		}
 	}, [user, isNotificationOpen]);
 
-	const handleSearch = () => {
-		if (searchQuery) {
-			router.push({
-				pathname: '/property',
-				query: { search: searchQuery },
-			});
+	const pushSearchHandler = async () => {
+		try {
+			if (searchFiltere?.search?.locationList?.length == 0) {
+				delete searchFiltere.search.locationList;
+			}
+
+			if (searchFiltere?.search?.typeList?.length == 0) {
+				delete searchFiltere.search.typeList;
+			}
+
+			await router.push(
+				`/property?input=${JSON.stringify(searchFiltere)}`,
+				`/property?input=${JSON.stringify(searchFiltere)}`,
+			);
+		} catch (err: any) {
+			console.log('ERROR, pushSearchHandler:', err);
 		}
 	};
-
 	const handlePasswordKeyDown = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter') {
-			handleSearch();
+			pushSearchHandler();
 		}
 	};
 	useEffect(() => {
@@ -436,12 +449,18 @@ const Top = () => {
 								<Stack className={'search-b'}>
 									<input
 										className={'search-buttton'}
-										value={searchQuery}
-										onChange={(e) => setSearchQuery(e.target.value)}
+										value={searchFiltere?.search?.text ?? ''}
+										type="text"
+										onChange={(e: any) => {
+											setSearchFiltere({
+												...searchFiltere,
+												search: { ...searchFiltere.search, text: e.target.value },
+											});
+										}}
 										placeholder="Search properties..."
 										onKeyDown={handlePasswordKeyDown}
 									/>
-									<SearchIcon className={'search-buttton-inside'} onClick={handleSearch} />
+									<SearchIcon className={'search-buttton-inside'} onClick={pushSearchHandler} />
 								</Stack>
 								<Stack className="right-login-and-notif">
 									<Stack component="div" className="user-box">
@@ -531,7 +550,6 @@ const Top = () => {
 															onClick={() => updateNotifsHandler(notification._id)}
 															sx={{ padding: '0', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
 														>
-															{/* Add a green circle for new (unread) notifications */}
 															{notification.notificationStatus === NotificationStatus.WAIT && (
 																<Box
 																	sx={{
@@ -585,5 +603,20 @@ const Top = () => {
 		);
 	}
 };
-
-export default withRouter(Top);
+Top.defaultProps = {
+	initialInput: {
+		page: 1,
+		limit: 9,
+		search: {
+			squaresRange: {
+				start: 0,
+				end: 500,
+			},
+			pricesRange: {
+				start: 0,
+				end: 500000,
+			},
+		},
+	},
+};
+export default Top;

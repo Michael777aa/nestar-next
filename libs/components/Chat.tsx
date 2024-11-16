@@ -21,7 +21,7 @@ interface MessagePayload {
 	text: string;
 	memberData: Member;
 	createdAt: string;
-	isEdited?: boolean; // New flag to track if the message is edited
+	isEdited?: boolean;
 }
 
 interface InfoPayload {
