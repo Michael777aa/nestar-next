@@ -103,9 +103,10 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 								searchFilter.search.availabilityStatus === AvailabilityStatus.OCUPPIED ? 'active-tab-name' : 'tab-name'
 							}
 						>
-							OCUPPIED
+							OCCUPIED
 						</Typography>
 					</Stack>
+
 					<Stack className="list-box">
 						<Stack className="listing-title-box">
 							<Typography className="title-text">Listing title</Typography>

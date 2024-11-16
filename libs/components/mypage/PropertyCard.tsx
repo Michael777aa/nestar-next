@@ -54,15 +54,34 @@ export const PropertyCard = (props: PropertyCardProps) => {
 		return <div>MOBILE PROPERTY CARD</div>;
 	} else
 		return (
-			<Stack className="property-card-box">
-				<Stack className="image-box" onClick={() => pushPropertyDetail(property?._id)}>
+			<Stack className="property-card-box" sx={{ opacity: property.availabilityStatus === 'DELETE' ? 0.6 : 1 }}>
+				<Stack
+					className="image-box"
+					onClick={() => property.availabilityStatus !== 'DELETE' && pushPropertyDetail(property?._id)}
+					sx={{
+						filter: property.availabilityStatus === 'DELETE' ? 'grayscale(100%)' : 'none',
+						pointerEvents: property.availabilityStatus === 'DELETE' ? 'none' : 'auto',
+					}}
+				>
 					<img src={`${process.env.REACT_APP_API_URL}/${property.rentImages[0]}`} alt="" />
 				</Stack>
-				<Stack className="information-box" onClick={() => pushPropertyDetail(property?._id)}>
-					<Typography className="name">{property.rentTitle}</Typography>
-					<Typography className="address">{property.rentAddress}</Typography>
+				<Stack
+					className="information-box"
+					onClick={() => property.availabilityStatus !== 'DELETE' && pushPropertyDetail(property?._id)}
+				>
+					<Typography
+						className="name"
+						sx={{ textDecoration: property.availabilityStatus === 'DELETE' ? 'line-through' : 'none' }}
+					>
+						{property.rentTitle}
+					</Typography>
+					<Typography className="address" sx={{ color: property.availabilityStatus === 'DELETE' ? '#999' : '#333' }}>
+						{property.rentAddress}
+					</Typography>
 					<Typography className="price">
-						<strong>${formatterStr(property?.rentalPrice)}</strong>
+						<strong>
+							{property.availabilityStatus !== 'DELETE' ? `$${formatterStr(property?.rentalPrice)}` : 'Deleted'}
+						</strong>
 					</Typography>
 				</Stack>
 				<Stack className="date-box">
@@ -71,8 +90,21 @@ export const PropertyCard = (props: PropertyCardProps) => {
 					</Typography>
 				</Stack>
 				<Stack className="status-box">
-					<Stack className="coloured-box" sx={{ background: '#E5F0FD' }} onClick={handleClick}>
-						<Typography className="status" sx={{ color: '#3554d1' }}>
+					<Stack
+						className="coloured-box"
+						sx={{
+							background: property.availabilityStatus === 'DELETE' ? '#FCE4EC' : '#E5F0FD',
+							cursor: property.availabilityStatus === 'DELETE' ? 'default' : 'pointer',
+						}}
+						onClick={property.availabilityStatus !== 'DELETE' ? handleClick : undefined}
+					>
+						<Typography
+							className="status"
+							sx={{
+								color: property.availabilityStatus === 'DELETE' ? '#D32F2F' : '#3554d1',
+								fontWeight: property.availabilityStatus === 'DELETE' ? 'bold' : 'normal',
+							}}
+						>
 							{property.availabilityStatus}
 						</Typography>
 					</Stack>
@@ -82,25 +114,19 @@ export const PropertyCard = (props: PropertyCardProps) => {
 							open={open}
 							onClose={handleClose}
 							PaperProps={{
-								elevation: 0,
+								elevation: 2,
 								sx: {
-									width: '70px',
+									width: '100px',
 									mt: 1,
 									ml: '10px',
-									overflow: 'visible',
-									filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-								},
-								style: {
-									padding: 0,
-									display: 'flex',
-									justifyContent: 'center',
+									overflow: 'hidden',
+									borderRadius: '8px',
+									boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
 								},
 							}}
 						>
 							{property.availabilityStatus === 'AVAILABLE' && (
 								<MenuItem
-									className="coloured-box"
-									disableRipple
 									onClick={() => {
 										handleClose();
 										updatePropertyHandler(AvailabilityStatus.OCUPPIED, property?._id);
@@ -111,7 +137,6 @@ export const PropertyCard = (props: PropertyCardProps) => {
 							)}
 							{property.availabilityStatus === 'OCUPPIED' && (
 								<MenuItem
-									disableRipple
 									onClick={() => {
 										handleClose();
 										updatePropertyHandler(AvailabilityStatus.AVAILABLE, property?._id);
@@ -123,52 +148,6 @@ export const PropertyCard = (props: PropertyCardProps) => {
 						</Menu>
 					)}
 				</Stack>
-
-				{!memberPage && property.availabilityStatus !== 'DELETE' && (
-					<Menu
-						anchorEl={anchorEl}
-						open={open}
-						onClose={handleClose}
-						PaperProps={{
-							elevation: 0,
-							sx: {
-								width: '70px',
-								mt: 1,
-								ml: '10px',
-								overflow: 'visible',
-								filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-							},
-							style: {
-								padding: 0,
-								display: 'flex',
-								justifyContent: 'center',
-							},
-						}}
-					>
-						{property.availabilityStatus === 'AVAILABLE' && (
-							<MenuItem
-								disableRipple
-								onClick={() => {
-									handleClose();
-									updatePropertyHandler(AvailabilityStatus.OCUPPIED, property?._id);
-								}}
-							>
-								OCCUPIED
-							</MenuItem>
-						)}
-						{property.availabilityStatus === 'OCUPPIED' && (
-							<MenuItem
-								disableRipple
-								onClick={() => {
-									handleClose();
-									updatePropertyHandler(AvailabilityStatus.AVAILABLE, property?._id);
-								}}
-							>
-								AVAILABLE
-							</MenuItem>
-						)}
-					</Menu>
-				)}
 
 				<Stack className="views-box">
 					<Typography className="views">{property.rentViews?.toLocaleString() || '0'}</Typography>
