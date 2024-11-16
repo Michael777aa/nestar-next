@@ -33,6 +33,10 @@ const MyMenu = () => {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>
 				<Stack className={'profile'}>
+					<Box component={'div'} className={'user-phone'}>
+						<img src={'/img/icons/call.svg'} alt={'icon'} />
+						<Typography className={'p-number'}>{user?.memberPhone}</Typography>
+					</Box>
 					<Box component={'div'} className={'profile-img'}>
 						<img
 							src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
@@ -41,10 +45,7 @@ const MyMenu = () => {
 					</Box>
 					<Stack className={'user-info'}>
 						<Typography className={'user-name'}>{user?.memberNick}</Typography>
-						<Box component={'div'} className={'user-phone'}>
-							<img src={'/img/icons/call.svg'} alt={'icon'} />
-							<Typography className={'p-number'}>{user?.memberPhone}</Typography>
-						</Box>
+
 						{user?.memberType === 'ADMIN' ? (
 							<a href="/_admin/users" target={'_blank'}>
 								<Typography className={'view-list'}>{user?.memberType}</Typography>
@@ -77,7 +78,7 @@ const MyMenu = () => {
 													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													Add Property
+													Add Facility
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
 													<PortraitIcon style={{ color: 'red' }} />
@@ -100,7 +101,7 @@ const MyMenu = () => {
 													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
 												)}
 												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
-													My Properties
+													My Facilities
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
 													<PortraitIcon style={{ color: 'red' }} />
