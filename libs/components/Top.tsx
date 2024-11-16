@@ -226,57 +226,6 @@ const Top = (props: topFilter) => {
 			setAnchorEl(null);
 		}
 	};
-	const StyledMenu = styled((props: MenuProps) => (
-		<Menu
-			elevation={0}
-			anchorOrigin={{
-				vertical: 'bottom',
-				horizontal: 'right',
-			}}
-			transformOrigin={{
-				vertical: 'top',
-				horizontal: 'right',
-			}}
-			{...props}
-		/>
-	))(({ theme }) => ({
-		'& .MuiPaper-root': {
-			top: '109px',
-			padding: '10px',
-			border: '1px solid black', // Fixed typo: '1spx' to '1px'
-			marginTop: theme.spacing(1),
-			minWidth: 160,
-			color: theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-			backgroundColor: theme.palette.background.paper, // Set background color for the menu
-			borderRadius: '0px', // Rounded corners
-			boxShadow: `rgb(255, 255, 255) 0px 0px 0px 0px,
-				rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
-				rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
-				rgba(0, 0, 0, 0.05) 0px 4px 6px -2px`,
-			'& .MuiMenu-list': {
-				padding: '4px 0',
-			},
-			'& .MuiMenuItem-root': {
-				borderRadius: '0px', // Rounded corners for menu items
-				'&:hover': {
-					backgroundColor: alpha(theme.palette.primary.main, 0.1), // Light background on hover
-				},
-				'&:active': {
-					backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
-				},
-				'& .MuiSvgIcon-root': {
-					fontSize: 15,
-					color: theme.palette.text.secondary,
-					marginRight: theme.spacing(1.5),
-				},
-				// Improved Typography
-				'& span': {
-					fontWeight: 500, // Medium weight for better readability
-					fontSize: '14px', // Adjust font size
-				},
-			},
-		},
-	}));
 
 	const getLanguageLabel = (langCode: string | null) => {
 		switch (langCode) {
@@ -343,11 +292,9 @@ const Top = (props: topFilter) => {
 									<Link href={'/about'} className={'link'}>
 										<div>{t('About')} </div>
 									</Link>
-									<Link href={'/contact'} className={'link'}>
-										<div> {t('Contact')} </div>
-									</Link>
+
 									<Link href={'/cs'} className={'link'}>
-										<div> {t('Cs')} </div>
+										<div> {t('Customer Care')} </div>
 									</Link>
 									<Stack className={'lan-box'}>
 										<Button
@@ -370,7 +317,7 @@ const Top = (props: topFilter) => {
 											</Box>
 										</Button>
 
-										<StyledMenu
+										<Menu
 											anchorEl={anchorEl2}
 											open={drop}
 											onClose={langClose}
@@ -412,7 +359,7 @@ const Top = (props: topFilter) => {
 												/>
 												{t('Russian')}
 											</MenuItem>
-										</StyledMenu>
+										</Menu>
 									</Stack>
 								</Box>
 							</Stack>
@@ -469,9 +416,10 @@ const Top = (props: topFilter) => {
 												<div className="login-user" onClick={(event) => setLogoutAnchor(event.currentTarget)}>
 													<img
 														src={
-															user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : `${defaultUserImage}`
+															user?.memberImage
+																? `${REACT_APP_API_URL}/${user?.memberImage}`
+																: `/img/profile/defaultUser.svg`
 														}
-														alt="Profile"
 													/>
 												</div>
 												<Menu

@@ -15,33 +15,33 @@ const About: NextPage = () => {
 				<Stack className={'intro'}>
 					<Stack className={'container'}>
 						<Stack className={'left'}>
-							<strong>We're on a Mission to Change View of Real Estate Field.</strong>
+							<strong>Our Goal is to Revolutionize the Experience of Renting Sports Facilities.</strong>
 						</Stack>
 						<Stack className={'right'}>
 							<p>
-								It doesn’t matter how organized you are — a surplus of toys will always ensure your house is a mess
-								waiting to happen. Fortunately, getting kids on board with the idea of ditching their stuff is a lot
-								easier than it sounds.
+								No matter how well-planned your setup, a surplus of equipment will always put your sports facility on
+								the brink of disorder. Fortunately, encouraging users to maintain a cleaner space is far easier than
+								expected.
 								<br />
-								<br />
-								Maecenas quis viverra metus, et efficitur ligula. Nam congue augue et ex congue, sed luctus lectus
-								congue. Integer convallis condimentum sem. Duis elementum tortor eget condimentum tempor. Praesent
-								sollicitudin lectus ut pharetra pulvinar.
+								<br />A well-designed sports facility combines practical systems with user-friendly spaces, ensuring
+								every visitor enjoys their time. From clean locker rooms to well-maintained courts, every detail
+								contributes to an optimal experience.
 							</p>
 							<Stack className={'boxes'}>
 								<div className={'box'}>
 									<div>
 										<img src="/img/icons/garden.svg" alt="" />
 									</div>
-									<span>Modern Villa</span>
-									<p>Nullam sollicitudin blandit Nullam maximus.</p>
+									<span>Premium Sports Facility</span>
+
+									<p>Experience seamless functionality and modern design for all your sporting needs.</p>
 								</div>
 								<div className={'box'}>
 									<div>
 										<img src="/img/icons/securePayment.svg" alt="" />
 									</div>
-									<span>Secure Payment</span>
-									<p>Nullam sollicitudin blandit Nullam maximus.</p>
+									<span>Secure Transactions</span>
+									<p>Enjoy quick, secure, and transparent payment options for your bookings.</p>
 								</div>
 							</Stack>
 						</Stack>
@@ -50,16 +50,16 @@ const About: NextPage = () => {
 				<Stack className={'statistics'}>
 					<Stack className={'container'}>
 						<Stack className={'banner'}>
-							<img src="/img/banner/header1.svg" alt="" />
+							<img src="/img/banner/9ed73c93-f122-4e05-87ac-539f413f649f.webp" alt="" />
 						</Stack>
 						<Stack className={'info'}>
 							<Box component={'div'}>
-								<strong>4M</strong>
+								<strong>10M</strong>
 								<p>Award Winning</p>
 							</Box>
 							<Box component={'div'}>
-								<strong>12K</strong>
-								<p>Property Ready</p>
+								<strong>45K</strong>
+								<p>Arena Ready</p>
 							</Box>
 							<Box component={'div'}>
 								<strong>20M</strong>
@@ -68,19 +68,9 @@ const About: NextPage = () => {
 						</Stack>
 					</Stack>
 				</Stack>
-				<Stack className={'agents'}>
-					<Stack className={'container'}>
-						<span className={'title'}>Our Exclusive Agetns</span>
-						<p className={'desc'}>Aliquam lacinia diam quis lacus euismod</p>
-						<Stack className={'wrap'}>
-							{/*{[1, 2, 3, 4, 5].map(() => {*/}
-							{/*	return <AgentCard />;*/}
-							{/*})}*/}
-						</Stack>
-					</Stack>
-				</Stack>
+
 				<Stack className={'options'}>
-					<img src="/img/banner/aboutBanner.svg" alt="" className={'about-banner'} />
+					<img src="/img/banner/pexels-photo-18769460.webp" alt="" className={'about-banner'} />
 					<Stack className={'container'}>
 						<strong>Let’s find the right selling option for you</strong>
 						<Stack>
@@ -88,27 +78,25 @@ const About: NextPage = () => {
 								<img src="/img/icons/security.svg" alt="" />
 							</div>
 							<div className={'text-box'}>
-								<span>Property Management</span>
-								<p>Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</p>
+								<span>Facility Management</span>
+								<p>We handle the details so you can focus on enjoying the game.</p>
 							</div>
 						</Stack>
 						<Stack>
 							<div className={'icon-box'}>
 								<img src="/img/icons/keywording.svg" alt="" />
 							</div>
-							<div className={'text_-box'}>
-								<span>Property Management</span>
-								<p>Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</p>
-							</div>
+							<span>Reliable Facility Services</span>
+
+							<p>Dedicated to maintaining top-tier standards for your sports facility rentals.</p>
 						</Stack>
 						<Stack>
 							<div className={'icon-box'}>
 								<img src="/img/icons/investment.svg" alt="" />
 							</div>
-							<div className={'text-box'}>
-								<span>Property Management</span>
-								<p>Nullam sollicitudin blandit eros eu pretium. Nullam maximus ultricies auctor.</p>
-							</div>
+							<span>Comprehensive Facility Management</span>
+
+							<p>Ensuring your sports venue remains organized, clean, and ready for action.</p>
 						</Stack>
 						<Stack className={'btn'}>
 							Learn More
@@ -132,7 +120,7 @@ const About: NextPage = () => {
 					<Stack className={'container'}>
 						<Box component={'div'} className={'left'}>
 							<strong>Need help? Talk to our expert.</strong>
-							<p>Talk to our experts or Browse through more properties.</p>
+							<p>Speak to our specialists or discover the perfect sports facility for your needs.</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'white'}>
@@ -141,7 +129,7 @@ const About: NextPage = () => {
 							</div>
 							<div className={'black'}>
 								<img src="/img/icons/call.svg" alt="" />
-								920 851 9087
+								82 10 2877 1575
 							</div>
 						</Box>
 					</Stack>

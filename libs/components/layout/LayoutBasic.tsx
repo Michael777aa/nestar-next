@@ -63,6 +63,11 @@ const withLayoutBasic = (Component: any) => {
 					desc = 'We are glad to see you again!';
 					bgImage = '/img/banner/header2.svg';
 					break;
+				case '/about':
+					title = 'About Page';
+					desc = 'We are glad to see you again!';
+					bgImage = '/img/banner/9ed73c93-f122-4e05-87ac-539f413f649f.webp';
+					break;
 				case '/account/join':
 					title = 'Login/Signup';
 					desc = 'Authentication Process';

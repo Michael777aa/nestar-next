@@ -95,6 +95,8 @@ body::-webkit-scrollbar {
 								align-items: center;
 								gap: 18px;
 								.link {
+									position: relative;
+									right: 25px;
 									transition: all 0.3s ease;
 									font-size: 15px;
 								}
@@ -197,7 +199,7 @@ body::-webkit-scrollbar {
 
 								.search-buttton {
 									position: relative;
-									right: 85px;
+									right: 50px;
 									width: 240px;
 
 									height: 46px;
@@ -211,7 +213,7 @@ body::-webkit-scrollbar {
 
 								.search-buttton-inside {
 									position: relative;
-									right: 120px;
+									right: 85px;
 
 									cursor: pointer;
 								}
