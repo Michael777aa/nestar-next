@@ -84,9 +84,9 @@ const AdminMenuList = (props: any) => {
 			on_click: () => subMenuChangeHandler('Users'),
 		},
 		{
-			title: 'Facilities',
+			title: 'Properties',
 			icon: <UserCircleGear size={20} color="#bdbdbd" weight="fill" />,
-			on_click: () => subMenuChangeHandler('Facilities'),
+			on_click: () => subMenuChangeHandler('Properties'),
 		},
 		{
 			title: 'Community',

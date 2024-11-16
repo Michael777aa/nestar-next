@@ -99,7 +99,12 @@ const MemberMenu = (props: MemberMenuProps) => {
 									>
 										<div className={'flex-box'}>
 											{category === 'properties' ? (
-												<img className={'com-icon'} src={'/img/icons/homeWhite.svg'} alt={'com-icon'} />
+												<img
+													className={'com-icon'}
+													style={{ backgroundColor: 'red' }}
+													src={'/img/icons/homeWhite.svg'}
+													alt={'com-icon'}
+												/>
 											) : (
 												<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
 											)}
@@ -125,7 +130,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 									<div className={'flex-box'}>
 										<svg
 											className={'com-icon'}
-											fill={category === 'followers' ? 'white' : 'black'}
+											fill={category === 'followers' ? 'red' : 'black'}
 											height="800px"
 											width="800px"
 											version="1.1"
@@ -176,7 +181,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 									<div className={'flex-box'}>
 										<svg
 											className={'com-icon'}
-											fill={category === 'followings' ? 'white' : 'black'}
+											fill={category === 'followings' ? 'red' : 'black'}
 											height="800px"
 											width="800px"
 											version="1.1"
@@ -234,7 +239,12 @@ const MemberMenu = (props: MemberMenuProps) => {
 									>
 										<div className={'flex-box'}>
 											{category === 'articles' ? (
-												<img className={'com-icon'} src={'/img/icons/discoveryWhite.svg'} alt={'com-icon'} />
+												<img
+													className={'com-icon'}
+													style={{ backgroundColor: 'red' }}
+													src={'/img/icons/discoveryWhite.svg'}
+													alt={'com-icon'}
+												/>
 											) : (
 												<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} />
 											)}

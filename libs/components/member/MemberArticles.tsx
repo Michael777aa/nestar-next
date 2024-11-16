@@ -89,7 +89,6 @@ const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
 								boardArticle={boardArticle}
 								key={boardArticle?._id}
 								likeArticleHandler={likeArticleHandler}
-								size={'small'}
 							/>
 						);
 					})}
