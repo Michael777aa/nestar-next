@@ -84,7 +84,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
 			await likeTargetProperty({ variables: { input: id } });
 
-			await getPropertiesRefetch({ input: initialInput });
+			await getPropertiesRefetch();
 		} catch (err: any) {
 			console.log('Error on likePropertyHandler', err);
 			sweetMixinErrorAlert(err.message).then();
@@ -105,14 +105,14 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 		const selectedOption = e.currentTarget.id;
 		setSelectedSortOption(selectedOption); // Update the selected option state
 		switch (selectedOption) {
-			case 'Sort by latest':
-				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: Direction.ASC });
-				break;
 			case 'Sort by price:low to high':
 				setSearchFilter({ ...searchFilter, sort: 'rentalPrice', direction: Direction.ASC });
 				break;
 			case 'Sort by price:high to low':
 				setSearchFilter({ ...searchFilter, sort: 'rentalPrice', direction: Direction.DESC });
+				break;
+			case 'Sort by latest':
+				setSearchFilter({ ...searchFilter, sort: 'createdAt', direction: Direction.ASC });
 				break;
 			case 'Sort by popularity':
 				setSearchFilter({ ...searchFilter, sort: 'rentViews', direction: Direction.DESC });
