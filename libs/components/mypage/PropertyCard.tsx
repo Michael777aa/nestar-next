@@ -76,8 +76,55 @@ export const PropertyCard = (props: PropertyCardProps) => {
 							{property.availabilityStatus}
 						</Typography>
 					</Stack>
+					{!memberPage && property.availabilityStatus !== 'DELETE' && (
+						<Menu
+							anchorEl={anchorEl}
+							open={open}
+							onClose={handleClose}
+							PaperProps={{
+								elevation: 0,
+								sx: {
+									width: '70px',
+									mt: 1,
+									ml: '10px',
+									overflow: 'visible',
+									filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+								},
+								style: {
+									padding: 0,
+									display: 'flex',
+									justifyContent: 'center',
+								},
+							}}
+						>
+							{property.availabilityStatus === 'AVAILABLE' && (
+								<MenuItem
+									className="coloured-box"
+									disableRipple
+									onClick={() => {
+										handleClose();
+										updatePropertyHandler(AvailabilityStatus.OCUPPIED, property?._id);
+									}}
+								>
+									OCCUPIED
+								</MenuItem>
+							)}
+							{property.availabilityStatus === 'OCUPPIED' && (
+								<MenuItem
+									disableRipple
+									onClick={() => {
+										handleClose();
+										updatePropertyHandler(AvailabilityStatus.AVAILABLE, property?._id);
+									}}
+								>
+									AVAILABLE
+								</MenuItem>
+							)}
+						</Menu>
+					)}
 				</Stack>
-				{!memberPage && property.availabilityStatus !== 'OCUPPIED' && (
+
+				{!memberPage && property.availabilityStatus !== 'DELETE' && (
 					<Menu
 						anchorEl={anchorEl}
 						open={open}
@@ -99,17 +146,26 @@ export const PropertyCard = (props: PropertyCardProps) => {
 						}}
 					>
 						{property.availabilityStatus === 'AVAILABLE' && (
-							<>
-								<MenuItem
-									disableRipple
-									onClick={() => {
-										handleClose();
-										updatePropertyHandler(AvailabilityStatus.OCUPPIED, property?._id);
-									}}
-								>
-									Sold
-								</MenuItem>
-							</>
+							<MenuItem
+								disableRipple
+								onClick={() => {
+									handleClose();
+									updatePropertyHandler(AvailabilityStatus.OCUPPIED, property?._id);
+								}}
+							>
+								OCCUPIED
+							</MenuItem>
+						)}
+						{property.availabilityStatus === 'OCUPPIED' && (
+							<MenuItem
+								disableRipple
+								onClick={() => {
+									handleClose();
+									updatePropertyHandler(AvailabilityStatus.AVAILABLE, property?._id);
+								}}
+							>
+								AVAILABLE
+							</MenuItem>
 						)}
 					</Menu>
 				)}

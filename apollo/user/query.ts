@@ -265,12 +265,47 @@ export const GET_AGENT_PROPERTIES = gql`
 				rentDesc
 				rentPetsAllowed
 				parkingAvailable
+				furnished
 				memberId
 				deletedAt
 				constructedAt
 				createdAt
 				soldAt
 				updatedAt
+				memberData {
+					_id
+					memberType
+					memberEmail
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFirstName
+					memberLastName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProperties
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
 			}
 			metaCounter {
 				total

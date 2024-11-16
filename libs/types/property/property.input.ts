@@ -61,7 +61,7 @@ export interface AgentPropertiesInquiry {
 }
 
 interface ALPISearch {
-	availabilityStatus?: AvailabilityStatus;
+	availabilityStatus: AvailabilityStatus;
 	rentLocationList?: RentLocation[];
 }
 

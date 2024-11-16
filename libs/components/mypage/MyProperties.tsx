@@ -52,8 +52,8 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 
 	const deletePropertyHandler = async (id: string) => {
 		try {
-			if (await sweetConfirmAlert('Are you sure to delete this property?')) {
-				await updateProperty({ variables: { input: { _id: id, availabilityStatus: 'DELETE' } } });
+			if (await sweetConfirmAlert('Are you sure to delete this sport complex?')) {
+				await updateProperty({ variables: { input: { _id: id, availabilityStatus: AvailabilityStatus.DELETE } } });
 			}
 			await getAgentPropertiesRefetch({ input: searchFilter });
 		} catch (err: any) {
@@ -77,13 +77,13 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 	}
 
 	if (device === 'mobile') {
-		return <div>NESTAR PROPERTIES MOBILE</div>;
+		return <div>PlaySpot Sport facilities MOBILE</div>;
 	} else {
 		return (
 			<div id="my-property-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">My Properties</Typography>
+						<Typography className="main-title">My Facilities</Typography>
 						<Typography className="sub-title">We are glad to see you again!</Typography>
 					</Stack>
 				</Stack>
@@ -91,15 +91,19 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 					<Stack className="tab-name-box">
 						<Typography
 							onClick={() => changeStatusHandler(AvailabilityStatus.AVAILABLE)}
-							className={searchFilter.search.availabilityStatus === 'AVAILABLE' ? 'active-tab-name' : 'tab-name'}
+							className={
+								searchFilter.search.availabilityStatus === AvailabilityStatus.AVAILABLE ? 'active-tab-name' : 'tab-name'
+							}
 						>
-							On Sale
+							AVAILABLE
 						</Typography>
 						<Typography
 							onClick={() => changeStatusHandler(AvailabilityStatus.OCUPPIED)}
-							className={searchFilter.search.availabilityStatus === 'OCUPPIED' ? 'active-tab-name' : 'tab-name'}
+							className={
+								searchFilter.search.availabilityStatus === AvailabilityStatus.OCUPPIED ? 'active-tab-name' : 'tab-name'
+							}
 						>
-							On Sold
+							OCUPPIED
 						</Typography>
 					</Stack>
 					<Stack className="list-box">
@@ -108,7 +112,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							<Typography className="title-text">Date Published</Typography>
 							<Typography className="title-text">Status</Typography>
 							<Typography className="title-text">View</Typography>
-							{searchFilter.search.availabilityStatus === 'AVAILABLE' && (
+							{searchFilter.search.availabilityStatus === AvailabilityStatus.AVAILABLE && (
 								<Typography className="title-text">Action</Typography>
 							)}
 						</Stack>
@@ -142,7 +146,7 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 									/>
 								</Stack>
 								<Stack className="total-result">
-									<Typography>{total} property available</Typography>
+									<Typography>{total} Facilities available</Typography>
 								</Stack>
 							</Stack>
 						)}
@@ -159,7 +163,7 @@ MyProperties.defaultProps = {
 		limit: 5,
 		sort: 'createdAt',
 		search: {
-			availabilityStatus: 'AVAILABLE',
+			availabilityStatus: AvailabilityStatus.AVAILABLE,
 		},
 	},
 };
