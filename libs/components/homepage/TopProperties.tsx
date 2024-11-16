@@ -50,7 +50,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 
 			await likeTargetProperty({ variables: { input: id } });
 
-			await getPropertiesRefetch({ input: initialInput });
+			await getPropertiesRefetch();
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
@@ -67,13 +67,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 						<span>Top properties</span>
 					</Stack>
 					<Stack className={'card-box'}>
-						<Swiper
-							className={'top-property-swiper'}
-							slidesPerView={'auto'}
-							centeredSlides={true}
-							spaceBetween={15}
-							modules={[Autoplay]}
-						>
+						<Swiper className={'top-property-swiper'} slidesPerView={'auto'} spaceBetween={15} modules={[Autoplay]}>
 							{topProperties.map((property: Rent) => {
 								return (
 									<SwiperSlide className={'top-property-slide'} key={property?._id}>
@@ -116,10 +110,20 @@ const TopProperties = (props: TopPropertiesProps) => {
 							pagination={{
 								el: '.swiper-top-pagination',
 							}}
+							threshold={10}
+							touchStartPreventDefault={false}
+							preventClicks={true}
+							preventClicksPropagation={true}
 						>
 							{topProperties.map((property: Rent) => {
 								return (
-									<SwiperSlide className={'top-property-slide'} key={property?._id}>
+									<SwiperSlide
+										onClick={(e) => {
+											e.stopPropagation();
+										}}
+										className={'top-property-slide'}
+										key={property?._id}
+									>
 										<TopPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
 									</SwiperSlide>
 								);

@@ -20,7 +20,6 @@ interface TopAgentsProps {
 const TopAgents = (props: TopAgentsProps) => {
 	const { initialInput, orderNumber } = props;
 	const device = useDeviceDetect();
-	const router = useRouter();
 	const [topAgents, setTopAgents] = useState<Member[]>([]);
 
 	/** APOLLO REQUESTS **/

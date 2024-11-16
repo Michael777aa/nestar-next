@@ -88,21 +88,11 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.rentImages[0]})` }}
-					onClick={() => {
-						pushDetailHandler(property._id);
-					}}
 				>
 					<div>${property.rentalPrice}/week</div>
 				</Box>
 				<Box component={'div'} className={'info'}>
-					<strong
-						className={'title'}
-						onClick={() => {
-							pushDetailHandler(property._id);
-						}}
-					>
-						{property.rentTitle}
-					</strong>
+					<strong className={'title'}>{property.rentTitle}</strong>
 					<p className={'desc'}>{property.rentDesc ?? 'no description'}</p>
 					<Stack className="two-items">
 						<p className={'decoratis'}>{property.parkingAvailable ? 'parking available' : 'parking unavailable'}</p>

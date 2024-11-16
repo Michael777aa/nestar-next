@@ -13,7 +13,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import Entitlement from '../homepage/Entitlement';
-import Carousel from '../homepage/carousel';
 
 const withLayoutMain = (Component: any) => {
 	return (props: any) => {

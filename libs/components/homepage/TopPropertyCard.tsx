@@ -9,8 +9,8 @@ import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import LocalParkingIcon from '@mui/icons-material/LocalParking';
-import BrushIcon from '@mui/icons-material/Brush';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+
 interface TopPropertyCardProps {
 	property: Rent;
 	likePropertyHandler: any;
@@ -100,7 +100,7 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 							pushDetailHandler(property._id);
 						}}
 					>
-						{property?.rentTitle}
+						{property?.rentTitle} <ArrowOutwardIcon />
 					</strong>
 					<div className={'options'}>
 						<div>

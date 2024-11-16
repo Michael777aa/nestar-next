@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import BalconyIcon from '@mui/icons-material/Balcony';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+
 interface PopularPropertyCardProps {
 	property: Rent;
 }
@@ -103,11 +105,12 @@ const PopularPropertyCard = (props: PopularPropertyCardProps) => {
 					</div>
 					<strong
 						className={'title'}
+						style={{ position: 'relative', top: '-5px' }}
 						onClick={() => {
 							pushDetailHandler(property._id);
 						}}
 					>
-						{property.rentTitle}
+						{property.rentTitle} <ArrowOutwardIcon />
 					</strong>
 					<p className={'desc'}>{property.rentDesc}</p>
 					<p className={'address'}>Address: {property.rentAddress}</p>

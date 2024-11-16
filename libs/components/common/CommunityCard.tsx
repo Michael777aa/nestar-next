@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Stack, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { BoardArticle } from '../../types/board-article/board-article';

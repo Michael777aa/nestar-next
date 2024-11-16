@@ -1,15 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Stack, Box, Modal, Divider, Button } from '@mui/material';
+import React from 'react';
+import { Stack } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CloseIcon from '@mui/icons-material/Close';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { rentSquare, propertyYears } from '../../config';
-import { RentLocation, RentType } from '../../enums/property.enum';
-import { RentsInquiry } from '../../types/property/property.input';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
 const Entitlement = () => {

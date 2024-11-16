@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { Pagination, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { PropertyCard } from '../mypage/PropertyCard';
 import { Rent } from '../../types/property/property';
-import { RentsInquiry } from '../../types/property/property.input';
-import { T } from '../../types/common';
 import { useRouter } from 'next/router';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';

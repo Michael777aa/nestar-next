@@ -49,7 +49,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 
 			await likeTargetProperty({ variables: { input: id } });
 
-			await getPropertiesRefetch({ input: initialInput });
+			await getPropertiesRefetch();
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
@@ -77,7 +77,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 							<Swiper
 								className={'trend-property-swiper'}
 								slidesPerView={'auto'}
-								centeredSlides={true}
+								centeredSlides={false}
 								spaceBetween={15}
 								modules={[Autoplay]}
 							>
@@ -129,6 +129,8 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 								pagination={{
 									el: '.swiper-trend-pagination',
 								}}
+								threshold={10}
+								touchStartPreventDefault={false}
 							>
 								{trendProperties.map((property: Rent) => {
 									return (

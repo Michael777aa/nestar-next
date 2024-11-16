@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useState } from 'react';
-import { useRouter, withRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box, TextField, Drawer, IconButton, Typography, Badge } from '@mui/material';
+import { Stack, Box, Typography, Badge, Drawer } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-import { alpha, styled } from '@mui/material/styles';
-import Menu, { MenuProps } from '@mui/material/Menu';
+import Menu from '@mui/material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
@@ -23,14 +22,12 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import SearchIcon from '@mui/icons-material/Search';
-import defaultUserImage from '/public/img/profile/defaultUser.svg';
 import { GET_NOTIFICATIONS } from '../../apollo/user/query';
 import { NotificationInquiry } from '../types/notifications/notifications';
 import { Notification } from '../types/notifications/notifications';
 import { NotificationStatus } from '../enums/notification.enum';
 import { UPDATE_NOTIFICATION } from '../../apollo/user/mutation';
 import { RentsInquiry } from '../types/property/property.input';
-import { RentLocation, RentType } from '../enums/property.enum';
 
 interface topFilter {
 	initialInput: RentsInquiry;
