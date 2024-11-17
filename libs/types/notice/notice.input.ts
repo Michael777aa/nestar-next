@@ -6,6 +6,7 @@ export interface NoticeInput {
 	noticeStatus: NoticeStatus;
 	noticeTitle: string;
 	noticeContent: string;
+	_id: string;
 	memberId?: string;
 }
 
@@ -22,6 +23,7 @@ export interface Noticies2Inquiry {
 }
 interface NoticeSearch {
 	noticeStatus?: NoticeStatus;
+	text?: string;
 	noticeCategory?: NoticeCategory;
 }
 

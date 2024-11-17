@@ -254,6 +254,9 @@ export const GET_ALL_NOTICES = gql`
 				createdAt
 				updatedAt
 			}
+			metaCounter {
+				total
+			}
 		}
 	}
 `;

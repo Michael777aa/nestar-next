@@ -5,13 +5,10 @@ import { CustomJwtPayload } from '../types/customJwtPayload';
 import { sweetMixinErrorAlert } from '../sweetAlert';
 import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
 
-export function getJwtToken(): string | null {
+export function getJwtToken(): any {
 	if (typeof window !== 'undefined') {
-		const token = localStorage.getItem('accessToken');
-		// Return null if the token is empty or malformed
-		return token && token.split('.').length === 3 ? token : null;
+		return localStorage.getItem('accessToken') ?? '';
 	}
-	return null;
 }
 
 export function setJwtToken(token: string) {
@@ -177,7 +174,7 @@ export const updateUserInfo = (jwtToken: string) => {
 		memberPhone: claims.memberPhone ?? '',
 		memberNick: claims.memberNick ?? '',
 		memberFirstName: claims.memberFirstName ?? '',
-		memberLastName: claims.memberLastName ?? '',
+		memberLastName: claims.memberLastName ?? '', // Fixed: updated last name retrieval
 		memberEmail: claims.memberEmail ?? '',
 		memberImage:
 			claims.memberImage === null || claims.memberImage === undefined

@@ -276,3 +276,16 @@ export const UPDATE_NOTICE = gql`
 		}
 	}
 `;
+export const REMOVE_NOTICE = gql`
+	mutation RemoveNotice($input: String!) {
+		removeNotice(noticeId: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			createdAt
+			updatedAt
+		}
+	}
+`;
