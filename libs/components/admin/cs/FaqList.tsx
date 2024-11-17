@@ -16,6 +16,9 @@ import {
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
+import { useMutation, useQuery } from '@apollo/client';
+import { CREATE_NOTICE, UPDATE_NOTICE } from '../../../../apollo/admin/mutation';
+import { GET_ALL_NOTICES } from '../../../../apollo/admin/query';
 
 interface Data {
 	category: string;

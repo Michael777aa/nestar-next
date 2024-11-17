@@ -237,3 +237,23 @@ export const GET_COMMENTS = gql`
 		}
 	}
 `;
+
+/**************************
+ *      NOTICE     *
+ *************************/
+
+export const GET_ALL_NOTICES = gql`
+	query GetNotices($input: NoticiesInquiry!) {
+		getNotices(input: $input) {
+			list {
+				_id
+				noticeCategory
+				noticeStatus
+				noticeTitle
+				noticeContent
+				createdAt
+				updatedAt
+			}
+		}
+	}
+`;
