@@ -23,13 +23,13 @@ export const logIn = async (nick: string, password: string): Promise<void> => {
 		const { jwtToken } = await requestJwtToken({ nick, password });
 
 		if (jwtToken) {
-			updateStorage({ jwtToken });
+			updateStorage(jwtToken);
 			updateUserInfo(jwtToken);
 		}
 	} catch (err) {
-		console.warn('login err', err);
+		console.warn('Login error:', err);
 		logOut();
-		throw new Error('Login Err');
+		throw new Error('Login Error');
 	}
 };
 
@@ -49,62 +49,70 @@ const requestJwtToken = async ({
 			fetchPolicy: 'network-only',
 		});
 
-		console.log('---------- login ----------');
 		const { accessToken } = result?.data?.login;
 
 		return { jwtToken: accessToken };
 	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
-			case 'Definer: login and password do not match':
-				await sweetMixinErrorAlert('Please check your password again');
-				break;
-			case 'Definer: user has been blocked!':
-				await sweetMixinErrorAlert('User has been blocked!');
-				break;
+		console.error('Request token error:', err.graphQLErrors);
+		const errorMessage = err.graphQLErrors[0]?.message;
+		if (errorMessage) {
+			handleLoginError(errorMessage);
 		}
-		throw new Error('token error');
+		throw new Error('Token error');
+	}
+};
+
+const handleLoginError = async (errorMessage: string) => {
+	switch (errorMessage) {
+		case 'Definer: login and password do not match':
+			await sweetMixinErrorAlert('Please check your password again');
+			break;
+		case 'Definer: user has been blocked!':
+			await sweetMixinErrorAlert('User has been blocked!');
+			break;
+		default:
+			await sweetMixinErrorAlert('An unknown error occurred');
 	}
 };
 
 export const signUp = async (
-	nick: string,
-	password: string,
 	firstName: string,
 	lastName: string,
+	nick: string,
+	password: string,
 	memberEmail: string,
 	phone: string,
 	type: string,
 ): Promise<void> => {
 	try {
-		const { jwtToken } = await requestSignUpJwtToken({ nick, password, phone, type, firstName, lastName, memberEmail });
+		const { jwtToken } = await requestSignUpJwtToken({ firstName, lastName, nick, password, memberEmail, phone, type });
 
 		if (jwtToken) {
-			updateStorage({ jwtToken });
+			updateStorage(jwtToken);
 			updateUserInfo(jwtToken);
 		}
 	} catch (err) {
-		console.warn('login err', err);
+		console.warn('Sign up error:', err);
 		logOut();
-		throw new Error('Login Err');
+		throw new Error('Sign Up Error');
 	}
 };
 
 const requestSignUpJwtToken = async ({
-	nick,
-	password,
-	phone,
-	type,
 	firstName,
 	lastName,
+	nick,
+	password,
 	memberEmail,
+	phone,
+	type,
 }: {
-	nick: string;
-	password: string;
-	phone: string;
 	firstName: string;
 	lastName: string;
+	nick: string;
+	password: string;
 	memberEmail: string;
+	phone: string;
 	type: string;
 }): Promise<{ jwtToken: string }> => {
 	const apolloClient = await initializeApollo();
@@ -114,11 +122,11 @@ const requestSignUpJwtToken = async ({
 			mutation: SIGN_UP,
 			variables: {
 				input: {
+					memberFirstName: firstName,
+					memberLastName: lastName,
 					memberNick: nick,
 					memberPassword: password,
 					memberEmail: memberEmail,
-					memberFirstName: firstName,
-					memberLastName: lastName,
 					memberPhone: phone,
 					memberType: type,
 				},
@@ -126,31 +134,39 @@ const requestSignUpJwtToken = async ({
 			fetchPolicy: 'network-only',
 		});
 
-		console.log('---------- login ----------');
 		const { accessToken } = result?.data?.signup;
 
 		return { jwtToken: accessToken };
 	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
-			case 'Definer: login and password do not match':
-				await sweetMixinErrorAlert('Please check your password again');
-				break;
-			case 'Definer: user has been blocked!':
-				await sweetMixinErrorAlert('User has been blocked!');
-				break;
+		console.error('Request token error:', err.graphQLErrors);
+		const errorMessage = err.graphQLErrors[0]?.message;
+		if (errorMessage) {
+			handleSignUpError(errorMessage);
 		}
-		throw new Error('token error');
+		throw new Error('Token error');
 	}
 };
 
-export const updateStorage = ({ jwtToken }: { jwtToken: any }) => {
+const handleSignUpError = async (errorMessage: string) => {
+	switch (errorMessage) {
+		case 'Definer: login and password do not match':
+			await sweetMixinErrorAlert('Please check your password again');
+			break;
+		case 'Definer: user has been blocked!':
+			await sweetMixinErrorAlert('User has been blocked!');
+			break;
+		default:
+			await sweetMixinErrorAlert('An unknown error occurred');
+	}
+};
+
+export const updateStorage = (jwtToken: any) => {
 	setJwtToken(jwtToken);
 	window.localStorage.setItem('login', Date.now().toString());
 };
 
-export const updateUserInfo = (jwtToken: any) => {
-	if (!jwtToken) return false;
+export const updateUserInfo = (jwtToken: string) => {
+	if (!jwtToken) return;
 
 	const claims = decodeJWT<CustomJwtPayload>(jwtToken);
 	userVar({
@@ -169,14 +185,14 @@ export const updateUserInfo = (jwtToken: any) => {
 				: `${claims.memberImage}`,
 		memberAddress: claims.memberAddress ?? '',
 		memberDesc: claims.memberDesc ?? '',
-		memberProperties: claims.memberProperties,
-		memberRank: claims.memberRank,
-		memberArticles: claims.memberArticles,
-		memberPoints: claims.memberPoints,
-		memberLikes: claims.memberLikes,
-		memberViews: claims.memberViews,
-		memberWarnings: claims.memberWarnings,
-		memberBlocks: claims.memberBlocks,
+		memberProperties: claims.memberProperties ?? 0,
+		memberRank: claims.memberRank ?? 0,
+		memberArticles: claims.memberArticles ?? 0,
+		memberPoints: claims.memberPoints ?? 0,
+		memberLikes: claims.memberLikes ?? 0,
+		memberViews: claims.memberViews ?? 0,
+		memberWarnings: claims.memberWarnings ?? 0,
+		memberBlocks: claims.memberBlocks ?? 0,
 	});
 };
 
@@ -198,9 +214,9 @@ const deleteUserInfo = () => {
 		memberAuthType: '',
 		memberPhone: '',
 		memberNick: '',
-		memberEmail: '',
 		memberFirstName: '',
 		memberLastName: '',
+		memberEmail: '',
 		memberImage: '',
 		memberAddress: '',
 		memberDesc: '',
