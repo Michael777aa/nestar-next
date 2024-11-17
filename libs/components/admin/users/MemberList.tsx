@@ -22,7 +22,9 @@ import { MemberStatus, MemberType } from '../../../enums/member.enum';
 interface Data {
 	id: string;
 	nickname: string;
-	fullname: string;
+	firstName: string;
+	lastName: string;
+	memberEmail: string;
 	phone: string;
 	type: string;
 	state: string;
@@ -57,46 +59,47 @@ const headCells: readonly HeadCell[] = [
 		label: 'MB ID',
 	},
 	{
+		id: 'memberEmail',
+		numeric: false,
+		disablePadding: false,
+		label: 'Email',
+	},
+	{
 		id: 'nickname',
 		numeric: true,
 		disablePadding: false,
-		label: 'NICK NAME',
+		label: 'NickName',
 	},
 	{
-		id: 'fullname',
+		id: 'firstName',
 		numeric: false,
 		disablePadding: false,
-		label: 'FULL NAME',
+		label: 'FirstName',
+	},
+	{
+		id: 'lastName',
+		numeric: false,
+		disablePadding: false,
+		label: 'LastName',
 	},
 	{
 		id: 'phone',
 		numeric: true,
 		disablePadding: false,
-		label: 'PHONE NUM',
+		label: 'Phone',
 	},
 	{
 		id: 'type',
 		numeric: false,
 		disablePadding: false,
-		label: 'MEMBER TYPE',
+		label: 'MemberType',
 	},
-	{
-		id: 'warning',
-		numeric: false,
-		disablePadding: false,
-		label: 'WARNING',
-	},
-	{
-		id: 'block',
-		numeric: false,
-		disablePadding: false,
-		label: 'BLOCK CRIMES',
-	},
+
 	{
 		id: 'state',
 		numeric: false,
 		disablePadding: false,
-		label: 'STATE',
+		label: 'State',
 	},
 ];
 
@@ -163,6 +166,7 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 								return (
 									<TableRow hover key={member?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 										<TableCell align="left">{member._id}</TableCell>
+										<TableCell align="center">{member.memberEmail}</TableCell>
 
 										<TableCell align="left" className={'name'}>
 											<Stack direction={'row'}>
@@ -177,7 +181,8 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 											</Stack>
 										</TableCell>
 
-										<TableCell align="center">{member.memberFirstName ?? '-'}</TableCell>
+										<TableCell align="center">{member.memberFirstName}</TableCell>
+										<TableCell align="center">{member.memberLastName}</TableCell>
 										<TableCell align="left">{member.memberPhone}</TableCell>
 
 										<TableCell align="center">
@@ -211,8 +216,6 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 											</Menu>
 										</TableCell>
 
-										<TableCell align="center">{member.memberWarnings}</TableCell>
-										<TableCell align="center">{member.memberBlocks}</TableCell>
 										<TableCell align="center">
 											<Button onClick={(e: any) => menuIconClickHandler(e, member._id)} className={'badge success'}>
 												{member.memberStatus}
