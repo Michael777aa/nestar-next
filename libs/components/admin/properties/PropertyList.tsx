@@ -28,6 +28,7 @@ interface Data {
 	location: string;
 	type: string;
 	status: string;
+	remove: string;
 }
 
 type Order = 'asc' | 'desc';
@@ -81,6 +82,12 @@ const headCells: readonly HeadCell[] = [
 		numeric: false,
 		disablePadding: false,
 		label: 'STATUS',
+	},
+	{
+		id: 'remove',
+		numeric: false,
+		disablePadding: false,
+		label: 'REMOVE',
 	},
 ];
 
@@ -137,7 +144,8 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 			<TableContainer>
 				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
 					{/* Table Header */}
-
+					{/*@ts-ignore*/}
+					<EnhancedTableHead />
 					<TableBody>
 						{/* No Data Row */}
 						{properties.length === 0 && (
