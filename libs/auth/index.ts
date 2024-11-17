@@ -20,7 +20,7 @@ export const logIn = async (nick: string, password: string): Promise<void> => {
 		const { jwtToken } = await requestJwtToken({ nick, password });
 
 		if (jwtToken) {
-			updateStorage(jwtToken);
+			updateStorage({ jwtToken });
 			updateUserInfo(jwtToken);
 		}
 	} catch (err) {
@@ -85,7 +85,7 @@ export const signUp = async (
 		const { jwtToken } = await requestSignUpJwtToken({ firstName, lastName, nick, password, memberEmail, phone, type });
 
 		if (jwtToken) {
-			updateStorage(jwtToken);
+			updateStorage({ jwtToken });
 			updateUserInfo(jwtToken);
 		}
 	} catch (err) {
@@ -157,7 +157,7 @@ const handleSignUpError = async (errorMessage: string) => {
 	}
 };
 
-export const updateStorage = (jwtToken: any) => {
+export const updateStorage = ({ jwtToken }: { jwtToken: any }) => {
 	setJwtToken(jwtToken);
 	window.localStorage.setItem('login', Date.now().toString());
 };
@@ -196,6 +196,7 @@ export const updateUserInfo = (jwtToken: string) => {
 export const logOut = () => {
 	deleteStorage();
 	deleteUserInfo();
+	window.location.reload();
 };
 
 const deleteStorage = () => {
