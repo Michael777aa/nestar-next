@@ -3,13 +3,14 @@ import { Direction } from '../../enums/common.enum';
 
 export interface Notification {
 	_id: string;
-
 	notificationType: NotificationType;
 	notificationStatus?: NotificationStatus; // Optional
 	notificationGroup: NotificationGroup;
 	notificationTitle: string; // Should be between 3 and 100 characters
 	notificationDesc?: string; // Optional, should be between 3 and 500 characters
 	authorId: string;
+	notificationName?: string;
+	notificationNumber?: string;
 	memberId?: string; // Optional
 	receiverId: string;
 	propertyId?: string; // Optional

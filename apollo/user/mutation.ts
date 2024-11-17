@@ -533,6 +533,8 @@ export const NOTIFICATION = gql`
 			notificationDesc
 			authorId
 			receiverId
+			notificationNumber
+			notificationName
 			propertyId
 			articleId
 			createdAt

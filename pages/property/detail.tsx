@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Box, Button, IconButton, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutFull from '../../libs/components/layout/LayoutFull';
@@ -30,8 +30,13 @@ import 'swiper/css/pagination';
 import { GET_PROPERTIES, GET_RENT } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { CREATE_COMMENT, LIKE_TARGET_RENT } from '../../apollo/user/mutation';
-import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { CREATE_COMMENT, LIKE_TARGET_RENT, NOTIFICATION } from '../../apollo/user/mutation';
+import {
+	sweetErrorHandling,
+	sweetMixinErrorAlert,
+	sweetMixinSuccessAlert,
+	sweetTopSmallSuccessAlert,
+} from '../../libs/sweetAlert';
 import { GET_COMMENTS } from '../../apollo/admin/query';
 import BalconyIcon from '@mui/icons-material/Balcony';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
@@ -49,6 +54,7 @@ import InternetIcon from '@mui/icons-material/Wifi';
 import TvIcon from '@mui/icons-material/Tv';
 import HeatIcon from '@mui/icons-material/Whatshot';
 import TrashIcon from '@mui/icons-material/Delete';
+import { NotificationGroup, NotificationStatus, NotificationType } from '../../libs/enums/notification.enum';
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 const amenitiesOptions: any = {
 	WiFi: <WifiIcon />,
@@ -88,6 +94,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [propertyComments, setPropertyComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
+	const [message, setMessage] = useState<string>(''); // New state for the message
+	const [notificationTitle, setNotificationTitle] = useState<string>(''); // New state for notification title
+	const [notificationDesc, setNotificationDesc] = useState<string>('');
+	const [notificationName, setNotificationName] = useState<string>('');
+	const [notificationNumber, setNotificationNumber] = useState<string>('');
+
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
 		commentGroup: CommentGroup.RENT,
 		commentContent: '',
@@ -97,6 +109,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_RENT);
 	const [createComment] = useMutation(CREATE_COMMENT);
+	const [sendMessage] = useMutation(NOTIFICATION);
 
 	const {
 		loading: getPropertyLoading,
@@ -111,29 +124,6 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		onCompleted: (data: T) => {
 			if (data?.getProperty) setProperty(data?.getProperty);
 			if (data?.getProperty) setSlideImage(data?.getProperty?.rentImages[0]);
-		},
-	});
-
-	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
-	} = useQuery(GET_PROPERTIES, {
-		fetchPolicy: 'cache-and-network',
-		variables: {
-			input: {
-				page: 1,
-				limit: 4,
-				sort: 'createdAt',
-				direction: Direction.DESC,
-				search: { locationList: property?.rentLocation ? [property?.rentLocation] : [] },
-			},
-		},
-		skip: !propertyId && !property,
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			if (data?.getProperties?.list) setDestinationProperties(data?.getProperties?.list);
 		},
 	});
 
@@ -189,16 +179,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			console.log('ID', id);
 
 			await likeTargetProperty({ variables: { input: id } });
-			await getPropertyRefetch({ input: propertyId });
-			await getPropertiesRefetch({
-				input: {
-					page: 1,
-					limit: 4,
-					sort: 'createdAt',
-					direction: Direction.DESC,
-					search: { locationList: [property?.rentLocation] },
-				},
-			});
+			await getPropertyRefetch();
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
@@ -206,7 +187,43 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
+	const createNotificationHandler = async () => {
+		try {
+			// Ensure all required fields are populated
+			const input = {
+				notificationType: NotificationType.MESSAGE,
+				notificationStatus: NotificationStatus.WAIT,
+				notificationGroup: NotificationGroup.GETMORE,
+				notificationTitle,
+				notificationDesc,
+				notificationName,
+				notificationNumber,
+				authorId: user?._id || '',
+				receiverId: property?.memberData?._id || '',
+				propertyId: property?._id || null,
+				articleId: null,
+			};
 
+			// Validation to ensure required fields are provided
+			if (!input.authorId || !input.receiverId || !input.notificationTitle || !input.notificationDesc) {
+				throw new Error('Required fields are missing!');
+			}
+
+			// Call the mutation
+			const result = await sendMessage({ variables: { input } });
+			setNotificationTitle('');
+			setNotificationDesc('');
+			setNotificationName('');
+			setNotificationNumber('');
+			// Success feedback
+			await sweetMixinSuccessAlert('Message created successfully!');
+			console.log('Notification Created:', result);
+		} catch (err: any) {
+			// Handle errors
+			sweetErrorHandling(err);
+			console.error('Error creating notification:', err);
+		}
+	};
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		commentInquiry.page = value;
 		setCommentInquiry({ ...commentInquiry });
@@ -821,22 +838,41 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Name</Typography>
-									<input type={'text'} placeholder={'Enter your name'} />
+									<input
+										value={notificationName}
+										onChange={(e) => setNotificationName(e.target.value)}
+										type={'text'}
+										placeholder={'Enter your name'}
+									/>
 								</Stack>
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Phone</Typography>
-									<input type={'text'} placeholder={'Enter your phone'} />
+									<input
+										value={notificationNumber}
+										onChange={(e) => setNotificationNumber(e.target.value)}
+										type={'text'}
+										placeholder={'Enter your phone'}
+									/>
 								</Stack>
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Email</Typography>
-									<input type={'text'} placeholder={'creativelayers088'} />
+									<input
+										type={'text'}
+										value={notificationTitle}
+										onChange={(e) => setNotificationTitle(e.target.value)}
+										placeholder={'creativelayers088'}
+									/>
 								</Stack>
 								<Stack className={'info-box'}>
 									<Typography className={'sub-title'}>Message</Typography>
-									<textarea placeholder={'Hello, I am interested in \n' + '[Renovated property at  floor]'}></textarea>
+									<textarea
+										value={notificationDesc}
+										onChange={(e) => setNotificationDesc(e.target.value)}
+										placeholder={'Hello, I am interested in \n' + '[Renovated property at  floor]'}
+									></textarea>
 								</Stack>
 								<Stack className={'info-box'}>
-									<Button className={'send-message'}>
+									<Button className={'send-message'} onClick={createNotificationHandler}>
 										<Typography className={'title'}>Send Message</Typography>
 										<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
 											<g clipPath="url(#clip0_6975_593)">

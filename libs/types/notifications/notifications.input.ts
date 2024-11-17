@@ -6,7 +6,9 @@ export interface NotificationInput {
 	notificationStatus?: NotificationStatus; // Optional
 	notificationGroup: NotificationGroup;
 	notificationTitle: string; // Should be between 3 and 100 characters
-	notificationDesc?: string; // Optional, should be between 3 and 500 characters
+	notificationDesc?: string;
+	notificationName?: string;
+	notificationNumber?: string;
 	authorId: string;
 	memberId?: string; // Optional
 	receiverId: string;

@@ -8,6 +8,7 @@ import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
 export function getJwtToken(): string | null {
 	if (typeof window !== 'undefined') {
 		const token = localStorage.getItem('accessToken');
+		// Return null if the token is empty or malformed
 		return token && token.split('.').length === 3 ? token : null;
 	}
 	return null;
