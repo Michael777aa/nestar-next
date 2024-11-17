@@ -751,6 +751,11 @@ export const GET_NOTIFICATIONS = gql`
 				articleId
 				createdAt
 				updatedAt
+				notificationName
+				notificationNumber
+			}
+			metaCounter {
+				total
 			}
 		}
 	}

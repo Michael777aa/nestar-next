@@ -509,9 +509,30 @@ const Top = (props: topFilter) => {
 																/>
 															)}
 															<Box sx={{ width: '100%' }}>
+																{notification.notificationName && (
+																	<Typography
+																		variant="body1"
+																		sx={{ fontWeight: '400', marginBottom: '4px', fontSize: '15px' }}
+																	>
+																		Name: {notification.notificationName}
+																	</Typography>
+																)}
+
+																{notification.notificationNumber && (
+																	<Typography
+																		variant="body1"
+																		sx={{ fontWeight: '400', marginBottom: '4px', fontSize: '15px' }}
+																	>
+																		Number: {notification.notificationNumber}
+																	</Typography>
+																)}
+
+																{/* Always display the notification title */}
 																<Typography variant="body1" sx={{ fontWeight: 'bold', marginBottom: '4px' }}>
 																	{notification.notificationTitle}
 																</Typography>
+
+																{/* Display notification description */}
 																<Typography
 																	sx={{
 																		fontSize: '14px',
@@ -524,12 +545,13 @@ const Top = (props: topFilter) => {
 																>
 																	{notification.notificationDesc}
 																</Typography>
+
+																{/* Display the creation date of the notification */}
 																<Typography
 																	variant="caption"
 																	color="textSecondary"
 																	sx={{ display: 'block', fontStyle: 'italic' }}
 																>
-																	{/* Display the creation date of the notification */}
 																	{new Date(notification.createdAt).toLocaleString()}
 																</Typography>
 															</Box>
