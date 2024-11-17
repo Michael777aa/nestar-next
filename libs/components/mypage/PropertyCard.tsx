@@ -129,13 +129,13 @@ export const PropertyCard = (props: PropertyCardProps) => {
 								<MenuItem
 									onClick={() => {
 										handleClose();
-										updatePropertyHandler(AvailabilityStatus.OCUPPIED, property?._id);
+										updatePropertyHandler(AvailabilityStatus.RESERVED, property?._id);
 									}}
 								>
 									OCCUPIED
 								</MenuItem>
 							)}
-							{property.availabilityStatus === 'OCUPPIED' && (
+							{property.availabilityStatus === 'RESERVED' && (
 								<MenuItem
 									onClick={() => {
 										handleClose();

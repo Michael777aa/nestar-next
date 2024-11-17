@@ -98,12 +98,12 @@ const MyProperties: NextPage = ({ initialInput, ...props }: any) => {
 							AVAILABLE
 						</Typography>
 						<Typography
-							onClick={() => changeStatusHandler(AvailabilityStatus.OCUPPIED)}
+							onClick={() => changeStatusHandler(AvailabilityStatus.RESERVED)}
 							className={
-								searchFilter.search.availabilityStatus === AvailabilityStatus.OCUPPIED ? 'active-tab-name' : 'tab-name'
+								searchFilter.search.availabilityStatus === AvailabilityStatus.RESERVED ? 'active-tab-name' : 'tab-name'
 							}
 						>
-							OCCUPIED
+							RESERVED
 						</Typography>
 					</Stack>
 

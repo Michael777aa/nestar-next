@@ -86,8 +86,8 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 			case 'AVAILABLE':
 				setPropertiesInquiry({ ...propertiesInquiry, search: { availabilityStatus: AvailabilityStatus.AVAILABLE } });
 				break;
-			case 'OCUPPIED':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { availabilityStatus: AvailabilityStatus.OCUPPIED } });
+			case 'RESERVED':
+				setPropertiesInquiry({ ...propertiesInquiry, search: { availabilityStatus: AvailabilityStatus.RESERVED } });
 				break;
 			case 'DELETE':
 				setPropertiesInquiry({ ...propertiesInquiry, search: { availabilityStatus: AvailabilityStatus.DELETE } });
@@ -138,9 +138,9 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 			if (updateData.availabilityStatus === AvailabilityStatus.AVAILABLE) {
 				confirmMessage = `Do you want to mark this property as AVAILABLE?`;
 				updateData.availabilityStatus = AvailabilityStatus.AVAILABLE;
-			} else if (updateData.availabilityStatus === AvailabilityStatus.OCUPPIED) {
-				confirmMessage = `Do you want to mark this property as OCUPPIED?`;
-				updateData.availabilityStatus = AvailabilityStatus.OCUPPIED;
+			} else if (updateData.availabilityStatus === AvailabilityStatus.RESERVED) {
+				confirmMessage = `Do you want to mark this property as RESERVED?`;
+				updateData.availabilityStatus = AvailabilityStatus.RESERVED;
 			}
 
 			// Confirm the action with the user
@@ -192,9 +192,9 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 									AVAILABLE
 								</ListItem>
 								<ListItem
-									onClick={(e) => tabChangeHandler(e, 'OCUPPIED')}
-									value="OCUPPIED"
-									className={value === 'OCUPPIED' ? 'li on' : 'li'}
+									onClick={(e) => tabChangeHandler(e, 'RESERVED')}
+									value="RESERVED"
+									className={value === 'RESERVED' ? 'li on' : 'li'}
 								>
 									OCCUPIED
 								</ListItem>

@@ -11,7 +11,7 @@ export enum RentType {
 
 export enum AvailabilityStatus {
 	AVAILABLE = 'AVAILABLE',
-	OCUPPIED = 'OCUPPIED',
+	RESERVED = 'RESERVED',
 	DELETE = 'DELETE',
 }
 
