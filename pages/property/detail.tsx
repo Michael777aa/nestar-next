@@ -205,19 +205,21 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			};
 
 			// Validation to ensure required fields are provided
-			if (!input.authorId || !input.receiverId || !input.notificationTitle || !input.notificationDesc) {
+			if (!input.receiverId || !input.notificationTitle || !input.notificationDesc) {
 				throw new Error('Required fields are missing!');
+			}
+			if (!input.authorId) {
+				throw new Error('You are not authenticated, please login first!');
 			}
 
 			// Call the mutation
+
 			const result = await sendMessage({ variables: { input } });
 			setNotificationTitle('');
 			setNotificationDesc('');
 			setNotificationName('');
 			setNotificationNumber('');
-			// Success feedback
 			await sweetMixinSuccessAlert('Message created successfully!');
-			console.log('Notification Created:', result);
 		} catch (err: any) {
 			// Handle errors
 			sweetErrorHandling(err);
@@ -242,7 +244,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			sweetErrorHandling(err);
 		}
 	};
-
+	const handleMessageClick = (e: T) => {
+		if (e.key === 'Enter' && createNotificationHandler) {
+			createNotificationHandler().then();
+		}
+	};
 	if (device === 'mobile') {
 		return <div>PROPERTY DETAIL PAGE</div>;
 	} else {
@@ -867,6 +873,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 									<Typography className={'sub-title'}>Message</Typography>
 									<textarea
 										value={notificationDesc}
+										onKeyDown={handleMessageClick}
 										onChange={(e) => setNotificationDesc(e.target.value)}
 										placeholder={'Hello, I am interested in \n' + '[Renovated property at  floor]'}
 									></textarea>

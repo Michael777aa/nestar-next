@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { T } from '../../libs/types/common';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -78,6 +79,18 @@ const Join: NextPage = () => {
 		}
 	}, [input, router]);
 
+	const handleKeyPress = useCallback(
+		(e: React.KeyboardEvent<HTMLDivElement>) => {
+			if (e.key === 'Enter') {
+				if (loginView) {
+					doLogin();
+				} else {
+					doSignUp();
+				}
+			}
+		},
+		[doLogin, doSignUp, loginView],
+	);
 	if (device === 'mobile') {
 		return <div>LOGIN MOBILE</div>;
 	} else {
@@ -91,7 +104,7 @@ const Join: NextPage = () => {
 						{loginView ? 'Please log in to continue.' : 'Sign up to get started.'}
 					</Typography>
 				</Box>
-				<Stack spacing={2} mt={2}>
+				<Stack onKeyPress={handleKeyPress} spacing={2} mt={2}>
 					<TextField
 						label="Nickname"
 						variant="outlined"
