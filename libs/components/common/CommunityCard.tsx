@@ -35,7 +35,7 @@ const CommunityCard = (props: CommunityCardProps) => {
 	return (
 		<Stack
 			sx={{
-				width: 285,
+				width: 275,
 				backgroundColor: '#fff',
 				borderRadius: '12px',
 				boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
