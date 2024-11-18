@@ -69,7 +69,12 @@ const MyFavorites: NextPage = () => {
 						{myFavorites?.length ? (
 							myFavorites?.map((property: Rent) => {
 								return (
-									<PropertyCard property={property} myFavorites={true} likePropertyHandler={likePropertyHandler} />
+									<PropertyCard
+										property={property}
+										key={property._id}
+										myFavorites={true}
+										likePropertyHandler={likePropertyHandler}
+									/>
 								);
 							})
 						) : (

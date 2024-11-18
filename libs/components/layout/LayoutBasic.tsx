@@ -59,7 +59,7 @@ const withLayoutBasic = (Component: any) => {
 				case '/cs':
 					title = 'CS';
 					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/9ed73c93-f122-4e05-87ac-539f413f649f.webp';
 					break;
 				case '/about':
 					title = 'About Page';
@@ -69,7 +69,7 @@ const withLayoutBasic = (Component: any) => {
 				case '/account/join':
 					title = 'Login/Signup';
 					desc = 'Authentication Process';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/banner/9ed73c93-f122-4e05-87ac-539f413f649f.webp';
 					setAuthHeader(true);
 					break;
 				case '/member':

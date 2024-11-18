@@ -263,30 +263,37 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 										}
 									/>
 								</Stack>
+
 								<Stack className="price-year-after-price">
-									<Typography className="title">Select Type</Typography>
+									<Typography className="title">Rent Type</Typography>
+
 									<select
-										className={'select-description'}
-										defaultValue={insertRentData.rentType || 'select'}
-										value={insertRentData.rentType || 'select'}
+										className="select-description"
+										style={{
+											width: '100%', // Make it responsive
+											height: '50px', // Adjust height for better UX
+											padding: '8px', // Add padding for better readability
+											fontSize: '16px', // Adjust font size for better readability
+											borderRadius: '10px', // Rounded corners
+											border: '1px solid #ccc', // Subtle border
+											outline: 'none', // Remove default outline
+											backgroundColor: '#fff', // White background for contrast
+											cursor: 'pointer', // Pointer cursor for interactivity
+										}}
+										value={insertRentData.rentType || ''}
 										onChange={({ target: { value } }) =>
-											// @ts-ignore
-											setinsertRentData({ ...insertRentData, rentType: value })
+											setinsertRentData({ ...insertRentData, rentType: value as RentType })
 										}
 									>
-										<>
-											<option selected={true} disabled={true} value={'select'}>
-												Select
+										<option disabled value="">
+											Select
+										</option>
+										{rentTypes.map((type) => (
+											<option value={type} key={`type-${type}`}>
+												{type}
 											</option>
-											{rentTypes.map((type: any) => (
-												<option value={`${type}`} key={type}>
-													{type}
-												</option>
-											))}
-										</>
+										))}
 									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
 							</Stack>
 							<Stack className="config-row">
@@ -294,24 +301,21 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<Typography className="title">Select Location</Typography>
 									<select
 										className={'select-description'}
-										defaultValue={insertRentData.rentLocation || 'select'}
-										value={insertRentData.rentLocation || 'select'}
+										value={insertRentData.rentLocation || ''}
 										onChange={({ target: { value } }) =>
-											// @ts-ignore
-											setinsertRentData({ ...insertRentData, rentLocation: value })
+											setinsertRentData({ ...insertRentData, rentLocation: value as RentLocation })
 										}
 									>
-										<>
-											<option selected={true} disabled={true} value={'select'}>
-												Select
+										<option disabled value="">
+											Select
+										</option>
+										{rentLocations.map((location) => (
+											<option value={location} key={`location-${location}`}>
+												{location}
 											</option>
-											{rentLocations.map((location: any) => (
-												<option value={`${location}`} key={location}>
-													{location}
-												</option>
-											))}
-										</>
+										))}
 									</select>
+
 									<div className={'divider'}></div>
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
@@ -331,19 +335,21 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<Typography className="title">Balconies</Typography>
 									<select
 										className={'select-description'}
-										value={insertRentData.rentBalconies || 'select'}
-										defaultValue={insertRentData.rentBalconies || 'select'}
+										value={insertRentData.rentBalconies || ''}
 										onChange={({ target: { value } }) =>
-											setinsertRentData({ ...insertRentData, rentBalconies: parseInt(value) })
+											setinsertRentData({ ...insertRentData, rentBalconies: parseInt(value, 10) || 0 })
 										}
 									>
-										<option disabled={true} selected={true} value={'select'}>
+										<option disabled value="">
 											Select
 										</option>
-										{[1, 2, 3, 4, 5, 6, 7, 8].map((balcony: number) => (
-											<option value={`${balcony}`}>{balcony}</option>
+										{[1, 2, 3, 4, 5, 6, 7, 8].map((balcony) => (
+											<option value={balcony} key={`balcony-${balcony}`}>
+												{balcony}
+											</option>
 										))}
 									</select>
+
 									<div className={'divider'}></div>
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
@@ -352,21 +358,21 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<Typography className="title">Square</Typography>
 									<select
 										className={'select-description'}
-										value={insertRentData.rentSquare || 'select'}
-										defaultValue={insertRentData.rentSquare || 'select'}
+										value={insertRentData.rentSquare || ''}
 										onChange={({ target: { value } }) =>
-											setinsertRentData({ ...insertRentData, rentSquare: parseInt(value) })
+											setinsertRentData({ ...insertRentData, rentSquare: parseInt(value, 10) || 0 })
 										}
 									>
-										<option disabled={true} selected={true} value={'select'}>
+										<option disabled value="">
 											Select
 										</option>
-										{rentSquare.map((square: number) => {
-											if (square !== 0) {
-												return <option value={`${square}`}>{square}</option>;
-											}
-										})}
+										{rentSquare.map((square) => (
+											<option value={square} key={`square-${square}`}>
+												{square}
+											</option>
+										))}
 									</select>
+
 									<div className={'divider'}></div>
 									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
 								</Stack>
@@ -430,7 +436,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<Typography className="title">Amenities</Typography>
 									{amenitiesOptions.map((amenity) => (
 										<FormControlLabel
-											key={amenity}
+											key={`amenity-${amenity}`}
 											control={
 												<Checkbox
 													checked={insertRentData.amenities.includes(amenity)}
@@ -446,7 +452,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 									<Typography className="title">Included Utilities</Typography>
 									{utilitiesOptions.map((utility) => (
 										<FormControlLabel
-											key={utility}
+											key={`utility-${utility}`}
 											control={
 												<Checkbox
 													checked={insertRentData.includedUtilities.includes(utility)}
@@ -539,10 +545,10 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 								</Button>
 							</Stack>
 							<Stack className="gallery-box">
-								{insertRentData?.rentImages.map((image: string) => {
+								{insertRentData?.rentImages.map((image: string, index: number) => {
 									const imagePath: string = `${REACT_APP_API_URL}/${image}`;
 									return (
-										<Stack className="image-box">
+										<Stack className="image-box" key={`image-${index}`}>
 											<img src={imagePath} alt="" />
 										</Stack>
 									);
