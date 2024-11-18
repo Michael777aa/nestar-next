@@ -174,7 +174,7 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 					sx={{ position: 'relative', top: '10px' }}
 					onClick={() =>
 						router.push({
-							pathname: '/create',
+							pathname: '/_admin/cs/addNotice',
 						})
 					}
 					variant="outlined"
