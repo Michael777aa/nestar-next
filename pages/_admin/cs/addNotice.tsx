@@ -1,18 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import {
-	Box,
-	Button,
-	TextField,
-	Select,
-	MenuItem,
-	Typography,
-	Stack,
-	Grid,
-	FormControl,
-	InputLabel,
-} from '@mui/material';
+import { Box, Button, TextField, FormControl, InputLabel, Select, MenuItem, Typography, Stack } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { CREATE_NOTICE } from '../../../apollo/admin/mutation';
 import { NoticeCategory, NoticeField, NoticeStatus } from '../../../libs/enums/notice.enum';
@@ -24,9 +13,9 @@ import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
 const AddNotice = ({ initialValues, ...props }: any) => {
 	const router = useRouter();
 	const [noticeData, setNoticeData] = useState<NoticeInput>(initialValues);
-	const [categories, setCategories] = useState<NoticeCategory[]>(Object.values(NoticeCategory));
-	const [fields, setFields] = useState<NoticeField[]>(Object.values(NoticeField));
-	const [audiences, setAudiences] = useState<MemberType[]>(Object.values(MemberType));
+	const [categories] = useState<NoticeCategory[]>(Object.values(NoticeCategory));
+	const [fields] = useState<NoticeField[]>(Object.values(NoticeField));
+	const [audiences] = useState<MemberType[]>(Object.values(MemberType));
 
 	const [createNotice] = useMutation(CREATE_NOTICE);
 
@@ -37,137 +26,122 @@ const AddNotice = ({ initialValues, ...props }: any) => {
 
 	const handleCreateNotice = useCallback(async () => {
 		try {
+			// Construct the payload conditionally
+			const { targetAudience, ...rest } = noticeData;
+			const noticePayload = targetAudience
+				? { ...rest, targetAudience } // Include `targetAudience` only if it exists
+				: { ...rest };
+
 			await createNotice({
-				variables: { input: noticeData },
+				variables: { input: noticePayload },
 			});
+
 			await sweetMixinSuccessAlert('Notice created successfully!');
-			router.push('/_admin/cs/faq');
+
+			// Reset form fields
+			setNoticeData({
+				noticeTitle: '',
+				noticeField: '',
+				noticeCategory: '',
+				noticeStatus: NoticeStatus.ACTIVE,
+				noticeContent: '',
+				targetAudience: '',
+			});
 		} catch (err: any) {
 			await sweetErrorHandling(err);
 		}
 	}, [noticeData]);
 
 	return (
-		<Box component="div" className="content" sx={{ padding: 4, backgroundColor: '#f9f9f9' }}>
-			<Grid container spacing={2}>
-				{/* Title Section */}
-				<Grid item xs={12}>
-					<Box
-						component="div"
-						className="title"
-						sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-					>
-						<Typography variant="h4" sx={{ fontWeight: 'bold' }}>
-							Create Notice
-						</Typography>
+		<Box component="div" sx={{ p: 4, bgcolor: '#f9f9f9', borderRadius: 2 }}>
+			<Box component="div" sx={{ mb: 4 }}>
+				<Typography variant="h4" fontWeight="bold">
+					Create Notice
+				</Typography>
+				<Typography variant="subtitle1" color="textSecondary">
+					Fill in the details to create a new notice.
+				</Typography>
+			</Box>
+
+			<Box component="div" sx={{ bgcolor: '#fff', p: 4, borderRadius: 2, boxShadow: 2 }}>
+				<Stack spacing={4}>
+					<TextField
+						label="Title"
+						variant="outlined"
+						fullWidth
+						value={noticeData.noticeTitle}
+						onChange={(e) => handleInputChange('noticeTitle', e.target.value)}
+					/>
+
+					<TextField
+						label="Content"
+						variant="outlined"
+						fullWidth
+						multiline
+						minRows={4}
+						value={noticeData.noticeContent}
+						onChange={(e) => handleInputChange('noticeContent', e.target.value)}
+					/>
+
+					<FormControl fullWidth>
+						<InputLabel id="category-label">Category</InputLabel>
 						<Select
-							label="Target Audience"
-							value={noticeData.targetAudience}
-							sx={{ width: 300, backgroundColor: '#fff', borderRadius: 1 }}
+							labelId="category-label"
+							value={noticeData.noticeCategory}
+							onChange={(e) => handleInputChange('noticeCategory', e.target.value)}
+						>
+							{categories.map((category) => (
+								<MenuItem key={category} value={category}>
+									{category}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+
+					<FormControl fullWidth>
+						<InputLabel id="field-label">Field</InputLabel>
+						<Select
+							labelId="field-label"
+							value={noticeData.noticeField}
+							onChange={(e) => handleInputChange('noticeField', e.target.value)}
+						>
+							{fields.map((field) => (
+								<MenuItem key={field} value={field}>
+									{field}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+
+					<FormControl fullWidth>
+						<InputLabel id="audience-label">Target Audience (Optional)</InputLabel>
+						<Select
+							labelId="audience-label"
+							value={noticeData.targetAudience || ''}
 							onChange={(e) => handleInputChange('targetAudience', e.target.value)}
 						>
-							<MenuItem value="">None</MenuItem>
+							<MenuItem value="">
+								<em>None</em>
+							</MenuItem>
 							{audiences.map((audience) => (
 								<MenuItem key={audience} value={audience}>
 									{audience}
 								</MenuItem>
 							))}
 						</Select>
-					</Box>
-				</Grid>
+					</FormControl>
 
-				{/* Form Section */}
-				<Grid item xs={12} md={8}>
-					<Box
-						component="div"
-						className="form"
-						sx={{ padding: 4, backgroundColor: '#fff', borderRadius: 2, boxShadow: 1 }}
+					<Button
+						variant="contained"
+						color="primary"
+						size="large"
+						onClick={handleCreateNotice}
+						sx={{ alignSelf: 'flex-start' }}
 					>
-						<Stack spacing={3}>
-							<TextField
-								label="Title"
-								variant="outlined"
-								fullWidth
-								value={noticeData.noticeTitle}
-								onChange={(e) => handleInputChange('noticeTitle', e.target.value)}
-							/>
-
-							<TextField
-								label="Content"
-								variant="outlined"
-								fullWidth
-								multiline
-								minRows={4}
-								value={noticeData.noticeContent}
-								onChange={(e) => handleInputChange('noticeContent', e.target.value)}
-							/>
-							<FormControl fullWidth sx={{ backgroundColor: '#fff' }}>
-								<InputLabel id="category-label">Category</InputLabel>
-								<Select
-									labelId="category-label"
-									value={noticeData.noticeCategory}
-									onChange={(e) => handleInputChange('noticeCategory', e.target.value)}
-								>
-									{categories.map((category) => (
-										<MenuItem key={category} value={category}>
-											{category}
-										</MenuItem>
-									))}
-								</Select>
-							</FormControl>
-
-							<Select
-								label="Field"
-								value={noticeData.noticeField}
-								fullWidth
-								sx={{ backgroundColor: '#fff' }}
-								onChange={(e) => handleInputChange('noticeField', e.target.value)}
-							>
-								<MenuItem value="">Select Field</MenuItem>
-								{fields.map((field) => (
-									<MenuItem key={field} value={field}>
-										{field}
-									</MenuItem>
-								))}
-							</Select>
-
-							<Button
-								variant="contained"
-								color="primary"
-								sx={{ paddingY: 1.5, fontWeight: 'bold', fontSize: '1rem' }}
-								onClick={handleCreateNotice}
-							>
-								Create Notice
-							</Button>
-						</Stack>
-					</Box>
-				</Grid>
-
-				{/* Optional Info Section */}
-				<Grid item xs={12} md={4}>
-					<Box
-						component="div"
-						className="info-box"
-						sx={{
-							padding: 3,
-							backgroundColor: '#fff',
-							borderRadius: 2,
-							boxShadow: 1,
-							display: 'flex',
-							flexDirection: 'column',
-							gap: 2,
-						}}
-					>
-						<Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-							Quick Tips
-						</Typography>
-						<Typography variant="body2">
-							Use clear and concise titles to make your notices easy to understand.
-						</Typography>
-						<Typography variant="body2">Target Audience is optional and can be left empty if not required.</Typography>
-					</Box>
-				</Grid>
-			</Grid>
+						Create Notice
+					</Button>
+				</Stack>
+			</Box>
 		</Box>
 	);
 };

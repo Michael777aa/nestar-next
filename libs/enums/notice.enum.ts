@@ -2,6 +2,7 @@ export enum NoticeCategory {
 	FAQ = 'FAQ',
 	TERMS = 'TERMS',
 	INQUIRY = 'INQUIRY',
+	MESSAGE = 'MESSAGE',
 }
 
 export enum NoticeStatus {
@@ -18,4 +19,5 @@ export enum NoticeField {
 	MEMBERSHIP = 'MEMBERSHIP',
 	COMMUNITY = 'COMMUNITY',
 	OTHER = 'OTHER',
+	ALL_MEMBERS = 'ALL_MEMBERS',
 }
