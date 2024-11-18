@@ -136,7 +136,7 @@ const Events: NextPage = ({ initialInquiry, ...props }: any) => {
 	return (
 		<Box component="div" className="content">
 			<Box component="div" className="title flex_space">
-				<Typography variant="h2">FAQ Management</Typography>
+				<Typography variant="h2"> Events</Typography>
 				<Button
 					className="btn_add"
 					sx={{ position: 'relative', top: '10px' }}

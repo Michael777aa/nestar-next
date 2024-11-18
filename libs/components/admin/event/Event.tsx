@@ -12,12 +12,15 @@ import {
 	MenuItem,
 	Typography,
 	Box,
+	Stack,
 } from '@mui/material';
 import { Notice } from '../../../types/notice/notice';
 import { NoticeStatus } from '../../../enums/notice.enum';
 import Moment from 'react-moment';
 import { Event } from '../../../types/event/event';
 import { EventStatus } from '../../../enums/event.enum';
+import { REACT_APP_API_URL } from '../../../config';
+import Avatar from '@mui/material/Avatar';
 
 interface Data {
 	category: string;
@@ -56,19 +59,19 @@ const headCells: readonly HeadCell[] = [
 		id: 'sort',
 		numeric: true,
 		disablePadding: false,
-		label: 'Field',
+		label: 'Topic',
 	},
 	{
 		id: 'targetAudience',
 		numeric: true,
 		disablePadding: false,
-		label: 'Target Audience',
+		label: 'Description',
 	},
 	{
 		id: 'category',
 		numeric: true,
 		disablePadding: false,
-		label: 'Category',
+		label: 'Location',
 	},
 
 	{
@@ -118,6 +121,7 @@ export interface EventsPanelListType {
 
 export const EventsPanelList = (props: EventsPanelListType) => {
 	const { allEvents, anchorEl, handleMenuIconClick, handleMenuIconClose, updateEventHandler } = props;
+
 	return (
 		<TableContainer>
 			<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
@@ -133,54 +137,64 @@ export const EventsPanelList = (props: EventsPanelListType) => {
 					)}
 
 					{allEvents.length !== 0 &&
-						allEvents.map((event: Event, index: number) => (
-							<TableRow hover key={event._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-								<TableCell align="left">{event._id}</TableCell>
-								<TableCell align="left">
-									<Box component={'div'}>{event.eventName}</Box>
-								</TableCell>
-								<TableCell align="left">{event.eventDesc}</TableCell>
-								<TableCell align="left">{event.eventTopic}</TableCell>
+						allEvents.map((event: Event, index: number) => {
+							const member_image = event.eventImages
+								? `${REACT_APP_API_URL}/${event.eventImages}`
+								: '/img/profile/defaultUser.svg';
 
-								<TableCell align="left">{event.eventLocation}</TableCell>
+							return (
+								<TableRow hover key={event._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+									<TableCell align="left">{event._id}</TableCell>
+									<Stack direction={'row'} style={{ position: 'relative', top: '5px' }}>
+										<div>
+											<Avatar alt="Remy Sharp" src={member_image} sx={{ ml: '2px', mr: '10px' }} />
+										</div>
+										<div>{event.eventName}</div>
+									</Stack>
+									<TableCell align="left">{event.eventTopic}</TableCell>
 
-								<TableCell align="left">
-									<Moment format={'DD.MM.YY HH:mm'}>{event?.createdAt}</Moment>
-								</TableCell>
-								<TableCell align="center">
-									<>
-										<Button onClick={(e: any) => handleMenuIconClick(e, index)} className={'badge success'}>
-											{event.eventStatus}
-										</Button>
+									<TableCell align="left">{event.eventDesc}</TableCell>
 
-										<Menu
-											className={'menu-modal'}
-											MenuListProps={{
-												'aria-labelledby': 'fade-button',
-											}}
-											anchorEl={anchorEl[index]}
-											open={Boolean(anchorEl[index])}
-											onClose={handleMenuIconClose}
-											TransitionComponent={Fade}
-											sx={{ p: 1 }}
-										>
-											{Object.values(EventStatus)
-												.filter((ele) => ele !== event.eventStatus)
-												.map((status: string) => (
-													<MenuItem
-														onClick={() => updateEventHandler({ _id: event._id, eventStatus: status })}
-														key={status}
-													>
-														<Typography variant={'subtitle1'} component={'span'}>
-															{status}
-														</Typography>
-													</MenuItem>
-												))}
-										</Menu>
-									</>
-								</TableCell>
-							</TableRow>
-						))}
+									<TableCell align="left">{event.eventLocation}</TableCell>
+
+									<TableCell align="left">
+										<Moment format={'DD.MM.YY HH:mm'}>{event?.createdAt}</Moment>
+									</TableCell>
+									<TableCell align="center">
+										<>
+											<Button onClick={(e: any) => handleMenuIconClick(e, index)} className={'badge success'}>
+												{event.eventStatus}
+											</Button>
+
+											<Menu
+												className={'menu-modal'}
+												MenuListProps={{
+													'aria-labelledby': 'fade-button',
+												}}
+												anchorEl={anchorEl[index]}
+												open={Boolean(anchorEl[index])}
+												onClose={handleMenuIconClose}
+												TransitionComponent={Fade}
+												sx={{ p: 1 }}
+											>
+												{Object.values(EventStatus)
+													.filter((ele) => ele !== event.eventStatus)
+													.map((status: string) => (
+														<MenuItem
+															onClick={() => updateEventHandler({ _id: event._id, eventStatus: status })}
+															key={status}
+														>
+															<Typography variant={'subtitle1'} component={'span'}>
+																{status}
+															</Typography>
+														</MenuItem>
+													))}
+											</Menu>
+										</>
+									</TableCell>
+								</TableRow>
+							);
+						})}
 				</TableBody>
 			</Table>
 		</TableContainer>
