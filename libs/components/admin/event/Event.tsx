@@ -136,14 +136,14 @@ export const EventsPanelList = (props: EventsPanelListType) => {
 
 					{allEvents.length !== 0 &&
 						allEvents.map((event: Event, index: number) => {
-							const member_image = `${REACT_APP_API_URL}/${event.eventImages[0]}`;
+							const event_image = `${REACT_APP_API_URL}/${event.eventImages[0]}`;
 
 							return (
 								<TableRow hover key={event._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 									<TableCell align="left">{event._id}</TableCell>
 									<Stack direction={'row'} style={{ position: 'relative', top: '5px' }}>
 										<div>
-											<Avatar alt="Remy Sharp" src={member_image} sx={{ ml: '2px', mr: '10px' }} />
+											<Avatar alt="Remy Sharp" src={event_image} sx={{ ml: '2px', mr: '10px' }} />
 										</div>
 										<div>{event.eventName}</div>
 									</Stack>

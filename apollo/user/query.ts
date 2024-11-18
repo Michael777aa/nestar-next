@@ -767,23 +767,18 @@ export const GET_NOTIFICATIONS = gql`
  *************************/
 
 export const GET_EVENTS = gql`
-	query GetNotifications($input: NotificationInquiry!) {
-		getNotifications(input: $input) {
+	query GetEvents($input: EventInquiry!) {
+		getEvents(input: $input) {
 			list {
 				_id
-				notificationType
-				notificationStatus
-				notificationGroup
-				notificationTitle
-				notificationDesc
-				authorId
-				receiverId
-				propertyId
-				articleId
+				eventStatus
+				eventName
+				eventTopic
+				eventDesc
+				eventLocation
+				eventImages
 				createdAt
 				updatedAt
-				notificationName
-				notificationNumber
 			}
 			metaCounter {
 				total

@@ -1,44 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { GET_ALL_EVENTS } from '../../../apollo/admin/query';
+import { useQuery } from '@apollo/client';
+import { T } from '../../types/common';
+import { EventInquiry } from '../../types/event/event.input';
+import { GET_EVENTS } from '../../../apollo/user/query';
+import { Event } from '../../types/event/event';
+import { REACT_APP_API_URL } from '../../config';
 
-interface EventData {
-	eventTitle: string;
-	city: string;
-	description: string;
-	imageSrc: string;
-}
-const eventsData: EventData[] = [
-	{
-		eventTitle: 'Paradise City Theme Park',
-		city: 'Incheon',
-		description:
-			'Experience magic and wonder in Incheon with a visit to the night-themed indoor theme park Wonderbox at Paradise City!',
-		imageSrc: '/img/events/INCHEON.webp',
-	},
-	{
-		eventTitle: 'Taebaeksan Snow Festival',
-		city: 'Seoul',
-		description: 'If you have the opportunity to travel to South Korea, do not miss the Taebaeksan Snow Festival!',
-		imageSrc: '/img/events/SEOUL.webp',
-	},
-	{
-		eventTitle: 'Suseong Lake Event',
-		city: 'Daegu',
-		description: 'The Suseong Lake Festival is a culture and arts festival held alongside Suseongmot Lake!',
-		imageSrc: '/img/events/DAEGU.webp',
-	},
-	{
-		eventTitle: 'Sand Festival',
-		city: 'Busan',
-		description:
-			'Haeundae Sand Festival, the nation’s largest eco-friendly exhibition on sand, is held at Haeundae Beach!',
-		imageSrc: '/img/events/BUSAN.webp',
-	},
-];
-
-const EventCard = ({ event }: { event: EventData }) => {
+const EventCard = ({ event }: { event: Event }) => {
 	const device = useDeviceDetect();
+	const event_image = `${REACT_APP_API_URL}/${event.eventImages[0]}`;
 
 	if (device === 'mobile') {
 		return <div>EVENT CARD</div>;
@@ -47,26 +20,46 @@ const EventCard = ({ event }: { event: EventData }) => {
 			<Stack
 				className="event-card"
 				style={{
-					backgroundImage: `url(${event?.imageSrc})`,
+					backgroundImage: `url(${event_image})`,
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',
 					backgroundRepeat: 'no-repeat',
 				}}
 			>
 				<Box component={'div'} className={'info'}>
-					<strong>{event?.city}</strong>
-					<span>{event?.eventTitle}</span>
+					<strong>{event?.eventLocation}</strong>
+					<span>{event?.eventTopic}</span>
 				</Box>
 				<Box component={'div'} className={'more'}>
-					<span>{event?.description}</span>
+					<span>{event?.eventDesc}</span>
 				</Box>
 			</Stack>
 		);
 	}
 };
 
-const Events = () => {
+const Events = ({ initialInquiry, ...props }: any) => {
+	const [eventInquiry, setEventInquiry] = useState<EventInquiry>(initialInquiry);
 	const device = useDeviceDetect();
+	const [allEvents, setAllEvents] = useState<Event[]>([]);
+
+	const {
+		loading: getEventsLoading,
+		data: getEventsData,
+		error: getEventsError,
+		refetch: getEventsRefetch,
+	} = useQuery(GET_EVENTS, {
+		fetchPolicy: 'network-only',
+		variables: { input: eventInquiry },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setAllEvents(data?.getEvents?.list || []);
+		},
+	});
+
+	useEffect(() => {
+		getEventsRefetch({ input: eventInquiry });
+	}, [eventInquiry]);
 
 	if (device === 'mobile') {
 		return <div>EVENT CARD</div>;
@@ -80,14 +73,26 @@ const Events = () => {
 						</Box>
 					</Stack>
 					<Stack className={'card-wrapper'}>
-						{eventsData.map((event: EventData) => {
-							return <EventCard event={event} key={event?.eventTitle} />;
+						{allEvents.map((event: Event) => {
+							return <EventCard event={event} key={event?.eventName} />;
 						})}
 					</Stack>
 				</Stack>
 			</Stack>
 		);
 	}
+};
+
+Events.defaultProps = {
+	initialInquiry: {
+		page: 1,
+		limit: 10,
+		sort: 'createdAt',
+		direction: 'DESC',
+		search: {
+			eventStatus: 'ACTIVE',
+		},
+	},
 };
 
 export default Events;
