@@ -158,7 +158,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			await likeTargetMember({
 				variables: { input: id },
 			});
-			await getAgentsRefetch({ input: searchFilter });
+			await getAgentsRefetch();
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likeMemberHandler', err.message);

@@ -318,11 +318,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
 						{rentTypes.map((type: string) => {
 							return (
-								<div
-									style={{ backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)` }}
-									onClick={() => rentTypeSelectHandler(type)}
-									key={type}
-								>
+								<div onClick={() => rentTypeSelectHandler(type)} key={type}>
 									<span>{type}</span>
 								</div>
 							);

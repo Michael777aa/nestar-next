@@ -5,8 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Rent } from '../../types/property/property';
 import Link from 'next/link';
-import { formatterStr } from '../../utils';
-import { REACT_APP_API_URL, topPropertyRank } from '../../config';
+import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import IconButton from '@mui/material/IconButton';
@@ -33,7 +32,7 @@ const PropertyCard = (props: PropertyCardType) => {
 	const imagePath: string = property?.rentImages[0]
 		? `${REACT_APP_API_URL}/${property?.rentImages[0]}`
 		: '/img/banner/header1.svg';
-	const isLiked = myFavorites || (property?.meLiked && property?.meLiked[0]?.myFavorite);
+
 	const amenityIcons: any = {
 		WiFi: <WifiIcon />,
 		'Air Conditioning': <AcUnitIcon />,
@@ -58,12 +57,6 @@ const PropertyCard = (props: PropertyCardType) => {
 					>
 						<img src={imagePath} alt="" />
 					</Link>
-					{property && property?.rentRank > topPropertyRank && (
-						<Box component={'div'} className={'top-badge'}>
-							<img src="/img/icons/electricity.svg" alt="" />
-							<Typography>TOP</Typography>
-						</Box>
-					)}
 				</Stack>
 				<Stack className="bottom">
 					<Stack className="name-address">
@@ -74,7 +67,7 @@ const PropertyCard = (props: PropertyCardType) => {
 									query: { id: property?._id },
 								}}
 							>
-								<Typography className="rent-title">{property.rentTitle}</Typography>
+								<Typography className="rent-title">{property?.rentTitle}</Typography>
 							</Link>
 						</Stack>
 						<Stack className="address">
@@ -86,13 +79,10 @@ const PropertyCard = (props: PropertyCardType) => {
 
 					<Stack className="options">
 						<Stack className="option">
-							<img src="/img/icons/bed.svg" alt="" /> <Typography>{property.furnished}</Typography>
+							<Typography>{property.rentBalconies} balconies</Typography>
 						</Stack>
 						<Stack className="option">
-							<img src="/img/icons/room.svg" alt="" /> <Typography>{property.rentBalconies} balconies</Typography>
-						</Stack>
-						<Stack className="option">
-							<img src="/img/icons/expand.svg" alt="" /> <Typography>{property.rentSquare} m2</Typography>
+							<Typography>{property.rentSquare} m2</Typography>
 						</Stack>
 					</Stack>
 
@@ -157,7 +147,7 @@ const PropertyCard = (props: PropertyCardType) => {
 							e.currentTarget.style.boxShadow = '0px 6px 12px rgba(0, 0, 0, 0.15)';
 						}}
 					>
-						<Typography style={{ fontSize: '15px' }}>${formatterStr(property?.rentalPrice)}/week</Typography>
+						<Typography style={{ fontSize: '15px' }}>${property?.rentalPrice}/week</Typography>
 					</Box>
 					<Link
 						href={{
@@ -174,25 +164,16 @@ const PropertyCard = (props: PropertyCardType) => {
 								fontSize: '16px',
 								fontWeight: '600',
 								color: '#ffffff',
-								background: 'linear-gradient(135deg, #4CAF50, #2E7D32)', // Green gradient background
+								background: 'linear-gradient(135deg, #4CAF50, #2E7D32)',
 								border: 'none',
 								borderRadius: '50px',
 								cursor: 'pointer',
-								boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
-								transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-							}}
-							onMouseEnter={(e) => {
-								e.currentTarget.style.transform = 'scale(1.05)';
-								e.currentTarget.style.boxShadow = '0px 6px 16px rgba(0, 0, 0, 0.2)';
-							}}
-							onMouseLeave={(e) => {
-								e.currentTarget.style.transform = 'scale(1)';
-								e.currentTarget.style.boxShadow = '0px 4px 12px rgba(0, 0, 0, 0.15)';
 							}}
 						>
 							Book Now
 						</button>
 					</Link>
+
 					<Stack
 						className="amenities"
 						style={{
@@ -218,7 +199,7 @@ const PropertyCard = (props: PropertyCardType) => {
 									fontSize: '20px',
 								}}
 							>
-								{amenityIcons[amenity] || <span>{amenity}</span>} {/* Fallback to text if icon not found */}
+								{amenityIcons[amenity] || <span>{amenity}</span>}
 							</Box>
 						))}
 					</Stack>

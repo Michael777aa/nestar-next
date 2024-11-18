@@ -7,13 +7,14 @@ import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { Member } from '../../types/member/member';
 import { useRouter } from 'next/router';
 import { GET_MEMBER } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import { SUBSCRIBE, UNSUBSCRIBE } from '../../../apollo/user/mutation';
 interface AgentCardProps {
 	agent: any;
 	likeMemberHandler: any;
@@ -29,6 +30,9 @@ const AgentCard = (props: AgentCardProps) => {
 	const user = useReactiveVar(userVar);
 	const [member, setMember] = useState<Member | null>(null);
 	const { memberId } = router.query;
+
+	const [subscribe] = useMutation(SUBSCRIBE);
+	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 	const {
 		loading: getMemberLoading,
 		data: getMemberData,

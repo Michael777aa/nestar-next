@@ -94,10 +94,7 @@ query GetMember($input: String!) {
             myFollowing
         }
     }
-}
-
-
-`);
+}`);
 
 /**************************
  *        PROPERTY        *
