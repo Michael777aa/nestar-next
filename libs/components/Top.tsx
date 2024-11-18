@@ -50,7 +50,6 @@ const Top = (props: topFilter) => {
 	const [searchFiltere, setSearchFiltere] = useState<RentsInquiry>(initialInput);
 	const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 	const [unreadCount, setUnreadCount] = useState<number>(0);
-
 	const searchFilter: NotificationInquiry = {
 		page: 1,
 		limit: 500,

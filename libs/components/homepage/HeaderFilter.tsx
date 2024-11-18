@@ -316,7 +316,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
 						{rentTypes.map((type: string) => {
 							return (
-								<div onClick={() => rentTypeSelectHandler(type)} key={type}>
+								<div style={{ cursor: 'pointer' }} onClick={() => rentTypeSelectHandler(type)} key={type}>
 									<span>{type}</span>
 								</div>
 							);

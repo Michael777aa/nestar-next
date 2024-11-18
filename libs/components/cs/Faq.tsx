@@ -249,7 +249,9 @@ Faq.defaultProps = {
 		limit: 10,
 		sort: 'createdAt',
 		direction: 'DESC',
-		search: {},
+		search: {
+			noticeField: 'FACILITY',
+		},
 	},
 };
 
