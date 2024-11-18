@@ -189,7 +189,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 								}}
 							/>
 						</Box>
-						<Box component={'div'} className={'right'}>
+						<Box component={'div'} className={'right'} sx={{ position: 'relative', right: '50px' }}>
 							<span>Sort by</span>
 							<div>
 								<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
