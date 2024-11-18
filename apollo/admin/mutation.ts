@@ -350,3 +350,54 @@ export const UPDATE_NOTICE = gql`
 		}
 	}
 `;
+
+/**************************
+ *         NOTICE        *
+ *************************/
+
+export const CREATE_EVENT = gql`
+	mutation CreateEvent($input: EventInput!) {
+		createEvent(input: $input) {
+			_id
+			eventStatus
+			eventName
+			eventTopic
+			eventDesc
+			eventLocation
+			eventImages
+
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const UPDATE_EVENT = gql`
+	mutation UpdateEventByAdmin($input: EventUpdate!) {
+		updateEventByAdmin(input: $input) {
+			eventStatus
+			eventName
+			eventTopic
+			eventDesc
+			eventLocation
+			eventImages
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const REMOVE_EVENT = gql`
+	mutation RemoveEventByAdmin($input: String!) {
+		removeEventByAdmin(eventId: $input) {
+			eventStatus
+			eventName
+			eventTopic
+			eventDesc
+			eventLocation
+			eventImages
+			createdAt
+			updatedAt
+		}
+	}
+`;

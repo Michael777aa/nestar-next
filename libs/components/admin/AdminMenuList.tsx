@@ -9,7 +9,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { ChatsCircle, Headset, User, UserCircleGear } from 'phosphor-react';
 import cookies from 'js-cookie';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-
+import { Calendar } from 'phosphor-react';
 const AdminMenuList = (props: any) => {
 	const device = useDeviceDetect();
 	const [mobileLayout, setMobileLayout] = useState(false);
@@ -37,6 +37,9 @@ const AdminMenuList = (props: any) => {
 			case 'cs':
 				setClickMenu(['Cs']);
 				break;
+			case 'event':
+				setClickMenu(['Events']);
+				break;
 			default:
 				setClickMenu(['Users']);
 				break;
@@ -54,6 +57,12 @@ const AdminMenuList = (props: any) => {
 				break;
 			case 'faq':
 				setClickSubMenu('FAQ');
+				break;
+			case 'listEvent':
+				setClickSubMenu('ListEvent');
+				break;
+			case 'addEvent':
+				setClickSubMenu('addEvent');
 				break;
 			case 'addNotice':
 				setClickSubMenu('addNotice');
@@ -99,6 +108,11 @@ const AdminMenuList = (props: any) => {
 			icon: <Headset size={20} color="#bdbdbd" weight="fill" />,
 			on_click: () => subMenuChangeHandler('Cs'),
 		},
+		{
+			title: 'Event',
+			icon: <Calendar size={20} color="#bdbdbd" weight="fill" />,
+			on_click: () => subMenuChangeHandler('Event'),
+		},
 	];
 
 	const sub_menu_set: any = {
@@ -109,6 +123,10 @@ const AdminMenuList = (props: any) => {
 			{ title: 'FAQ', url: '/_admin/cs/faq' },
 			{ title: 'addNotice', url: '/_admin/cs/addNotice' },
 			{ title: 'Notice', url: '/_admin/cs/notice' },
+		],
+		Event: [
+			{ title: 'List', url: '/_admin/event/listEvent' },
+			{ title: 'Add Event', url: '/_admin/event/addEvent' },
 		],
 	};
 

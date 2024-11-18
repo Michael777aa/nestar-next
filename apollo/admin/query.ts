@@ -299,3 +299,28 @@ export const GET_ALL_NOTICES = gql`
 		}
 	}
 `;
+
+/**************************
+ *      EVENTS     *
+ *************************/
+
+export const GET_ALL_EVENTS = gql`
+	query GetAllEventsByAdmin($input: EventInquiry!) {
+		getAllEventsByAdmin(input: $input) {
+			list {
+				eventStatus
+				eventName
+				eventTopic
+				eventDesc
+				eventLocation
+				eventImages
+				createdAt
+				updatedAt
+				_id
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;

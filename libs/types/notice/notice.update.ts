@@ -7,7 +7,7 @@ export interface NoticeUpdate {
 	noticeCategory?: NoticeCategory;
 	noticeStatus?: NoticeStatus;
 	noticeTitle?: string;
-	noticeField: NoticeField;
+	noticeField?: NoticeField;
 	noticeContent?: string;
 	targetAudience?: MemberType;
 }
