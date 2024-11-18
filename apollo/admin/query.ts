@@ -145,6 +145,7 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
 				articleImage
 				articleViews
 				articleLikes
+				articleComments
 				memberId
 				createdAt
 				updatedAt
@@ -177,9 +178,11 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
 					updatedAt
 					accessToken
 				}
-			}
-			metaCounter {
-				total
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
 			}
 		}
 	}
