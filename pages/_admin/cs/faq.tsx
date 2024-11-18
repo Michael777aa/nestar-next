@@ -76,50 +76,54 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 		setAnchorEl(tempAnchor);
 	};
 
-	const tabChangeHandler = (event: any, newValue: string) => {
+	const tabChangeHandler = async (event: any, newValue: string) => {
 		setValue(newValue);
 
-		let updatedSearch: any = { ...noticesInquiry.search };
+		setNoticesInquiry({ ...noticesInquiry, page: 1, sort: 'createdAt' });
 
 		switch (newValue) {
 			case 'ACTIVE':
-				updatedSearch.noticeStatus = NoticeStatus.ACTIVE;
+				setNoticesInquiry({ ...noticesInquiry, search: { noticeStatus: NoticeStatus.ACTIVE } });
 				break;
 			case 'HOLD':
-				updatedSearch.noticeStatus = NoticeStatus.HOLD;
+				setNoticesInquiry({ ...noticesInquiry, search: { noticeStatus: NoticeStatus.HOLD } });
 				break;
 			case 'DELETE':
-				updatedSearch.noticeStatus = NoticeStatus.DELETE;
+				setNoticesInquiry({ ...noticesInquiry, search: { noticeStatus: NoticeStatus.DELETE } });
 				break;
 			default:
-				delete updatedSearch.noticeStatus;
+				delete noticesInquiry?.search?.noticeStatus;
+				setNoticesInquiry({ ...noticesInquiry });
+				break;
 		}
-
-		setNoticesInquiry({
-			...noticesInquiry,
-			page: 1,
-			sort: 'createdAt',
-			search: updatedSearch,
-		});
 	};
 
 	const menuIconCloseHandler = () => {
 		setAnchorEl([]);
 	};
 
-	const searchTypeHandler = (newValue: string) => {
-		setSearchType(newValue);
+	const searchTypeHandler = async (newValue: string) => {
+		try {
+			setSearchType(newValue);
 
-		let updatedSearch = { ...noticesInquiry.search };
-		if (newValue !== 'ALL') {
-			updatedSearch.noticeCategory = newValue as NoticeCategory;
-		} else {
-			delete updatedSearch.noticeCategory;
+			if (newValue !== 'ALL') {
+				setNoticesInquiry({
+					...noticesInquiry,
+					page: 1,
+					sort: 'createdAt',
+					search: {
+						...noticesInquiry.search,
+						noticeCategory: newValue as NoticeCategory,
+					},
+				});
+			} else {
+				delete noticesInquiry?.search?.noticeCategory;
+				setNoticesInquiry({ ...noticesInquiry });
+			}
+		} catch (err: any) {
+			console.log('searchTypeHandler: ', err.message);
 		}
-
-		setNoticesInquiry({ ...noticesInquiry, search: updatedSearch });
 	};
-
 	const searchFieldHandler = (newValue: string) => {
 		setSearchField(newValue);
 
@@ -170,17 +174,35 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 			<Box component="div" className="table-wrap">
 				<TabContext value={value}>
 					<Box component="div">
-						<List className="tab-menu">
-							{['ALL', 'ACTIVE', 'HOLD', 'DELETE'].map((status) => (
-								<ListItem
-									key={status}
-									onClick={(e) => tabChangeHandler(e, status)}
-									value={status}
-									className={value === status ? 'li on' : 'li'}
-								>
-									{status}
-								</ListItem>
-							))}
+						<List className={'tab-menu'}>
+							<ListItem
+								onClick={(e) => tabChangeHandler(e, 'ALL')}
+								value="ALL"
+								className={value === 'ALL' ? 'li on' : 'li'}
+							>
+								All
+							</ListItem>
+							<ListItem
+								onClick={(e) => tabChangeHandler(e, 'ACTIVE')}
+								value="ACTIVE"
+								className={value === 'ACTIVE' ? 'li on' : 'li'}
+							>
+								Active
+							</ListItem>
+							<ListItem
+								onClick={(e) => tabChangeHandler(e, 'HOLD')}
+								value="HOLD"
+								className={value === 'HOLD' ? 'li on' : 'li'}
+							>
+								Hold
+							</ListItem>
+							<ListItem
+								onClick={(e) => tabChangeHandler(e, 'DELETE')}
+								value="DELETE"
+								className={value === 'DELETE' ? 'li on' : 'li'}
+							>
+								Delete
+							</ListItem>
 						</List>
 						<Divider sx={{ my: 2 }} />
 

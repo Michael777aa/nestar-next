@@ -255,6 +255,40 @@ export const GET_ALL_NOTICES = gql`
 				updatedAt
 				noticeField
 				targetAudience
+				memberData {
+					_id
+					memberType
+					memberEmail
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFirstName
+					memberLastName
+					memberImage
+					memberAddress
+					memberDesc
+					memberProperties
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
 			}
 			metaCounter {
 				total
