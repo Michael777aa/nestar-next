@@ -166,9 +166,9 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 		<Box component="div" className="content">
 			<Box component="div" className="title flex_space">
 				<Typography variant="h2">FAQ Management</Typography>
-				<Button className="btn_add" variant="contained" size="medium">
+				<Button className="btn_add" sx={{ position: 'relative', top: '10px' }} variant="outlined" size="medium">
 					<AddRoundedIcon sx={{ mr: '8px' }} />
-					ADD
+					Add Notice
 				</Button>
 			</Box>
 			<Box component="div" className="table-wrap">
@@ -211,7 +211,7 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 								value={searchText}
 								onChange={(e) => setSearchText(e.target.value)}
 								sx={{ width: '100%' }}
-								placeholder="Search user name"
+								placeholder="Search "
 								onKeyDown={(e) => e.key === 'Enter' && searchTextHandler()}
 								endAdornment={
 									<>

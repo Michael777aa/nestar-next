@@ -26,6 +26,8 @@ import Moment from 'react-moment';
 
 interface Data {
 	category: string;
+	targetAudience: string;
+	sort: string;
 	title: string;
 	writer: string;
 	register: string;
@@ -47,32 +49,44 @@ const headCells: readonly HeadCell[] = [
 		id: 'article_id',
 		numeric: true,
 		disablePadding: false,
-		label: 'Notice ID',
+		label: 'Notice Id',
 	},
 	{
 		id: 'title',
 		numeric: true,
 		disablePadding: false,
-		label: 'TITLE',
+		label: 'Title',
+	},
+	{
+		id: 'sort',
+		numeric: true,
+		disablePadding: false,
+		label: 'Field',
+	},
+	{
+		id: 'targetAudience',
+		numeric: true,
+		disablePadding: false,
+		label: 'Target Audience',
 	},
 	{
 		id: 'category',
 		numeric: true,
 		disablePadding: false,
-		label: 'CATEGORY',
+		label: 'Category',
 	},
 
 	{
 		id: 'register',
 		numeric: true,
 		disablePadding: false,
-		label: 'REGISTER DATE',
+		label: 'Register Date',
 	},
 	{
 		id: 'status',
 		numeric: false,
 		disablePadding: false,
-		label: 'STATUS',
+		label: 'Status',
 	},
 ];
 
@@ -128,68 +142,47 @@ export const FaqArticlesPanelList = (props: FaqArticlesPanelListType) => {
 							<TableRow hover key={notice._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 								<TableCell align="left">{notice._id}</TableCell>
 								<TableCell align="left">
-									<Box component={'div'}>
-										{notice.noticeTitle}
-										{notice.noticeStatus === NoticeStatus.ACTIVE && (
-											<Link
-												href={`/community/detail?articleCategory=${notice.noticeCategory}&id=${notice._id}`}
-												className={'img_box'}
-											>
-												<IconButton className="btn_window">
-													<Tooltip title={'Open window'}>
-														<OpenInBrowserRoundedIcon />
-													</Tooltip>
-												</IconButton>
-											</Link>
-										)}
-									</Box>
+									<Box component={'div'}>{notice.noticeTitle}</Box>
 								</TableCell>
+								<TableCell align="left">{notice.noticeField}</TableCell>
+								<TableCell align="left">{notice.targetAudience ? notice.targetAudience : 'No Target'}</TableCell>
+
 								<TableCell align="left">{notice.noticeCategory}</TableCell>
 
 								<TableCell align="left">
 									<Moment format={'DD.MM.YY HH:mm'}>{notice?.createdAt}</Moment>
 								</TableCell>
 								<TableCell align="center">
-									{notice.noticeStatus === NoticeStatus.DELETE ? (
-										<Button
-											variant="outlined"
-											sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
-											// onClick={() => removeArticleHandler(notice._id)}
-										>
-											<DeleteIcon fontSize="small" />
+									<>
+										<Button onClick={(e: any) => handleMenuIconClick(e, index)} className={'badge success'}>
+											{notice.noticeStatus}
 										</Button>
-									) : (
-										<>
-											<Button onClick={(e: any) => handleMenuIconClick(e, index)} className={'badge success'}>
-												{notice.noticeStatus}
-											</Button>
 
-											<Menu
-												className={'menu-modal'}
-												MenuListProps={{
-													'aria-labelledby': 'fade-button',
-												}}
-												anchorEl={anchorEl[index]}
-												open={Boolean(anchorEl[index])}
-												onClose={handleMenuIconClose}
-												TransitionComponent={Fade}
-												sx={{ p: 1 }}
-											>
-												{Object.values(NoticeStatus)
-													.filter((ele) => ele !== notice.noticeStatus)
-													.map((status: string) => (
-														<MenuItem
-															onClick={() => updateArticleHandler({ _id: notice._id, noticeStatus: status })}
-															key={status}
-														>
-															<Typography variant={'subtitle1'} component={'span'}>
-																{status}
-															</Typography>
-														</MenuItem>
-													))}
-											</Menu>
-										</>
-									)}
+										<Menu
+											className={'menu-modal'}
+											MenuListProps={{
+												'aria-labelledby': 'fade-button',
+											}}
+											anchorEl={anchorEl[index]}
+											open={Boolean(anchorEl[index])}
+											onClose={handleMenuIconClose}
+											TransitionComponent={Fade}
+											sx={{ p: 1 }}
+										>
+											{Object.values(NoticeStatus)
+												.filter((ele) => ele !== notice.noticeStatus)
+												.map((status: string) => (
+													<MenuItem
+														onClick={() => updateArticleHandler({ _id: notice._id, noticeStatus: status })}
+														key={status}
+													>
+														<Typography variant={'subtitle1'} component={'span'}>
+															{status}
+														</Typography>
+													</MenuItem>
+												))}
+										</Menu>
+									</>
 								</TableCell>
 							</TableRow>
 						))}

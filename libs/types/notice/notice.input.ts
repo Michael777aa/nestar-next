@@ -5,6 +5,7 @@ import { NoticeCategory, NoticeField, NoticeStatus } from '../../enums/notice.en
 export interface NoticeInput {
 	noticeCategory: NoticeCategory;
 	noticeStatus: NoticeStatus;
+	noticeField: NoticeField;
 	noticeTitle: string;
 	noticeContent: string;
 	targetAudience: MemberType;

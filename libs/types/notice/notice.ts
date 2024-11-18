@@ -1,11 +1,12 @@
 import { RentLocation, AvailabilityStatus, RentType } from '../../enums/property.enum';
-import { NoticeCategory, NoticeStatus } from '../../enums/notice.enum';
+import { NoticeCategory, NoticeField, NoticeStatus } from '../../enums/notice.enum';
 import { MemberType } from '../../enums/member.enum';
 
 export interface Notice {
 	_id: string;
 	noticeCategory: NoticeCategory;
 	noticeStatus: NoticeStatus;
+	noticeField: NoticeField;
 	targetAudience: MemberType;
 	noticeTitle: string;
 	noticeContent: string;
