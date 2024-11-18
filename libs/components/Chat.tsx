@@ -14,7 +14,7 @@ import { Messages, REACT_APP_API_URL } from '../config';
 import { sweetErrorAlert } from '../sweetAlert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { updateUserInfo } from '../auth';
+
 interface MessagePayload {
 	id: string;
 	event: string;

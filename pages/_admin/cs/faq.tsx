@@ -14,18 +14,18 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { FaqArticlesPanelList } from '../../../libs/components/admin/cs/FaqList';
 import { useMutation, useQuery } from '@apollo/client';
-import { CREATE_NOTICE, REMOVE_NOTICE, UPDATE_NOTICE } from '../../../apollo/admin/mutation';
+import { UPDATE_NOTICE } from '../../../apollo/admin/mutation';
 import { GET_ALL_NOTICES } from '../../../apollo/admin/query';
-import { Notice, Notices } from '../../../libs/types/notice/notice';
-import { NoticesInquiry } from '../../../libs/types/notice/notice.input';
-import { NoticeCategory, NoticeStatus } from '../../../libs/enums/notice.enum';
+import { Notice } from '../../../libs/types/notice/notice';
+import { NoticeCategory, NoticeField, NoticeStatus } from '../../../libs/enums/notice.enum';
 import { NoticeUpdate } from '../../../libs/types/notice/notice.update';
-import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
+import { sweetErrorHandling } from '../../../libs/sweetAlert';
 import { T } from '../../../libs/types/common';
+import { NoticiesInquiry } from '../../../libs/types/notice/notice.input';
 
 const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
-	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
-	const [noticesInquiry, setNoticesInquiry] = useState<NoticesInquiry>(initialInquiry);
+	const [anchorEl, setAnchorEl] = useState<any>([]);
+	const [noticesInquiry, setNoticesInquiry] = useState<NoticiesInquiry>(initialInquiry);
 	const [allNotices, setAllNotices] = useState<Notice[]>([]);
 	const [value, setValue] = useState(
 		noticesInquiry?.search?.noticeStatus ? noticesInquiry?.search?.noticeStatus : 'ALL',
@@ -34,25 +34,19 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [total, setTotal] = useState<number>(0);
 
 	const [searchType, setSearchType] = useState('ALL');
+	const [searchField, setSearchField] = useState('ALL');
 
 	/** APOLLO REQUESTS **/
 
-	const [createNotice] = useMutation(CREATE_NOTICE);
 	const [updateNotice] = useMutation(UPDATE_NOTICE);
-	const [removeNotice] = useMutation(REMOVE_NOTICE);
 
-	const {
-		loading: getNoticesLoading,
-		data: getNoticesData,
-		error: getNoticesError,
-		refetch: getNoticesRefetch,
-	} = useQuery(GET_ALL_NOTICES, {
+	const { loading: getNoticesLoading, refetch: getNoticesRefetch } = useQuery(GET_ALL_NOTICES, {
 		fetchPolicy: 'network-only',
 		variables: { input: noticesInquiry },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setAllNotices(data?.getNotices?.list);
-			setTotal(data?.getNotices?.metaCounter[0]?.total);
+			setAllNotices(data?.getNotices?.list || []);
+			setTotal(data?.getNotices?.metaCounter[0]?.total || 0);
 		},
 	});
 
@@ -65,15 +59,15 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 	/** HANDLERS **/
 
 	const changePageHandler = async (event: unknown, newPage: number) => {
-		noticesInquiry.page = newPage + 1;
-		await getNoticesRefetch({ input: noticesInquiry });
-		setNoticesInquiry({ ...noticesInquiry });
+		setNoticesInquiry((prev) => ({ ...prev, page: newPage + 1 }));
 	};
+
 	const changeRowsPerPageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		noticesInquiry.limit = parseInt(event.target.value, 10);
-		noticesInquiry.page = 1;
-		await getNoticesRefetch({ input: noticesInquiry });
-		setNoticesInquiry({ ...noticesInquiry });
+		setNoticesInquiry((prev) => ({
+			...prev,
+			limit: parseInt(event.target.value, 10),
+			page: 1,
+		}));
 	};
 
 	const menuIconClickHandler = (e: any, index: number) => {
@@ -81,31 +75,62 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 		tempAnchor[index] = e.currentTarget;
 		setAnchorEl(tempAnchor);
 	};
+
+	const tabChangeHandler = (event: any, newValue: string) => {
+		setValue(newValue);
+
+		let updatedSearch: any = { ...noticesInquiry.search };
+
+		switch (newValue) {
+			case 'ACTIVE':
+				updatedSearch.noticeStatus = NoticeStatus.ACTIVE;
+				break;
+			case 'HOLD':
+				updatedSearch.noticeStatus = NoticeStatus.HOLD;
+				break;
+			case 'DELETE':
+				updatedSearch.noticeStatus = NoticeStatus.DELETE;
+				break;
+			default:
+				delete updatedSearch.noticeStatus;
+		}
+
+		setNoticesInquiry({
+			...noticesInquiry,
+			page: 1,
+			sort: 'createdAt',
+			search: updatedSearch,
+		});
+	};
+
 	const menuIconCloseHandler = () => {
 		setAnchorEl([]);
 	};
 
-	const searchTypeHandler = async (newValue: string) => {
-		try {
-			setSearchType(newValue);
+	const searchTypeHandler = (newValue: string) => {
+		setSearchType(newValue);
 
-			if (newValue !== 'ALL') {
-				setNoticesInquiry({
-					...noticesInquiry,
-					page: 1,
-					sort: 'createdAt',
-					search: {
-						...noticesInquiry.search,
-						noticeCategory: newValue as NoticeCategory,
-					},
-				});
-			} else {
-				delete noticesInquiry?.search?.noticeCategory;
-				setNoticesInquiry({ ...noticesInquiry });
-			}
-		} catch (err: any) {
-			console.log('searchTypeHandler: ', err.message);
+		let updatedSearch = { ...noticesInquiry.search };
+		if (newValue !== 'ALL') {
+			updatedSearch.noticeCategory = newValue as NoticeCategory;
+		} else {
+			delete updatedSearch.noticeCategory;
 		}
+
+		setNoticesInquiry({ ...noticesInquiry, search: updatedSearch });
+	};
+
+	const searchFieldHandler = (newValue: string) => {
+		setSearchField(newValue);
+
+		let updatedSearch = { ...noticesInquiry.search };
+		if (newValue !== 'ALL') {
+			updatedSearch.noticeField = newValue as NoticeField;
+		} else {
+			delete updatedSearch.noticeField;
+		}
+
+		setNoticesInquiry({ ...noticesInquiry, search: updatedSearch });
 	};
 
 	const updateArticleHandler = async (updateData: NoticeUpdate) => {
@@ -115,132 +140,122 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 					input: updateData,
 				},
 			});
-
 			menuIconCloseHandler();
-			await getNoticesRefetch({ input: noticesInquiry });
-		} catch (err: any) {
-			menuIconCloseHandler();
-			sweetErrorHandling(err).then();
+			getNoticesRefetch({ input: noticesInquiry });
+		} catch (err) {
+			console.error('Error updating notice:', err);
+			sweetErrorHandling(err);
 		}
 	};
-	const textHandler = useCallback((value: string) => {
-		try {
-			setSearchText(value);
-		} catch (err: any) {
-			console.log('textHandler: ', err.message);
-		}
-	}, []);
+
 	const searchTextHandler = () => {
-		try {
-			setNoticesInquiry({
-				...noticesInquiry,
-				search: {
-					...noticesInquiry.search,
-					text: searchText,
-				},
-			});
-		} catch (err: any) {
-			console.log('searchTextHandler: ', err.message);
-		}
+		setNoticesInquiry({
+			...noticesInquiry,
+			search: {
+				...noticesInquiry.search,
+				text: searchText,
+			},
+		});
 	};
 
 	return (
-		// @ts-ignore
-		<Box component={'div'} className={'content'}>
-			<Box component={'div'} className={'title flex_space'}>
-				<Typography variant={'h2'}>FAQ Management</Typography>
-				<Button
-					className="btn_add"
-					variant={'contained'}
-					size={'medium'}
-					// onClick={() => router.push(`/_admin/cs/faq_create`)}
-				>
+		<Box component="div" className="content">
+			<Box component="div" className="title flex_space">
+				<Typography variant="h2">FAQ Management</Typography>
+				<Button className="btn_add" variant="contained" size="medium">
 					<AddRoundedIcon sx={{ mr: '8px' }} />
 					ADD
 				</Button>
 			</Box>
-			<Box component={'div'} className={'table-wrap'}>
-				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
-					<TabContext value={value}>
-						<Box component={'div'}>
-							{/* Category Selection */}
-							<Select sx={{ width: '160px', ml: '20px' }} value={searchType}>
-								<MenuItem value={'ALL'} onClick={() => searchTypeHandler('ALL')}>
-									All
-								</MenuItem>
-								<MenuItem value={NoticeCategory.FAQ} onClick={() => searchTypeHandler(NoticeCategory.FAQ)}>
-									FAQ
-								</MenuItem>
-								<MenuItem value={NoticeCategory.TERMS} onClick={() => searchTypeHandler(NoticeCategory.TERMS)}>
-									TERMS
-								</MenuItem>
-								<MenuItem value={NoticeCategory.INQUIRY} onClick={() => searchTypeHandler(NoticeCategory.INQUIRY)}>
-									INQUIRY
-								</MenuItem>
-							</Select>
-							<Divider sx={{ my: 2 }} />
+			<Box component="div" className="table-wrap">
+				<TabContext value={value}>
+					<Box component="div">
+						<List className="tab-menu">
+							{['ALL', 'ACTIVE', 'HOLD', 'DELETE'].map((status) => (
+								<ListItem
+									key={status}
+									onClick={(e) => tabChangeHandler(e, status)}
+									value={status}
+									className={value === status ? 'li on' : 'li'}
+								>
+									{status}
+								</ListItem>
+							))}
+						</List>
+						<Divider sx={{ my: 2 }} />
 
-							{/* Search Bar */}
-							<Stack className={'search-area'} sx={{ m: '24px' }}>
-								<OutlinedInput
-									value={searchText}
-									onChange={(e) => textHandler(e.target.value)}
-									sx={{ width: '100%' }}
-									className={'search'}
-									placeholder="Search user name"
-									onKeyDown={(event) => {
-										if (event.key === 'Enter') searchTextHandler();
-									}}
-									endAdornment={
-										<>
-											{/* Clear Search */}
-											{searchText && (
-												<CancelRoundedIcon
-													style={{ cursor: 'pointer' }}
-													onClick={async () => {
-														setSearchText('');
-														setNoticesInquiry({
-															...noticesInquiry,
-															search: {
-																...noticesInquiry.search,
-																text: '',
-															},
-														});
-														await getNoticesRefetch({ input: noticesInquiry });
-													}}
-												/>
-											)}
-
-											<InputAdornment position="end" onClick={() => searchTextHandler()}>
-												<img src="/img/icons/search_icon.png" alt={'searchIcon'} style={{ cursor: 'pointer' }} />
-											</InputAdornment>
-										</>
-									}
-								/>
+						<Stack className="search-area" sx={{ m: '24px' }}>
+							<OutlinedInput
+								value={searchText}
+								onChange={(e) => setSearchText(e.target.value)}
+								sx={{ width: '100%' }}
+								placeholder="Search user name"
+								onKeyDown={(e) => e.key === 'Enter' && searchTextHandler()}
+								endAdornment={
+									<>
+										{searchText && (
+											<CancelRoundedIcon
+												style={{ cursor: 'pointer' }}
+												onClick={() => {
+													setSearchText('');
+													searchTextHandler();
+												}}
+											/>
+										)}
+										<InputAdornment position="end" onClick={searchTextHandler}>
+											<img src="/img/icons/search_icon.png" alt="searchIcon" style={{ cursor: 'pointer' }} />
+										</InputAdornment>
+									</>
+								}
+							/>
+							<Stack direction="row" sx={{}}>
+								<Select
+									value={searchType}
+									sx={{ width: '160px', mr: 2, ml: 2 }}
+									onChange={(e) => searchTypeHandler(e.target.value)}
+								>
+									<MenuItem value="ALL">ALL</MenuItem>
+									{Object.values(NoticeCategory).map((category) => (
+										<MenuItem key={category} value={category}>
+											{category}
+										</MenuItem>
+									))}
+								</Select>
+								<Select
+									value={searchField}
+									sx={{ width: '160px' }}
+									onChange={(e) => searchFieldHandler(e.target.value)}
+								>
+									<MenuItem value="ALL">ALL</MenuItem>
+									{Object.values(NoticeField).map((field) => (
+										<MenuItem key={field} value={field}>
+											{field}
+										</MenuItem>
+									))}
+								</Select>
 							</Stack>
-							<Divider sx={{ my: 2 }} />
-						</Box>
+						</Stack>
+						<Divider sx={{ my: 2 }} />
+					</Box>
 
-						{/* Articles List */}
-						<FaqArticlesPanelList
-							anchorEl={anchorEl}
-							allNotices={allNotices} // Use the actual state data
-							handleMenuIconClick={menuIconClickHandler}
-							handleMenuIconClose={menuIconCloseHandler}
-							updateArticleHandler={updateArticleHandler}
-						/>
+					<FaqArticlesPanelList
+						anchorEl={anchorEl}
+						allNotices={allNotices}
+						handleMenuIconClick={menuIconClickHandler}
+						handleMenuIconClose={menuIconCloseHandler}
+						updateArticleHandler={updateArticleHandler}
+					/>
 
-						<TablePagination
-							rowsPerPageOptions={[10, 20, 50]}
-							component="div"
-							count={total}
-							rowsPerPage={noticesInquiry?.limit}
-							page={noticesInquiry.page - 1}
-							onPageChange={changePageHandler}
-							onRowsPerPageChange={changeRowsPerPageHandler}
-						/>
-					</TabContext>
-				</Box>
+					<TablePagination
+						rowsPerPageOptions={[10, 20, 40, 60]}
+						component="div"
+						count={total}
+						rowsPerPage={noticesInquiry?.limit}
+						page={noticesInquiry.page - 1}
+						onPageChange={changePageHandler}
+						onRowsPerPageChange={changeRowsPerPageHandler}
+					/>
+				</TabContext>
 			</Box>
 		</Box>
 	);
@@ -255,4 +270,5 @@ FaqArticles.defaultProps = {
 		search: {},
 	},
 };
+
 export default withAdminLayout(FaqArticles);

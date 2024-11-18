@@ -84,7 +84,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 
 			await likeTargetProperty({ variables: { input: id } });
 
-			await getPropertiesRefetch();
+			await getPropertiesRefetch({ _id: id });
 		} catch (err: any) {
 			console.log('Error on likePropertyHandler', err);
 			sweetMixinErrorAlert(err.message).then();

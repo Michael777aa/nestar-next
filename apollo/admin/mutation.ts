@@ -191,8 +191,8 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
  *************************/
 
 export const UPDATE_BOARD_ARTICLE_BY_ADMIN = gql`
-	mutation UpdateBoardArticleByAdmin($input: BoardArticleUpdate!) {
-		updateBoardArticleByAdmin(input: $input) {
+	mutation UpdateBoardArticle($input: BoardArticleUpdate!) {
+		updateBoardArticle(input: $input) {
 			_id
 			articleCategory
 			articleStatus
@@ -201,9 +201,44 @@ export const UPDATE_BOARD_ARTICLE_BY_ADMIN = gql`
 			articleImage
 			articleViews
 			articleLikes
+			articleComments
 			memberId
 			createdAt
 			updatedAt
+			memberData {
+				_id
+				memberType
+				memberEmail
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFirstName
+				memberLastName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
 		}
 	}
 `;
@@ -219,9 +254,44 @@ export const REMOVE_BOARD_ARTICLE_BY_ADMIN = gql`
 			articleImage
 			articleViews
 			articleLikes
+			articleComments
 			memberId
 			createdAt
 			updatedAt
+			memberData {
+				_id
+				memberType
+				memberEmail
+				memberStatus
+				memberAuthType
+				memberPhone
+				memberNick
+				memberFirstName
+				memberLastName
+				memberImage
+				memberAddress
+				memberDesc
+				memberProperties
+				memberArticles
+				memberFollowers
+				memberFollowings
+				memberPoints
+				memberLikes
+				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
+				deletedAt
+				createdAt
+				updatedAt
+				accessToken
+			}
+			meLiked {
+				memberId
+				likeRefId
+				myFavorite
+			}
 		}
 	}
 `;
@@ -254,11 +324,13 @@ export const CREATE_NOTICE = gql`
 		createNotice(input: $input) {
 			_id
 			noticeCategory
+			noticeField
 			noticeStatus
 			noticeTitle
 			noticeContent
 			createdAt
 			updatedAt
+			targetAudience
 		}
 	}
 `;
@@ -273,19 +345,8 @@ export const UPDATE_NOTICE = gql`
 			noticeContent
 			createdAt
 			updatedAt
-		}
-	}
-`;
-export const REMOVE_NOTICE = gql`
-	mutation RemoveNotice($input: String!) {
-		removeNotice(noticeId: $input) {
-			_id
-			noticeCategory
-			noticeStatus
-			noticeTitle
-			noticeContent
-			createdAt
-			updatedAt
+			targetAudience
+			noticeField
 		}
 	}
 `;

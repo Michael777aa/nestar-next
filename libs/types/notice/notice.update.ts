@@ -1,4 +1,5 @@
 import { Direction } from '../../enums/common.enum';
+import { MemberType } from '../../enums/member.enum';
 import { NoticeCategory, NoticeStatus } from '../../enums/notice.enum';
 
 export interface NoticeUpdate {
@@ -7,5 +8,5 @@ export interface NoticeUpdate {
 	noticeStatus?: NoticeStatus;
 	noticeTitle?: string;
 	noticeContent?: string;
-	memberId?: string;
+	targetAudience?: MemberType;
 }

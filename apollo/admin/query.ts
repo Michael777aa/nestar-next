@@ -253,6 +253,8 @@ export const GET_ALL_NOTICES = gql`
 				noticeContent
 				createdAt
 				updatedAt
+				noticeField
+				targetAudience
 			}
 			metaCounter {
 				total

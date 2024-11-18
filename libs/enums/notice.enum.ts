@@ -9,3 +9,13 @@ export enum NoticeStatus {
 	ACTIVE = 'ACTIVE',
 	DELETE = 'DELETE',
 }
+
+export enum NoticeField {
+	FACILITY = 'FACILITY',
+	PAYMENT = 'PAYMENT',
+	BUYERS = 'BUYERS',
+	AGENTS = 'AGENTS',
+	MEMBERSHIP = 'MEMBERSHIP',
+	COMMUNITY = 'COMMUNITY',
+	OTHER = 'OTHER',
+}
