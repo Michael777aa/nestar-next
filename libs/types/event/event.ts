@@ -8,7 +8,7 @@ export interface Event {
 	eventTopic: string;
 	eventDesc: string;
 	eventLocation: string;
-	eventImages?: string[];
+	eventImages: string[];
 	createdAt: Date;
 	updatedAt: Date;
 }

@@ -136,9 +136,7 @@ export const EventsPanelList = (props: EventsPanelListType) => {
 
 					{allEvents.length !== 0 &&
 						allEvents.map((event: Event, index: number) => {
-							const member_image = event.eventImages
-								? `${REACT_APP_API_URL}/${event.eventImages}`
-								: '/img/profile/defaultUser.svg';
+							const member_image = `${REACT_APP_API_URL}/${event.eventImages[0]}`;
 
 							return (
 								<TableRow hover key={event._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
