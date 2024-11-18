@@ -22,11 +22,14 @@ import { NoticeUpdate } from '../../../libs/types/notice/notice.update';
 import { sweetErrorHandling } from '../../../libs/sweetAlert';
 import { T } from '../../../libs/types/common';
 import { NoticiesInquiry } from '../../../libs/types/notice/notice.input';
+import { useRouter } from 'next/router';
 
 const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<any>([]);
 	const [noticesInquiry, setNoticesInquiry] = useState<NoticiesInquiry>(initialInquiry);
 	const [allNotices, setAllNotices] = useState<Notice[]>([]);
+	const router = useRouter();
+
 	const [value, setValue] = useState(
 		noticesInquiry?.search?.noticeStatus ? noticesInquiry?.search?.noticeStatus : 'ALL',
 	);
@@ -166,11 +169,22 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 		<Box component="div" className="content">
 			<Box component="div" className="title flex_space">
 				<Typography variant="h2">FAQ Management</Typography>
-				<Button className="btn_add" sx={{ position: 'relative', top: '10px' }} variant="outlined" size="medium">
+				<Button
+					className="btn_add"
+					sx={{ position: 'relative', top: '10px' }}
+					onClick={() =>
+						router.push({
+							pathname: '/create',
+						})
+					}
+					variant="outlined"
+					size="medium"
+				>
 					<AddRoundedIcon sx={{ mr: '8px' }} />
 					Add Notice
 				</Button>
 			</Box>
+
 			<Box component="div" className="table-wrap">
 				<TabContext value={value}>
 					<Box component="div">

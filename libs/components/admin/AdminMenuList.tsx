@@ -57,6 +57,9 @@ const AdminMenuList = (props: any) => {
 			case 'faq':
 				setClickSubMenu('FAQ');
 				break;
+			case 'addNotice':
+				setClickSubMenu('addNotice');
+				break;
 			case 'board_create':
 				setClickSubMenu('Board Create');
 				break;
@@ -106,6 +109,7 @@ const AdminMenuList = (props: any) => {
 		Community: [{ title: 'List', url: '/_admin/community' }],
 		Cs: [
 			{ title: 'FAQ', url: '/_admin/cs/faq' },
+			{ title: 'addNotice', url: '/_admin/cs/addNotice' },
 			{ title: 'Notice', url: '/_admin/cs/notice' },
 		],
 	};
