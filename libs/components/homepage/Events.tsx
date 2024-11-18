@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { GET_ALL_EVENTS } from '../../../apollo/admin/query';
 import { useQuery } from '@apollo/client';
@@ -73,9 +73,49 @@ const Events = ({ initialInquiry, ...props }: any) => {
 						</Box>
 					</Stack>
 					<Stack className={'card-wrapper'}>
-						{allEvents.map((event: Event) => {
-							return <EventCard event={event} key={event?.eventName} />;
-						})}
+						{getEventsLoading ? (
+							<Typography variant="h6" align="center">
+								Loading events...
+							</Typography>
+						) : allEvents.length === 0 ? (
+							<Box
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+									justifyContent: 'center',
+									alignItems: 'center',
+									position: 'relative',
+									left: '180px',
+									width: '900px',
+									backgroundColor: '#f5f5f5',
+									borderRadius: 2,
+									boxShadow: 2,
+									padding: 3,
+									textAlign: 'center',
+								}}
+							>
+								<Typography
+									variant="h4"
+									sx={{
+										color: '#555',
+										fontWeight: 'bold',
+										marginBottom: 2,
+									}}
+								>
+									No Events Available
+								</Typography>
+								<Typography
+									variant="body1"
+									sx={{
+										color: '#888',
+									}}
+								>
+									Please check back later for updates on events.
+								</Typography>
+							</Box>
+						) : (
+							allEvents.map((event: Event) => <EventCard event={event} key={event?.eventName} />)
+						)}
 					</Stack>
 				</Stack>
 			</Stack>
