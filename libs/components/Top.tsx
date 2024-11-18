@@ -511,7 +511,14 @@ const Top = (props: topFilter) => {
 																{notification.notificationName && (
 																	<Typography
 																		variant="body1"
-																		sx={{ fontWeight: '400', marginBottom: '4px', fontSize: '15px' }}
+																		sx={{
+																			fontSize: '15px',
+																			fontWeight: '900',
+																			color: '#00000',
+																			marginBottom: '8px',
+																			wordBreak: 'break-word',
+																			whiteSpace: 'normal',
+																		}}
 																	>
 																		Name: {notification.notificationName}
 																	</Typography>
@@ -520,7 +527,14 @@ const Top = (props: topFilter) => {
 																{notification.notificationNumber && (
 																	<Typography
 																		variant="body1"
-																		sx={{ fontWeight: '400', marginBottom: '4px', fontSize: '15px' }}
+																		sx={{
+																			fontSize: '14px',
+																			fontWeight: '700',
+																			color: '#00000',
+																			marginBottom: '8px',
+																			wordBreak: 'break-word',
+																			whiteSpace: 'normal',
+																		}}
 																	>
 																		Number: {notification.notificationNumber}
 																	</Typography>
@@ -538,7 +552,7 @@ const Top = (props: topFilter) => {
 																		whiteSpace: 'normal',
 																	}}
 																>
-																	{notification.notificationTitle}!
+																	{notification.notificationTitle}
 																</Typography>
 
 																{/* Display notification description */}
