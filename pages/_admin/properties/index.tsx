@@ -93,12 +93,14 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 				setPropertiesInquiry({ ...propertiesInquiry, search: { availabilityStatus: AvailabilityStatus.DELETE } });
 				break;
 			default:
+				delete propertiesInquiry?.search?.availabilityStatus;
+				setPropertiesInquiry({ ...propertiesInquiry });
 		}
 	};
 
 	const removePropertyHandler = async (id: string) => {
 		try {
-			if (await sweetConfirmAlert('Are you sure to remove this property?')) {
+			if (await sweetConfirmAlert('Are you sure to remove this facility?')) {
 				await removePropertyByAdmin({ variables: { input: id } });
 				await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
 			}
@@ -136,10 +138,13 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 		try {
 			let confirmMessage = '';
 			if (updateData.availabilityStatus === AvailabilityStatus.AVAILABLE) {
-				confirmMessage = `Do you want to mark this property as AVAILABLE?`;
+				confirmMessage = `Do you want to make this facility available?`;
 				updateData.availabilityStatus = AvailabilityStatus.AVAILABLE;
 			} else if (updateData.availabilityStatus === AvailabilityStatus.RESERVED) {
-				confirmMessage = `Do you want to mark this property as RESERVED?`;
+				confirmMessage = `Do you want to make this facility reserved?`;
+				updateData.availabilityStatus = AvailabilityStatus.RESERVED;
+			} else {
+				confirmMessage = `Do you want to make this facility deleted?`;
 				updateData.availabilityStatus = AvailabilityStatus.RESERVED;
 			}
 

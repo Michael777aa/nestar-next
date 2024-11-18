@@ -83,26 +83,17 @@ const headCells: readonly HeadCell[] = [
 		disablePadding: false,
 		label: 'STATUS',
 	},
-	{
-		id: 'remove',
-		numeric: false,
-		disablePadding: false,
-		label: 'REMOVE',
-	},
 ];
 
 interface EnhancedTableProps {
 	numSelected: number;
 	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	order: Order;
 	orderBy: string;
 	rowCount: number;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-	const { onSelectAllClick } = props;
-
 	return (
 		<TableHead>
 			<TableRow>
@@ -182,21 +173,15 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 											</Stack>
 										</TableCell>
 
-										{/* Rental Price */}
 										<TableCell align="center">${property.rentalPrice}</TableCell>
 
-										{/* Agent */}
 										<TableCell align="center">{property.memberData?.memberNick || 'N/A'}</TableCell>
 
-										{/* Location */}
 										<TableCell align="center">{property.rentLocation}</TableCell>
 
-										{/* Type */}
 										<TableCell align="center">{property.rentType}</TableCell>
 
-										{/* Status */}
 										<TableCell align="center">
-											{/* Status Dropdown */}
 											<Button
 												className={`badge ${property.availabilityStatus.toLowerCase()}`}
 												onClick={(e) => menuIconClickHandler(e, index)}
@@ -227,18 +212,18 @@ export const PropertyPanelList = (props: PropertyPanelListType) => {
 											</Menu>
 										</TableCell>
 
-										{/* Actions */}
-										<TableCell align="center">
-											{/* Delete Action */}
-											<Button
-												variant="outlined"
-												color="error"
-												onClick={() => removePropertyHandler(property._id)}
-												sx={{ p: '3px' }}
-											>
-												<DeleteIcon fontSize="small" />
-											</Button>
-										</TableCell>
+										{property.availabilityStatus === 'DELETE' && (
+											<TableCell align="center">
+												<Button
+													variant="outlined"
+													color="error"
+													onClick={() => removePropertyHandler(property._id)}
+													sx={{ p: '3px' }}
+												>
+													<DeleteIcon fontSize="small" />
+												</Button>
+											</TableCell>
+										)}
 									</TableRow>
 								);
 							})}

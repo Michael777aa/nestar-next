@@ -29,7 +29,6 @@ const AgentCard = (props: AgentCardProps) => {
 
 	const user = useReactiveVar(userVar);
 	const [member, setMember] = useState<Member | null>(null);
-	const { memberId } = router.query;
 
 	const [subscribe] = useMutation(SUBSCRIBE);
 	const [unsubscribe] = useMutation(UNSUBSCRIBE);

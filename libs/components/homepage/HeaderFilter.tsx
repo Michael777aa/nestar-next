@@ -47,14 +47,12 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	const typeRef: any = useRef();
 	const balconiesRef: any = useRef();
 	const router = useRouter();
-
 	const [openAdvancedFilter, setOpenAdvancedFilter] = useState(false);
 	const [openLocation, setOpenLocation] = useState(false);
 	const [openType, setOpenType] = useState(false);
 	const [openRooms, setOpenRooms] = useState(false);
 	const [rentTypes, setrentTypes] = useState<RentType[]>(Object.values(RentType));
 	const [rentLocations, setRentLocations] = useState<RentLocation[]>(Object.values(RentLocation));
-
 	const [yearCheck, setYearCheck] = useState({ start: 1970, end: thisYear });
 	const [optionCheck, setOptionCheck] = useState('all');
 

@@ -18,8 +18,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 interface TopAgentsProps {
-	orderNumber?: any; // Make orderNumber optional
-	// Other props go here
+	orderNumber?: any;
 }
 
 const Home: NextPage = (props: TopAgentsProps) => {

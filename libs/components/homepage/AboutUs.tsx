@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Button, Container, Stack, Typography } from '@mui/material';
+import { Button, Container, Stack } from '@mui/material';
 
 const AboutUs = () => {
 	const device = useDeviceDetect();

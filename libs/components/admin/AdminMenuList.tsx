@@ -11,10 +11,8 @@ import cookies from 'js-cookie';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 const AdminMenuList = (props: any) => {
-	const router = useRouter();
 	const device = useDeviceDetect();
 	const [mobileLayout, setMobileLayout] = useState(false);
-	const [openSubMenu, setOpenSubMenu] = useState('Users');
 	const [openMenu, setOpenMenu] = useState(typeof window === 'object' ? cookies.get('admin_menu') === 'true' : false);
 	const [clickMenu, setClickMenu] = useState<any>([]);
 	const [clickSubMenu, setClickSubMenu] = useState('');

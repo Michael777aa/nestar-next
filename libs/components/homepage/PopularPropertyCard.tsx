@@ -6,8 +6,6 @@ import { Rent } from '../../types/property/property';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { REACT_APP_API_URL, topPropertyRank } from '../../config';
 import { useRouter } from 'next/router';
-import { useReactiveVar } from '@apollo/client';
-import { userVar } from '../../../apollo/store';
 import BalconyIcon from '@mui/icons-material/Balcony';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 
@@ -19,7 +17,6 @@ const PopularPropertyCard = (props: PopularPropertyCardProps) => {
 	const { property } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
-	const user = useReactiveVar(userVar);
 
 	/** HANDLERS **/
 

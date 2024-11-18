@@ -13,7 +13,6 @@ import { Notice } from '../../types/notice/notice';
 import { T } from '../../types/common';
 import { NoticeField } from '../../enums/notice.enum';
 import { NextPage } from 'next';
-import Moment from 'react-moment';
 
 const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters elevation={0} square {...props} />)(
 	({ theme }) => ({

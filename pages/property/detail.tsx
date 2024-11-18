@@ -27,9 +27,9 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { GET_PROPERTIES, GET_RENT } from '../../apollo/user/query';
+import { GET_RENT } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { Direction, Message } from '../../libs/enums/common.enum';
+import { Message } from '../../libs/enums/common.enum';
 import { CREATE_COMMENT, LIKE_TARGET_RENT, NOTIFICATION } from '../../apollo/user/mutation';
 import {
 	sweetErrorHandling,
@@ -214,7 +214,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 			// Call the mutation
 
-			const result = await sendMessage({ variables: { input } });
+			await sendMessage({ variables: { input } });
 			setNotificationTitle('');
 			setNotificationDesc('');
 			setNotificationName('');

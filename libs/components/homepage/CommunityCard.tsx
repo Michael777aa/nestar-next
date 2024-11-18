@@ -18,7 +18,7 @@ const CommunityCard = ({ vertical, article, index }: CommunityCardProps) => {
 		: '/img/events/SPORTS.webp';
 
 	if (!article) {
-		return null; // Render nothing if the article data is missing
+		return null;
 	}
 
 	if (device === 'mobile') {

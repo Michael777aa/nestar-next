@@ -1,12 +1,10 @@
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TelegramIcon from '@mui/icons-material/Telegram';
-
 import useDeviceDetect from '../hooks/useDeviceDetect';
-import { Stack, Box, Container, Typography, Link, Input } from '@mui/material';
+import { Stack, Box, Container, Typography, Link } from '@mui/material';
 import moment from 'moment';
-import styled from 'styled-components';
-import { Button, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';

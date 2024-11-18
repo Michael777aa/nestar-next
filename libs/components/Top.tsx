@@ -44,7 +44,6 @@ const Top = (props: topFilter) => {
 	const [colorChange, setColorChange] = useState(false);
 	const [notifications, setNotifications] = useState<Notification[]>([]);
 	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
-	let open = Boolean(anchorEl);
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
@@ -82,7 +81,7 @@ const Top = (props: topFilter) => {
 		if (user?._id) {
 			getNotificationsRefetch();
 		} else {
-			setNotifications([]); // Clear notifications when logged out
+			setNotifications([]);
 		}
 	}, [user]);
 
@@ -528,8 +527,18 @@ const Top = (props: topFilter) => {
 																)}
 
 																{/* Always display the notification title */}
-																<Typography variant="body1" sx={{ fontWeight: 'bold', marginBottom: '4px' }}>
-																	{notification.notificationTitle}
+																<Typography
+																	variant="body1"
+																	sx={{
+																		fontSize: '17px',
+																		fontWeight: '700',
+																		color: '#00000',
+																		marginBottom: '8px',
+																		wordBreak: 'break-word',
+																		whiteSpace: 'normal',
+																	}}
+																>
+																	{notification.notificationTitle}!
 																</Typography>
 
 																{/* Display notification description */}
@@ -549,8 +558,14 @@ const Top = (props: topFilter) => {
 																{/* Display the creation date of the notification */}
 																<Typography
 																	variant="caption"
-																	color="textSecondary"
-																	sx={{ display: 'block', fontStyle: 'italic' }}
+																	sx={{
+																		fontSize: '14px',
+																		fontWeight: '700',
+																		color: '#00000',
+																		marginBottom: '8px',
+																		wordBreak: 'break-word',
+																		whiteSpace: 'normal',
+																	}}
 																>
 																	{new Date(notification.createdAt).toLocaleString()}
 																</Typography>

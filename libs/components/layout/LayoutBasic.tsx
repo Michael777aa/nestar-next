@@ -20,8 +20,6 @@ const withLayoutBasic = (Component: any) => {
 		const { t, i18n } = useTranslation('common');
 		const device = useDeviceDetect();
 		const [authHeader, setAuthHeader] = useState<boolean>(false);
-		const user = useReactiveVar(userVar);
-
 		const memoizedValues = useMemo(() => {
 			let title = '',
 				desc = '',

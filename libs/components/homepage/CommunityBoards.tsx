@@ -12,10 +12,10 @@ const CommunityBoards = () => {
 	const device = useDeviceDetect();
 	const [searchCommunity, setSearchCommunity] = useState({
 		page: 1,
-		limit: 12, // Set limit to fetch a total of 12 articles
+		limit: 12,
 		sort: 'articleViews',
 		direction: 'DESC',
-		search: {}, // Provide an empty object or define specific criteria if needed
+		search: {},
 	});
 
 	const [newsArticles, setNewsArticles] = useState<BoardArticle[]>([]);

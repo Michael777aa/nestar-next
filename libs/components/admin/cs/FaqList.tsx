@@ -11,17 +11,10 @@ import {
 	Fade,
 	MenuItem,
 	Typography,
-	Stack,
 	Box,
-	Link,
-	IconButton,
-	Tooltip,
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { Notice } from '../../../types/notice/notice';
-import { NoticeUpdate } from '../../../types/notice/notice.update';
 import { NoticeStatus } from '../../../enums/notice.enum';
-import OpenInBrowserRoundedIcon from '@mui/icons-material/OpenInBrowserRounded';
 import Moment from 'react-moment';
 
 interface Data {
