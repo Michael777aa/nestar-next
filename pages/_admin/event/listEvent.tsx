@@ -5,8 +5,6 @@ import { Box, Button, InputAdornment, Stack } from '@mui/material';
 import { List, ListItem } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import { TabContext } from '@mui/lab';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TablePagination from '@mui/material/TablePagination';
@@ -29,13 +27,9 @@ const Events: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [eventInquiry, setEventInquiry] = useState<EventInquiry>(initialInquiry);
 	const [allEvents, setAllEvents] = useState<Event[]>([]);
 	const router = useRouter();
-
 	const [value, setValue] = useState(eventInquiry?.search?.eventStatus ? eventInquiry?.search?.eventStatus : 'ALL');
 	const [searchText, setSearchText] = useState('');
 	const [total, setTotal] = useState<number>(0);
-
-	const [searchType, setSearchType] = useState('ALL');
-	const [searchField, setSearchField] = useState('ALL');
 
 	/** APOLLO REQUESTS **/
 
@@ -169,7 +163,7 @@ const Events: NextPage = ({ initialInquiry, ...props }: any) => {
 								value="ACTIVE"
 								className={value === 'ACTIVE' ? 'li on' : 'li'}
 							>
-								Actives
+								Active
 							</ListItem>
 							<ListItem
 								onClick={(e) => tabChangeHandler(e, 'PAUSE')}

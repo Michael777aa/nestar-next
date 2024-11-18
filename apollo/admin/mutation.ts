@@ -365,7 +365,6 @@ export const CREATE_EVENT = gql`
 			eventDesc
 			eventLocation
 			eventImages
-
 			createdAt
 			updatedAt
 		}

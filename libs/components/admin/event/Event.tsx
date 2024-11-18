@@ -11,11 +11,9 @@ import {
 	Fade,
 	MenuItem,
 	Typography,
-	Box,
 	Stack,
 } from '@mui/material';
-import { Notice } from '../../../types/notice/notice';
-import { NoticeStatus } from '../../../enums/notice.enum';
+
 import Moment from 'react-moment';
 import { Event } from '../../../types/event/event';
 import { EventStatus } from '../../../enums/event.enum';

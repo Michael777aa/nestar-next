@@ -169,7 +169,7 @@ const AddProperty = ({ initialValues, ...props }: any) => {
 			insertRentData.rentTitle === '' ||
 			insertRentData.rentalPrice === 0 || // @ts-ignore
 			insertRentData.rentType === '' || // @ts-ignore
-			insertRentData.RentLocation === '' || // @ts-ignore
+			insertRentData.rentLocation === '' || // @ts-ignore
 			insertRentData.rentAddress === '' || // @ts-ignore
 			insertRentData.rentBalconies === 0 ||
 			insertRentData.rentSquare === 0 ||

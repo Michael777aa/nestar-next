@@ -8,7 +8,7 @@ export interface EventInput {
 	eventTopic: string;
 	eventDesc: string;
 	eventLocation: string;
-	eventImages?: string[];
+	eventImages: string[];
 }
 
 interface ESearch {
