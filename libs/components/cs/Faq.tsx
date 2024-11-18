@@ -1,11 +1,19 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import { AccordionDetails, Box, Stack, Typography } from '@mui/material';
+import { AccordionDetails, Box, ListItem, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import { useRouter } from 'next/router';
 import { styled } from '@mui/material/styles';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import { GET_ALL_NOTICES } from '../../../apollo/admin/query';
+import { useQuery } from '@apollo/client';
+import { NoticiesInquiry } from '../../types/notice/notice.input';
+import { Notice } from '../../types/notice/notice';
+import { T } from '../../types/common';
+import { NoticeField } from '../../enums/notice.enum';
+import { NextPage } from 'next';
+import Moment from 'react-moment';
 
 const Accordion = styled((props: AccordionProps) => <MuiAccordion disableGutters elevation={0} square {...props} />)(
 	({ theme }) => ({
@@ -30,18 +38,73 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 	},
 }));
 
-const Faq = () => {
+const Faq: NextPage = ({ initialInquiry, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
-	const [category, setCategory] = useState<string>('property');
-	const [expanded, setExpanded] = useState<string | false>('panel1');
+	const [noticesInquiry, setNoticesInquiry] = useState<NoticiesInquiry>(initialInquiry);
+	const [category, setCategory] = useState<any>(
+		noticesInquiry?.search?.noticeField ? noticesInquiry?.search?.noticeField : 'FACILITY',
+	);
+	const [allNotices, setAllNotices] = useState<Notice[]>([]);
 
+	const [expanded, setExpanded] = useState<string | false>('panel1');
 	/** APOLLO REQUESTS **/
+
+	const {
+		loading: getNoticesLoading,
+		data: getNoticesData,
+		error: getNoticesError,
+		refetch: getNoticesRefetch,
+	} = useQuery(GET_ALL_NOTICES, {
+		fetchPolicy: 'network-only',
+		variables: { input: noticesInquiry },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setAllNotices(data?.getNotices?.list || []);
+		},
+	});
 	/** LIFECYCLES **/
-	
+
+	useEffect(() => {
+		getNoticesRefetch({ input: noticesInquiry });
+	}, [noticesInquiry]);
+
 	/** HANDLERS **/
-	const changeCategoryHandler = (category: string) => {
+	const changeCategoryHandler = (category: NoticeField) => {
 		setCategory(category);
+	};
+
+	const tabChangeHandler = async (event: any, newValue: string) => {
+		setCategory(newValue);
+
+		setNoticesInquiry({ ...noticesInquiry, page: 1, sort: 'createdAt' });
+
+		switch (newValue) {
+			case 'FACILITY':
+				setNoticesInquiry({ ...noticesInquiry, search: { noticeField: NoticeField.FACILITY } });
+				break;
+			case 'AGENTS':
+				setNoticesInquiry({ ...noticesInquiry, search: { noticeField: NoticeField.AGENTS } });
+				break;
+			case 'BUYERS':
+				setNoticesInquiry({ ...noticesInquiry, search: { noticeField: NoticeField.BUYERS } });
+				break;
+			case 'COMMUNITY':
+				setNoticesInquiry({ ...noticesInquiry, search: { noticeField: NoticeField.COMMUNITY } });
+				break;
+			case 'MEMBERSHIP':
+				setNoticesInquiry({ ...noticesInquiry, search: { noticeField: NoticeField.MEMBERSHIP } });
+				break;
+			case 'OTHER':
+				setNoticesInquiry({ ...noticesInquiry, search: { noticeField: NoticeField.OTHER } });
+				break;
+			case 'PAYMENT':
+				setNoticesInquiry({ ...noticesInquiry, search: { noticeField: NoticeField.PAYMENT } });
+				break;
+			default:
+				setNoticesInquiry({ ...noticesInquiry, search: { noticeField: NoticeField.FACILITY } });
+				break;
+		}
 	};
 
 	const handleChange = (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
@@ -439,79 +502,74 @@ const Faq = () => {
 		return (
 			<Stack className={'faq-content'}>
 				<Box className={'categories'} component={'div'}>
-					<div
-						className={category === 'property' ? 'active' : ''}
-						onClick={() => {
-							changeCategoryHandler('property');
-						}}
+					<ListItem
+						onClick={(e) => tabChangeHandler(e, 'FACILITY')}
+						value="ALL"
+						className={category === 'FACILITY' ? 'active' : ''}
 					>
-						Property
-					</div>
-					<div
-						className={category === 'payment' ? 'active' : ''}
-						onClick={() => {
-							changeCategoryHandler('payment');
-						}}
+						FACILITY
+					</ListItem>
+					<ListItem
+						onClick={(e) => tabChangeHandler(e, 'PAYMENT')}
+						value="PAYMENT"
+						className={category === 'PAYMENT' ? 'active' : ''}
 					>
-						Payment
-					</div>
-					<div
-						className={category === 'buyers' ? 'active' : ''}
-						onClick={() => {
-							changeCategoryHandler('buyers');
-						}}
+						PAYMENT
+					</ListItem>
+					<ListItem
+						onClick={(e) => tabChangeHandler(e, 'AGENTS')}
+						value="AGENTS"
+						className={category === 'AGENTS' ? 'active' : ''}
 					>
-						Foy Buyers
-					</div>
-					<div
-						className={category === 'agents' ? 'active' : ''}
-						onClick={() => {
-							changeCategoryHandler('agents');
-						}}
+						AGENTS
+					</ListItem>
+					<ListItem
+						onClick={(e) => tabChangeHandler(e, 'MEMBERSHIP')}
+						value="MEMBERSHIP"
+						className={category === 'MEMBERSHIP' ? 'active' : ''}
 					>
-						For Agents
-					</div>
-					<div
-						className={category === 'membership' ? 'active' : ''}
-						onClick={() => {
-							changeCategoryHandler('membership');
-						}}
+						MEMBERSHIP
+					</ListItem>
+					<ListItem
+						onClick={(e) => tabChangeHandler(e, 'COMMUNITY')}
+						value="COMMUNITY"
+						className={category === 'COMMUNITY' ? 'active' : ''}
 					>
-						Membership
-					</div>
-					<div
-						className={category === 'community' ? 'active' : ''}
-						onClick={() => {
-							changeCategoryHandler('community');
-						}}
+						COMMUNITY
+					</ListItem>
+					<ListItem
+						onClick={(e) => tabChangeHandler(e, 'BUYERS')}
+						value="BUYERS"
+						className={category === 'BUYERS' ? 'active' : ''}
 					>
-						Community
-					</div>
-					<div
-						className={category === 'other' ? 'active' : ''}
-						onClick={() => {
-							changeCategoryHandler('other');
-						}}
+						BUYERS
+					</ListItem>
+					<ListItem
+						onClick={(e) => tabChangeHandler(e, 'OTHER')}
+						value="OTHER"
+						className={category === 'OTHER' ? 'active' : ''}
 					>
-						Other
-					</div>
+						OTHER
+					</ListItem>
 				</Box>
-				<Box className={'wrap'} component={'div'}>
-					{data[category] &&
-						data[category].map((ele: any) => (
-							<Accordion expanded={expanded === ele?.id} onChange={handleChange(ele?.id)} key={ele?.subject}>
-								<AccordionSummary id="panel1d-header" className="question" aria-controls="panel1d-content">
-									<Typography className="badge" variant={'h4'}>
+
+				<Box className="wrap" component="div">
+					{allNotices.length !== 0 &&
+						allNotices.map((notice: Notice) => (
+							<Accordion expanded={expanded === notice._id} onChange={handleChange(notice._id)} key={notice._id}>
+								<AccordionSummary
+									id={`panel-${notice._id}`}
+									className="question"
+									aria-controls={`panel-${notice._id}-content`}
+								>
+									<Typography className="badge" variant="h4">
 										Q
 									</Typography>
-									<Typography> {ele?.subject}</Typography>
+									<Typography>{notice.noticeTitle}</Typography>
 								</AccordionSummary>
 								<AccordionDetails>
-									<Stack className={'answer flex-box'}>
-										<Typography className="badge" variant={'h4'} color={'primary'}>
-											A
-										</Typography>
-										<Typography> {ele?.content}</Typography>
+									<Stack className="answer flex-box" spacing={2}>
+										<Typography>{notice.noticeContent}</Typography>
 									</Stack>
 								</AccordionDetails>
 							</Accordion>
@@ -520,6 +578,16 @@ const Faq = () => {
 			</Stack>
 		);
 	}
+};
+
+Faq.defaultProps = {
+	initialInquiry: {
+		page: 1,
+		limit: 10,
+		sort: 'createdAt',
+		direction: 'DESC',
+		search: {},
+	},
 };
 
 export default Faq;

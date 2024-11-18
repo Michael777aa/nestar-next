@@ -43,7 +43,12 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	const [updateNotice] = useMutation(UPDATE_NOTICE);
 
-	const { loading: getNoticesLoading, refetch: getNoticesRefetch } = useQuery(GET_ALL_NOTICES, {
+	const {
+		loading: getNoticesLoading,
+		data: getNoticesData,
+		error: getNoticesError,
+		refetch: getNoticesRefetch,
+	} = useQuery(GET_ALL_NOTICES, {
 		fetchPolicy: 'network-only',
 		variables: { input: noticesInquiry },
 		notifyOnNetworkStatusChange: true,
@@ -52,7 +57,6 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 			setTotal(data?.getNotices?.metaCounter[0]?.total || 0);
 		},
 	});
-
 	/** LIFECYCLES **/
 
 	useEffect(() => {
