@@ -2,24 +2,24 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
+import FacilityBigCard from '../../libs/components/common/FacilityBigCard';
 import ReviewCard from '../../libs/components/agent/ReviewCard';
 import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Rent } from '../../libs/types/property/property';
+import { Facility } from '../../libs/types/facility/facility';
 import { Member } from '../../libs/types/member/member';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { userVar } from '../../apollo/store';
-import { RentsInquiry } from '../../libs/types/property/property.input';
+import { FacilitiesInquiry } from '../../libs/types/facility/facility.input';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
 import { Messages, REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { CREATE_COMMENT, LIKE_TARGET_RENT } from '../../apollo/user/mutation';
-import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
+import { CREATE_COMMENT, LIKE_TARGET_FACILITY } from '../../apollo/user/mutation';
+import { GET_COMMENTS, GET_MEMBER, GET_FACILITIES } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Message } from '../../libs/enums/common.enum';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
@@ -35,9 +35,9 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	const user = useReactiveVar(userVar);
 	const [agentId, setAgentId] = useState<string | null>(null);
 	const [agent, setAgent] = useState<Member | null>(null);
-	const [searchFilter, setSearchFilter] = useState<RentsInquiry>(initialInput);
-	const [agentProperties, setAgentProperties] = useState<Rent[]>([]);
-	const [propertyTotal, setPropertyTotal] = useState<number>(0);
+	const [searchFilter, setSearchFilter] = useState<FacilitiesInquiry>(initialInput);
+	const [agentFacilities, setAgentFacilities] = useState<Facility[]>([]);
+	const [facilityTotal, setFacilityTotal] = useState<number>(0);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [agentComments, setAgentComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -49,7 +49,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 	/** APOLLO REQUESTS **/
 
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_RENT);
+	const [likeTargetFacility] = useMutation(LIKE_TARGET_FACILITY);
 	const [createComment] = useMutation(CREATE_COMMENT);
 
 	const {
@@ -71,18 +71,18 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	});
 
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
-	} = useQuery(GET_PROPERTIES, {
+		loading: getFacilitiesLoading,
+		data: getFacilitiesData,
+		error: getFacilitiesError,
+		refetch: getFacilitiesRefetch,
+	} = useQuery(GET_FACILITIES, {
 		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		skip: !searchFilter.search.memberId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setAgentProperties(data?.getProperties?.list);
-			setPropertyTotal(data?.getProperties?.metaCounter[0]?.total ?? 0);
+			setAgentFacilities(data?.getFacilities?.list);
+			setFacilityTotal(data?.getFacilities?.metaCounter[0]?.total ?? 0);
 		},
 	});
 
@@ -109,7 +109,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 	useEffect(() => {
 		if (searchFilter.search.memberId) {
-			getPropertiesRefetch({ variables: { input: searchFilter } }).then();
+			getFacilitiesRefetch({ variables: { input: searchFilter } }).then();
 		}
 	}, [searchFilter]);
 	useEffect(() => {
@@ -128,7 +128,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		}
 	};
 
-	const propertyPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
+	const facilityPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
 		setSearchFilter({ ...searchFilter });
 	};
@@ -152,18 +152,18 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		}
 	};
 
-	const likePropertyHandler = async (user: T, id: string) => {
+	const likeFacilityHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-			await likeTargetProperty({ variables: { input: id } });
+			await likeTargetFacility({ variables: { input: id } });
 
-			await getPropertiesRefetch({ input: searchFilter });
+			await getFacilitiesRefetch({ input: searchFilter });
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('Erron on likePropertyHandler', err);
+			console.log('Erron on likeFacilityHandler', err);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -192,34 +192,34 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					</Stack>
 					<Stack className={'agent-home-list'}>
 						<Stack className={'card-wrap'}>
-							{agentProperties.map((rent: Rent) => {
+							{agentFacilities.map((rent: Facility) => {
 								return (
 									<div className={'wrap-main'} key={rent?._id}>
-										<PropertyBigCard property={rent} key={rent?._id} likePropertyHandler={likePropertyHandler} />
+										<FacilityBigCard facility={rent} key={rent?._id} likeFacilityHandler={likeFacilityHandler} />
 									</div>
 								);
 							})}
 						</Stack>
 						<Stack className={'pagination'}>
-							{propertyTotal ? (
+							{facilityTotal ? (
 								<>
 									<Stack className="pagination-box">
 										<Pagination
 											page={searchFilter.page}
-											count={Math.ceil(propertyTotal / searchFilter.limit) || 1}
-											onChange={propertyPaginationChangeHandler}
+											count={Math.ceil(facilityTotal / searchFilter.limit) || 1}
+											onChange={facilityPaginationChangeHandler}
 											shape="circular"
 											color="primary"
 										/>
 									</Stack>
 									<span>
-										Total {propertyTotal} propert{propertyTotal > 1 ? 'ies' : 'y'} available
+										Total {facilityTotal} facilit{facilityTotal > 1 ? 'ies' : 'y'} available
 									</span>
 								</>
 							) : (
 								<div className={'no-data'}>
 									<img src="/img/icons/icoAlert.svg" alt="" />
-									<p>No properties found!</p>
+									<p>No facilities found!</p>
 								</div>
 							)}
 						</Stack>

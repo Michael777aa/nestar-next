@@ -1,4 +1,4 @@
-import { TotalCounter } from '../property/property';
+import { TotalCounter } from '../facility/facility';
 import { EventStatus } from '../../enums/event.enum';
 
 export interface Event {

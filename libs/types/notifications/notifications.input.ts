@@ -12,7 +12,7 @@ export interface NotificationInput {
 	authorId: string;
 	memberId?: string; // Optional
 	receiverId: string;
-	propertyId?: string; // Optional
+	facilityId?: string; // Optional
 	articleId?: string; // Optional
 	createdAt: string;
 }

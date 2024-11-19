@@ -6,9 +6,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { rentSquare, propertyYears } from '../../config';
-import { RentLocation, RentType } from '../../enums/property.enum';
-import { RentsInquiry } from '../../types/property/property.input';
+import { facilitySquare, facilityYears } from '../../config';
+import { FacilityLocation, FacilityType } from '../../enums/facility.enum';
+import { FacilitiesInquiry } from '../../types/facility/facility.input';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 
@@ -35,14 +35,14 @@ const MenuProps = {
 const thisYear = new Date().getFullYear();
 
 interface HeaderFilterProps {
-	initialInput: RentsInquiry;
+	initialInput: FacilitiesInquiry;
 }
 
 const HeaderFilter = (props: HeaderFilterProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const { t, i18n } = useTranslation('common');
-	const [searchFilter, setSearchFilter] = useState<RentsInquiry>(initialInput);
+	const [searchFilter, setSearchFilter] = useState<FacilitiesInquiry>(initialInput);
 	const locationRef: any = useRef();
 	const typeRef: any = useRef();
 	const balconiesRef: any = useRef();
@@ -51,8 +51,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	const [openLocation, setOpenLocation] = useState(false);
 	const [openType, setOpenType] = useState(false);
 	const [openRooms, setOpenRooms] = useState(false);
-	const [rentTypes, setrentTypes] = useState<RentType[]>(Object.values(RentType));
-	const [rentLocations, setRentLocations] = useState<RentLocation[]>(Object.values(RentLocation));
+	const [facilityTypes, setfacilityTypes] = useState<FacilityType[]>(Object.values(FacilityType));
+	const [facilityLocations, setFacilityLocations] = useState<FacilityLocation[]>(Object.values(FacilityLocation));
 	const [yearCheck, setYearCheck] = useState({ start: 1970, end: thisYear });
 	const [optionCheck, setOptionCheck] = useState('all');
 
@@ -111,7 +111,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 		setOpenLocation(false);
 	};
 
-	const RentLocationSelectHandler = useCallback(
+	const FacilityLocationSelectHandler = useCallback(
 		async (value: any) => {
 			try {
 				setSearchFilter({
@@ -123,13 +123,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				typeStateChangeHandler();
 			} catch (err: any) {
-				console.log('ERROR, RentLocationSelectHandler:', err);
+				console.log('ERROR, FacilityLocationSelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
 
-	const rentTypeSelectHandler = useCallback(
+	const facilityTypeSelectHandler = useCallback(
 		async (value: any) => {
 			try {
 				setSearchFilter({
@@ -141,12 +141,12 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				roomStateChangeHandler();
 			} catch (err: any) {
-				console.log('ERROR, rentTypeSelectHandler:', err);
+				console.log('ERROR, facilityTypeSelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
-	const rentalPriceHandler = useCallback(
+	const facilityPriceHandler = useCallback(
 		(value: number, type: string) => {
 			if (type === 'start') {
 				setSearchFilter((prevFilter: any) => ({
@@ -169,7 +169,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 		[setSearchFilter],
 	);
 
-	const rentBalconieselectHandler = useCallback(
+	const facilityBalconieselectHandler = useCallback(
 		async (value: any) => {
 			try {
 				setSearchFilter({
@@ -181,13 +181,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				disableAllStateHandler();
 			} catch (err: any) {
-				console.log('ERROR, rentBalconieselectHandler:', err);
+				console.log('ERROR, facilityBalconieselectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
 
-	const rentSquareHandler = useCallback(
+	const facilitySquareHandler = useCallback(
 		async (e: any, type: string) => {
 			const value = e.target.value;
 
@@ -259,8 +259,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 			}
 
 			await router.push(
-				`/property?input=${JSON.stringify(searchFilter)}`,
-				`/property?input=${JSON.stringify(searchFilter)}`,
+				`/facility?input=${JSON.stringify(searchFilter)}`,
+				`/facility?input=${JSON.stringify(searchFilter)}`,
 			);
 		} catch (err: any) {
 			console.log('ERROR, pushSearchHandler:', err);
@@ -279,7 +279,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							<ExpandMoreIcon />
 						</Box>{' '}
 						<Box className={`box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
-							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Rent type')} </span>
+							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Facility type')} </span>
 							<ExpandMoreIcon />
 						</Box>
 						<Box className={`box ${openRooms ? 'on' : ''}`} onClick={roomStateChangeHandler}>
@@ -303,9 +303,9 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 
 					{/*MENU */}
 					<div className={`filter-location ${openLocation ? 'on' : ''}`} ref={locationRef}>
-						{rentLocations.map((location: string) => {
+						{facilityLocations.map((location: string) => {
 							return (
-								<div onClick={() => RentLocationSelectHandler(location)} key={location}>
+								<div onClick={() => FacilityLocationSelectHandler(location)} key={location}>
 									<img src={`img/banner/cities/${location}.webp`} alt="" />
 									<span>{location}</span>
 								</div>
@@ -314,9 +314,9 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					</div>
 
 					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
-						{rentTypes.map((type: string) => {
+						{facilityTypes.map((type: string) => {
 							return (
-								<div style={{ cursor: 'pointer' }} onClick={() => rentTypeSelectHandler(type)} key={type}>
+								<div style={{ cursor: 'pointer' }} onClick={() => facilityTypeSelectHandler(type)} key={type}>
 									<span>{type}</span>
 								</div>
 							);
@@ -326,7 +326,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					<div className={`filter-rooms ${openRooms ? 'on' : ''}`} ref={balconiesRef}>
 						{[1, 2, 3, 4, 5, 6, 7, 8].map((balcon: number) => {
 							return (
-								<span onClick={() => rentBalconieselectHandler(balcon)} key={balcon}>
+								<span onClick={() => facilityBalconieselectHandler(balcon)} key={balcon}>
 									{balcon} balcon{balcon > 1 ? 'ies' : ''}
 								</span>
 							);
@@ -377,7 +377,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 												min={0}
 												onChange={(e: any) => {
 													if (e.target.value >= 0) {
-														rentalPriceHandler(parseInt(e.target.value, 10), 'start');
+														facilityPriceHandler(parseInt(e.target.value, 10), 'start');
 													}
 												}}
 											/>
@@ -388,7 +388,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 												min={0}
 												onChange={(e: any) => {
 													if (e.target.value >= 0) {
-														rentalPriceHandler(parseInt(e.target.value, 10), 'end');
+														facilityPriceHandler(parseInt(e.target.value, 10), 'end');
 													}
 												}}
 											/>
@@ -400,12 +400,12 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 											<FormControl sx={{ width: '122px' }}>
 												<Select
 													value={searchFilter?.search?.squaresRange?.start}
-													onChange={(e: any) => rentSquareHandler(e, 'start')}
+													onChange={(e: any) => facilitySquareHandler(e, 'start')}
 													displayEmpty
 													inputProps={{ 'aria-label': 'Without label' }}
 													MenuProps={MenuProps}
 												>
-													{rentSquare.map((square: number) => (
+													{facilitySquare.map((square: number) => (
 														<MenuItem
 															value={square}
 															disabled={(searchFilter?.search?.squaresRange?.end || 0) < square}
@@ -420,12 +420,12 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 											<FormControl sx={{ width: '122px' }}>
 												<Select
 													value={searchFilter?.search?.squaresRange?.end}
-													onChange={(e: any) => rentSquareHandler(e, 'end')}
+													onChange={(e: any) => facilitySquareHandler(e, 'end')}
 													displayEmpty
 													inputProps={{ 'aria-label': 'Without label' }}
 													MenuProps={MenuProps}
 												>
-													{rentSquare.map((square: number) => (
+													{facilitySquare.map((square: number) => (
 														<MenuItem
 															value={square}
 															disabled={(searchFilter?.search?.squaresRange?.start || 0) > square}

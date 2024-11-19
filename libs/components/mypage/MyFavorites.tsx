@@ -2,23 +2,23 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
-import PropertyCard from '../property/PropertyCard';
-import { Rent } from '../../types/property/property';
+import { Facility } from '../../types/facility/facility';
 import { T } from '../../types/common';
 import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_RENT } from '../../../apollo/user/mutation';
+import { LIKE_TARGET_FACILITY } from '../../../apollo/user/mutation';
 import { GET_FAVORITES } from '../../../apollo/user/query';
 import { Messages } from '../../config';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
+import FacilityCard from '../facility/FacilityCard';
 
 const MyFavorites: NextPage = () => {
 	const device = useDeviceDetect();
-	const [myFavorites, setMyFavorites] = useState<Rent[]>([]);
+	const [myFavorites, setMyFavorites] = useState<Facility[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [searchFavorites, setSearchFavorites] = useState<T>({ page: 1, limit: 6 });
 
 	/** APOLLO REQUESTS **/
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_RENT);
+	const [likeTargetFacility] = useMutation(LIKE_TARGET_FACILITY);
 
 	const {
 		loading: getFavoritesLoading,
@@ -40,15 +40,15 @@ const MyFavorites: NextPage = () => {
 		setSearchFavorites({ ...searchFavorites, page: value });
 	};
 
-	const likePropertyHandler = async (user: T, id: string) => {
+	const likeFacilityHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
 
-			await likeTargetProperty({ variables: { input: id } });
+			await likeTargetFacility({ variables: { input: id } });
 			await getFavoritesRefetch({ input: searchFavorites });
 		} catch (err: any) {
-			console.log('ERROR, likePropertyHandler', err);
+			console.log('ERROR, likeFacilityHandler', err);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -67,13 +67,13 @@ const MyFavorites: NextPage = () => {
 				<Stack className="main-config">
 					<Stack className="favorites-list-box">
 						{myFavorites?.length ? (
-							myFavorites?.map((property: Rent) => {
+							myFavorites?.map((facility: Facility) => {
 								return (
-									<PropertyCard
-										property={property}
-										key={property._id}
+									<FacilityCard
+										facility={facility}
+										key={facility._id}
 										myFavorites={true}
-										likePropertyHandler={likePropertyHandler}
+										likeFacilityHandler={likeFacilityHandler}
 									/>
 								);
 							})
@@ -98,7 +98,7 @@ const MyFavorites: NextPage = () => {
 						</Stack>
 						<Stack className="total-result">
 							<Typography>
-								Total {total} favorite propert{total > 1 ? 'ies' : 'y'}
+								Total {total} favorite facilit{total > 1 ? 'ies' : 'y'}
 							</Typography>
 						</Stack>
 					</Stack>

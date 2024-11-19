@@ -73,16 +73,21 @@ const CreateEvent = ({ initialValues, ...props }: any) => {
 			await sweetMixinErrorAlert(err.message);
 		}
 	}
+
 	/** Handlers **/
+
 	const doDisabledCheck = () => {
-		return (
-			!eventData.eventName ||
-			!eventData.eventTopic ||
-			!eventData.eventDesc ||
-			!eventData.eventLocation ||
-			!eventData.eventStatus ||
+		if (
+			eventData.eventName === '' ||
+			eventData.eventTopic === '' || // @ts-ignore
+			eventData.eventDesc === '' || // @ts-ignore
+			eventData.eventLocation === '' || // @ts-ignore
+			eventData.eventStatus === '' || // @ts-ignore
+			eventData.facilityBalconies === 0 ||
 			eventData.eventImages.length === 0
-		);
+		) {
+			return true;
+		}
 	};
 
 	const insertEventHandler = useCallback(async () => {
@@ -142,6 +147,14 @@ const CreateEvent = ({ initialValues, ...props }: any) => {
 						onChange={(e) => setEventData({ ...eventData, eventTopic: e.target.value })}
 					/>
 
+					{/* Description Field */}
+					<TextField
+						label="Event Description"
+						variant="outlined"
+						fullWidth
+						value={eventData.eventDesc}
+						onChange={(e) => setEventData({ ...eventData, eventDesc: e.target.value })}
+					/>
 					{/* Location Field */}
 					<TextField
 						label="Event Location"
@@ -149,16 +162,6 @@ const CreateEvent = ({ initialValues, ...props }: any) => {
 						fullWidth
 						value={eventData.eventLocation}
 						onChange={(e) => setEventData({ ...eventData, eventLocation: e.target.value })}
-					/>
-
-					{/* Description Field */}
-					<TextField
-						label="Event Description"
-						variant="outlined"
-						multiline
-						fullWidth
-						value={eventData.eventDesc}
-						onChange={(e) => setEventData({ ...eventData, eventDesc: e.target.value })}
 					/>
 
 					{/* Upload Section */}

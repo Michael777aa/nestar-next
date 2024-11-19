@@ -1,4 +1,4 @@
-import { RentLocation, AvailabilityStatus, RentType } from '../../enums/property.enum';
+import { FacilityLocation, AvailabilityStatus, FacilityType } from '../../enums/facility.enum';
 import { NoticeCategory, NoticeField, NoticeStatus } from '../../enums/notice.enum';
 import { MemberType } from '../../enums/member.enum';
 

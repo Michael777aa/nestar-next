@@ -20,7 +20,7 @@ export const GET_AGENTS = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings
@@ -68,7 +68,7 @@ query GetMember($input: String!) {
         memberImage
         memberAddress
         memberDesc
-        memberProperties
+        memberFacilities
         memberArticles
         memberFollowers
         memberFollowings
@@ -97,30 +97,30 @@ query GetMember($input: String!) {
 }`);
 
 /**************************
- *        PROPERTY        *
+ *        FACILITY        *
  *************************/
 
-export const GET_RENT = gql`
-	query GetProperty($input: String!) {
-		getProperty(propertyId: $input) {
+export const GET_FACILITY = gql`
+	query GetFacility($input: String!) {
+		getFacility(facilityId: $input) {
 			_id
-			rentType
+			facilityType
 			availabilityStatus
-			rentLocation
-			rentAddress
-			rentTitle
-			rentalPrice
-			rentSquare
-			rentBalconies
-			rentViews
-			rentLikes
-			rentComments
-			rentRank
-			rentImages
+			facilityLocation
+			facilityAddress
+			facilityTitle
+			facilityPrice
+			facilitySquare
+			facilityBalconies
+			facilityViews
+			facilityLikes
+			facilityComments
+			facilityRank
+			facilityImages
 			amenities
 			includedUtilities
-			rentDesc
-			rentPetsAllowed
+			facilityDesc
+			facilityPetsAllowed
 			parkingAvailable
 			furnished
 			memberId
@@ -142,7 +142,7 @@ export const GET_RENT = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings
@@ -167,28 +167,28 @@ export const GET_RENT = gql`
 	}
 `;
 
-export const GET_PROPERTIES = gql`
-	query GetProperties($input: PropertiesInquiry!) {
-		getProperties(input: $input) {
+export const GET_FACILITIES = gql`
+	query GetFacilities($input: FacilitiesInquiry!) {
+		getFacilities(input: $input) {
 			list {
 				_id
-				rentType
+				facilityType
 				availabilityStatus
-				rentLocation
-				rentAddress
-				rentTitle
-				rentalPrice
-				rentSquare
-				rentBalconies
-				rentViews
-				rentLikes
-				rentComments
-				rentRank
-				rentImages
+				facilityLocation
+				facilityAddress
+				facilityTitle
+				facilityPrice
+				facilitySquare
+				facilityBalconies
+				facilityViews
+				facilityLikes
+				facilityComments
+				facilityRank
+				facilityImages
 				amenities
 				includedUtilities
-				rentDesc
-				rentPetsAllowed
+				facilityDesc
+				facilityPetsAllowed
 				parkingAvailable
 				furnished
 				memberId
@@ -210,7 +210,7 @@ export const GET_PROPERTIES = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings
@@ -239,28 +239,28 @@ export const GET_PROPERTIES = gql`
 	}
 `;
 
-export const GET_AGENT_PROPERTIES = gql`
-	query GetAgentProperties($input: AgentPropertiesInquiry!) {
-		getAgentProperties(input: $input) {
+export const GET_AGENT_FACILITIES = gql`
+	query GetAgentFacilities($input: AgentFacilitiesInquiry!) {
+		getAgentFacilities(input: $input) {
 			list {
 				_id
-				rentType
+				facilityType
 				availabilityStatus
-				rentLocation
-				rentAddress
-				rentTitle
-				rentalPrice
-				rentSquare
-				rentBalconies
-				rentViews
-				rentLikes
-				rentComments
-				rentRank
-				rentImages
+				facilityLocation
+				facilityAddress
+				facilityTitle
+				facilityPrice
+				facilitySquare
+				facilityBalconies
+				facilityViews
+				facilityLikes
+				facilityComments
+				facilityRank
+				facilityImages
 				amenities
 				includedUtilities
-				rentDesc
-				rentPetsAllowed
+				facilityDesc
+				facilityPetsAllowed
 				parkingAvailable
 				furnished
 				memberId
@@ -282,7 +282,7 @@ export const GET_AGENT_PROPERTIES = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings
@@ -316,23 +316,23 @@ export const GET_FAVORITES = gql`
 		getFavorites(input: $input) {
 			list {
 				_id
-				rentType
+				facilityType
 				availabilityStatus
-				rentLocation
-				rentAddress
-				rentTitle
-				rentalPrice
-				rentSquare
-				rentBalconies
-				rentViews
-				rentLikes
-				rentComments
-				rentRank
-				rentImages
+				facilityLocation
+				facilityAddress
+				facilityTitle
+				facilityPrice
+				facilitySquare
+				facilityBalconies
+				facilityViews
+				facilityLikes
+				facilityComments
+				facilityRank
+				facilityImages
 				amenities
 				includedUtilities
-				rentDesc
-				rentPetsAllowed
+				facilityDesc
+				facilityPetsAllowed
 				parkingAvailable
 				memberId
 				deletedAt
@@ -353,7 +353,7 @@ export const GET_FAVORITES = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings
@@ -383,23 +383,23 @@ export const GET_VISITED = gql`
 			list {
 				_id
 				_id
-				rentType
+				facilityType
 				availabilityStatus
-				rentLocation
-				rentAddress
-				rentTitle
-				rentalPrice
-				rentSquare
-				rentBalconies
-				rentViews
-				rentLikes
-				rentComments
-				rentRank
-				rentImages
+				facilityLocation
+				facilityAddress
+				facilityTitle
+				facilityPrice
+				facilitySquare
+				facilityBalconies
+				facilityViews
+				facilityLikes
+				facilityComments
+				facilityRank
+				facilityImages
 				amenities
 				includedUtilities
-				rentDesc
-				rentPetsAllowed
+				facilityDesc
+				facilityPetsAllowed
 				parkingAvailable
 				memberId
 				deletedAt
@@ -420,7 +420,7 @@ export const GET_VISITED = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings
@@ -476,7 +476,7 @@ export const GET_BOARD_ARTICLE = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings
@@ -535,7 +535,7 @@ export const GET_BOARD_ARTICLES = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings
@@ -593,7 +593,7 @@ export const GET_COMMENTS = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings
@@ -652,7 +652,7 @@ export const GET_MEMBER_FOLLOWERS = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings
@@ -698,7 +698,7 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings
@@ -748,7 +748,7 @@ export const GET_NOTIFICATIONS = gql`
 				notificationDesc
 				authorId
 				receiverId
-				propertyId
+				facilityId
 				articleId
 				createdAt
 				updatedAt

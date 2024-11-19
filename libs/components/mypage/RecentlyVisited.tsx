@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
-import PropertyCard from '../property/PropertyCard';
-import { Rent } from '../../types/property/property';
 import { T } from '../../types/common';
 import { GET_VISITED } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
+import { Facility } from '../../types/facility/facility';
+import FacilityCard from '../facility/FacilityCard';
 
 const RecentlyVisited: NextPage = () => {
 	const device = useDeviceDetect();
-	const [recentlyVisited, setRecentlyVisited] = useState<Rent[]>([]);
+	const [recentlyVisited, setRecentlyVisited] = useState<Facility[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [searchVisited, setSearchVisited] = useState<T>({ page: 1, limit: 6 });
 
@@ -51,8 +51,8 @@ const RecentlyVisited: NextPage = () => {
 					<Stack className="main-config">
 						<Stack className="favorites-list-box">
 							{recentlyVisited?.length ? (
-								recentlyVisited?.map((property: Rent) => {
-									return <PropertyCard property={property} recentlyVisited={true} />;
+								recentlyVisited?.map((facility: Facility) => {
+									return <FacilityCard facility={facility} recentlyVisited={true} />;
 								})
 							) : (
 								<div className={'no-data'}>
@@ -76,7 +76,7 @@ const RecentlyVisited: NextPage = () => {
 						</Stack>
 						<Stack className="total-result">
 							<Typography>
-								Total {total} recently visited propert{total > 1 ? 'ies' : 'y'}
+								Total {total} recently visited facilit{total > 1 ? 'ies' : 'y'}
 							</Typography>
 						</Stack>
 					</Stack>

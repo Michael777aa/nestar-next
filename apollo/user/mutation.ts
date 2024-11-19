@@ -20,7 +20,7 @@ export const SIGN_UP = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
+			memberFacilities
 			memberArticles
 			memberFollowers
 			memberFollowings
@@ -53,7 +53,7 @@ export const LOGIN = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
+			memberFacilities
 			memberArticles
 			memberFollowers
 			memberFollowings
@@ -87,7 +87,7 @@ export const UPDATE_MEMBER = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
+			memberFacilities
 			memberArticles
 			memberFollowers
 			memberFollowings
@@ -131,7 +131,7 @@ export const LIKE_TARGET_MEMBER = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
+			memberFacilities
 			memberArticles
 			memberFollowers
 			memberFollowings
@@ -151,30 +151,30 @@ export const LIKE_TARGET_MEMBER = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *        FACILITY        *
  *************************/
 
-export const CREATE_RENT = gql`
-	mutation CreateProperty($input: RentInput!) {
-		createProperty(input: $input) {
+export const CREATE_FACILITY = gql`
+	mutation CreateFacility($input: FacilityInput!) {
+		createFacility(input: $input) {
 			_id
-			rentType
+			facilityType
 			availabilityStatus
-			rentLocation
-			rentAddress
-			rentTitle
-			rentalPrice
-			rentSquare
-			rentBalconies
-			rentViews
-			rentLikes
-			rentComments
-			rentRank
-			rentImages
+			facilityLocation
+			facilityAddress
+			facilityTitle
+			facilityPrice
+			facilitySquare
+			facilityBalconies
+			facilityViews
+			facilityLikes
+			facilityComments
+			facilityRank
+			facilityImages
 			amenities
 			includedUtilities
-			rentDesc
-			rentPetsAllowed
+			facilityDesc
+			facilityPetsAllowed
 			parkingAvailable
 			memberId
 			deletedAt
@@ -186,27 +186,27 @@ export const CREATE_RENT = gql`
 	}
 `;
 
-export const UPDATE_RENT = gql`
-	mutation UpdateProperty($input: PropertyUpdate!) {
-		updateProperty(input: $input) {
+export const UPDATE_FACILITY = gql`
+	mutation UpdateFacility($input: FacilityUpdate!) {
+		updateFacility(input: $input) {
 			_id
-			rentType
+			facilityType
 			availabilityStatus
-			rentLocation
-			rentAddress
-			rentTitle
-			rentalPrice
-			rentSquare
-			rentBalconies
-			rentViews
-			rentLikes
-			rentComments
-			rentRank
-			rentImages
+			facilityLocation
+			facilityAddress
+			facilityTitle
+			facilityPrice
+			facilitySquare
+			facilityBalconies
+			facilityViews
+			facilityLikes
+			facilityComments
+			facilityRank
+			facilityImages
 			amenities
 			includedUtilities
-			rentDesc
-			rentPetsAllowed
+			facilityDesc
+			facilityPetsAllowed
 			parkingAvailable
 			furnished
 			memberId
@@ -228,7 +228,7 @@ export const UPDATE_RENT = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings
@@ -253,27 +253,27 @@ export const UPDATE_RENT = gql`
 	}
 `;
 
-export const LIKE_TARGET_RENT = gql`
-	mutation LikeTargetProperty($input: String!) {
-		likeTargetProperty(propertyId: $input) {
+export const LIKE_TARGET_FACILITY = gql`
+	mutation LikeTargetFacility($input: String!) {
+		likeTargetFacility(facilityId: $input) {
 			_id
-			rentType
+			facilityType
 			availabilityStatus
-			rentLocation
-			rentAddress
-			rentTitle
-			rentalPrice
-			rentSquare
-			rentBalconies
-			rentViews
-			rentLikes
-			rentComments
-			rentRank
-			rentImages
+			facilityLocation
+			facilityAddress
+			facilityTitle
+			facilityPrice
+			facilitySquare
+			facilityBalconies
+			facilityViews
+			facilityLikes
+			facilityComments
+			facilityRank
+			facilityImages
 			amenities
 			includedUtilities
-			rentDesc
-			rentPetsAllowed
+			facilityDesc
+			facilityPetsAllowed
 			parkingAvailable
 			furnished
 			memberId
@@ -295,7 +295,7 @@ export const LIKE_TARGET_RENT = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings
@@ -447,7 +447,7 @@ export const SUBSCRIBE = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings
@@ -498,7 +498,7 @@ export const UNSUBSCRIBE = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings
@@ -535,7 +535,7 @@ export const NOTIFICATION = gql`
 			receiverId
 			notificationNumber
 			notificationName
-			propertyId
+			facilityId
 			articleId
 			createdAt
 			updatedAt
@@ -553,7 +553,7 @@ export const UPDATE_NOTIFICATION = gql`
 			notificationDesc
 			authorId
 			receiverId
-			propertyId
+			facilityId
 			articleId
 			createdAt
 			updatedAt

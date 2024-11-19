@@ -19,7 +19,7 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
+			memberFacilities
 			memberArticles
 			memberFollowers
 			memberFollowings
@@ -49,30 +49,30 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *        FACILITY        *
  *************************/
 
-export const UPDATE_RENT_BY_ADMIN = gql`
-	mutation UpdatePropertyByAdmin($input: PropertyUpdate!) {
-		updatePropertyByAdmin(input: $input) {
+export const UPDATE_FACILITY_BY_ADMIN = gql`
+	mutation UpdateFacilityByAdmin($input: FacilityUpdate!) {
+		updateFacilityByAdmin(input: $input) {
 			_id
-			rentType
+			facilityType
 			availabilityStatus
-			rentLocation
-			rentAddress
-			rentTitle
-			rentalPrice
-			rentSquare
-			rentBalconies
-			rentViews
-			rentLikes
-			rentComments
-			rentRank
-			rentImages
+			facilityLocation
+			facilityAddress
+			facilityTitle
+			facilityPrice
+			facilitySquare
+			facilityBalconies
+			facilityViews
+			facilityLikes
+			facilityComments
+			facilityRank
+			facilityImages
 			amenities
 			includedUtilities
-			rentDesc
-			rentPetsAllowed
+			facilityDesc
+			facilityPetsAllowed
 			parkingAvailable
 			furnished
 			memberId
@@ -94,7 +94,7 @@ export const UPDATE_RENT_BY_ADMIN = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings
@@ -119,27 +119,27 @@ export const UPDATE_RENT_BY_ADMIN = gql`
 	}
 `;
 
-export const REMOVE_PROPERTY_BY_ADMIN = gql`
-	mutation RemovePropertyByAdmin($input: String!) {
-		removePropertyByAdmin(propertyId: $input) {
+export const REMOVE_FACILITY_BY_ADMIN = gql`
+	mutation RemoveFacilityByAdmin($input: String!) {
+		removeFacilityByAdmin(facilityId: $input) {
 			_id
-			rentType
+			facilityType
 			availabilityStatus
-			rentLocation
-			rentAddress
-			rentTitle
-			rentalPrice
-			rentSquare
-			rentBalconies
-			rentViews
-			rentLikes
-			rentComments
-			rentRank
-			rentImages
+			facilityLocation
+			facilityAddress
+			facilityTitle
+			facilityPrice
+			facilitySquare
+			facilityBalconies
+			facilityViews
+			facilityLikes
+			facilityComments
+			facilityRank
+			facilityImages
 			amenities
 			includedUtilities
-			rentDesc
-			rentPetsAllowed
+			facilityDesc
+			facilityPetsAllowed
 			parkingAvailable
 			furnished
 			memberId
@@ -161,7 +161,7 @@ export const REMOVE_PROPERTY_BY_ADMIN = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings
@@ -218,7 +218,7 @@ export const UPDATE_BOARD_ARTICLE_BY_ADMIN = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings
@@ -271,7 +271,7 @@ export const REMOVE_BOARD_ARTICLE_BY_ADMIN = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings

@@ -27,10 +27,10 @@ import { NotificationInquiry } from '../types/notifications/notifications';
 import { Notification } from '../types/notifications/notifications';
 import { NotificationStatus } from '../enums/notification.enum';
 import { UPDATE_NOTIFICATION } from '../../apollo/user/mutation';
-import { RentsInquiry } from '../types/property/property.input';
+import { FacilitiesInquiry } from '../types/facility/facility.input';
 
 interface topFilter {
-	initialInput: RentsInquiry;
+	initialInput: FacilitiesInquiry;
 }
 const Top = (props: topFilter) => {
 	const { initialInput } = props;
@@ -47,7 +47,7 @@ const Top = (props: topFilter) => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
-	const [searchFiltere, setSearchFiltere] = useState<RentsInquiry>(initialInput);
+	const [searchFiltere, setSearchFiltere] = useState<FacilitiesInquiry>(initialInput);
 	const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 	const [unreadCount, setUnreadCount] = useState<number>(0);
 	const searchFilter: NotificationInquiry = {
@@ -144,8 +144,8 @@ const Top = (props: topFilter) => {
 			}
 
 			await router.push(
-				`/property?input=${JSON.stringify(searchFiltere)}`,
-				`/property?input=${JSON.stringify(searchFiltere)}`,
+				`/facility?input=${JSON.stringify(searchFiltere)}`,
+				`/facility?input=${JSON.stringify(searchFiltere)}`,
 			);
 		} catch (err: any) {
 			console.log('ERROR, pushSearchHandler:', err);
@@ -166,7 +166,7 @@ const Top = (props: topFilter) => {
 	}, [router]);
 	useEffect(() => {
 		switch (router.pathname) {
-			case '/property/detail':
+			case '/facility/detail':
 				setBgColor(true);
 				break;
 			default:
@@ -245,8 +245,8 @@ const Top = (props: topFilter) => {
 				<Link href={'/'}>
 					<div>{t('Home')}</div>
 				</Link>
-				<Link href={'/property'}>
-					<div>{t('Properties')}</div>
+				<Link href={'/facility'}>
+					<div>{t('Facilities')}</div>
 				</Link>
 				<Link href={'/agent'}>
 					<div> {t('Agents')} </div>
@@ -371,7 +371,7 @@ const Top = (props: topFilter) => {
 									<Link href={'/'}>
 										<div>{t('Home')}</div>
 									</Link>
-									<Link href={'/property'}>
+									<Link href={'/facility'}>
 										<div>{t('Book')}</div>
 									</Link>
 									<Link href={'/agent'}>
@@ -399,7 +399,7 @@ const Top = (props: topFilter) => {
 												search: { ...searchFiltere.search, text: e.target.value },
 											});
 										}}
-										placeholder="Search properties..."
+										placeholder="Search facilities..."
 										onKeyDown={handlePasswordKeyDown}
 									/>
 									<SearchIcon className={'search-buttton-inside'} onClick={pushSearchHandler} />

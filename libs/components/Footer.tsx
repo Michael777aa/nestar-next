@@ -44,8 +44,8 @@ const Footer = () => {
 						<Box component={'div'} className={'bottom'}>
 							<div>
 								<strong>Popular Search</strong>
-								<span>Property for Rent</span>
-								<span>Property Low to hide</span>
+								<span>Facility for Facility</span>
+								<span>Facility Low to hide</span>
 							</div>
 							<div>
 								<strong>Quick Links</strong>
@@ -139,8 +139,8 @@ const Footer = () => {
 						<Stack className="left-side1 same">
 							<Typography variant="h1">Why People Like Us!</Typography>
 							<Typography variant="h2" className="left-words">
-								Renting sports facilities like soccer fields, basketball courts, golf courses, and more has never been
-								easier. Best arenas are here.
+								Facilitying sports facilities like soccer fields, basketball courts, golf courses, and more has never
+								been easier. Best arenas are here.
 							</Typography>
 							<Button className="down-button">Read More</Button>
 						</Stack>
@@ -172,7 +172,7 @@ const Footer = () => {
 								<Typography variant="h2">My Account</Typography>
 							</Link>
 
-							<Link href={'/property'} className="ssss">
+							<Link href={'/facility'} className="ssss">
 								<Typography variant="h2">Booking details</Typography>
 							</Link>
 

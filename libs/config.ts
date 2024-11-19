@@ -1,16 +1,16 @@
 export const REACT_APP_API_URL = `${process.env.REACT_APP_API_URL}`;
 
-export const availableOptions = ['propertyBarter', 'propertyRent'];
+export const availableOptions = ['facilityBarter', 'facilityFacility'];
 
 const thisYear = new Date().getFullYear();
 
-export const propertyYears: any = [];
+export const facilityYears: any = [];
 
 for (let i = 1970; i <= thisYear; i++) {
-	propertyYears.push(String(i));
+	facilityYears.push(String(i));
 }
 
-export const rentSquare = [0, 25, 50, 75, 100, 125, 150, 200, 300, 500];
+export const facilitySquare = [0, 25, 50, 75, 100, 125, 150, 200, 300, 500];
 
 export const Messages = {
 	error1: 'Something went wrong!',
@@ -20,4 +20,4 @@ export const Messages = {
 	error5: 'Only images with jpeg, jpg, png format allowed!',
 };
 
-export const topPropertyRank = 0;
+export const topFacilityRank = 0;

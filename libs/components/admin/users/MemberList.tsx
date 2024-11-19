@@ -95,7 +95,7 @@ const headCells: readonly HeadCell[] = [
 
 interface EnhancedTableProps {
 	numSelected: number;
-	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+	onRequestSort: (event: React.MouseEvent<unknown>, facility: keyof Data) => void;
 	order: Order;
 	orderBy: string;
 	rowCount: number;

@@ -17,7 +17,7 @@ const About: NextPage = () => {
 						<Stack className={'intro'}>
 							<Stack className={'container'}>
 								<Stack className={'left'}>
-									<strong>Our Goal is to Revolutionize the Experience of Renting Sports Facilities.</strong>
+									<strong>Our Goal is to Revolutionize the Experience of Facilitying Sports Facilities.</strong>
 								</Stack>
 								<Stack className={'right'}>
 									<p>

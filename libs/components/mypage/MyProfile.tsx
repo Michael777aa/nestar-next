@@ -80,7 +80,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 		}
 	};
 
-	const updatePropertyHandler = useCallback(async () => {
+	const updateFacilityHandler = useCallback(async () => {
 		try {
 			if (!user._id) throw new Error(Messages.error2);
 			updateData._id = user._id;
@@ -186,7 +186,7 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 						/>
 					</Stack>
 
-					<Button variant="contained" onClick={updatePropertyHandler} disabled={doDisabledCheck()}>
+					<Button variant="contained" onClick={updateFacilityHandler} disabled={doDisabledCheck()}>
 						Update Profile
 					</Button>
 				</Stack>

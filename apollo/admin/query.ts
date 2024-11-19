@@ -20,7 +20,7 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 				memberImage
 				memberAddress
 				memberDesc
-				memberProperties
+				memberFacilities
 				memberArticles
 				memberFollowers
 				memberFollowings
@@ -54,31 +54,31 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *        FACILITY        *
  *************************/
 
-export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
-	query GetAllPropertiesByAdmin($input: AllPropertiesInquiry!) {
-		getAllPropertiesByAdmin(input: $input) {
+export const GET_ALL_FACILITIES_BY_ADMIN = gql`
+	query GetAllFacilitiesByAdmin($input: AllFacilitiesInquiry!) {
+		getAllFacilitiesByAdmin(input: $input) {
 			list {
 				_id
-				rentType
+				facilityType
 				availabilityStatus
-				rentLocation
-				rentAddress
-				rentTitle
-				rentalPrice
-				rentSquare
-				rentBalconies
-				rentViews
-				rentLikes
-				rentComments
-				rentRank
-				rentImages
+				facilityLocation
+				facilityAddress
+				facilityTitle
+				facilityPrice
+				facilitySquare
+				facilityBalconies
+				facilityViews
+				facilityLikes
+				facilityComments
+				facilityRank
+				facilityImages
 				amenities
 				includedUtilities
-				rentDesc
-				rentPetsAllowed
+				facilityDesc
+				facilityPetsAllowed
 				parkingAvailable
 				furnished
 				memberId
@@ -100,7 +100,7 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings
@@ -162,7 +162,7 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings
@@ -217,7 +217,7 @@ export const GET_COMMENTS = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings
@@ -271,7 +271,7 @@ export const GET_ALL_NOTICES = gql`
 					memberImage
 					memberAddress
 					memberDesc
-					memberProperties
+					memberFacilities
 					memberArticles
 					memberFollowers
 					memberFollowings

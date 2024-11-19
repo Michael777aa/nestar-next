@@ -77,7 +77,7 @@ const AgentCard = (props: AgentCardProps) => {
 					<span>Agent</span>
 				</span>
 				<div className="count-facilities">
-					<span style={{ fontSize: '45px' }}>{agent?.memberProperties}</span>
+					<span style={{ fontSize: '45px' }}>{agent?.memberFacilities}</span>
 					<span>sport</span>
 					<span>arenas</span>
 				</div>
