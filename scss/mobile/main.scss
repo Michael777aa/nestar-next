@@ -2,11 +2,156 @@
 
 #mobile-wrap {
 	.top {
-		height: 100px;
+		height: 54px;
 		display: flex;
+		position: fixed;
+		z-index: 200000000;
 		flex-direction: row;
-		justify-content: space-around;
+		padding: 0 10px;
+		width: 100%;
+		justify-content: space-between;
 		align-items: center;
+		border-bottom: 1px solid #000000;
+		background-color: #fff;
+		.left {
+			.left-main {
+				$drawer-width: 100%;
+				$overlay-color: rgba(0, 0, 0, 0.5);
+				$drawer-bg: #ffffff;
+				$drawer-text-color: #333;
+				$drawer-link-hover: underline;
+
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				position: relative; // Ensure the left-main container stays in place
+				gap: 15px;
+
+				.left-icon {
+					color: #000000;
+					font-size: 35px;
+					border: none;
+					cursor: pointer;
+					transition: none; // Disable transition if unnecessary
+					position: relative; // Maintain its position relative to the container
+				}
+
+				.left-search {
+					font-size: 30px;
+				}
+
+				.menu-button {
+					font-size: 1.2rem;
+					background-color: #000;
+					color: #fff;
+					border: none;
+					cursor: pointer;
+					transition: background-color 0.3s;
+
+					&:hover {
+						background-color: #333;
+					}
+				}
+
+				// Drawer Overlay
+				.main-div {
+					display: flex;
+					position: fixed; // Fix the drawer to avoid layout shifting
+					z-index: 1000;
+
+					.drawer-overlay {
+						position: fixed;
+						top: 54px;
+						left: 0;
+						height: 100vh;
+						width: 100%;
+						background-color: $overlay-color;
+						display: flex;
+						justify-content: flex-start;
+						z-index: 9999;
+
+						.drawer {
+							background-color: $drawer-bg;
+							width: $drawer-width;
+							max-width: 100%;
+							height: 100%;
+							box-shadow: 0px 4px 6px #b8b8b81a;
+							display: flex;
+							flex-direction: column;
+							position: relative;
+
+							// Menu Links
+							.drawer-menu {
+								border-bottom: 1px solid #000000;
+								padding: 20px;
+
+								a {
+									display: block;
+									font-size: 1.2rem;
+									margin-bottom: 20px;
+									text-decoration: none;
+									color: $drawer-text-color;
+									transition: color 0.3s;
+									cursor: pointer;
+								}
+
+								span {
+									position: relative;
+									top: -8px;
+									width: 100%; // Full width of the link
+									height: 1px; // Thickness of the border
+									background-color: #000; // Border color
+								}
+							}
+
+							.lan-box {
+								display: flex;
+								padding: 20px;
+
+								.language-list {
+									display: flex;
+									padding: 0;
+									margin: 0;
+
+									.dropdown-item {
+										display: flex;
+										align-items: center;
+										justify-content: center;
+										padding: 10px 15px;
+										cursor: pointer;
+										transition: border-color 0.3s;
+
+										img {
+											width: 20px;
+											margin-right: 8px;
+										}
+
+										&.selected {
+											font-weight: bold;
+											color: #000;
+											border-bottom: 2px solid red;
+										}
+
+										&:hover {
+											border-bottom: 2px solid #ccc; // Optional hover effect for unselected items
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		.middle {
+			font-size: 25px;
+			font-weight: 600;
+		}
+		.right {
+			display: flex;
+			flex-direction: row;
+			gap: 10px;
+		}
 	}
 
 	.info-box {

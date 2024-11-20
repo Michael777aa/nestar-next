@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box, Typography, Badge, Drawer } from '@mui/material';
+import { Stack, Box, Typography, Badge, Drawer, TableRow, TableCell, InputBase, IconButton } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -27,8 +27,12 @@ import { NotificationInquiry } from '../types/notifications/notifications';
 import { Notification } from '../types/notifications/notifications';
 import { NotificationStatus } from '../enums/notification.enum';
 import { UPDATE_NOTIFICATION } from '../../apollo/user/mutation';
+import { List, ListItem } from '@mui/material';
+import { TabContext } from '@mui/lab';
+import CloseIcon from '@mui/icons-material/Close';
 import { FacilitiesInquiry } from '../types/facility/facility.input';
-
+import MenuIcon from '@mui/icons-material/Menu';
+import { T } from '../types/common';
 interface topFilter {
 	initialInput: FacilitiesInquiry;
 }
@@ -50,6 +54,12 @@ const Top = (props: topFilter) => {
 	const [searchFiltere, setSearchFiltere] = useState<FacilitiesInquiry>(initialInput);
 	const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 	const [unreadCount, setUnreadCount] = useState<number>(0);
+	const [selectedLang, setSelectedLang] = useState('en'); // Default selected language
+	const [isMenuDrawerOpen, setMenuDrawerOpen] = useState(false);
+	const [isSearchDrawerOpen, setSearchDrawerOpen] = useState(false);
+	// FOR MODILE
+	const [isDrawerOpen, setDrawerOpen] = useState(false);
+
 	const searchFilter: NotificationInquiry = {
 		page: 1,
 		limit: 500,
@@ -75,6 +85,9 @@ const Top = (props: topFilter) => {
 			setNotifications([]); // Clear notifications when logged out
 		}
 	}, [user]);
+	const toggleDrawer = () => {
+		setDrawerOpen(!isDrawerOpen);
+	};
 
 	useEffect(() => {
 		if (user?._id) {
@@ -184,6 +197,10 @@ const Top = (props: topFilter) => {
 	}, [user]);
 	/** HANDLERS **/
 
+	const langChoicee = (e: T) => {
+		const lang = e.currentTarget.id; // Get the ID of the selected language
+		setLang(lang);
+	};
 	const langClick = (e: any) => {
 		setAnchorEl2(e.currentTarget);
 	};
@@ -192,15 +209,36 @@ const Top = (props: topFilter) => {
 		setAnchorEl2(null);
 	};
 
+	// const langChoice = useCallback(
+	// 	async (e: any) => {
+	// 		setLang(e.target.id);
+	// 		localStorage.setItem('locale', e.target.id);
+	// 		setAnchorEl2(null);
+	// 		await router.push(router.asPath, router.asPath, { locale: e.target.id });
+	// 	},
+	// 	[router],
+	// );
+	// Corrected `langChoice` function
 	const langChoice = useCallback(
 		async (e: any) => {
-			setLang(e.target.id);
-			localStorage.setItem('locale', e.target.id);
-			setAnchorEl2(null);
-			await router.push(router.asPath, router.asPath, { locale: e.target.id });
+			const langId = e.currentTarget.id; // Ensure `id` is correctly extracted
+			setSelectedLang(langId); // Update the selected language in state
+			localStorage.setItem('locale', langId); // Store the selected language in local storage
+
+			// Close the drawer (if needed)
+			setDrawerOpen(false);
+
+			// Redirect to the current page with the new locale
+			await router.push(router.asPath, router.asPath, { locale: langId });
 		},
 		[router],
 	);
+
+	// Ensure the `selectedLang` reflects the correct initial language on load
+	useEffect(() => {
+		const savedLang = localStorage.getItem('locale') || 'en'; // Default to 'en' if no language is stored
+		setSelectedLang(savedLang);
+	}, []);
 
 	const changeNavbarColor = () => {
 		if (window.scrollY >= 50) {
@@ -209,7 +247,13 @@ const Top = (props: topFilter) => {
 			setColorChange(false);
 		}
 	};
+	const toggleMenuDrawer = (state: any) => {
+		setMenuDrawerOpen(state);
+	};
 
+	const toggleSearchDrawer = () => {
+		setSearchDrawerOpen((prevState) => !prevState); // Toggle the drawer open/close
+	};
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
@@ -241,23 +285,302 @@ const Top = (props: topFilter) => {
 
 	if (device == 'mobile') {
 		return (
-			<Stack className={'top'}>
-				<Link href={'/'}>
-					<div>{t('Home')}</div>
-				</Link>
-				<Link href={'/facility'}>
-					<div>{t('Facilities')}</div>
-				</Link>
-				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
-				</Link>
-				<Link href={'/community?articleCategory=FREE'}>
-					<div> {t('Community')} </div>
-				</Link>
-				<Link href={'/cs'}>
-					<div> {t('CS')} </div>
-				</Link>
-			</Stack>
+			<div className="top">
+				{/* Button to Open Drawer */}
+				<Stack className="left">
+					<Stack className="left-main">
+						{isDrawerOpen && (
+							<div className="main-div">
+								<div className="drawer-overlay" onClick={toggleDrawer}>
+									<div className="drawer" onClick={(e) => e.stopPropagation()}>
+										<Stack className="drawer-menu">
+											<a href="/" onClick={toggleDrawer}>
+												Home
+											</a>
+											<span></span>
+
+											<a href="/facility" onClick={toggleDrawer}>
+												Facilities
+											</a>
+											<span></span>
+
+											<a href="/agent" onClick={toggleDrawer}>
+												Agents
+											</a>
+											<span></span>
+
+											<a href="/community?articleCategory=FREE" onClick={toggleDrawer}>
+												Community
+											</a>
+											<span></span>
+
+											<a href="/cs" onClick={toggleDrawer}>
+												Customer Care
+											</a>
+										</Stack>
+										<Box className="lan-box">
+											<List className="language-list" sx={{ display: 'flex', padding: 0 }}>
+												{/* English Option */}
+												<ListItem
+													id="en"
+													className={`dropdown-item ${selectedLang === 'en' ? 'selected' : ''}`}
+													onClick={langChoice}
+													sx={{
+														cursor: 'pointer',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+														borderBottom: selectedLang === 'en' ? '2px solid red' : '2px solid transparent',
+														padding: '10px 15px',
+														transition: 'border-color 0.3s',
+													}}
+												>
+													<img
+														className="img-flag"
+														src="/img/flag/langen.png"
+														alt="usaFlag"
+														style={{ width: '20px', marginRight: '8px' }}
+													/>
+													{t('English')}
+												</ListItem>
+
+												{/* Korean Option */}
+												<ListItem
+													id="kr"
+													className={`dropdown-item ${selectedLang === 'kr' ? 'selected' : ''}`}
+													onClick={langChoice}
+													sx={{
+														cursor: 'pointer',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+														borderBottom: selectedLang === 'kr' ? '2px solid red' : '2px solid transparent',
+														padding: '10px 15px',
+														transition: 'border-color 0.3s',
+													}}
+												>
+													<img
+														className="img-flag"
+														src="/img/flag/langkr.png"
+														alt="koreanFlag"
+														style={{ width: '20px', marginRight: '8px' }}
+													/>
+													{t('Korean')}
+												</ListItem>
+
+												{/* Russian Option */}
+												<ListItem
+													id="ru"
+													className={`dropdown-item ${selectedLang === 'ru' ? 'selected' : ''}`}
+													onClick={langChoice}
+													sx={{
+														cursor: 'pointer',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+														borderBottom: selectedLang === 'ru' ? '2px solid red' : '2px solid transparent',
+														padding: '10px 15px',
+														transition: 'border-color 0.3s',
+													}}
+												>
+													<img
+														className="img-flag"
+														src="/img/flag/langru.png"
+														alt="russiaFlag"
+														style={{ width: '20px', marginRight: '8px' }}
+													/>
+													{t('Russian')}
+												</ListItem>
+											</List>
+										</Box>
+									</div>
+								</div>
+							</div>
+						)}
+						<MenuIcon className="left-icon" onClick={toggleDrawer} />
+						<IconButton
+							className="search-buttton-inside"
+							onClick={toggleSearchDrawer} // Toggle the drawer on button click
+							style={{ padding: '10px' }}
+						>
+							{isSearchDrawerOpen ? <CloseIcon /> : <SearchIcon />} {/* Show X or search icon */}
+						</IconButton>
+
+						{/* Search Drawer */}
+						<Drawer
+							anchor="top"
+							open={isSearchDrawerOpen} // Drawer visibility depends on the state
+							onClose={toggleSearchDrawer} // Close the drawer when clicking outside
+							sx={{
+								'& .MuiDrawer-paper': {
+									width: '100%', // Full width drawer
+									padding: '20px',
+									backgroundColor: '#ffffff',
+									position: 'relative',
+									height: '100vh',
+									top: '50px',
+								},
+							}}
+						>
+							<Box>
+								<Stack direction="row" spacing={2} alignItems="center">
+									<InputBase
+										style={{
+											border: '1px solid #ccc',
+											borderRadius: '5px',
+											padding: '5px 10px',
+											flexGrow: 1,
+										}}
+										value={searchFiltere?.search?.text ?? ''}
+										type="text"
+										onChange={(e: any) => {
+											setSearchFiltere({
+												...searchFiltere,
+												search: { ...searchFiltere.search, text: e.target.value },
+											});
+										}}
+										placeholder="Search facilities..."
+										onKeyDown={handlePasswordKeyDown}
+									/>
+									<IconButton onClick={pushSearchHandler} style={{ padding: '10px' }}>
+										<SearchIcon />
+									</IconButton>
+								</Stack>
+							</Box>
+						</Drawer>
+					</Stack>
+				</Stack>
+				<Stack className="middle">PlaySpot 🏟️</Stack>
+				<Stack className="right">
+					<Link href="/account/join">
+						<div className="join-box">
+							<AccountCircleIcon />
+						</div>
+					</Link>
+					<Stack>
+						<Badge badgeContent={notifications.length} color="secondary">
+							<NotificationsOutlinedIcon
+								onClick={() => toggleNotificationDrawer(!isNotificationOpen)}
+								style={{ cursor: 'pointer', fontSize: '28px' }}
+							/>
+						</Badge>
+
+						<Drawer
+							anchor="right"
+							open={isNotificationOpen}
+							onClose={() => toggleNotificationDrawer(false)}
+							ModalProps={{
+								onBackdropClick: () => toggleNotificationDrawer(false),
+							}}
+							sx={{
+								'& .MuiDrawer-paper': {
+									width: device === 'mobile' ? '100%' : '450px',
+									padding: '20px',
+									backgroundColor: '#ffffff',
+									boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+									borderRadius: device === 'mobile' ? '0px' : '8px',
+								},
+							}}
+						>
+							{/* Notification Content */}
+							<Stack spacing={2}>
+								<Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', marginBottom: '16px' }}>
+									{t('Notifications')}
+								</Typography>
+								{notifications.length === 0 ? (
+									<Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center', marginTop: '20px' }}>
+										{t('No new notifications')}
+									</Typography>
+								) : (
+									notifications.map((notification) => (
+										<Box
+											key={notification._id}
+											sx={{
+												position: 'relative',
+												padding: '16px',
+												border: '1px solid #ddd',
+												borderRadius: '8px',
+												marginBottom: '12px',
+												boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
+												transition: 'background-color 0.3s',
+												'&:hover': {
+													backgroundColor: '#f4f4f4',
+												},
+											}}
+										>
+											<MenuItem
+												onClick={() => updateNotifsHandler(notification._id)}
+												sx={{
+													padding: '0',
+													display: 'flex',
+													flexDirection: 'column',
+													alignItems: 'flex-start',
+												}}
+											>
+												{notification.notificationStatus === 'WAIT' && (
+													<Box
+														sx={{
+															width: '10px',
+															height: '10px',
+															backgroundColor: 'green',
+															borderRadius: '50%',
+															position: 'absolute',
+															top: '-8px',
+															left: '-8px',
+														}}
+													/>
+												)}
+												<Box sx={{ width: '100%' }}>
+													{notification.notificationName && (
+														<Typography
+															variant="body1"
+															sx={{
+																fontSize: '15px',
+																fontWeight: '900',
+																color: '#00000',
+																marginBottom: '8px',
+																wordBreak: 'break-word',
+																whiteSpace: 'normal',
+															}}
+														>
+															Name: {notification.notificationName}
+														</Typography>
+													)}
+													<Typography
+														variant="body1"
+														sx={{
+															fontSize: '17px',
+															fontWeight: '700',
+															color: '#00000',
+															marginBottom: '8px',
+															wordBreak: 'break-word',
+															whiteSpace: 'normal',
+														}}
+													>
+														{notification.notificationTitle}
+													</Typography>
+													<Typography
+														sx={{
+															fontSize: '14px',
+															color: 'textSecondary',
+															marginBottom: '8px',
+															wordBreak: 'break-word',
+															whiteSpace: 'normal',
+														}}
+														variant="body2"
+													>
+														{notification.notificationDesc}
+													</Typography>
+												</Box>
+											</MenuItem>
+										</Box>
+									))
+								)}
+							</Stack>
+						</Drawer>
+					</Stack>
+				</Stack>
+			</div>
 		);
 	} else {
 		return (

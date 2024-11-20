@@ -95,7 +95,7 @@ const withLayoutBasic = (Component: any) => {
 				<>
 					<Head>
 						<title>PlaySpot</title>
-						<meta name={'title'} content={`Nestar`} />
+						<meta name={'title'} content={`PlaySpot`} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
@@ -117,7 +117,7 @@ const withLayoutBasic = (Component: any) => {
 				<>
 					<Head>
 						<title>PlaySpot</title>
-						<meta name={'title'} content={`Nestar`} />
+						<meta name={'title'} content={`PlaySpot`} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>

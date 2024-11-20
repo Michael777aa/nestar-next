@@ -67,7 +67,7 @@ const Footer = () => {
 					</Stack>
 				</Stack>
 				<Stack className={'second'}>
-					<span>© Nestar - All rights reserved. Nestar {moment().year()}</span>
+					<span>© PlaySpot - All rights reserved. PlaySpot {moment().year()}</span>
 				</Stack>
 			</Stack>
 		);

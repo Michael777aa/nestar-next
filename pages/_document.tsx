@@ -14,7 +14,7 @@ export default function Document() {
 					content={
 						'Buy and sell facilities anywhere anytime in South Korea. Best Facilities at Best prices on nestar.uz | ' +
 						'Покупайте и продавайте недвижимость в любой точке Южной Кореи в любое время. Лучшая недвижимость по лучшим ценам на nestar.uz | ' +
-						'대한민국 언제 어디서나 부동산을 사고팔 수 있습니다. Nestar.uz에서 최적의 가격으로 최고의 부동산을 만나보세요'
+						'대한민국 언제 어디서나 부동산을 사고팔 수 있습니다. PlaySpot.uz에서 최적의 가격으로 최고의 부동산을 만나보세요'
 					}
 				/>
 			</Head>
