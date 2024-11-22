@@ -44,7 +44,205 @@ const FacilityCard = (props: FacilityCardType) => {
 		Breakfast: <LocalCafeIcon />,
 	};
 	if (device === 'mobile') {
-		return <div>FACILITY CARD</div>;
+		return (
+			<Stack
+				className="card-config"
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					backgroundColor: '#fff',
+					borderRadius: '12px',
+					boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+					overflow: 'hidden',
+					marginBottom: '15px',
+					padding: '10px',
+					gap: '10px',
+					zIndex: 0,
+				}}
+			>
+				{/* Top Image Section */}
+				<Stack
+					className="top"
+					style={{
+						position: 'relative',
+						width: '100%',
+						height: '200px',
+						overflow: 'hidden',
+						borderRadius: '12px',
+					}}
+				>
+					<Link
+						href={{
+							pathname: '/facility/detail',
+							query: { id: facility?._id },
+						}}
+					>
+						<img
+							src={imagePath}
+							alt={facility?.facilityTitle}
+							style={{
+								width: '100%',
+								height: '100%',
+								objectFit: 'cover',
+								borderRadius: '12px',
+							}}
+						/>
+					</Link>
+				</Stack>
+
+				{/* Bottom Content Section */}
+				<Stack
+					className="bottom"
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						gap: '10px',
+					}}
+				>
+					{/* Name and Address */}
+					<Stack className="name-address" style={{ gap: '5px' }}>
+						<Stack className="name">
+							<Link
+								href={{
+									pathname: '/facility/detail',
+									query: { id: facility?._id },
+								}}
+							>
+								<Typography
+									style={{
+										fontSize: '1rem',
+										fontWeight: '600',
+										color: '#333',
+									}}
+								>
+									{facility?.facilityTitle}
+								</Typography>
+							</Link>
+						</Stack>
+						<Stack className="address">
+							<Typography style={{ fontSize: '0.9rem', color: '#777' }}>
+								{facility.facilityAddress}, {facility.facilityLocation}
+							</Typography>
+						</Stack>
+					</Stack>
+
+					{/* Options */}
+					<Stack
+						className="options"
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							gap: '10px',
+							flexWrap: 'wrap',
+						}}
+					>
+						<Stack className="option">
+							<Typography style={{ fontSize: '0.85rem', color: '#555' }}>
+								{facility.facilityBalconies} balconies
+							</Typography>
+						</Stack>
+						<Stack className="option">
+							<Typography style={{ fontSize: '0.85rem', color: '#555' }}>{facility.facilitySquare} m²</Typography>
+						</Stack>
+					</Stack>
+
+					<Stack
+						className="options"
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							gap: '5px',
+						}}
+					>
+						<div style={{ fontSize: '0.85rem', color: facility?.furnished ? '#4CAF50' : '#d32f2f' }}>
+							{facility?.furnished ? 'Furnished' : 'Not Furnished'}
+						</div>
+						<div style={{ fontSize: '0.85rem', color: facility?.parkingAvailable ? '#4CAF50' : '#d32f2f' }}>
+							{facility?.parkingAvailable ? 'Parking Available' : 'No Parking'}
+						</div>
+						<div style={{ fontSize: '0.85rem', color: facility?.facilityPetsAllowed ? '#4CAF50' : '#d32f2f' }}>
+							{facility?.facilityPetsAllowed ? 'Pets Allowed' : 'No Pets'}
+						</div>
+					</Stack>
+
+					{/* Price and Book Button */}
+					<Stack
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							marginTop: '10px',
+						}}
+					>
+						<Box
+							style={{
+								backgroundColor: '#4CAF50',
+								padding: '10px 15px',
+								borderRadius: '8px',
+								color: '#fff',
+								fontWeight: '600',
+								fontSize: '0.9rem',
+							}}
+						>
+							${facility?.facilityPrice}/week
+						</Box>
+						<Link
+							href={{
+								pathname: '/facility/detail',
+								query: { id: facility?._id },
+							}}
+						>
+							<button
+								style={{
+									padding: '10px 20px',
+									backgroundColor: '#FF5722',
+									borderRadius: '8px',
+									color: '#fff',
+									fontSize: '0.9rem',
+									fontWeight: '600',
+									border: 'none',
+									cursor: 'pointer',
+								}}
+							>
+								Book Now
+							</button>
+						</Link>
+					</Stack>
+
+					{/* Amenities */}
+					<Stack
+						className="amenities"
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							flexWrap: 'wrap',
+							gap: '5px',
+							alignItems: 'center',
+						}}
+					>
+						<Typography style={{ fontSize: '0.85rem', fontWeight: '600', color: '#333' }}>Amenities:</Typography>
+						{facility?.amenities?.map((amenity) => (
+							<Box
+								key={amenity}
+								style={{
+									backgroundColor: '#f1f8e9',
+									padding: '5px 10px',
+									borderRadius: '6px',
+									fontSize: '0.8rem',
+									fontWeight: '500',
+									color: '#4CAF50',
+								}}
+							>
+								{amenity}
+							</Box>
+						))}
+					</Stack>
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className="card-config">

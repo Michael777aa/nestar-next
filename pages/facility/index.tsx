@@ -126,7 +126,138 @@ const FacilityList: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>FACILITIES MOBILE</h1>;
+		return (
+			<div id="facility-list-page" style={{ position: 'relative', marginTop: '100px' }}>
+				<div className="container">
+					<Box
+						component={'div'}
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'flex-start',
+							justifyContent: 'center',
+							padding: '10px',
+							backgroundColor: '#f9f9f9',
+							borderRadius: '8px',
+							boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+							marginBottom: '10px',
+						}}
+					>
+						<span
+							style={{
+								fontSize: '14px',
+								fontWeight: '600',
+								color: '#333',
+								marginBottom: '8px',
+							}}
+						>
+							Sort by
+						</span>
+						<div style={{ width: '100%' }}>
+							<Button
+								onClick={sortingClickHandler}
+								style={{
+									display: 'flex',
+									justifyContent: 'space-between',
+									alignItems: 'center',
+									width: '100%',
+									padding: '10px',
+									backgroundColor: '#ffffff',
+									border: '1px solid #ddd',
+									borderRadius: '8px',
+									fontSize: '14px',
+									fontWeight: '600',
+									color: '#333',
+									boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.1)',
+								}}
+								endIcon={<KeyboardArrowDownRoundedIcon />}
+							>
+								{selectedSortOption}
+							</Button>
+							<Menu
+								anchorEl={anchorEl}
+								open={sortingOpen}
+								onClose={sortingCloseHandler}
+								sx={{
+									marginTop: '10px',
+									borderRadius: '8px',
+									boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+								}}
+							>
+								{[
+									'Sort by popularity',
+									'Sort by latest',
+									'Sort by price:low to high',
+									'Sort by price:high to low',
+									'Sort by liked',
+								].map((label) => (
+									<MenuItem
+										key={label}
+										onClick={sortingHandler}
+										id={label}
+										disableRipple
+										style={{
+											padding: '10px 15px',
+											fontSize: '14px',
+											color: selectedSortOption === label ? 'red' : '#333',
+											fontWeight: selectedSortOption === label ? 'bold' : 'normal',
+											backgroundColor: selectedSortOption === label ? '#f9f9f9' : '#ffffff',
+										}}
+									>
+										{label}
+									</MenuItem>
+								))}
+							</Menu>
+						</div>
+					</Box>
+
+					<Stack className={'facility-page'}>
+						<Stack className={'filter-config'}>
+							{/* @ts-ignore */}
+							<Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} initialInput={initialInput} />
+						</Stack>
+						<Stack className="main-config" mb={'76px'}>
+							<Stack className={'list-config'}>
+								{facilities?.length === 0 ? (
+									<div className={'no-data'}>
+										<img src="/img/icons/icoAlert.svg" alt="" />
+										<p>No Facilities found!</p>
+									</div>
+								) : (
+									facilities.map((facility: Facility) => {
+										return (
+											<FacilityCard facility={facility} likeFacilityHandler={likeFacilityHandler} key={facility?._id} />
+										);
+									})
+								)}
+							</Stack>
+							<Stack className="pagination-config" sx={{ textAlign: 'center', marginTop: '10px' }}>
+								{facilities.length !== 0 && (
+									<Stack className="pagination-box">
+										<Pagination
+											style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}
+											page={currentPage}
+											count={Math.ceil(total / searchFilter.limit)}
+											onChange={handlePaginationChange}
+											shape="circular"
+											color="primary"
+										/>
+									</Stack>
+								)}
+
+								{facilities.length !== 0 && (
+									<Stack className="total-result" mt={2}>
+										<Typography>
+											Total {total} facilit{total > 1 ? 'ies' : 'y'} available
+										</Typography>
+									</Stack>
+								)}
+							</Stack>
+						</Stack>
+					</Stack>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<div id="facility-list-page" style={{ position: 'relative' }}>

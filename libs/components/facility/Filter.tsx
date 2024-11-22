@@ -363,6 +363,7 @@ const Filter = (props: FilterType) => {
 		},
 		[searchFilter],
 	);
+	const [filterOpen, setFilterOpen] = useState(false);
 
 	const refreshHandler = async () => {
 		try {
@@ -378,7 +379,200 @@ const Filter = (props: FilterType) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>Facilitys FILTER</div>;
+		return (
+			<Stack
+				className="filter-main"
+				style={{
+					padding: '10px',
+					backgroundColor: '#ffffff',
+					borderRadius: '8px',
+					boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+				}}
+			>
+				{/* Toggle Button for Filter */}
+				<Button
+					onClick={() => setFilterOpen(!filterOpen)}
+					style={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						width: '100%',
+						padding: '10px 15px',
+						backgroundColor: '#f1f1f1',
+						borderRadius: '8px',
+						border: 'none',
+						boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.1)',
+						fontSize: '16px',
+						fontWeight: '600',
+					}}
+				>
+					Filter Options
+					<span style={{ transform: filterOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>▼</span>
+				</Button>
+
+				{/* Filter Options - Collapsible */}
+				{filterOpen && (
+					<Stack style={{ marginTop: '15px', gap: '15px' }}>
+						{/* Search Section */}
+						<Stack style={{ gap: '10px' }}>
+							<Typography style={{ fontSize: '14px', fontWeight: '500' }}>Find Your Sport</Typography>
+							<Stack
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									gap: '10px',
+									padding: '10px',
+									border: '1px solid #ddd',
+									borderRadius: '8px',
+									backgroundColor: '#fff',
+								}}
+							>
+								<OutlinedInput
+									value={searchText}
+									type="text"
+									placeholder="Search"
+									onChange={(e) => setSearchText(e.target.value)}
+									style={{
+										flex: 1,
+										fontSize: '14px',
+										border: 'none',
+										outline: 'none',
+									}}
+								/>
+							</Stack>
+							<CancelRoundedIcon
+								onClick={() => setSearchText('')}
+								style={{
+									position: 'absolute',
+									right: '35px',
+									top: '216px',
+									cursor: 'pointer',
+									color: '#888',
+								}}
+							/>
+						</Stack>
+
+						{/* Location Section */}
+						<Stack>
+							<Typography style={{ fontSize: '14px', fontWeight: '500' }}>Location</Typography>
+							<Stack style={{ maxHeight: '100px', overflowY: 'scroll', gap: '10px' }}>
+								{facilityLocation.map((location) => (
+									<Stack
+										key={location}
+										direction="row"
+										alignItems="center"
+										style={{
+											padding: '5px 0',
+											borderBottom: '1px solid #f1f1f1',
+										}}
+									>
+										<Checkbox
+											size="small"
+											checked={searchFilter?.search?.locationList?.includes(location)}
+											onChange={FacilityLocationSelectHandler}
+										/>
+										<Typography style={{ fontSize: '12px', color: '#555' }}>{location}</Typography>
+									</Stack>
+								))}
+							</Stack>
+						</Stack>
+
+						{/* Facility Type */}
+						<Stack>
+							<Typography style={{ fontSize: '14px', fontWeight: '500' }}>Facility Type</Typography>
+							<Stack style={{ gap: '10px' }}>
+								{facilityType.map((type) => (
+									<Stack
+										key={type}
+										direction="row"
+										alignItems="center"
+										style={{
+											padding: '8px',
+											backgroundColor: '#f9f9f9',
+											borderRadius: '8px',
+										}}
+									>
+										<Checkbox
+											size="small"
+											checked={searchFilter?.search?.typeList?.includes(type)}
+											onChange={facilityTypeSelectHandler}
+										/>
+										<Typography style={{ fontSize: '12px', color: '#555' }}>{type}</Typography>
+									</Stack>
+								))}
+							</Stack>
+						</Stack>
+
+						{/* Balconies Section */}
+						<Stack>
+							<Typography style={{ fontSize: '14px', fontWeight: '500' }}>Balconies</Typography>
+							<Stack direction="row" gap="10px">
+								{[0, 1, 2, 3, 4, 5].map((num) => (
+									<Button
+										key={num}
+										onClick={() => facilityBalconieselectHandler(num)}
+										style={{
+											flex: 1,
+											padding: '5px',
+											fontSize: '12px',
+											borderRadius: '8px',
+											backgroundColor: searchFilter?.search?.balconiesList?.includes(num) ? '#007bff' : '#f9f9f9',
+											color: searchFilter?.search?.balconiesList?.includes(num) ? '#fff' : '#555',
+											border: 'none',
+										}}
+									>
+										{num === 0 ? 'Any' : num === 5 ? '5+' : num}
+									</Button>
+								))}
+							</Stack>
+						</Stack>
+
+						{/* Area Unit */}
+						<Stack>
+							<Typography style={{ fontSize: '14px', fontWeight: '500' }}>Area Unit</Typography>
+							<Stack
+								direction="row"
+								alignItems="center"
+								style={{
+									padding: '10px',
+									gap: '10px',
+									backgroundColor: '#f9f9f9',
+									borderRadius: '8px',
+								}}
+							>
+								<input
+									type="number"
+									placeholder="Min"
+									value={searchFilter?.search?.squaresRange?.start || ''}
+									onChange={(e) => facilitySquareHandler(e, 'start')}
+									style={{
+										flex: 1,
+										padding: '5px',
+										border: '1px solid #ddd',
+										borderRadius: '5px',
+										fontSize: '12px',
+									}}
+								/>
+								<span style={{ fontSize: '14px', color: '#555' }}>-</span>
+								<input
+									type="number"
+									placeholder="Max"
+									value={searchFilter?.search?.squaresRange?.end || ''}
+									onChange={(e) => facilitySquareHandler(e, 'end')}
+									style={{
+										flex: 1,
+										padding: '5px',
+										border: '1px solid #ddd',
+										borderRadius: '5px',
+										fontSize: '12px',
+									}}
+								/>
+							</Stack>
+						</Stack>
+					</Stack>
+				)}
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={'filter-main'}>
