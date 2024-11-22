@@ -159,7 +159,6 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 				variables: { input: id },
 			});
 			await getAgentsRefetch();
-			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('ERROR, likeMemberHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();

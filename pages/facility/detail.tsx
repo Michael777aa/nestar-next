@@ -180,8 +180,6 @@ const FacilityDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 			await likeTargetFacility({ variables: { input: id } });
 			await getFacilityRefetch();
-
-			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('Erron on likeFacilityHandler', err);
 			sweetMixinErrorAlert(err.message).then();

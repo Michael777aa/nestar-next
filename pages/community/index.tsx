@@ -93,8 +93,6 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 			await likeTargetBoardArticle({ variables: { input: id } });
 
 			await boardArticlesRefetch({ input: searchCommunity });
-
-			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('Erron on likeArticleandler', err);
 			sweetMixinErrorAlert(err.message).then();
