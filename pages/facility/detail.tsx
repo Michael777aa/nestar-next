@@ -250,7 +250,738 @@ const FacilityDetail: NextPage = ({ initialComment, ...props }: any) => {
 		}
 	};
 	if (device === 'mobile') {
-		return <div>FACILITY DETAIL PAGE</div>;
+		return (
+			<div
+				id="facility-detail-page"
+				style={{
+					padding: '10px',
+					marginTop: '50px',
+					backgroundColor: '#f9f9f9',
+				}}
+			>
+				<div
+					className="container"
+					style={{
+						width: '100%',
+						maxWidth: '480px', // Adjust for mobile screen sizes
+						margin: '0 auto',
+					}}
+				>
+					<Stack
+						className="facility-detail-config"
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '15px',
+							backgroundColor: '#fff',
+							borderRadius: '12px',
+							padding: '15px',
+							boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+						}}
+					>
+						{/* Facility Info */}
+						<Stack
+							className="facility-info-config"
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								gap: '10px',
+							}}
+						>
+							{/* Left Box */}
+							<Stack
+								className="left-box"
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '10px',
+								}}
+							>
+								{/* Title */}
+								<Typography
+									style={{
+										color: '#1A1A1A',
+										fontSize: '1.5rem',
+										fontWeight: '700',
+										lineHeight: '1.2',
+										textTransform: 'capitalize',
+									}}
+								>
+									{facility?.facilityTitle}
+								</Typography>
+
+								{/* Location and Availability */}
+								<Stack
+									style={{
+										display: 'flex',
+										flexDirection: 'row',
+										alignItems: 'center',
+										gap: '10px',
+									}}
+								>
+									<Typography
+										style={{
+											color: '#4A4A4A',
+											fontSize: '0.9rem',
+											fontWeight: '500',
+										}}
+									>
+										{facility?.facilityLocation}
+									</Typography>
+									<div
+										style={{
+											width: '1px',
+											height: '15px',
+											backgroundColor: '#ddd',
+										}}
+									/>
+									<Typography
+										style={{
+											color: '#6A6A6A',
+											fontSize: '0.8rem',
+											fontWeight: '400',
+										}}
+									>
+										Availability: {facility?.availabilityStatus}
+									</Typography>
+								</Stack>
+
+								{/* Balcony and Size */}
+								<Stack
+									style={{
+										display: 'flex',
+										flexDirection: 'row',
+										gap: '10px',
+										flexWrap: 'wrap',
+									}}
+								>
+									<Stack
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											gap: '5px',
+										}}
+									>
+										<BalconyIcon style={{ fontSize: '1.2rem', color: '#FF7043' }} />
+										<Typography style={{ fontSize: '0.9rem', fontWeight: '500', color: '#3C3C3C' }}>
+											{facility?.facilityBalconies} balconies
+										</Typography>
+									</Stack>
+									<Stack
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											gap: '5px',
+										}}
+									>
+										<OpenWithIcon style={{ fontSize: '1.2rem', color: '#4CAF50' }} />
+										<Typography style={{ fontSize: '0.9rem', fontWeight: '500', color: '#3C3C3C' }}>
+											{facility?.facilitySquare} sq. m
+										</Typography>
+									</Stack>
+								</Stack>
+							</Stack>
+
+							{/* Right Box */}
+							<Stack
+								className="right-box"
+								style={{
+									display: 'flex',
+									alignItems: 'flex-end',
+									gap: '10px',
+								}}
+							>
+								<Typography
+									style={{
+										color: '#333333',
+										fontSize: '1.25rem',
+										fontWeight: '700',
+									}}
+								>
+									${formatterStr(facility?.facilityPrice)}
+									<span
+										style={{
+											fontSize: '0.9rem',
+											fontWeight: '500',
+											color: '#555555',
+											marginLeft: '6px',
+										}}
+									>
+										/week
+									</span>
+								</Typography>
+							</Stack>
+						</Stack>
+
+						{/* Images Section */}
+						<Stack
+							className="images"
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								gap: '10px',
+							}}
+						>
+							<Stack
+								className="main-image"
+								style={{
+									width: '100%',
+									height: '200px',
+									overflow: 'hidden',
+									borderRadius: '12px',
+								}}
+							>
+								<img
+									src={`${REACT_APP_API_URL}/${slideImage}`}
+									alt="main-image"
+									style={{
+										width: '100%',
+										height: '100%',
+										objectFit: 'cover',
+									}}
+								/>
+							</Stack>
+						</Stack>
+
+						{/* Facility Description */}
+						<Stack
+							style={{
+								padding: '10px',
+								backgroundColor: '#f9f9f9',
+								borderRadius: '12px',
+								gap: '10px',
+							}}
+						>
+							<Typography
+								style={{
+									fontSize: '1rem',
+									fontWeight: '600',
+									color: '#333333',
+								}}
+							>
+								Facility Description
+							</Typography>
+							<Typography
+								style={{
+									fontSize: '0.9rem',
+									color: '#555555',
+									lineHeight: '1.5',
+								}}
+							>
+								{facility?.facilityDesc || 'No description available!'}
+							</Typography>
+						</Stack>
+
+						{/* Facility Details */}
+						<Stack
+							style={{
+								padding: '10px',
+								backgroundColor: '#fff',
+								borderRadius: '12px',
+								gap: '15px',
+							}}
+						>
+							{[
+								{ label: 'Price', value: `$${formatterStr(facility?.facilityPrice)}` },
+								{ label: 'Facility Size', value: `${facility?.facilitySquare} sq. m` },
+								{ label: 'Balconies', value: facility?.facilityBalconies },
+								{ label: 'Year Built', value: moment(facility?.createdAt).format('YYYY') },
+							].map((detail, index) => (
+								<Stack
+									key={index}
+									style={{
+										display: 'flex',
+										flexDirection: 'row',
+										justifyContent: 'space-between',
+									}}
+								>
+									<Typography
+										style={{
+											fontSize: '0.9rem',
+											color: '#777777',
+											fontWeight: '500',
+										}}
+									>
+										{detail.label}
+									</Typography>
+									<Typography
+										style={{
+											fontSize: '0.9rem',
+											color: '#333333',
+											fontWeight: '600',
+										}}
+									>
+										{detail.value}
+									</Typography>
+								</Stack>
+							))}
+						</Stack>
+
+						{/* Amenities */}
+						<Stack
+							style={{
+								backgroundColor: '#fff',
+								borderRadius: '12px',
+								padding: '10px',
+								gap: '10px',
+							}}
+						>
+							<Typography
+								style={{
+									fontSize: '1rem',
+									fontWeight: '600',
+									color: '#333333',
+								}}
+							>
+								Amenities
+							</Typography>
+							<Stack
+								style={{
+									display: 'flex',
+									flexWrap: 'wrap',
+									gap: '10px',
+								}}
+							>
+								{facility?.amenities.map((amenity, index) => (
+									<Typography
+										key={index}
+										style={{
+											fontSize: '0.8rem',
+											color: '#4CAF50',
+											padding: '5px 10px',
+											borderRadius: '8px',
+											backgroundColor: '#E8F5E9',
+										}}
+									>
+										{amenity}
+									</Typography>
+								))}
+							</Stack>
+						</Stack>
+						{commentTotal !== 0 && (
+							<Stack
+								className="reviews-config"
+								style={{
+									padding: '15px',
+									backgroundColor: '#f9f9f9',
+									borderRadius: '8px',
+									boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+									gap: '15px',
+									width: '100%',
+									maxWidth: '400px', // For mobile-friendly screens
+									margin: '0 auto',
+								}}
+							>
+								{/* Reviews Header */}
+								<Stack
+									className="filter-box"
+									style={{
+										display: 'flex',
+										justifyContent: 'center',
+										alignItems: 'center',
+										paddingBottom: '10px',
+										borderBottom: '1px solid #ddd',
+									}}
+								>
+									<Stack
+										className="review-cnt"
+										style={{
+											display: 'flex',
+											alignItems: 'center',
+											gap: '8px',
+										}}
+									>
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12" fill="none">
+											<g clipPath="url(#clip0_6507_7309)">
+												<path
+													d="M15.7183 4.60288C15.6171 4.3599 15.3413 4.18787 15.0162 4.16489L10.5822 3.8504L8.82988 0.64527C8.7005 0.409792 8.40612 0.257812 8.07846 0.257812C7.7508 0.257812 7.4563 0.409792 7.32774 0.64527L5.57541 3.8504L1.14072 4.16489C0.815641 4.18832 0.540363 4.36035 0.438643 4.60288C0.337508 4.84586 0.430908 5.11238 0.676772 5.28084L4.02851 7.57692L3.04025 10.9774C2.96794 11.2275 3.09216 11.486 3.35771 11.636C3.50045 11.717 3.66815 11.7575 3.83643 11.7575C3.98105 11.7575 4.12577 11.7274 4.25503 11.667L8.07846 9.88098L11.9012 11.667C12.1816 11.7979 12.5342 11.7859 12.7992 11.636C13.0648 11.486 13.189 11.2275 13.1167 10.9774L12.1284 7.57692L15.4801 5.28084C15.7259 5.11238 15.8194 4.84641 15.7183 4.60288Z"
+													fill="#181A20"
+												/>
+											</g>
+											<defs>
+												<clipPath id="clip0_6507_7309">
+													<rect width="15.36" height="12" fill="white" transform="translate(0.398438)" />
+												</clipPath>
+											</defs>
+										</svg>
+										<Typography
+											className="reviews"
+											style={{
+												fontSize: '1rem',
+												fontWeight: '600',
+												color: '#333',
+											}}
+										>
+											{commentTotal} reviews
+										</Typography>
+									</Stack>
+								</Stack>
+
+								{/* Reviews List */}
+								<Stack
+									className="review-list"
+									style={{
+										display: 'flex',
+										flexDirection: 'column',
+										gap: '10px',
+									}}
+								>
+									{facilityComments?.map((comment: Comment) => (
+										<Review comment={comment} key={comment?._id} />
+									))}
+
+									{/* Pagination */}
+									<Box
+										component="div"
+										className="pagination-box"
+										style={{
+											display: 'flex',
+											justifyContent: 'center',
+											marginTop: '10px',
+										}}
+									>
+										<MuiPagination
+											page={commentInquiry.page}
+											count={Math.ceil(commentTotal / commentInquiry.limit)}
+											onChange={commentPaginationChangeHandler}
+											shape="circular"
+											color="primary"
+											style={{
+												fontSize: '0.8rem',
+											}}
+										/>
+									</Box>
+								</Stack>
+							</Stack>
+						)}
+
+						<Stack
+							className="leave-review-config"
+							style={{
+								padding: '10px',
+								backgroundColor: '#f9f9f9',
+								borderRadius: '8px',
+								boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+								gap: '10px',
+								width: '100%',
+								maxWidth: '400px', // Limit for mobile-friendly screens
+								margin: '0 auto',
+							}}
+						>
+							{/* Title */}
+							<Typography
+								className="main-title"
+								style={{
+									fontSize: '1.2rem',
+									fontWeight: '600',
+									color: '#333',
+									textAlign: 'center',
+								}}
+							>
+								Leave A Review
+							</Typography>
+
+							{/* Review Label */}
+							<Typography
+								className="review-title"
+								style={{
+									fontSize: '1rem',
+									fontWeight: '500',
+									color: '#555',
+								}}
+							>
+								Review
+							</Typography>
+
+							{/* Review Textarea */}
+							<textarea
+								onChange={({ target: { value } }: any) => {
+									setInsertCommentData({ ...insertCommentData, commentContent: value });
+								}}
+								value={insertCommentData.commentContent}
+								style={{
+									width: '100%',
+									minHeight: '80px',
+									padding: '10px',
+									fontSize: '0.9rem',
+									borderRadius: '6px',
+									border: '1px solid #ddd',
+									outline: 'none',
+									resize: 'none',
+									fontFamily: 'Roboto, sans-serif',
+								}}
+								placeholder="Write your review here..."
+							></textarea>
+
+							{/* Submit Button */}
+							<Box
+								className="submit-btn"
+								style={{
+									display: 'flex',
+									justifyContent: 'center',
+								}}
+							>
+								<Button
+									className="submit-review"
+									disabled={insertCommentData.commentContent === '' || user?._id === ''}
+									onClick={createCommentHandler}
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										padding: '10px 20px',
+										backgroundColor: '#4CAF50',
+										color: '#fff',
+										border: 'none',
+										borderRadius: '8px',
+										fontSize: '0.9rem',
+										fontWeight: '600',
+										cursor: insertCommentData.commentContent === '' || user?._id === '' ? 'not-allowed' : 'pointer',
+										opacity: insertCommentData.commentContent === '' || user?._id === '' ? 0.7 : 1,
+									}}
+								>
+									Submit Review
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="17"
+										height="17"
+										viewBox="0 0 17 17"
+										fill="none"
+										style={{ marginLeft: '8px' }}
+									>
+										<g clipPath="url(#clip0_6975_3642)">
+											<path
+												d="M16.1571 0.5H6.37936C6.1337 0.5 5.93491 0.698792 5.93491 0.944458C5.93491 1.19012 6.1337 1.38892 6.37936 1.38892H15.0842L0.731781 15.7413C0.558156 15.915 0.558156 16.1962 0.731781 16.3698C0.818573 16.4566 0.932323 16.5 1.04603 16.5C1.15974 16.5 1.27345 16.4566 1.36028 16.3698L15.7127 2.01737V10.7222C15.7127 10.9679 15.9115 11.1667 16.1572 11.1667C16.4028 11.1667 16.6016 10.9679 16.6016 10.7222V0.944458C16.6016 0.698792 16.4028 0.5 16.1571 0.5Z"
+												fill="#fff"
+											/>
+										</g>
+										<defs>
+											<clipPath id="clip0_6975_3642">
+												<rect width="16" height="16" fill="white" transform="translate(0.601562 0.5)" />
+											</clipPath>
+										</defs>
+									</svg>
+								</Button>
+							</Box>
+						</Stack>
+						<Stack
+							className="right-config"
+							style={{
+								padding: '15px',
+								backgroundColor: '#fff',
+								borderRadius: '8px',
+								boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+								gap: '15px',
+							}}
+						>
+							{/* Get More Information Section */}
+							<Stack
+								className="info-box"
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '10px',
+								}}
+							>
+								<Typography
+									className="main-title"
+									style={{
+										fontSize: '1.2rem',
+										fontWeight: '600',
+										color: '#333',
+									}}
+								>
+									Get More Information
+								</Typography>
+
+								<Stack
+									className="image-info"
+									style={{
+										display: 'flex',
+										flexDirection: 'row',
+										gap: '10px',
+										alignItems: 'center',
+									}}
+								>
+									<img
+										src={
+											facility?.memberData?.memberImage
+												? `${REACT_APP_API_URL}/${facility?.memberData?.memberImage}`
+												: '/img/profile/defaultUser.svg'
+										}
+										alt="member"
+										style={{
+											width: '50px',
+											height: '50px',
+											borderRadius: '50%',
+											objectFit: 'cover',
+										}}
+									/>
+									<Stack style={{ gap: '5px' }}>
+										<Link href={`/member?memberId=${facility?.memberData?._id}`}>
+											<Typography
+												className="name"
+												style={{
+													fontSize: '1rem',
+													fontWeight: '600',
+													color: '#007bff',
+													cursor: 'pointer',
+												}}
+											>
+												{facility?.memberData?.memberNick}
+											</Typography>
+										</Link>
+										<Stack
+											className="phone-number"
+											style={{
+												display: 'flex',
+												flexDirection: 'row',
+												alignItems: 'center',
+												gap: '5px',
+											}}
+										>
+											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+												<path
+													d="M16.2858 10.11L14.8658 8.69C14.5607 8.39872 14.1551 8.23619 13.7333 8.23619..."
+													fill="#181A20"
+												/>
+											</svg>
+											<Typography
+												className="number"
+												style={{
+													fontSize: '0.9rem',
+													color: '#555',
+												}}
+											>
+												{facility?.memberData?.memberPhone}
+											</Typography>
+										</Stack>
+									</Stack>
+								</Stack>
+							</Stack>
+
+							{/* Input Fields */}
+							{[
+								{
+									label: 'Name',
+									value: notificationName,
+									onChange: setNotificationName,
+									placeholder: 'Enter your name',
+								},
+								{
+									label: 'Phone',
+									value: notificationNumber,
+									onChange: setNotificationNumber,
+									placeholder: 'Enter your phone',
+								},
+								{
+									label: 'Email',
+									value: notificationTitle,
+									onChange: setNotificationTitle,
+									placeholder: 'Enter your email',
+								},
+							].map((field, index) => (
+								<Stack
+									className="info-box"
+									key={index}
+									style={{
+										display: 'flex',
+										flexDirection: 'column',
+										gap: '5px',
+									}}
+								>
+									<Typography
+										className="sub-title"
+										style={{
+											fontSize: '1rem',
+											fontWeight: '500',
+											color: '#333',
+										}}
+									>
+										{field.label}
+									</Typography>
+									<input
+										type="text"
+										value={field.value}
+										onChange={(e) => field.onChange(e.target.value)}
+										placeholder={field.placeholder}
+										style={{
+											padding: '8px',
+											border: '1px solid #ddd',
+											borderRadius: '5px',
+											fontSize: '0.9rem',
+											color: '#333',
+										}}
+									/>
+								</Stack>
+							))}
+
+							{/* Message Input */}
+							<Stack
+								className="info-box"
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '5px',
+								}}
+							>
+								<Typography
+									className="sub-title"
+									style={{
+										fontSize: '1rem',
+										fontWeight: '500',
+										color: '#333',
+									}}
+								>
+									Message
+								</Typography>
+								<textarea
+									value={notificationDesc}
+									onChange={(e) => setNotificationDesc(e.target.value)}
+									placeholder={`Hello, I am interested in \n[Renovated facility at floor]`}
+									style={{
+										padding: '8px',
+										border: '1px solid #ddd',
+										borderRadius: '5px',
+										fontSize: '0.9rem',
+										color: '#333',
+										resize: 'none',
+									}}
+									rows={4}
+								></textarea>
+							</Stack>
+
+							{/* Submit Button */}
+							<Stack
+								className="info-box"
+								style={{
+									display: 'flex',
+									justifyContent: 'center',
+								}}
+							>
+								<Button
+									className="send-message"
+									onClick={createNotificationHandler}
+									style={{
+										padding: '10px 20px',
+										backgroundColor: '#007bff',
+										color: '#fff',
+										fontSize: '1rem',
+										fontWeight: '600',
+										border: 'none',
+										borderRadius: '5px',
+										cursor: 'pointer',
+										textTransform: 'none',
+									}}
+								>
+									Send Message
+								</Button>
+							</Stack>
+						</Stack>
+					</Stack>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<div id={'facility-detail-page'}>

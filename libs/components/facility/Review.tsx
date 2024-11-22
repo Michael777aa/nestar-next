@@ -27,7 +27,95 @@ const Review = (props: ReviewProps) => {
 		else router.push(`/member?memberId=${id}`);
 	};
 	if (device === 'mobile') {
-		return <div>REVIEW</div>;
+		return (
+			<Stack
+				className="review-config"
+				style={{
+					padding: '15px',
+					backgroundColor: '#f9f9f9',
+					borderRadius: '8px',
+					boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+					marginBottom: '10px',
+					gap: '10px',
+				}}
+			>
+				{/* Reviewer Info */}
+				<Stack
+					className="review-mb-info"
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center',
+						gap: '10px',
+					}}
+				>
+					<Stack
+						className="img-name-box"
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							alignItems: 'center',
+							gap: '10px',
+						}}
+					>
+						<img
+							src={imagePath}
+							alt=""
+							className="img-box"
+							style={{
+								width: '50px',
+								height: '50px',
+								borderRadius: '50%',
+								objectFit: 'cover',
+								boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+							}}
+						/>
+						<Stack>
+							<Typography
+								className="name"
+								onClick={() => goMemberPage(comment?.memberData?._id as string)}
+								style={{
+									fontSize: '1rem',
+									fontWeight: '600',
+									color: '#333',
+									cursor: 'pointer',
+								}}
+							>
+								{comment.memberData?.memberNick}
+							</Typography>
+							<Typography
+								className="date"
+								style={{
+									fontSize: '0.8rem',
+									color: '#777',
+								}}
+							>
+								<Moment format={'DD MMMM, YYYY'}>{comment.createdAt}</Moment>
+							</Typography>
+						</Stack>
+					</Stack>
+				</Stack>
+
+				{/* Review Content */}
+				<Stack
+					className="desc-box"
+					style={{
+						marginTop: '5px',
+					}}
+				>
+					<Typography
+						className="description"
+						style={{
+							fontSize: '0.9rem',
+							color: '#555',
+							lineHeight: '1.5',
+						}}
+					>
+						{comment.commentContent}
+					</Typography>
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={'review-config'}>
