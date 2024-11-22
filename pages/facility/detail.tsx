@@ -380,6 +380,45 @@ const FacilityDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Typography>
 									</Stack>
 								</Stack>
+								<Stack
+									className=""
+									style={{
+										position: 'absolute',
+										display: 'flex',
+										flexDirection: 'row',
+										justifyContent: 'space-between',
+										alignItems: 'center',
+										top: '205px',
+										gap: '15px',
+									}}
+								>
+									<Stack
+										className="button-box"
+										style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', gap: '10px' }}
+									>
+										<RemoveRedEyeIcon fontSize="medium" />
+										<Typography>{facility?.facilityViews}</Typography>
+									</Stack>
+									<Stack
+										className="button-box"
+										style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', gap: '10px' }}
+									>
+										{facility?.meLiked && facility?.meLiked[0]?.myFavorite ? (
+											<FavoriteIcon
+												color="primary"
+												fontSize={'medium'} // @ts-ignore
+												onClick={() => likeFacilityHandler(user, facility?._id)}
+											/>
+										) : (
+											<FavoriteBorderIcon
+												fontSize={'medium'}
+												// @ts-ignore
+												onClick={() => likeFacilityHandler(user, facility?._id)}
+											/>
+										)}
+										<Typography>{facility?.facilityLikes}</Typography>
+									</Stack>
+								</Stack>
 							</Stack>
 
 							{/* Right Box */}
@@ -977,6 +1016,117 @@ const FacilityDetail: NextPage = ({ initialComment, ...props }: any) => {
 									Send Message
 								</Button>
 							</Stack>
+							{destinationFacilities.length !== 0 && (
+								<Stack
+									className="similar-facilities-config"
+									style={{
+										width: '100%',
+										padding: '100px 0',
+										gap: '20px',
+									}}
+								>
+									<Stack
+										className="title-pagination-box"
+										style={{
+											width: '100%',
+											display: 'flex',
+											flexDirection: 'row',
+											justifyContent: 'space-between',
+											alignItems: 'center',
+											padding: '0 10px',
+										}}
+									>
+										<Stack className="title-box" style={{ flex: 1 }}>
+											<Typography
+												className="main-title"
+												style={{
+													fontSize: '1.2rem',
+													fontWeight: '600',
+													color: '#333',
+													textAlign: 'center',
+												}}
+											>
+												Related Facilities
+											</Typography>
+										</Stack>
+										<Stack
+											className="pagination-box"
+											style={{
+												display: 'flex',
+												alignItems: 'center',
+												gap: '10px',
+											}}
+										>
+											<IconButton
+												className="swiper-similar-prev"
+												style={{
+													padding: '4px',
+													backgroundColor: '#f5f5f5',
+													borderRadius: '50%',
+													boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+												}}
+											>
+												<WestIcon fontSize="small" />
+											</IconButton>
+											<div
+												className="swiper-similar-pagination"
+												style={{
+													flex: '0 1 40px',
+													height: '4px',
+													backgroundColor: '#ddd',
+													borderRadius: '2px',
+												}}
+											></div>
+											<IconButton
+												className="swiper-similar-next"
+												style={{
+													padding: '4px',
+													backgroundColor: '#f5f5f5',
+													borderRadius: '50%',
+													boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+												}}
+											>
+												<EastIcon fontSize="small" />
+											</IconButton>
+										</Stack>
+									</Stack>
+									<Stack className="cards-box" style={{ width: '100%', padding: '0 10px' }}>
+										<Swiper
+											className="similar-homes-swiper"
+											slidesPerView={1.1}
+											spaceBetween={10}
+											modules={[Autoplay, Navigation, Pagination]}
+											navigation={{
+												nextEl: '.swiper-similar-next',
+												prevEl: '.swiper-similar-prev',
+											}}
+											pagination={{
+												el: '.swiper-similar-pagination',
+												clickable: true,
+											}}
+										>
+											{destinationFacilities.map((facility: Facility) => (
+												<SwiperSlide
+													className="similar-homes-slide"
+													key={facility.facilityTitle}
+													style={{
+														width: '90%',
+														margin: '0 auto',
+														position: 'relative',
+														top: '5px',
+														borderRadius: '8px',
+														boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+														backgroundColor: '#fff',
+														overflow: 'hidden',
+													}}
+												>
+													<FacilityBigCard facility={facility} likeFacilityHandler={likeFacilityHandler} />
+												</SwiperSlide>
+											))}
+										</Swiper>
+									</Stack>
+								</Stack>
+							)}
 						</Stack>
 					</Stack>
 				</div>
