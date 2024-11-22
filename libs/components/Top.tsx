@@ -286,118 +286,189 @@ const Top = (props: topFilter) => {
 	if (device == 'mobile') {
 		return (
 			<div className="top">
-				{/* Button to Open Drawer */}
 				<Stack className="left">
 					<Stack className="left-main">
-						{isDrawerOpen && (
-							<div className="main-div">
-								<div className="drawer-overlay" onClick={toggleDrawer}>
-									<div className="drawer" onClick={(e) => e.stopPropagation()}>
-										<Stack className="drawer-menu">
-											<a href="/" onClick={toggleDrawer}>
-												Home
-											</a>
-											<span></span>
+						<button className="left-icon" onClick={toggleDrawer}>
+							{isDrawerOpen ? <CloseIcon /> : <MenuIcon />}
+						</button>
 
-											<a href="/facility" onClick={toggleDrawer}>
-												Facilities
-											</a>
-											<span></span>
+						<Drawer
+							anchor="left"
+							open={isDrawerOpen}
+							onClose={toggleDrawer}
+							sx={{
+								'& .MuiDrawer-paper': {
+									width: '100%',
+									padding: '20px',
+									backgroundColor: '#ffffff',
+								},
+							}}
+						>
+							<Box>
+								<Stack
+									className="drawer-menu"
+									sx={{
+										display: 'flex',
+										flexDirection: 'column',
+										marginTop: '60px',
+										gap: '15px',
+									}}
+								>
+									<a href="/" onClick={toggleDrawer} style={{ fontSize: '1.2rem', color: '#333', cursor: 'pointer' }}>
+										Home
+									</a>
+									<span style={{ width: '100%', height: '1px', backgroundColor: '#000000' }}></span>
+									<a
+										href="/facility"
+										onClick={toggleDrawer}
+										style={{ fontSize: '1.2rem', color: '#333', cursor: 'pointer' }}
+									>
+										Facilities
+									</a>
+									<span style={{ width: '100%', height: '1px', backgroundColor: '#000000' }}></span>
 
-											<a href="/agent" onClick={toggleDrawer}>
-												Agents
-											</a>
-											<span></span>
+									<a
+										href="/agent"
+										onClick={toggleDrawer}
+										style={{ fontSize: '1.2rem', color: '#333', cursor: 'pointer' }}
+									>
+										Agents
+									</a>
+									<span style={{ width: '100%', height: '1px', backgroundColor: '#000000' }}></span>
 
-											<a href="/community?articleCategory=FREE" onClick={toggleDrawer}>
-												Community
-											</a>
-											<span></span>
+									<a
+										href="/community?articleCategory=FREE"
+										onClick={toggleDrawer}
+										style={{ fontSize: '1.2rem', color: '#333', cursor: 'pointer' }}
+									>
+										Community
+									</a>
+									<span style={{ width: '100%', height: '1px', backgroundColor: '#000000' }}></span>
 
-											<a href="/cs" onClick={toggleDrawer}>
-												Customer Care
-											</a>
-										</Stack>
-										<Box className="lan-box">
-											<List className="language-list" sx={{ display: 'flex', padding: 0 }}>
-												{/* English Option */}
-												<ListItem
-													id="en"
-													className={`dropdown-item ${selectedLang === 'en' ? 'selected' : ''}`}
-													onClick={langChoice}
-													sx={{
-														cursor: 'pointer',
-														display: 'flex',
-														alignItems: 'center',
-														justifyContent: 'center',
-														borderBottom: selectedLang === 'en' ? '2px solid red' : '2px solid transparent',
-														padding: '10px 15px',
-														transition: 'border-color 0.3s',
-													}}
-												>
-													<img
-														className="img-flag"
-														src="/img/flag/langen.png"
-														alt="usaFlag"
-														style={{ width: '20px', marginRight: '8px' }}
-													/>
-													{t('English')}
-												</ListItem>
+									<a href="/cs" onClick={toggleDrawer} style={{ fontSize: '1.2rem', color: '#333', cursor: 'pointer' }}>
+										Customer Care
+									</a>
+									<span style={{ width: '100%', height: '1px', backgroundColor: '#000000' }}></span>
+								</Stack>
+								<Box className="lan-box">
+									<List className="language-list" sx={{ display: 'flex', marginTop: '50px' }}>
+										{/* English Option */}
+										<ListItem
+											id="en"
+											className={`dropdown-item ${selectedLang === 'en' ? 'selected' : ''}`}
+											onClick={langChoice}
+											sx={{
+												cursor: 'pointer',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+												borderBottom: selectedLang === 'en' ? '2px solid red' : '2px solid transparent',
+												padding: '10px 15px',
+												transition: 'border-color 0.3s',
+											}}
+										>
+											<img
+												className="img-flag"
+												src="/img/flag/langen.png"
+												alt="usaFlag"
+												style={{ width: '20px', marginRight: '8px' }}
+											/>
+											{t('English')}
+										</ListItem>
 
-												{/* Korean Option */}
-												<ListItem
-													id="kr"
-													className={`dropdown-item ${selectedLang === 'kr' ? 'selected' : ''}`}
-													onClick={langChoice}
-													sx={{
-														cursor: 'pointer',
-														display: 'flex',
-														alignItems: 'center',
-														justifyContent: 'center',
-														borderBottom: selectedLang === 'kr' ? '2px solid red' : '2px solid transparent',
-														padding: '10px 15px',
-														transition: 'border-color 0.3s',
-													}}
-												>
-													<img
-														className="img-flag"
-														src="/img/flag/langkr.png"
-														alt="koreanFlag"
-														style={{ width: '20px', marginRight: '8px' }}
-													/>
-													{t('Korean')}
-												</ListItem>
+										{/* Korean Option */}
+										<ListItem
+											id="kr"
+											className={`dropdown-item ${selectedLang === 'kr' ? 'selected' : ''}`}
+											onClick={langChoice}
+											sx={{
+												cursor: 'pointer',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+												borderBottom: selectedLang === 'kr' ? '2px solid red' : '2px solid transparent',
+												padding: '10px 15px',
+												transition: 'border-color 0.3s',
+											}}
+										>
+											<img
+												className="img-flag"
+												src="/img/flag/langkr.png"
+												alt="koreanFlag"
+												style={{ width: '20px', marginRight: '8px' }}
+											/>
+											{t('Korean')}
+										</ListItem>
 
-												{/* Russian Option */}
-												<ListItem
-													id="ru"
-													className={`dropdown-item ${selectedLang === 'ru' ? 'selected' : ''}`}
-													onClick={langChoice}
-													sx={{
-														cursor: 'pointer',
-														display: 'flex',
-														alignItems: 'center',
-														justifyContent: 'center',
-														borderBottom: selectedLang === 'ru' ? '2px solid red' : '2px solid transparent',
-														padding: '10px 15px',
-														transition: 'border-color 0.3s',
-													}}
-												>
-													<img
-														className="img-flag"
-														src="/img/flag/langru.png"
-														alt="russiaFlag"
-														style={{ width: '20px', marginRight: '8px' }}
-													/>
-													{t('Russian')}
-												</ListItem>
-											</List>
-										</Box>
-									</div>
-								</div>
-							</div>
-						)}
-						<MenuIcon className="left-icon" onClick={toggleDrawer} />
+										{/* Russian Option */}
+										<ListItem
+											id="ru"
+											className={`dropdown-item ${selectedLang === 'ru' ? 'selected' : ''}`}
+											onClick={langChoice}
+											sx={{
+												cursor: 'pointer',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+												borderBottom: selectedLang === 'ru' ? '2px solid red' : '2px solid transparent',
+												padding: '10px 15px',
+												transition: 'border-color 0.3s',
+											}}
+										>
+											<img
+												className="img-flag"
+												src="/img/flag/langru.png"
+												alt="russiaFlag"
+												style={{ width: '20px', marginRight: '8px' }}
+											/>
+											{t('Russian')}
+										</ListItem>
+									</List>
+								</Box>
+							</Box>
+						</Drawer>
+						<Drawer
+							anchor="top"
+							open={isSearchDrawerOpen} // Drawer visibility depends on the state
+							onClose={toggleSearchDrawer} // Close the drawer when clicking outside
+							sx={{
+								'& .MuiDrawer-paper': {
+									width: '100%', // Full width drawer
+									padding: '20px',
+									backgroundColor: '#ffffff',
+									position: 'relative',
+									height: '100vh',
+									top: '50px',
+								},
+							}}
+						>
+							<Box>
+								<Stack direction="row" spacing={2} alignItems="center">
+									<InputBase
+										style={{
+											border: '1px solid #ccc',
+											borderRadius: '5px',
+											padding: '5px 10px',
+											flexGrow: 1,
+										}}
+										value={searchFiltere?.search?.text ?? ''}
+										type="text"
+										onChange={(e: any) => {
+											setSearchFiltere({
+												...searchFiltere,
+												search: { ...searchFiltere.search, text: e.target.value },
+											});
+										}}
+										placeholder="Search facilities..."
+										onKeyDown={handlePasswordKeyDown}
+									/>
+									<IconButton onClick={pushSearchHandler} style={{ padding: '10px' }}>
+										<SearchIcon />
+									</IconButton>
+								</Stack>
+							</Box>
+						</Drawer>
+						{/* <MenuIcon className="left-icon" onClick={toggleDrawer} /> */}
 						<IconButton
 							className="search-buttton-inside"
 							onClick={toggleSearchDrawer} // Toggle the drawer on button click
@@ -405,7 +476,6 @@ const Top = (props: topFilter) => {
 						>
 							{isSearchDrawerOpen ? <CloseIcon /> : <SearchIcon />} {/* Show X or search icon */}
 						</IconButton>
-
 						{/* Search Drawer */}
 						<Drawer
 							anchor="top"

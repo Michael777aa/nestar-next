@@ -30,6 +30,7 @@
 				.left-icon {
 					color: #000000;
 					font-size: 35px;
+					background: none;
 					border: none;
 					cursor: pointer;
 					transition: none; // Disable transition if unnecessary
@@ -54,89 +55,61 @@
 				}
 
 				// Drawer Overlay
-				.main-div {
+
+				// Menu Links
+				.drawer-menu {
+					border-bottom: 1px solid #000000;
+					padding: 20px;
+
+					a {
+						display: block;
+						font-size: 1.2rem;
+						margin-bottom: 20px;
+						text-decoration: none;
+						color: $drawer-text-color;
+						transition: color 0.3s;
+						cursor: pointer;
+					}
+
+					span {
+						position: relative;
+						top: -8px;
+						width: 100%; // Full width of the link
+						height: 1px; // Thickness of the border
+						background-color: #000; // Border color
+					}
+				}
+
+				.lan-box {
 					display: flex;
-					position: fixed; // Fix the drawer to avoid layout shifting
-					z-index: 1000;
+					padding: 20px;
 
-					.drawer-overlay {
-						position: fixed;
-						top: 54px;
-						left: 0;
-						height: 100vh;
-						width: 100%;
-						background-color: $overlay-color;
+					.language-list {
 						display: flex;
-						justify-content: flex-start;
-						z-index: 9999;
+						padding: 0;
+						margin: 0;
 
-						.drawer {
-							background-color: $drawer-bg;
-							width: $drawer-width;
-							max-width: 100%;
-							height: 100%;
-							box-shadow: 0px 4px 6px #b8b8b81a;
+						.dropdown-item {
 							display: flex;
-							flex-direction: column;
-							position: relative;
+							align-items: center;
+							justify-content: center;
+							padding: 10px 15px;
+							cursor: pointer;
+							transition: border-color 0.3s;
 
-							// Menu Links
-							.drawer-menu {
-								border-bottom: 1px solid #000000;
-								padding: 20px;
-
-								a {
-									display: block;
-									font-size: 1.2rem;
-									margin-bottom: 20px;
-									text-decoration: none;
-									color: $drawer-text-color;
-									transition: color 0.3s;
-									cursor: pointer;
-								}
-
-								span {
-									position: relative;
-									top: -8px;
-									width: 100%; // Full width of the link
-									height: 1px; // Thickness of the border
-									background-color: #000; // Border color
-								}
+							img {
+								width: 20px;
+								margin-right: 8px;
 							}
 
-							.lan-box {
-								display: flex;
-								padding: 20px;
+							&.selected {
+								font-weight: bold;
+								color: #000;
+								border-bottom: 2px solid red;
+							}
 
-								.language-list {
-									display: flex;
-									padding: 0;
-									margin: 0;
-
-									.dropdown-item {
-										display: flex;
-										align-items: center;
-										justify-content: center;
-										padding: 10px 15px;
-										cursor: pointer;
-										transition: border-color 0.3s;
-
-										img {
-											width: 20px;
-											margin-right: 8px;
-										}
-
-										&.selected {
-											font-weight: bold;
-											color: #000;
-											border-bottom: 2px solid red;
-										}
-
-										&:hover {
-											border-bottom: 2px solid #ccc; // Optional hover effect for unselected items
-										}
-									}
-								}
+							&:hover {
+								border-bottom: 2px solid #ccc; // Optional hover effect for unselected items
 							}
 						}
 					}
@@ -890,110 +863,77 @@
 
 	#footer {
 		position: relative;
-		padding: 60px 0px 18px 0px;
 		width: 100%;
 		height: auto;
 		display: flex;
 		flex-direction: row;
-		background: #181a20;
-		.footer-container {
-			padding: 0 10px;
-			margin: 0 auto;
-			width: 1300px;
-			height: auto;
-			.main {
-				display: flex;
-				flex-direction: column;
-				.left {
-					height: 360px;
-					display: flex;
-					flex-direction: column;
-					justify-content: space-between;
-					.footer-box {
-						display: flex;
-						flex-direction: column;
-						.logo {
-							width: 128px;
-							height: 52px;
-							cursor: pointer;
-						}
-						span {
-							color: #bebdbd;
-							font-family: $font;
-							font-size: 14px;
-							font-style: normal;
-							font-weight: 400;
-							text-transform: capitalize;
-						}
-						p {
-							color: #fff;
-							font-family: $font;
-							font-size: 15px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-							text-transform: capitalize;
-						}
-						.media-box {
-							margin-top: 12px;
-							color: #929495;
-							svg {
-								font-size: 32px;
-								margin-right: 22px;
-								cursor: pointer;
-							}
-						}
-					}
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		background: #f47200;
+		$bg-color: #060f2b;
+		$primary-color: #81c408;
+		$secondary-color: #ffb514;
+		$text-color: #ffffff80;
+		$hover-bg-color: #ffb524;
+		$icon-bg-color: #ffffff;
+		.main-upper-container {
+			position: relative;
+			background-color: $bg-color;
+
+			.left-side-up {
+				text-align: center;
+				.left-entitle {
+					color: $primary-color;
+					font-family: 'Raleway', sans-serif;
+					font-weight: 700;
+					font-size: 36px;
 				}
-				.right {
+
+				.left-topic {
+					margin-top: 5px;
+					color: $secondary-color;
+					font-family: 'Raleway', sans-serif;
+					font-weight: 500;
+					font-size: 18px;
+				}
+			}
+
+			.right-side-up {
+				position: relative;
+				top: -25px;
+				gap: 8px;
+				.main-icons-controller {
 					display: flex;
-					flex-direction: column;
-					.bottom {
-						margin-top: 60px;
-						display: flex;
-						flex-direction: row;
-						justify-content: space-between;
-						div {
-							display: flex;
-							flex-direction: column;
-							strong {
-								margin-bottom: 3px;
-								color: #fff;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								text-transform: capitalize;
-							}
-							span {
-								margin-top: 25px;
-								color: #bebdbd;
-								font-family: $font;
-								font-size: 14px;
-								font-style: normal;
-								font-weight: 400;
-								cursor: pointer;
-							}
-						}
+					column-gap: 16px;
+				}
+
+				.icon {
+					position: relative;
+					top: 10px;
+					width: 44px;
+					height: 44px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border-radius: 50%;
+					border: 1px solid $hover-bg-color;
+					color: $hover-bg-color;
+					transition: all 0.3s ease;
+					cursor: pointer;
+
+					&:hover {
+						background-color: $hover-bg-color;
+						color: #000;
 					}
 				}
 			}
-			.second {
-				margin-top: 60px;
-				height: 45px;
-				border-top: 1px solid #212329;
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: flex-end;
-				span {
-					color: #bebdbd;
-					font-family: $font;
-					font-size: 14px;
-					font-style: normal;
-					font-weight: 400;
-					line-height: normal;
+			.left-side1 {
+				.down-button {
+					position: relative;
+					top: 10px;
+					width: 130px;
+					background-color: transparent;
 				}
 			}
 		}
