@@ -38,9 +38,6 @@ const MyPage: NextPage = () => {
 	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
 	/** LIFECYCLES **/
-	useEffect(() => {
-		if (!user._id) router.push('/').then();
-	}, [user]);
 
 	/** HANDLERS **/
 	const subscribeHandler = async (id: string, refetch: any, query: any) => {
@@ -100,7 +97,111 @@ const MyPage: NextPage = () => {
 	};
 
 	if (device === 'mobile') {
-		return <div>MY PAGE</div>;
+		return (
+			<div
+				id="my-page"
+				style={{
+					position: 'relative',
+					width: '100%',
+					backgroundColor: '#f9f9f9',
+					padding: '10px',
+				}}
+			>
+				<div
+					className="container"
+					style={{
+						maxWidth: '100%',
+						margin: '0 auto',
+						display: 'flex',
+						flexDirection: 'column',
+						gap: '15px',
+					}}
+				>
+					<Stack
+						className="my-page"
+						sx={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '15px',
+						}}
+					>
+						<Stack
+							className="back-frame"
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								gap: '20px',
+							}}
+						>
+							{/* Left Menu */}
+							<Stack
+								className="left-config"
+								sx={{
+									width: '100%',
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+									backgroundColor: '#ffffff',
+									padding: '10px',
+									borderRadius: '12px',
+									boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+								}}
+							>
+								<MyMenu />
+							</Stack>
+
+							{/* Main Content */}
+							<Stack
+								className="main-config"
+								mb={'76px'}
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '20px',
+								}}
+							>
+								<Stack
+									className="list-config"
+									sx={{
+										display: 'flex',
+										flexDirection: 'column',
+										gap: '15px',
+										backgroundColor: '#ffffff',
+										padding: '10px',
+										borderRadius: '12px',
+										boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+									}}
+								>
+									{category === 'addFacility' && <AddFacility />}
+									{category === 'myFacilities' && <MyFacilities />}
+									{category === 'myFavorites' && <MyFavorites />}
+									{category === 'recentlyVisited' && <RecentlyVisited />}
+									{category === 'myArticles' && <MyArticles />}
+									{category === 'writeArticle' && <WriteArticle />}
+									{category === 'myProfile' && <MyProfile />}
+									{category === 'followers' && (
+										<MemberFollowers
+											subscribeHandler={subscribeHandler}
+											unsubscribeHandler={unsubscribeHandler}
+											likeMemberHandler={likeMemberHandler}
+											redirectToMemberPageHandler={redirectToMemberPageHandler}
+										/>
+									)}
+									{category === 'followings' && (
+										<MemberFollowings
+											subscribeHandler={subscribeHandler}
+											unsubscribeHandler={unsubscribeHandler}
+											likeMemberHandler={likeMemberHandler}
+											redirectToMemberPageHandler={redirectToMemberPageHandler}
+										/>
+									)}
+								</Stack>
+							</Stack>
+						</Stack>
+					</Stack>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<div id="my-page" style={{ position: 'relative' }}>

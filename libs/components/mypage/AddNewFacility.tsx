@@ -84,31 +84,6 @@ const AddFacility = ({ initialValues, ...props }: any) => {
 		});
 	}, [getFacilityLoading, getFacilityData]);
 
-	// useEffect(() => {
-	// 	if (getFacilityData?.getFacility) {
-	// 		const facility = getFacilityData.getFacility;
-	// 		setinsertFacilityData({
-	// 			...insertFacilityData,
-	// 			facilityTitle: facility.facilityTitle,
-	// 			facilityPrice: facility.facilityPrice,
-	// 			facilityType: facility.facilityType,
-	// 			facilityLocation: facility.facilityLocation,
-	// 			facilityAddress: facility.facilityAddress,
-	// 			facilityBalconies: facility.facilityBalconies,
-	// 			facilityPetsAllowed: facility.facilityPetsAllowed,
-	// 			furnished: facility.furnished,
-	// 			facilitySquare: facility.facilitySquare,
-	// 			facilityDesc: facility.facilityDesc,
-	// 			facilityImages: facility.facilityImages,
-	// 			parkingAvailable: facility.parkingAvailable,
-	// 			amenities: facility.amenities || [],
-	// 			includedUtilities: facility.includedUtilities || [],
-	// 		});
-	// 		setAmenities(facility.amenities || []);
-	// 		setIncludedUtilities(facility.includedUtilities || []);
-	// 	}
-	// }, [getFacilityLoading, getFacilityData]);
-
 	/** HANDLERS **/
 	const handleAmenityChange = (amenity: string) => {
 		setinsertFacilityData((prev) => {
@@ -249,7 +224,419 @@ const AddFacility = ({ initialValues, ...props }: any) => {
 	console.log('+insertFacilityData', insertFacilityData);
 
 	if (device === 'mobile') {
-		return <div>ADD NEW SPORT COMPLEX MOBILE PAGE</div>;
+		return (
+			<div
+				id="add-facility-page"
+				style={{
+					padding: '10px',
+					width: '100%',
+					backgroundColor: '#f9f9f9',
+				}}
+			>
+				<Stack
+					className="main-title-box"
+					sx={{
+						textAlign: 'center',
+						marginBottom: '20px',
+					}}
+				>
+					<Typography
+						className="main-title"
+						sx={{
+							fontSize: '1.5rem',
+							fontWeight: '600',
+							color: '#333',
+						}}
+					>
+						Add New Sport Complex
+					</Typography>
+					<Typography
+						className="sub-title"
+						sx={{
+							fontSize: '1rem',
+							color: '#666',
+						}}
+					>
+						We're happy to see you once more!
+					</Typography>
+				</Stack>
+
+				<div>
+					<Stack
+						className="config"
+						sx={{
+							gap: '20px',
+							backgroundColor: '#fff',
+							borderRadius: '12px',
+							padding: '20px',
+							boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+						}}
+					>
+						{/* Title */}
+						<Stack className="description-box">
+							<Typography
+								className="title"
+								sx={{ fontWeight: '600', fontSize: '1rem', color: '#333', marginBottom: '5px' }}
+							>
+								Title
+							</Typography>
+							<input
+								type="text"
+								className="description-input"
+								placeholder="Title"
+								value={insertFacilityData.facilityTitle}
+								onChange={({ target: { value } }) =>
+									setinsertFacilityData({ ...insertFacilityData, facilityTitle: value })
+								}
+								style={{
+									width: '100%',
+									padding: '10px',
+									fontSize: '14px',
+									border: '1px solid #ccc',
+									borderRadius: '8px',
+								}}
+							/>
+						</Stack>
+
+						{/* Price and Facility Type */}
+						<Stack className="config-row" direction="row" gap={2}>
+							<Stack className="price-box" sx={{ flex: 1 }}>
+								<Typography
+									className="title"
+									sx={{ fontWeight: '600', fontSize: '1rem', color: '#333', marginBottom: '5px' }}
+								>
+									Price
+								</Typography>
+								<input
+									type="number"
+									className="description-input"
+									placeholder="Price"
+									value={insertFacilityData.facilityPrice}
+									onChange={({ target: { value } }) =>
+										setinsertFacilityData({ ...insertFacilityData, facilityPrice: parseInt(value) })
+									}
+									style={{
+										width: '100%',
+										padding: '10px',
+										fontSize: '14px',
+										border: '1px solid #ccc',
+										borderRadius: '8px',
+									}}
+								/>
+							</Stack>
+
+							<Stack className="facility-type-box" sx={{ flex: 1 }}>
+								<Typography
+									className="title"
+									sx={{ fontWeight: '600', fontSize: '1rem', color: '#333', marginBottom: '5px' }}
+								>
+									Facility Type
+								</Typography>
+								<select
+									value={insertFacilityData.facilityType || ''}
+									onChange={({ target: { value } }) =>
+										setinsertFacilityData({ ...insertFacilityData, facilityType: value as FacilityType })
+									}
+									style={{
+										width: '100%',
+										padding: '10px',
+										fontSize: '14px',
+										border: '1px solid #ccc',
+										borderRadius: '8px',
+										backgroundColor: '#fff',
+									}}
+								>
+									<option disabled value="">
+										Select
+									</option>
+									{facilityTypes.map((type) => (
+										<option value={type} key={`type-${type}`}>
+											{type}
+										</option>
+									))}
+								</select>
+							</Stack>
+						</Stack>
+
+						{/* Location and Address */}
+						<Stack className="config-row" direction="row" gap={2}>
+							<Stack className="location-box" sx={{ flex: 1 }}>
+								<Typography
+									className="title"
+									sx={{ fontWeight: '600', fontSize: '1rem', color: '#333', marginBottom: '5px' }}
+								>
+									Location
+								</Typography>
+								<select
+									value={insertFacilityData.facilityLocation || ''}
+									onChange={({ target: { value } }) =>
+										setinsertFacilityData({ ...insertFacilityData, facilityLocation: value as FacilityLocation })
+									}
+									style={{
+										width: '100%',
+										padding: '10px',
+										fontSize: '14px',
+										border: '1px solid #ccc',
+										borderRadius: '8px',
+										backgroundColor: '#fff',
+									}}
+								>
+									<option disabled value="">
+										Select
+									</option>
+									{facilityLocations.map((location) => (
+										<option value={location} key={`location-${location}`}>
+											{location}
+										</option>
+									))}
+								</select>
+							</Stack>
+
+							<Stack className="address-box" sx={{ flex: 1 }}>
+								<Typography
+									className="title"
+									sx={{ fontWeight: '600', fontSize: '1rem', color: '#333', marginBottom: '5px' }}
+								>
+									Address
+								</Typography>
+								<input
+									type="text"
+									className="description-input"
+									placeholder="Address"
+									value={insertFacilityData.facilityAddress}
+									onChange={({ target: { value } }) =>
+										setinsertFacilityData({ ...insertFacilityData, facilityAddress: value })
+									}
+									style={{
+										width: '100%',
+										padding: '10px',
+										fontSize: '14px',
+										border: '1px solid #ccc',
+										borderRadius: '8px',
+									}}
+								/>
+							</Stack>
+						</Stack>
+						<Stack className="config-row" direction="row" gap={2}>
+							<Stack className="location-box" sx={{ flex: 1 }}>
+								<Typography
+									className="title"
+									sx={{ fontWeight: '600', fontSize: '1rem', color: '#333', marginBottom: '5px' }}
+								>
+									Balconies
+								</Typography>
+								<select
+									value={insertFacilityData.facilityBalconies || ''}
+									onChange={({ target: { value } }) =>
+										setinsertFacilityData({ ...insertFacilityData, facilityBalconies: parseInt(value, 10) || 0 })
+									}
+									style={{
+										width: '100%',
+										padding: '10px',
+										fontSize: '14px',
+										border: '1px solid #ccc',
+										borderRadius: '8px',
+										backgroundColor: '#fff',
+									}}
+								>
+									{[1, 2, 3, 4, 5, 6, 7, 8].map((balcony) => (
+										<option value={balcony} key={`balcony-${balcony}`}>
+											{balcony}
+										</option>
+									))}
+								</select>
+							</Stack>
+
+							<Stack className="location-box" sx={{ flex: 1 }}>
+								<Typography
+									className="title"
+									sx={{ fontWeight: '600', fontSize: '1rem', color: '#333', marginBottom: '5px' }}
+								>
+									Square
+								</Typography>
+								<select
+									value={insertFacilityData.facilitySquare || ''}
+									onChange={({ target: { value } }) =>
+										setinsertFacilityData({ ...insertFacilityData, facilitySquare: parseInt(value, 10) || 0 })
+									}
+									style={{
+										width: '100%',
+										padding: '10px',
+										fontSize: '14px',
+										border: '1px solid #ccc',
+										borderRadius: '8px',
+										backgroundColor: '#fff',
+									}}
+								>
+									{facilitySquare.map((square) => (
+										<option value={square} key={`square-${square}`}>
+											{square}
+										</option>
+									))}
+								</select>
+							</Stack>
+						</Stack>
+						<Stack>
+							<Typography fontSize="14px" fontWeight="bold">
+								Description
+							</Typography>
+							<textarea
+								value={insertFacilityData.facilityDesc}
+								onChange={({ target: { value } }) =>
+									setinsertFacilityData({ ...insertFacilityData, facilityDesc: value })
+								}
+								style={{
+									width: '100%',
+									padding: '10px',
+									fontSize: '14px',
+									border: '1px solid #ccc',
+									borderRadius: '6px',
+									minHeight: '80px',
+								}}
+							/>
+						</Stack>
+						{/* parking */}
+						<Stack className="config-row" direction="row" gap={2}>
+							<Stack className="price-year-after-price">
+								<Typography className="title">Parking Available</Typography>
+								<select
+									className="select-description"
+									value={insertFacilityData.parkingAvailable ? 'yes' : 'no'}
+									onChange={({ target: { value } }) =>
+										setinsertFacilityData({ ...insertFacilityData, parkingAvailable: value === 'yes' })
+									}
+								>
+									<option value="yes">Yes</option>
+									<option value="no">No</option>
+								</select>
+							</Stack>
+							<Stack className="price-year-after-price">
+								<Typography className="title">Pet Allowed</Typography>
+								<select
+									className="select-description"
+									value={insertFacilityData.facilityPetsAllowed ? 'yes' : 'no'}
+									onChange={({ target: { value } }) =>
+										setinsertFacilityData({ ...insertFacilityData, facilityPetsAllowed: value === 'yes' })
+									}
+								>
+									<option value="yes">Yes</option>
+									<option value="no">No</option>
+								</select>
+							</Stack>
+
+							<Stack className="price-year-after-price">
+								<Typography className="title">Furnished</Typography>
+								<select
+									className="select-description"
+									value={insertFacilityData.furnished ? 'yes' : 'no'}
+									onChange={({ target: { value } }) =>
+										setinsertFacilityData({ ...insertFacilityData, furnished: value === 'yes' })
+									}
+								>
+									<option value="yes">Yes</option>
+									<option value="no">No</option>
+								</select>
+							</Stack>
+						</Stack>
+						<Stack className="config-row" direction="row" gap={2}>
+							<Stack className="config-column">
+								<Typography className="title">Amenities</Typography>
+								{amenitiesOptions.map((amenity) => (
+									<FormControlLabel
+										key={`amenity-${amenity}`}
+										control={
+											<Checkbox
+												checked={insertFacilityData.amenities.includes(amenity)}
+												onChange={() => handleAmenityChange(amenity)}
+											/>
+										}
+										label={amenity}
+									/>
+								))}
+							</Stack>
+							{/* Included Utilities */}
+							<Stack className="config-column">
+								<Typography className="title">Included Utilities</Typography>
+								{utilitiesOptions.map((utility) => (
+									<FormControlLabel
+										key={`utility-${utility}`}
+										control={
+											<Checkbox
+												checked={insertFacilityData.includedUtilities.includes(utility)}
+												onChange={() => handleUtilityChange(utility)}
+											/>
+										}
+										label={utility}
+									/>
+								))}
+							</Stack>
+						</Stack>
+						{/* Upload Section */}
+						<Stack className="upload-section">
+							<Typography
+								className="title"
+								sx={{ fontWeight: '600', fontSize: '1rem', color: '#333', marginBottom: '10px' }}
+							>
+								Upload Photos
+							</Typography>
+							<Stack
+								className="upload-box"
+								sx={{
+									padding: '20px',
+									border: '1px dashed #ccc',
+									borderRadius: '12px',
+									textAlign: 'center',
+								}}
+							>
+								<Typography sx={{ fontSize: '14px', color: '#666', marginBottom: '10px' }}>
+									Drag and drop images here or click to browse
+								</Typography>
+								<Button
+									onClick={() => inputRef.current.click()}
+									sx={{
+										padding: '10px 20px',
+										fontSize: '14px',
+										backgroundColor: '#007bff',
+										color: '#fff',
+										borderRadius: '8px',
+										'&:hover': { backgroundColor: '#0056b3' },
+									}}
+								>
+									Browse Files
+								</Button>
+								<input
+									ref={inputRef}
+									type="file"
+									hidden
+									onChange={uploadImages}
+									multiple
+									accept="image/jpg, image/jpeg, image/png"
+								/>
+							</Stack>
+						</Stack>
+
+						{/* Save Button */}
+						<Button
+							onClick={insertFacilityHandler}
+							disabled={doDisabledCheck()}
+							sx={{
+								width: '100%',
+								padding: '12px',
+								fontSize: '16px',
+								fontWeight: '600',
+								backgroundColor: '#007bff',
+								color: '#fff',
+								borderRadius: '8px',
+								'&:hover': { backgroundColor: '#0056b3' },
+								'&:disabled': { backgroundColor: '#ccc', cursor: 'not-allowed' },
+							}}
+						>
+							Save
+						</Button>
+					</Stack>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<div id="add-facility-page">

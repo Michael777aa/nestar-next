@@ -9,7 +9,55 @@ const WriteArticle: NextPage = () => {
 	const device = useDeviceDetect();
 
 	if (device === 'mobile') {
-		return <>ARTICLE PAGE MOBILE</>;
+		return (
+			<div
+				id="write-article-page"
+				style={{
+					padding: '16px',
+					backgroundColor: '#f9f9f9',
+					minHeight: '100vh',
+				}}
+			>
+				{/* Title Section */}
+				<Stack
+					style={{
+						marginBottom: '16px',
+						textAlign: 'center',
+					}}
+				>
+					<Typography
+						style={{
+							fontSize: '18px',
+							fontWeight: 'bold',
+							marginBottom: '8px',
+							color: '#333',
+						}}
+					>
+						Write an Article
+					</Typography>
+					<Typography
+						style={{
+							fontSize: '14px',
+							color: '#777',
+						}}
+					>
+						Feel free to write your ideas!
+					</Typography>
+				</Stack>
+
+				{/* Editor Section */}
+				<div
+					style={{
+						backgroundColor: '#fff',
+						borderRadius: '8px',
+						boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+						padding: '16px',
+					}}
+				>
+					<TuiEditor />
+				</div>
+			</div>
+		);
 	} else
 		return (
 			<div id="write-article-page">

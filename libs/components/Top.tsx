@@ -349,6 +349,28 @@ const Top = (props: topFilter) => {
 										Customer Care
 									</a>
 									<span style={{ width: '100%', height: '1px', backgroundColor: '#000000' }}></span>
+									{user?._id && (
+										<Link href={'/mypage'}>
+											<div onClick={toggleDrawer} style={{ fontSize: '1.2rem', color: '#333', cursor: 'pointer' }}>
+												{' '}
+												{t('My Profile')}{' '}
+											</div>
+											<span style={{ width: '100%', height: '1px', backgroundColor: '#000000' }}></span>
+										</Link>
+									)}
+									{/* 
+									{user?._id && (
+										<div>
+											<a
+												href="/mypage"
+												onClick={toggleDrawer}
+												style={{ fontSize: '1.2rem', color: '#333', cursor: 'pointer' }}
+											>
+												Profile
+											</a>
+											<span style={{ width: '100%', height: '1px', backgroundColor: '#000000' }}></span>
+										</div>
+									)} */}
 								</Stack>
 								<Box className="lan-box">
 									<List className="language-list" sx={{ display: 'flex', marginTop: '50px' }}>
@@ -523,15 +545,105 @@ const Top = (props: topFilter) => {
 				<Stack className="middle">PlaySpot 🏟️</Stack>
 				<Stack className="right">
 					<Link href="/account/join">
-						<div className="join-box">
-							<AccountCircleIcon />
-						</div>
+						<Stack
+							component="div"
+							className="user-box"
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								position: 'relative',
+							}}
+						>
+							{user?._id ? (
+								<>
+									<div
+										className="login-user"
+										onClick={(event) => setLogoutAnchor(event.currentTarget)}
+										style={{
+											width: '40px',
+											height: '40px',
+											borderRadius: '50%',
+											overflow: 'hidden',
+											cursor: 'pointer',
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+											boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+										}}
+									>
+										<img
+											src={
+												user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : `/img/profile/defaultUser.svg`
+											}
+											alt="User Profile"
+											style={{
+												width: '100%',
+												height: '100%',
+												objectFit: 'cover',
+											}}
+										/>
+									</div>
+									<Menu
+										id="basic-menu"
+										anchorEl={logoutAnchor}
+										open={logoutOpen}
+										onClose={() => setLogoutAnchor(null)}
+										sx={{
+											mt: '5px',
+											'& .MuiMenu-paper': {
+												minWidth: '150px',
+												borderRadius: '8px',
+												boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+											},
+										}}
+									>
+										<MenuItem
+											onClick={() => logOut()}
+											sx={{
+												display: 'flex',
+												alignItems: 'center',
+												gap: '10px',
+												padding: '10px 16px',
+												fontSize: '14px',
+												fontWeight: '500',
+												color: 'blue',
+												'&:hover': {
+													backgroundColor: '#f5f5f5',
+												},
+											}}
+										>
+											<Logout fontSize="small" />
+											Logout
+										</MenuItem>
+									</Menu>
+								</>
+							) : (
+								<Link href="/account/join" style={{ textDecoration: 'none' }}>
+									<div
+										className="join-box"
+										style={{
+											width: '40px',
+											height: '40px',
+											borderRadius: '50%',
+
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+											cursor: 'pointer',
+										}}
+									>
+										<AccountCircleIcon fontSize="medium" />
+									</div>
+								</Link>
+							)}
+						</Stack>
 					</Link>
 					<Stack>
 						<Badge badgeContent={notifications.length} color="secondary">
 							<NotificationsOutlinedIcon
 								onClick={() => toggleNotificationDrawer(!isNotificationOpen)}
-								style={{ cursor: 'pointer', fontSize: '28px' }}
+								style={{ cursor: 'pointer', fontSize: '28px', position: 'relative', top: '6px' }}
 							/>
 						</Badge>
 

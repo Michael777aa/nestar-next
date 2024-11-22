@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { Stack, Typography, Box, List, ListItem } from '@mui/material';
+import { Stack, Typography, Box, List, ListItem, colors } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Link from 'next/link';
 import { useReactiveVar } from '@apollo/client';
@@ -28,7 +28,237 @@ const MyMenu = () => {
 	};
 
 	if (device === 'mobile') {
-		return <div>MY MENU</div>;
+		return (
+			<Stack
+				width="100%"
+				padding="20px"
+				mt={5}
+				sx={{
+					backgroundColor: '#f9f9f9',
+				}}
+			>
+				<Stack
+					className="profile"
+					sx={{
+						alignItems: 'center',
+						textAlign: 'center',
+						gap: '20px',
+						marginBottom: '20px',
+					}}
+				>
+					{/* Phone Section */}
+					<Box
+						component="div"
+						className="user-phone"
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							gap: '10px',
+							padding: '10px',
+							borderRadius: '8px',
+							backgroundColor: '#e3f2fd',
+							width: '100%',
+						}}
+					>
+						<img src="/img/icons/call.svg" alt="icon" style={{ height: '24px' }} />
+						<Typography className="p-number" sx={{ fontWeight: '600', color: '#1976d2' }}>
+							{user?.memberPhone}
+						</Typography>
+					</Box>
+
+					{/* Profile Image */}
+					<Box
+						component="div"
+						className="profile-img"
+						sx={{
+							width: '100px',
+							height: '100px',
+							borderRadius: '50%',
+							overflow: 'hidden',
+							border: '3px solid #1976d2',
+						}}
+					>
+						<img
+							src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
+							alt="member-photo"
+							style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+						/>
+					</Box>
+
+					{/* User Info */}
+					<Stack className="user-info" sx={{ alignItems: 'center', gap: '10px' }}>
+						<Typography className="user-name" sx={{ fontSize: '1.2rem', fontWeight: '600', color: '#333' }}>
+							{user?.memberNick}
+						</Typography>
+						{user?.memberType === 'ADMIN' ? (
+							<a href="/_admin/users" target="_blank" style={{ textDecoration: 'none' }}>
+								<Typography className="view-list" sx={{ fontSize: '1rem', color: '#1976d2' }}>
+									{user?.memberType}
+								</Typography>
+							</a>
+						) : (
+							<Typography className="view-list" sx={{ fontSize: '1rem', color: '#1976d2' }}>
+								{user?.memberType}
+							</Typography>
+						)}
+					</Stack>
+				</Stack>
+
+				{/* Sections */}
+				<Stack className="sections" spacing={4}>
+					{/* Manage Listings */}
+					<Stack
+						className="section"
+						sx={{
+							backgroundColor: '#fff',
+							padding: '15px',
+							borderRadius: '12px',
+							boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+						}}
+					>
+						<Typography className="title" variant="h5" sx={{ fontWeight: '600', marginBottom: '10px', color: '#333' }}>
+							MANAGE LISTINGS
+						</Typography>
+						<List className="sub-section" sx={{ padding: 0 }}>
+							{user.memberType === 'AGENT' && (
+								<>
+									<ListItem>
+										<Link
+											href="/mypage?category=addFacility"
+											style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
+										>
+											<img
+												src={category === 'addFacility' ? '/img/icons/whiteTab.svg' : '/img/icons/newTab.svg'}
+												alt="icon"
+												style={{ width: '24px', height: '24px', marginRight: '10px' }}
+											/>
+											<Typography sx={{ fontSize: '1rem', color: category === 'addFacility' ? '#1976d2' : '#333' }}>
+												Add Facility
+											</Typography>
+										</Link>
+									</ListItem>
+									<ListItem>
+										<Link
+											href="/mypage?category=myFacilities"
+											style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
+										>
+											<img
+												src={category === 'myFacilities' ? '/img/icons/homeWhite.svg' : '/img/icons/home.svg'}
+												alt="icon"
+												style={{ width: '24px', height: '24px', marginRight: '10px' }}
+											/>
+											<Typography sx={{ fontSize: '1rem', color: category === 'myFacilities' ? '#1976d2' : '#333' }}>
+												My Facilities
+											</Typography>
+										</Link>
+									</ListItem>
+								</>
+							)}
+						</List>
+					</Stack>
+
+					{/* Community */}
+					<Stack
+						className="section"
+						sx={{
+							backgroundColor: '#fff',
+							padding: '15px',
+							borderRadius: '12px',
+							boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+						}}
+					>
+						<Typography className="title" variant="h5" sx={{ fontWeight: '600', marginBottom: '10px', color: '#333' }}>
+							COMMUNITY
+						</Typography>
+						<List className="sub-section" sx={{ padding: 0 }}>
+							<ListItem>
+								<Link
+									href="/mypage?category=myArticles"
+									style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
+								>
+									<img
+										src={category === 'myArticles' ? '/img/icons/discoveryWhite.svg' : '/img/icons/discovery.svg'}
+										alt="icon"
+										style={{ width: '24px', height: '24px', marginRight: '10px' }}
+									/>
+									<Typography sx={{ fontSize: '1rem', color: category === 'myArticles' ? '#1976d2' : '#333' }}>
+										Articles
+									</Typography>
+								</Link>
+							</ListItem>
+							<ListItem>
+								<Link
+									href="/mypage?category=writeArticle"
+									style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
+								>
+									<img
+										src={category === 'writeArticle' ? '/img/icons/whiteTab.svg' : '/img/icons/newTab.svg'}
+										alt="icon"
+										style={{ width: '24px', height: '24px', marginRight: '10px' }}
+									/>
+									<Typography sx={{ fontSize: '1rem', color: category === 'writeArticle' ? '#1976d2' : '#333' }}>
+										Write Article
+									</Typography>
+								</Link>
+							</ListItem>
+						</List>
+					</Stack>
+					<Stack
+						className="section"
+						sx={{
+							backgroundColor: '#fff',
+							padding: '15px',
+							borderRadius: '12px',
+							boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+						}}
+					>
+						<Typography className="title" variant="h5" sx={{ fontWeight: '600', marginBottom: '10px', color: '#333' }}>
+							Manage Account
+						</Typography>
+						<List className="sub-section" sx={{ padding: 0, gap: '15px' }}>
+							<ListItem>
+								<Link
+									href="/mypage?category=myProfile"
+									style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', marginBottom: 10 }}
+								>
+									{category === 'myProfile' ? (
+										<img
+											style={{
+												textDecoration: 'none',
+												display: 'flex',
+												alignItems: 'center',
+											}}
+											src={'/img/icons/userWhite.svg'}
+											alt={'com-icon'}
+										/>
+									) : (
+										<img
+											style={{ width: '24px', height: '24px', marginRight: '10px' }}
+											src={'/img/icons/user.svg'}
+											alt={'com-icon'}
+										/>
+									)}
+									<Typography
+										sx={{ fontSize: '1rem', marginLeft: '5px', color: category === 'myProfile' ? 'red' : '#333' }}
+									>
+										My Profile
+									</Typography>
+								</Link>
+							</ListItem>
+							<ListItem onClick={logoutHandler}>
+								<div className={'flex-box'} style={{ display: 'flex', gap: '10px' }}>
+									<img className={'com-icon'} src={'/img/icons/logout.svg'} alt={'com-icon'} />
+									<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+										Logout
+									</Typography>
+								</div>
+							</ListItem>
+						</List>
+					</Stack>
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>

@@ -61,7 +61,111 @@ const MyArticles: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	if (device === 'mobile') {
-		return <>ARTICLE PAGE MOBILE</>;
+		return (
+			<div
+				id="my-articles-page"
+				style={{
+					padding: '16px',
+					backgroundColor: '#f9f9f9',
+				}}
+			>
+				{/* Title Section */}
+				<Stack
+					style={{
+						marginBottom: '16px',
+						textAlign: 'center',
+					}}
+				>
+					<Typography
+						style={{
+							fontSize: '18px',
+							fontWeight: 'bold',
+							marginBottom: '8px',
+							color: '#333',
+						}}
+					>
+						Articles
+					</Typography>
+					<Typography
+						style={{
+							fontSize: '14px',
+							color: '#777',
+						}}
+					>
+						We are glad to see you again!
+					</Typography>
+				</Stack>
+
+				{/* Articles List */}
+				<Stack
+					style={{
+						gap: '16px',
+					}}
+				>
+					{boardArticles?.length > 0 ? (
+						boardArticles.map((boardArticle: BoardArticle) => (
+							<CommunityCard
+								boardArticle={boardArticle}
+								likeArticleHandler={likeBoArticleHandler}
+								key={boardArticle?._id}
+							/>
+						))
+					) : (
+						<div
+							style={{
+								textAlign: 'center',
+								padding: '16px',
+								backgroundColor: '#fff',
+								borderRadius: '8px',
+								boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+							}}
+						>
+							<img
+								src="/img/icons/icoAlert.svg"
+								alt="No data"
+								style={{
+									width: '50px',
+									height: '50px',
+									marginBottom: '8px',
+								}}
+							/>
+							<p style={{ fontSize: '14px', color: '#777' }}>No Articles found!</p>
+						</div>
+					)}
+				</Stack>
+
+				{/* Pagination Section */}
+				{boardArticles?.length > 0 && (
+					<Stack
+						style={{
+							marginTop: '24px',
+							gap: '16px',
+							alignItems: 'center',
+						}}
+					>
+						<Pagination
+							count={Math.ceil(totalCount / searchCommunity.limit)}
+							page={searchCommunity.page}
+							shape="circular"
+							color="primary"
+							onChange={paginationHandler}
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+							}}
+						/>
+						<Typography
+							style={{
+								fontSize: '14px',
+								color: '#555',
+							}}
+						>
+							Total {totalCount ?? 0} article(s) available
+						</Typography>
+					</Stack>
+				)}
+			</div>
+		);
 	} else
 		return (
 			<div id="my-articles-page">

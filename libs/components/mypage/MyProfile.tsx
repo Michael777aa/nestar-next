@@ -114,7 +114,200 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 	console.log('+updateData', updateData);
 
 	if (device === 'mobile') {
-		return <>MY PROFILE PAGE MOBILE</>;
+		return (
+			<div
+				id="my-profile-page"
+				style={{
+					padding: '10px',
+					width: '100%',
+					backgroundColor: '#f9f9f9',
+				}}
+			>
+				<Stack
+					spacing={4}
+					sx={{
+						width: '100%',
+						maxWidth: '400px',
+						margin: '0 auto',
+						backgroundColor: '#ffffff',
+						padding: '20px',
+						borderRadius: '12px',
+						boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+					}}
+				>
+					{/* Title Section */}
+					<Typography
+						variant="h4"
+						sx={{
+							fontSize: '1.5rem',
+							fontWeight: '600',
+							textAlign: 'center',
+							color: '#333',
+						}}
+					>
+						My Profile
+					</Typography>
+					<Typography
+						variant="subtitle1"
+						sx={{
+							fontSize: '1rem',
+							textAlign: 'center',
+							color: '#666',
+						}}
+					>
+						We are glad to see you again!
+					</Typography>
+
+					{/* Profile Image Section */}
+					<Stack
+						direction="row"
+						spacing={2}
+						alignItems="center"
+						sx={{
+							justifyContent: 'center',
+						}}
+					>
+						<Avatar
+							src={
+								updateData?.memberImage
+									? `${REACT_APP_API_URL}/${updateData?.memberImage}`
+									: '/img/profile/defaultUser.svg'
+							}
+							sx={{
+								width: 80,
+								height: 80,
+								border: '2px solid #e0e0e0',
+							}}
+						/>
+						<label htmlFor="file-upload" style={{ cursor: 'pointer' }}>
+							<IconButton
+								component="span"
+								sx={{
+									backgroundColor: '#007bff',
+									color: '#fff',
+									'&:hover': {
+										backgroundColor: '#0056b3',
+									},
+								}}
+							>
+								<PhotoCamera />
+							</IconButton>
+						</label>
+						<input
+							id="file-upload"
+							type="file"
+							hidden
+							onChange={uploadImage}
+							accept="image/jpg, image/jpeg, image/png"
+						/>
+						<Typography
+							variant="body2"
+							sx={{
+								fontSize: '0.9rem',
+								color: '#333',
+							}}
+						>
+							Upload Profile Image
+						</Typography>
+					</Stack>
+
+					{/* Form Section */}
+					<Stack spacing={2}>
+						<TextField
+							label="First Name"
+							value={updateData.memberFirstName}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberFirstName: value })}
+							fullWidth
+							sx={{
+								'& .MuiInputBase-root': {
+									fontSize: '0.9rem',
+								},
+							}}
+						/>
+						<TextField
+							label="Last Name"
+							value={updateData.memberLastName}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberLastName: value })}
+							fullWidth
+							sx={{
+								'& .MuiInputBase-root': {
+									fontSize: '0.9rem',
+								},
+							}}
+						/>
+						<TextField
+							label="Email"
+							type="email"
+							value={updateData.memberEmail}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberEmail: value })}
+							fullWidth
+							sx={{
+								'& .MuiInputBase-root': {
+									fontSize: '0.9rem',
+								},
+							}}
+						/>
+						<TextField
+							label="Username"
+							value={updateData.memberNick}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberNick: value })}
+							fullWidth
+							sx={{
+								'& .MuiInputBase-root': {
+									fontSize: '0.9rem',
+								},
+							}}
+						/>
+						<TextField
+							label="Phone"
+							value={updateData.memberPhone}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberPhone: value })}
+							fullWidth
+							sx={{
+								'& .MuiInputBase-root': {
+									fontSize: '0.9rem',
+								},
+							}}
+						/>
+						<TextField
+							label="Address"
+							value={updateData.memberAddress}
+							onChange={({ target: { value } }) => setUpdateData({ ...updateData, memberAddress: value })}
+							fullWidth
+							sx={{
+								'& .MuiInputBase-root': {
+									fontSize: '0.9rem',
+								},
+							}}
+						/>
+					</Stack>
+
+					{/* Submit Button */}
+					<Button
+						variant="contained"
+						onClick={updateFacilityHandler}
+						disabled={doDisabledCheck()}
+						sx={{
+							width: '100%',
+							padding: '10px',
+							fontSize: '1rem',
+							fontWeight: '600',
+							backgroundColor: '#007bff',
+							color: '#fff',
+							borderRadius: '8px',
+							'&:hover': {
+								backgroundColor: '#0056b3',
+							},
+							'&:disabled': {
+								backgroundColor: '#cccccc',
+							},
+						}}
+					>
+						Update Profile
+					</Button>
+				</Stack>
+			</div>
+		);
 	} else
 		return (
 			<div id="my-profile-page">

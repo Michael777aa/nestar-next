@@ -77,7 +77,150 @@ const MyFacilities: NextPage = ({ initialInput, ...props }: any) => {
 	}
 
 	if (device === 'mobile') {
-		return <div>PlaySpot Sport facilities MOBILE</div>;
+		return (
+			<div
+				id="my-facility-page"
+				style={{
+					padding: '16px',
+					maxWidth: '100%',
+				}}
+			>
+				<Stack spacing={2}>
+					{/* Header Section */}
+					<Stack
+						direction="column"
+						alignItems="center"
+						spacing={1}
+						style={{
+							textAlign: 'center',
+						}}
+					>
+						<Typography
+							variant="h5"
+							style={{
+								fontWeight: 'bold',
+							}}
+						>
+							My Facilities
+						</Typography>
+						<Typography variant="body2" color="textSecondary">
+							We are glad to see you again!
+						</Typography>
+					</Stack>
+
+					{/* Tabs Section */}
+					<Stack
+						direction="row"
+						justifyContent="center"
+						spacing={2}
+						style={{
+							borderBottom: '1px solid #e0e0e0',
+							paddingBottom: '8px',
+						}}
+					>
+						<Typography
+							onClick={() => changeStatusHandler(AvailabilityStatus.AVAILABLE)}
+							style={{
+								cursor: 'pointer',
+								fontWeight: searchFilter.search.availabilityStatus === AvailabilityStatus.AVAILABLE ? 'bold' : 'normal',
+								color: searchFilter.search.availabilityStatus === AvailabilityStatus.AVAILABLE ? '#1976d2' : '#555',
+							}}
+						>
+							AVAILABLE
+						</Typography>
+						<Typography
+							onClick={() => changeStatusHandler(AvailabilityStatus.RESERVED)}
+							style={{
+								cursor: 'pointer',
+								fontWeight: searchFilter.search.availabilityStatus === AvailabilityStatus.RESERVED ? 'bold' : 'normal',
+								color: searchFilter.search.availabilityStatus === AvailabilityStatus.RESERVED ? '#1976d2' : '#555',
+							}}
+						>
+							RESERVED
+						</Typography>
+					</Stack>
+
+					{/* List Section */}
+					<Stack spacing={2}>
+						{/* Listing Titles */}
+						<Stack
+							direction="row"
+							justifyContent="space-between"
+							style={{
+								padding: '8px',
+								borderBottom: '1px solid #e0e0e0',
+							}}
+						>
+							<Typography variant="body2" style={{ fontWeight: 'bold' }}>
+								Listing Title
+							</Typography>
+							<Typography variant="body2" style={{ fontWeight: 'bold' }}>
+								Date Published
+							</Typography>
+							<Typography variant="body2" style={{ fontWeight: 'bold' }}>
+								Status
+							</Typography>
+							<Typography variant="body2" style={{ fontWeight: 'bold' }}>
+								View
+							</Typography>
+							{searchFilter.search.availabilityStatus === AvailabilityStatus.AVAILABLE && (
+								<Typography variant="body2" style={{ fontWeight: 'bold' }}>
+									Action
+								</Typography>
+							)}
+						</Stack>
+
+						{/* Facilities List */}
+						{agentFacilities?.length === 0 ? (
+							<Stack
+								alignItems="center"
+								justifyContent="center"
+								style={{
+									padding: '16px',
+									textAlign: 'center',
+									color: '#777',
+								}}
+							>
+								<img
+									src="/img/icons/icoAlert.svg"
+									alt="No Data"
+									style={{
+										width: '50px',
+										marginBottom: '8px',
+									}}
+								/>
+								<Typography variant="body2">No Facility found!</Typography>
+							</Stack>
+						) : (
+							agentFacilities.map((facility: Facility) => (
+								<FacilityCard
+									key={facility._id}
+									facility={facility}
+									deleteFacilityHandler={deleteFacilityHandler}
+									updateFacilityHandler={updateFacilityHandler}
+								/>
+							))
+						)}
+
+						{/* Pagination */}
+						{agentFacilities.length !== 0 && (
+							<Stack alignItems="center" spacing={1} style={{ marginTop: '16px' }}>
+								<Pagination
+									count={Math.ceil(total / searchFilter.limit)}
+									page={searchFilter.page}
+									shape="circular"
+									color="primary"
+									onChange={paginationHandler}
+								/>
+								<Typography variant="body2" color="textSecondary">
+									{total} Facilities available
+								</Typography>
+							</Stack>
+						)}
+					</Stack>
+				</Stack>
+			</div>
+		);
 	} else {
 		return (
 			<div id="my-facility-page">

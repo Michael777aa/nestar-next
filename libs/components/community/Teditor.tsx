@@ -10,11 +10,13 @@ import { T } from '../../types/common';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { useMutation } from '@apollo/client';
 import { CREATE_BOARD_ARTICLE } from '../../../apollo/user/mutation';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 const TuiEditor = () => {
 	const editorRef = useRef<Editor>(null),
 		token = getJwtToken(),
 		router = useRouter();
+	const device = useDeviceDetect();
 	const [articleCategory, setArticleCategory] = useState<BoardArticleCategory>(BoardArticleCategory.FREE);
 
 	/** APOLLO REQUESTS **/
@@ -124,80 +126,199 @@ const TuiEditor = () => {
 			return true;
 		}
 	};
-
-	return (
-		<Stack>
-			<Stack direction="row" style={{ margin: '40px' }} justifyContent="space-evenly">
-				<Box component={'div'} className={'form_row'} style={{ width: '300px' }}>
-					<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
-						Category
-					</Typography>
-					<FormControl sx={{ width: '100%', background: 'white' }}>
-						<Select
-							value={articleCategory}
-							onChange={changeCategoryHandler}
-							displayEmpty
-							inputProps={{ 'aria-label': 'Without label' }}
-						>
-							<MenuItem value={BoardArticleCategory.FREE}>
-								<span>Free</span>
-							</MenuItem>
-							<MenuItem value={BoardArticleCategory.HUMOR}>Humor</MenuItem>
-							<MenuItem value={BoardArticleCategory.NEWS}>News</MenuItem>
-							<MenuItem value={BoardArticleCategory.RECOMMEND}>Recommendation</MenuItem>
-						</Select>
-					</FormControl>
-				</Box>
-				<Box component={'div'} style={{ width: '300px', flexDirection: 'column' }}>
-					<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
-						Title
-					</Typography>
-					<TextField
-						onChange={articleTitleHandler}
-						id="filled-basic"
-						label="Type Title"
-						style={{ width: '300px', background: 'white' }}
-					/>
-				</Box>
-			</Stack>
-
-			<Editor
-				initialValue={'Type here'}
-				placeholder={'Type here'}
-				previewStyle={'vertical'}
-				height={'640px'}
-				// @ts-ignore
-				initialEditType={'WYSIWYG'}
-				toolbarItems={[
-					['heading', 'bold', 'italic', 'strike'],
-					['image', 'table', 'link'],
-					['ul', 'ol', 'task'],
-				]}
-				ref={editorRef}
-				hooks={{
-					addImageBlobHook: async (image: any, callback: any) => {
-						const uploadedImageURL = await uploadImage(image);
-						callback(uploadedImageURL);
-						return false;
-					},
+	if (device === 'mobile') {
+		return (
+			<Stack
+				style={{
+					padding: '16px',
+					backgroundColor: '#f9f9f9',
+					minHeight: '100vh',
 				}}
-				events={{
-					load: function (param: any) {},
-				}}
-			/>
-
-			<Stack direction="row" justifyContent="center">
-				<Button
-					variant="contained"
-					color="primary"
-					style={{ margin: '30px', width: '250px', height: '45px' }}
-					onClick={handleRegisterButton}
+			>
+				{/* Category and Title Section */}
+				<Stack
+					direction="column"
+					style={{
+						marginBottom: '16px',
+						gap: '16px',
+					}}
 				>
-					Register
-				</Button>
+					{/* Category Selection */}
+					<Box component={'div'} style={{ width: '100%' }}>
+						<Typography
+							style={{
+								color: '#7f838d',
+								marginBottom: '8px',
+								fontSize: '16px',
+								fontWeight: 'bold',
+							}}
+						>
+							Category
+						</Typography>
+						<FormControl
+							sx={{
+								width: '100%',
+								background: 'white',
+								borderRadius: '8px',
+							}}
+						>
+							<Select
+								value={articleCategory}
+								onChange={changeCategoryHandler}
+								displayEmpty
+								inputProps={{ 'aria-label': 'Without label' }}
+								sx={{ fontSize: '14px' }}
+							>
+								<MenuItem value={BoardArticleCategory.FREE}>Free</MenuItem>
+								<MenuItem value={BoardArticleCategory.HUMOR}>Humor</MenuItem>
+								<MenuItem value={BoardArticleCategory.NEWS}>News</MenuItem>
+								<MenuItem value={BoardArticleCategory.RECOMMEND}>Recommendation</MenuItem>
+							</Select>
+						</FormControl>
+					</Box>
+
+					{/* Title Input */}
+					<Box component={'div'} style={{ width: '100%' }}>
+						<Typography
+							style={{
+								color: '#7f838d',
+								marginBottom: '8px',
+								fontSize: '16px',
+								fontWeight: 'bold',
+							}}
+						>
+							Title
+						</Typography>
+						<TextField
+							onChange={articleTitleHandler}
+							id="filled-basic"
+							label="Type Title"
+							variant="outlined"
+							style={{
+								width: '100%',
+								background: 'white',
+								borderRadius: '8px',
+							}}
+						/>
+					</Box>
+				</Stack>
+
+				{/* Editor */}
+				<Editor
+					initialValue={'Type here'}
+					placeholder={'Type here'}
+					previewStyle={'vertical'}
+					height={'400px'}
+					toolbarItems={[
+						['heading', 'bold', 'italic', 'strike'],
+						['image', 'table', 'link'],
+						['ul', 'ol', 'task'],
+					]}
+					ref={editorRef}
+					hooks={{
+						addImageBlobHook: async (image: any, callback: any) => {
+							const uploadedImageURL = await uploadImage(image);
+							callback(uploadedImageURL);
+							return false;
+						},
+					}}
+				/>
+
+				{/* Register Button */}
+				<Stack direction="row" justifyContent="center">
+					<Button
+						variant="contained"
+						color="primary"
+						style={{
+							marginTop: '16px',
+							width: '100%',
+							maxWidth: '250px',
+							height: '45px',
+							fontSize: '16px',
+							fontWeight: 'bold',
+						}}
+						onClick={handleRegisterButton}
+					>
+						Register
+					</Button>
+				</Stack>
 			</Stack>
-		</Stack>
-	);
+		);
+	} else {
+		return (
+			<Stack>
+				<Stack direction="row" style={{ margin: '40px' }} justifyContent="space-evenly">
+					<Box component={'div'} className={'form_row'} style={{ width: '300px' }}>
+						<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
+							Category
+						</Typography>
+						<FormControl sx={{ width: '100%', background: 'white' }}>
+							<Select
+								value={articleCategory}
+								onChange={changeCategoryHandler}
+								displayEmpty
+								inputProps={{ 'aria-label': 'Without label' }}
+							>
+								<MenuItem value={BoardArticleCategory.FREE}>
+									<span>Free</span>
+								</MenuItem>
+								<MenuItem value={BoardArticleCategory.HUMOR}>Humor</MenuItem>
+								<MenuItem value={BoardArticleCategory.NEWS}>News</MenuItem>
+								<MenuItem value={BoardArticleCategory.RECOMMEND}>Recommendation</MenuItem>
+							</Select>
+						</FormControl>
+					</Box>
+					<Box component={'div'} style={{ width: '300px', flexDirection: 'column' }}>
+						<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
+							Title
+						</Typography>
+						<TextField
+							onChange={articleTitleHandler}
+							id="filled-basic"
+							label="Type Title"
+							style={{ width: '300px', background: 'white' }}
+						/>
+					</Box>
+				</Stack>
+
+				<Editor
+					initialValue={'Type here'}
+					placeholder={'Type here'}
+					previewStyle={'vertical'}
+					height={'640px'}
+					// @ts-ignore
+					initialEditType={'WYSIWYG'}
+					toolbarItems={[
+						['heading', 'bold', 'italic', 'strike'],
+						['image', 'table', 'link'],
+						['ul', 'ol', 'task'],
+					]}
+					ref={editorRef}
+					hooks={{
+						addImageBlobHook: async (image: any, callback: any) => {
+							const uploadedImageURL = await uploadImage(image);
+							callback(uploadedImageURL);
+							return false;
+						},
+					}}
+					events={{
+						load: function (param: any) {},
+					}}
+				/>
+
+				<Stack direction="row" justifyContent="center">
+					<Button
+						variant="contained"
+						color="primary"
+						style={{ margin: '30px', width: '250px', height: '45px' }}
+						onClick={handleRegisterButton}
+					>
+						Register
+					</Button>
+				</Stack>
+			</Stack>
+		);
+	}
 };
 
 export default TuiEditor;
