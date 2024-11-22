@@ -456,7 +456,7 @@ const Filter = (props: FilterType) => {
 						<Stack>
 							<Typography style={{ fontSize: '14px', fontWeight: '500' }}>Location</Typography>
 							<Stack style={{ maxHeight: '100px', overflowY: 'scroll', gap: '10px' }}>
-								{facilityLocation.map((location) => (
+								{facilityLocation.map((location: string) => (
 									<Stack
 										key={location}
 										direction="row"
@@ -468,7 +468,8 @@ const Filter = (props: FilterType) => {
 									>
 										<Checkbox
 											size="small"
-											checked={searchFilter?.search?.locationList?.includes(location)}
+											value={location}
+											checked={(searchFilter?.search?.locationList || []).includes(location as FacilityLocation)}
 											onChange={FacilityLocationSelectHandler}
 										/>
 										<Typography style={{ fontSize: '12px', color: '#555' }}>{location}</Typography>
@@ -481,7 +482,7 @@ const Filter = (props: FilterType) => {
 						<Stack>
 							<Typography style={{ fontSize: '14px', fontWeight: '500' }}>Facility Type</Typography>
 							<Stack style={{ gap: '10px' }}>
-								{facilityType.map((type) => (
+								{facilityType.map((type: string) => (
 									<Stack
 										key={type}
 										direction="row"
@@ -494,8 +495,9 @@ const Filter = (props: FilterType) => {
 									>
 										<Checkbox
 											size="small"
-											checked={searchFilter?.search?.typeList?.includes(type)}
+											value={type}
 											onChange={facilityTypeSelectHandler}
+											checked={(searchFilter?.search?.typeList || []).includes(type as FacilityType)}
 										/>
 										<Typography style={{ fontSize: '12px', color: '#555' }}>{type}</Typography>
 									</Stack>
