@@ -108,7 +108,162 @@ const Faq: NextPage = ({ initialInquiry, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>FAQ MOBILE</div>;
+		return (
+			<Stack
+				className="faq-content"
+				sx={{
+					padding: '10px',
+					gap: '20px',
+					backgroundColor: '#f9f9f9',
+				}}
+			>
+				{/* Categories Section */}
+				<Box
+					className="categories"
+					component="div"
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'flex-start',
+						alignItems: 'center',
+						gap: 2,
+						flexWrap: 'nowrap',
+						padding: '10px',
+						borderRadius: '12px',
+						backgroundColor: '#ffffff',
+						boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+						overflowX: 'auto',
+					}}
+				>
+					{[
+						{ label: 'FACILITY', value: 'FACILITY' },
+						{ label: 'PAYMENT', value: 'PAYMENT' },
+						{ label: 'AGENTS', value: 'AGENTS' },
+						{ label: 'MEMBERSHIP', value: 'MEMBERSHIP' },
+						{ label: 'COMMUNITY', value: 'COMMUNITY' },
+						{ label: 'BUYERS', value: 'BUYERS' },
+						{ label: 'OTHER', value: 'OTHER' },
+					].map((item) => (
+						<ListItem
+							key={item.value}
+							onClick={(e) => tabChangeHandler(e, item.value)}
+							className={category === item.value ? 'active' : ''}
+							sx={{
+								cursor: 'pointer',
+								padding: '8px 12px',
+								borderRadius: '8px',
+								fontWeight: 'bold',
+								textAlign: 'center',
+								backgroundColor: category === item.value ? '#1976d2' : '#fff',
+								color: category === item.value ? '#fff' : '#1976d2',
+								border: '1px solid #1976d2',
+								transition: 'all 0.3s ease',
+								whiteSpace: 'nowrap',
+								'&:hover': {
+									backgroundColor: '#1976d2',
+									color: '#fff',
+								},
+							}}
+						>
+							{item.label}
+						</ListItem>
+					))}
+				</Box>
+
+				{/* FAQ Section */}
+				<Box
+					className="wrap"
+					component="div"
+					sx={{
+						marginTop: '20px',
+					}}
+				>
+					{allNotices.length !== 0 ? (
+						allNotices.map((notice: Notice) => (
+							<Accordion
+								expanded={expanded === notice._id}
+								onChange={handleChange(notice._id)}
+								key={notice._id}
+								sx={{
+									borderRadius: '8px',
+									overflow: 'hidden',
+									boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+									marginBottom: '10px',
+									backgroundColor: '#ffffff',
+									border: '1px solid #e0e0e0',
+								}}
+							>
+								<AccordionSummary
+									id={`panel-${notice._id}`}
+									aria-controls={`panel-${notice._id}-content`}
+									sx={{
+										backgroundColor: '#f9f9f9',
+										padding: '12px',
+										'&:hover': { backgroundColor: '#f1f1f1' },
+									}}
+								>
+									<Stack direction="row" spacing={2} alignItems="center">
+										<Typography
+											sx={{
+												fontWeight: 'bold',
+												fontSize: '1rem',
+												color: '#1976d2',
+												backgroundColor: '#e3f2fd',
+												padding: '4px 8px',
+												borderRadius: '8px',
+											}}
+										>
+											Q
+										</Typography>
+										<Typography
+											sx={{
+												fontWeight: 'bold',
+												fontSize: '0.95rem',
+												color: '#333',
+											}}
+										>
+											{notice.noticeTitle}
+										</Typography>
+									</Stack>
+								</AccordionSummary>
+								<AccordionDetails
+									sx={{
+										backgroundColor: '#f7f7f7',
+										padding: '12px',
+									}}
+								>
+									<Typography
+										sx={{
+											fontSize: '0.9rem',
+											lineHeight: 1.5,
+											color: '#555',
+											paddingLeft: '16px',
+											borderLeft: '4px solid #1976d2',
+										}}
+									>
+										{notice.noticeContent}
+									</Typography>
+								</AccordionDetails>
+							</Accordion>
+						))
+					) : (
+						<Box
+							sx={{
+								textAlign: 'center',
+								padding: '20px',
+								borderRadius: '8px',
+								backgroundColor: '#fff',
+								boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+							}}
+						>
+							<Typography variant="h6" color="textSecondary">
+								No FAQs are available for this category at the moment.
+							</Typography>
+						</Box>
+					)}
+				</Box>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={'faq-content'}>

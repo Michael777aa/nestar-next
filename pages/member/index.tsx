@@ -109,7 +109,105 @@ const MemberPage: NextPage = () => {
 	};
 
 	if (device === 'mobile') {
-		return <>MEMBER PAGE MOBILE</>;
+		return (
+			<div
+				id="member-page"
+				style={{
+					position: 'relative',
+					padding: '10px',
+					backgroundColor: '#f9f9f9',
+				}}
+			>
+				<div
+					className="container"
+					style={{
+						maxWidth: '100%',
+						margin: '0 auto',
+						display: 'flex',
+						flexDirection: 'column',
+						gap: '20px',
+					}}
+				>
+					<Stack
+						className="member-page"
+						sx={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '20px',
+						}}
+					>
+						{/* Back Frame Section */}
+						<Stack
+							className="back-frame"
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								gap: '20px',
+								backgroundColor: '#fff',
+								borderRadius: '12px',
+								padding: '10px',
+								boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+							}}
+						>
+							{/* Left Config */}
+							<Stack
+								className="left-config"
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '10px',
+									padding: '10px',
+									backgroundColor: '#f7f7f7',
+									borderRadius: '12px',
+								}}
+							>
+								<MemberMenu subscribeHandler={subscribeHandler} unsubscribeHandler={unsubscribeHandler} />
+							</Stack>
+
+							{/* Main Config */}
+							<Stack
+								className="main-config"
+								sx={{
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '20px',
+									marginBottom: '76px',
+								}}
+							>
+								<Stack
+									className="list-config"
+									sx={{
+										display: 'flex',
+										flexDirection: 'column',
+										gap: '15px',
+									}}
+								>
+									{/* Conditional Rendering Based on Category */}
+									{category === 'facilities' && <MemberFacilities />}
+									{category === 'followers' && (
+										<MemberFollowers
+											subscribeHandler={subscribeHandler}
+											unsubscribeHandler={unsubscribeHandler}
+											likeMemberHandler={likeMemberHandler}
+											redirectToMemberPageHandler={redirectToMemberPageHandler}
+										/>
+									)}
+									{category === 'followings' && (
+										<MemberFollowings
+											subscribeHandler={subscribeHandler}
+											unsubscribeHandler={unsubscribeHandler}
+											likeMemberHandler={likeMemberHandler}
+											redirectToMemberPageHandler={redirectToMemberPageHandler}
+										/>
+									)}
+									{category === 'articles' && <MemberArticles />}
+								</Stack>
+							</Stack>
+						</Stack>
+					</Stack>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<div id="member-page" style={{ position: 'relative' }}>

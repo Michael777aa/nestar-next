@@ -102,7 +102,267 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>COMMUNITY PAGE MOBILE</h1>;
+		return (
+			<TabContext value={searchCommunity.search.articleCategory}>
+				<div
+					id="community-list-page"
+					style={{
+						width: '100%',
+						padding: '10px',
+						marginTop: '55px',
+						backgroundColor: '#f9f9f9',
+					}}
+				>
+					<div
+						className="container"
+						style={{
+							maxWidth: '100%',
+							margin: '0 auto',
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '15px',
+						}}
+					>
+						<Stack
+							className="main-box"
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								gap: '20px',
+							}}
+						>
+							{/* Left Config */}
+							<Stack
+								className="left-config"
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									gap: '15px',
+								}}
+							>
+								<Stack
+									className="image-info"
+									style={{
+										display: 'flex',
+										flexDirection: 'column',
+										alignItems: 'center',
+									}}
+								>
+									<img
+										src="/img/logo/2024-10-19 21.42.01.jpg"
+										alt="Community Logo"
+										style={{
+											width: '80px',
+											height: '80px',
+											borderRadius: '50%',
+											objectFit: 'cover',
+										}}
+									/>
+									<Typography
+										className="community-name"
+										style={{
+											marginTop: '10px',
+											fontSize: '1.2rem',
+											fontWeight: '600',
+											color: '#333',
+										}}
+									>
+										PlaySpot Community
+									</Typography>
+								</Stack>
+
+								{/* Tabs */}
+								<TabList
+									orientation="horizontal"
+									aria-label="community tabs"
+									TabIndicatorProps={{
+										style: { display: 'none' },
+									}}
+									onChange={tabChangeHandler}
+									style={{
+										display: 'flex',
+										gap: '10px',
+										overflowX: 'auto',
+										padding: '10px 0',
+										borderBottom: '2px solid #e0e0e0',
+									}}
+								>
+									{['FREE', 'RECOMMEND', 'NEWS', 'HUMOR'].map((value) => (
+										<Tab
+											key={value}
+											value={value}
+											label={value}
+											style={{
+												padding: '8px 12px',
+												borderRadius: '6px',
+												fontSize: '14px',
+												fontWeight: '600',
+												textTransform: 'none',
+												color: searchCommunity.search.articleCategory === value ? '#ffffff' : '#333',
+												backgroundColor: searchCommunity.search.articleCategory === value ? '#007bff' : '#f4f4f4',
+												transition: 'background-color 0.3s ease, color 0.3s ease',
+											}}
+										/>
+									))}
+								</TabList>
+							</Stack>
+
+							{/* Right Config */}
+							<Stack
+								className="right-config"
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '15px',
+								}}
+							>
+								{/* Panel Config */}
+								<Stack
+									className="panel-config"
+									style={{
+										display: 'flex',
+										flexDirection: 'column',
+										gap: '15px',
+									}}
+								>
+									{/* Title Box */}
+									<Stack
+										className="title-box"
+										style={{
+											display: 'flex',
+											justifyContent: 'space-between',
+											alignItems: 'center',
+										}}
+									>
+										<Stack
+											className="left"
+											style={{
+												display: 'flex',
+												flexDirection: 'column',
+											}}
+										>
+											<Typography
+												className="title"
+												style={{
+													fontSize: '1.2rem',
+													fontWeight: '600',
+													color: '#333',
+												}}
+											>
+												{searchCommunity.search.articleCategory} BOARD
+											</Typography>
+											<Typography
+												className="sub-title"
+												style={{
+													fontSize: '0.9rem',
+													color: '#666',
+												}}
+											>
+												Share your thoughts openly without limitations
+											</Typography>
+										</Stack>
+										<Button
+											onClick={() =>
+												router.push({
+													pathname: '/mypage',
+													query: {
+														category: 'writeArticle',
+													},
+												})
+											}
+											style={{
+												padding: '8px 16px',
+												backgroundColor: '#007bff',
+												color: '#fff',
+												fontWeight: '600',
+												borderRadius: '8px',
+											}}
+										>
+											Write
+										</Button>
+									</Stack>
+
+									{/* Tab Panels */}
+									{['FREE', 'RECOMMEND', 'NEWS', 'HUMOR'].map((value) => (
+										<TabPanel key={value} value={value}>
+											<Stack
+												className="list-box"
+												style={{
+													display: 'flex',
+													flexDirection: 'column',
+													gap: '15px',
+												}}
+											>
+												{totalCount ? (
+													boardArticles?.map((boardArticle: BoardArticle) => (
+														<CommunityCard
+															boardArticle={boardArticle}
+															key={boardArticle?._id}
+															likeArticleHandler={likeArticleHandler}
+														/>
+													))
+												) : (
+													<Stack
+														className="no-data"
+														style={{
+															display: 'flex',
+															flexDirection: 'column',
+															alignItems: 'center',
+															gap: '10px',
+														}}
+													>
+														<img
+															src="/img/icons/icoAlert.svg"
+															alt="No data"
+															style={{
+																width: '50px',
+																height: '50px',
+															}}
+														/>
+														<p style={{ fontSize: '0.9rem', color: '#777' }}>No Article found!</p>
+													</Stack>
+												)}
+											</Stack>
+										</TabPanel>
+									))}
+								</Stack>
+							</Stack>
+						</Stack>
+
+						{/* Pagination */}
+						{totalCount > 0 && (
+							<Stack
+								className="pagination-config"
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									gap: '10px',
+									marginTop: '20px',
+								}}
+							>
+								<Pagination
+									count={Math.ceil(totalCount / searchCommunity.limit)}
+									page={searchCommunity.page}
+									shape="circular"
+									color="primary"
+									onChange={paginationHandler}
+								/>
+								<Typography
+									style={{
+										fontSize: '0.9rem',
+										color: '#555',
+									}}
+								>
+									Total {totalCount} article{totalCount > 1 ? 's' : ''} available
+								</Typography>
+							</Stack>
+						)}
+					</div>
+				</div>
+			</TabContext>
+		);
 	} else {
 		return (
 			<div id="community-list-page">

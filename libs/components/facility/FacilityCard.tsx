@@ -142,6 +142,43 @@ const FacilityCard = (props: FacilityCardType) => {
 								{facility.facilityBalconies} balconies
 							</Typography>
 						</Stack>
+						<Stack
+							className=""
+							style={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								alignItems: 'center',
+								gap: '20px',
+							}}
+						>
+							<Stack
+								className="button-box"
+								style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', gap: '10px' }}
+							>
+								<RemoveRedEyeIcon fontSize="medium" />
+								<Typography>{facility?.facilityViews}</Typography>
+							</Stack>
+							<Stack
+								className="button-box"
+								style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', gap: '10px' }}
+							>
+								{facility?.meLiked && facility?.meLiked[0]?.myFavorite ? (
+									<FavoriteIcon
+										color="primary"
+										fontSize={'medium'} // @ts-ignore
+										onClick={() => likeFacilityHandler(user, facility?._id)}
+									/>
+								) : (
+									<FavoriteBorderIcon
+										fontSize={'medium'}
+										// @ts-ignore
+										onClick={() => likeFacilityHandler(user, facility?._id)}
+									/>
+								)}
+								<Typography>{facility?.facilityLikes}</Typography>
+							</Stack>
+						</Stack>
 						<Stack className="option">
 							<Typography style={{ fontSize: '0.85rem', color: '#555' }}>{facility.facilitySquare} m²</Typography>
 						</Stack>

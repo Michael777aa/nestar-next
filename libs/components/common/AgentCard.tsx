@@ -50,7 +50,226 @@ const AgentCard = (props: AgentCardProps) => {
 		: '/img/profile/defaultUser.svg';
 
 	if (device === 'mobile') {
-		return <div>AGENT CARD</div>;
+		return (
+			<Stack
+				className="agent-general-card"
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					padding: '15px',
+					backgroundColor: '#f9f9f9',
+					borderRadius: '12px',
+					boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+					gap: '10px',
+					alignItems: 'center',
+				}}
+			>
+				{/* Agent Image */}
+				<Link
+					href={{
+						pathname: '/agent/detail',
+						query: { agentId: agent?._id },
+					}}
+				>
+					<Box
+						component="div"
+						className="agent-img"
+						style={{
+							width: '100px',
+							height: '100px',
+							borderRadius: '50%',
+							backgroundImage: `url(${imagePath})`,
+							backgroundSize: 'cover',
+							backgroundPosition: 'center',
+							backgroundRepeat: 'no-repeat',
+							boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+						}}
+					></Box>
+				</Link>
+
+				{/* Special Agent Tags */}
+				<span
+					className="special-agent"
+					style={{
+						fontSize: '0.85rem',
+						color: '#777',
+						textAlign: 'center',
+					}}
+				>
+					Sport Facility Agent
+				</span>
+
+				{/* Facility Count */}
+				<div
+					className="count-facilities"
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						fontSize: '0.9rem',
+						color: '#555',
+					}}
+				>
+					<span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#333' }}>{agent?.memberFacilities}</span>
+					<span>Sport Arenas</span>
+				</div>
+
+				<Divider style={{ width: '100%', margin: '10px 0' }} />
+
+				{/* Agent Info */}
+				<Stack
+					className="agent-desc"
+					style={{
+						width: '100%',
+						alignItems: 'center',
+						gap: '10px',
+					}}
+				>
+					<Box component="div" className="agent-info" style={{ textAlign: 'center' }}>
+						<Link
+							href={{
+								pathname: '/agent/detail',
+								query: { agentId: agent?._id },
+							}}
+						>
+							<strong
+								className="namee"
+								style={{
+									fontSize: '1rem',
+									fontWeight: '600',
+									color: '#007bff',
+									cursor: 'pointer',
+								}}
+							>
+								{agent?.memberFirstName ?? agent?.memberNick}
+							</strong>
+						</Link>
+					</Box>
+
+					{/* Views and Likes */}
+					<Box
+						className="buttons"
+						style={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							gap: '10px',
+						}}
+					>
+						<IconButton style={{ color: '#333' }}>
+							<RemoveRedEyeIcon />
+						</IconButton>
+						<Typography
+							className="view-cnt"
+							style={{
+								fontSize: '0.85rem',
+								color: '#555',
+							}}
+						>
+							{agent?.memberViews}
+						</Typography>
+						<IconButton
+							style={{ color: agent?.meLiked && agent?.meLiked[0]?.myFavorite ? '#f44336' : '#555' }}
+							onClick={() => likeMemberHandler(user, agent?._id)}
+						>
+							{agent?.meLiked && agent?.meLiked[0]?.myFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+						</IconButton>
+						<Typography
+							className="view-cnt"
+							style={{
+								fontSize: '0.85rem',
+								color: '#555',
+							}}
+						>
+							{agent?.memberLikes}
+						</Typography>
+					</Box>
+				</Stack>
+
+				{/* Follow/Unfollow Button */}
+				<Stack
+					className="follow-button-box"
+					direction="row"
+					spacing={1}
+					alignItems="center"
+					justifyContent="center"
+					style={{
+						width: '100%',
+						marginTop: '10px',
+					}}
+				>
+					{member?.meFollowed && member?.meFollowed[0]?.myFollowing ? (
+						<Button
+							variant="contained"
+							style={{
+								background: 'linear-gradient(135deg, #ff8a8a 0%, #e57373 100%)',
+								color: '#fff',
+								borderRadius: '50px',
+								padding: '8px 15px',
+								fontWeight: '600',
+								fontSize: '0.85rem',
+								boxShadow: '0px 4px 6px rgba(255, 90, 90, 0.4)',
+							}}
+							onClick={() => unsubscribeHandler(member?._id, getMemberRefetch, agent._id)}
+						>
+							<FavoriteIcon style={{ marginRight: '5px', fontSize: '18px' }} />
+							Unfollow
+						</Button>
+					) : (
+						<Button
+							variant="contained"
+							style={{
+								background: 'linear-gradient(135deg, #ff8f00 0%, #ff6f00 100%)',
+								color: '#fff',
+								borderRadius: '50px',
+								padding: '8px 15px',
+								fontWeight: '600',
+								fontSize: '0.85rem',
+								boxShadow: '0px 4px 6px rgba(255, 111, 0, 0.4)',
+							}}
+							onClick={() => subscribeHandler(member?._id, getMemberRefetch, agent._id)}
+						>
+							<FavoriteBorderIcon style={{ marginRight: '5px', fontSize: '18px' }} />
+							Follow
+						</Button>
+					)}
+				</Stack>
+
+				{/* Contact Info */}
+				{agent?.memberEmail && (
+					<strong
+						className="namee3"
+						style={{
+							fontSize: '0.85rem',
+							color: '#777',
+							textAlign: 'center',
+						}}
+					>
+						Email: {agent.memberEmail}
+					</strong>
+				)}
+				<strong
+					className="namee2"
+					style={{
+						fontSize: '0.85rem',
+						color: '#777',
+						textAlign: 'center',
+					}}
+				>
+					Phone: {agent?.memberPhone}
+				</strong>
+				<strong
+					className="namee4"
+					style={{
+						fontSize: '0.85rem',
+						color: '#777',
+						textAlign: 'center',
+					}}
+				>
+					Address: {agent?.memberAddress || 'Address not set'}
+				</strong>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className="agent-general-card">

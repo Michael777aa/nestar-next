@@ -229,7 +229,304 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY DETAIL PAGE MOBILE</div>;
+		return (
+			<div
+				id="community-detail-page"
+				style={{
+					width: '100%',
+					padding: '10px',
+					backgroundColor: '#f9f9f9',
+				}}
+			>
+				<div
+					className="container"
+					style={{
+						maxWidth: '100%',
+						margin: '0 auto',
+						display: 'flex',
+						flexDirection: 'column',
+						gap: '15px',
+					}}
+				>
+					<Stack
+						className="main-box"
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '20px',
+						}}
+					>
+						{/* Left Config */}
+						<Stack
+							className="left-config"
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								gap: '15px',
+							}}
+						>
+							<Stack
+								className="image-info"
+								style={{
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									gap: '10px',
+								}}
+							>
+								<img
+									src="/img/logo/2024-10-19 21.42.01.jpg"
+									alt="Community Logo"
+									style={{
+										width: '100px',
+										height: '100px',
+										borderRadius: '50%',
+										objectFit: 'cover',
+									}}
+								/>
+								<Typography
+									className="community-name"
+									style={{
+										fontSize: '1.2rem',
+										fontWeight: '600',
+										color: '#333',
+									}}
+								>
+									Community Board Article
+								</Typography>
+							</Stack>
+
+							{/* Tabs */}
+							<Tabs
+								orientation="horizontal"
+								value={articleCategory}
+								onChange={tabChangeHandler}
+								style={{
+									display: 'flex',
+									gap: '10px',
+									overflowX: 'auto',
+									padding: '10px 0',
+									borderBottom: '2px solid #e0e0e0',
+								}}
+							>
+								{['FREE', 'RECOMMEND', 'NEWS', 'HUMOR'].map((value) => (
+									<Tab
+										key={value}
+										value={value}
+										label={value}
+										style={{
+											padding: '8px 12px',
+											borderRadius: '6px',
+											fontSize: '14px',
+											fontWeight: '600',
+											textTransform: 'none',
+											color: articleCategory === value ? '#ffffff' : '#333',
+											backgroundColor: articleCategory === value ? '#007bff' : '#f4f4f4',
+											transition: 'background-color 0.3s ease, color 0.3s ease',
+										}}
+									/>
+								))}
+							</Tabs>
+						</Stack>
+
+						{/* Article Details */}
+						<div
+							className="community-detail-config"
+							style={{
+								backgroundColor: '#fff',
+								borderRadius: '8px',
+								padding: '15px',
+								boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+							}}
+						>
+							{/* Title Section */}
+							<Stack
+								className="title-box"
+								style={{
+									display: 'flex',
+									justifyContent: 'space-between',
+									alignItems: 'center',
+									marginBottom: '15px',
+								}}
+							>
+								<Stack>
+									<Typography
+										className="title"
+										style={{
+											fontSize: '1.2rem',
+											fontWeight: '600',
+											color: '#333',
+										}}
+									>
+										{articleCategory} BOARD
+									</Typography>
+									<Typography
+										className="sub-title"
+										style={{
+											fontSize: '0.9rem',
+											color: '#666',
+										}}
+									>
+										Express your opinions freely here without content restrictions
+									</Typography>
+								</Stack>
+								<Button
+									onClick={() =>
+										router.push({
+											pathname: '/mypage',
+											query: {
+												category: 'writeArticle',
+											},
+										})
+									}
+									style={{
+										padding: '8px 16px',
+										backgroundColor: '#007bff',
+										color: '#fff',
+										fontWeight: '600',
+										borderRadius: '8px',
+									}}
+								>
+									Write
+								</Button>
+							</Stack>
+
+							{/* Article Content */}
+							<Stack
+								style={{
+									gap: '15px',
+									marginBottom: '20px',
+								}}
+							>
+								<Typography
+									style={{
+										fontSize: '1.1rem',
+										fontWeight: '600',
+										color: '#333',
+									}}
+								>
+									{boardArticle?.articleTitle}
+								</Typography>
+								<Stack
+									style={{
+										display: 'flex',
+										flexDirection: 'row',
+										alignItems: 'center',
+										gap: '10px',
+									}}
+								>
+									<img
+										src={memberImage}
+										alt=""
+										style={{
+											width: '40px',
+											height: '40px',
+											borderRadius: '50%',
+											objectFit: 'cover',
+										}}
+										onClick={() => goMemberPage(boardArticle?.memberData?._id)}
+									/>
+									<Typography
+										onClick={() => goMemberPage(boardArticle?.memberData?._id)}
+										style={{
+											fontSize: '1rem',
+											fontWeight: '600',
+											color: '#007bff',
+											cursor: 'pointer',
+										}}
+									>
+										{boardArticle?.memberData?.memberNick}
+									</Typography>
+									<Typography
+										style={{
+											fontSize: '0.9rem',
+											color: '#666',
+										}}
+									>
+										<Moment format="DD.MM.YY HH:mm">{boardArticle?.createdAt}</Moment>
+									</Typography>
+								</Stack>
+							</Stack>
+
+							{/* Comments Section */}
+							<Stack
+								style={{
+									borderTop: '1px solid #e0e0e0',
+									paddingTop: '15px',
+									marginTop: '15px',
+								}}
+							>
+								<Typography
+									style={{
+										fontSize: '1rem',
+										fontWeight: '600',
+										color: '#333',
+										marginBottom: '10px',
+									}}
+								>
+									Comments ({total})
+								</Typography>
+								<Stack
+									style={{
+										display: 'flex',
+										flexDirection: 'column',
+										gap: '10px',
+									}}
+								>
+									{comments?.map((commentData) => (
+										<Stack
+											key={commentData?._id}
+											style={{
+												backgroundColor: '#f4f4f4',
+												padding: '10px',
+												borderRadius: '8px',
+											}}
+										>
+											<Typography
+												style={{
+													fontSize: '0.9rem',
+													fontWeight: '600',
+													color: '#007bff',
+												}}
+												onClick={() => goMemberPage(commentData?.memberData?._id)}
+											>
+												{commentData?.memberData?.memberNick}
+											</Typography>
+											<Typography style={{ fontSize: '0.85rem', color: '#666' }}>
+												<Moment format="DD.MM.YY HH:mm">{commentData?.createdAt}</Moment>
+											</Typography>
+											<Typography style={{ fontSize: '0.9rem', color: '#333' }}>
+												{commentData?.commentContent}
+											</Typography>
+										</Stack>
+									))}
+								</Stack>
+							</Stack>
+
+							{/* Pagination */}
+							{total > 0 && (
+								<Stack
+									style={{
+										display: 'flex',
+										justifyContent: 'center',
+										marginTop: '20px',
+									}}
+								>
+									<Pagination
+										count={Math.ceil(total / searchFilter.limit)}
+										page={searchFilter.page}
+										shape="circular"
+										color="primary"
+										onChange={paginationHandler}
+									/>
+								</Stack>
+							)}
+						</div>
+					</Stack>
+				</div>
+			</div>
+		);
 	} else {
 		return (
 			<div id="community-detail-page">

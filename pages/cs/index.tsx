@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { Box, Stack } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Notice from '../../libs/components/cs/Notice';
@@ -32,7 +32,135 @@ const CS: NextPage = () => {
 	const tab = router.query.tab ?? 'notice';
 
 	if (device === 'mobile') {
-		return <h1>CS PAGE MOBILE</h1>;
+		return (
+			<Stack
+				className="cs-page"
+				sx={{
+					width: '100%',
+					padding: '10px',
+					backgroundColor: '#f9f9f9',
+					gap: '20px',
+					marginTop: '50px',
+				}}
+			>
+				<Stack
+					className="container"
+					sx={{
+						maxWidth: '100%',
+						margin: '0 auto',
+						display: 'flex',
+						flexDirection: 'column',
+						gap: '20px',
+					}}
+				>
+					{/* Main Info Section */}
+					<Box
+						component="div"
+						className="cs-main-info"
+						sx={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							gap: '15px',
+							padding: '10px',
+							backgroundColor: '#ffffff',
+							borderRadius: '12px',
+							boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+						}}
+					>
+						<Box
+							component="div"
+							className="info"
+							sx={{
+								textAlign: 'center',
+							}}
+						>
+							<Typography
+								sx={{
+									fontSize: '1.5rem',
+									fontWeight: '600',
+									color: '#333',
+								}}
+							>
+								Cs Center
+							</Typography>
+							<Typography
+								sx={{
+									fontSize: '1rem',
+									color: '#666',
+								}}
+							>
+								I will answer your questions
+							</Typography>
+						</Box>
+
+						{/* Tabs */}
+						<Box
+							component="div"
+							className="btns"
+							sx={{
+								display: 'flex',
+								gap: '10px',
+							}}
+						>
+							<Box
+								component="div"
+								sx={{
+									padding: '8px 16px',
+									borderRadius: '8px',
+									backgroundColor: tab === 'notice' ? '#007bff' : '#f4f4f4',
+									color: tab === 'notice' ? '#fff' : '#333',
+									fontWeight: '600',
+									fontSize: '0.9rem',
+									cursor: 'pointer',
+									transition: 'background-color 0.3s ease, color 0.3s ease',
+									textAlign: 'center',
+								}}
+								onClick={() => {
+									changeTabHandler('notice');
+								}}
+							>
+								Notice
+							</Box>
+							<Box
+								component="div"
+								sx={{
+									padding: '8px 16px',
+									borderRadius: '8px',
+									backgroundColor: tab === 'faq' ? '#007bff' : '#f4f4f4',
+									color: tab === 'faq' ? '#fff' : '#333',
+									fontWeight: '600',
+									fontSize: '0.9rem',
+									cursor: 'pointer',
+									transition: 'background-color 0.3s ease, color 0.3s ease',
+									textAlign: 'center',
+								}}
+								onClick={() => {
+									changeTabHandler('faq');
+								}}
+							>
+								FAQ
+							</Box>
+						</Box>
+					</Box>
+
+					{/* Content Section */}
+					<Box
+						component="div"
+						className="cs-content"
+						sx={{
+							padding: '10px',
+							backgroundColor: '#ffffff',
+							borderRadius: '12px',
+							boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+						}}
+					>
+						{tab === 'notice' && <Notice />}
+						{tab === 'faq' && <Faq />}
+					</Box>
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={'cs-page'}>

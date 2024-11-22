@@ -167,7 +167,183 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>AGENTS PAGE MOBILE</h1>;
+		return (
+			<Stack
+				className="agent-list-page"
+				style={{
+					padding: '15px',
+					backgroundColor: '#f9f9f9',
+					display: 'flex',
+					flexDirection: 'column',
+					gap: '20px',
+					marginTop: 50,
+				}}
+			>
+				<Stack
+					className="container"
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						gap: '20px',
+					}}
+				>
+					{/* Search and Filter Section */}
+					<Stack
+						className="filter"
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '15px',
+							backgroundColor: '#fff',
+							padding: '15px',
+							borderRadius: '8px',
+							boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+						}}
+					>
+						{/* Search Input */}
+						<Box
+							className="left"
+							style={{
+								display: 'flex',
+								flexDirection: 'row',
+								alignItems: 'center',
+								gap: '10px',
+							}}
+						>
+							<input
+								type="text"
+								placeholder="Search for an agent"
+								value={searchText}
+								onChange={(e: any) => setSearchText(e.target.value)}
+								onKeyDown={(event: any) => {
+									if (event.key === 'Enter') {
+										setSearchFilter({
+											...searchFilter,
+											search: { ...searchFilter.search, text: searchText },
+										});
+									}
+								}}
+								style={{
+									flex: 1,
+									padding: '10px',
+									border: '1px solid #ddd',
+									borderRadius: '5px',
+									fontSize: '1rem',
+								}}
+							/>
+						</Box>
+
+						{/* Sort Dropdown */}
+						<Box
+							className="right"
+							style={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								alignItems: 'center',
+							}}
+						>
+							<span style={{ fontSize: '1rem', color: '#333' }}>Sort by</span>
+							<div>
+								<Button
+									onClick={sortingClickHandler}
+									endIcon={<KeyboardArrowDownRoundedIcon />}
+									style={{ fontSize: '0.9rem', fontWeight: '600', color: '#007bff' }}
+								>
+									{filterSortName}
+								</Button>
+								<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
+									{['New', 'Oldest', 'Likes', 'Views'].map((sortOption) => (
+										<MenuItem
+											key={sortOption}
+											onClick={handleSortingClick}
+											id={sortOption.toLowerCase()}
+											disableRipple
+											sx={{
+												color: selectedSort === sortOption.toLowerCase() ? 'red' : 'inherit',
+											}}
+										>
+											{sortOption}
+										</MenuItem>
+									))}
+								</Menu>
+							</div>
+						</Box>
+					</Stack>
+
+					{/* Agent List */}
+					<Stack
+						className="card-wrap"
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '15px',
+							backgroundColor: '#fff',
+							padding: '15px',
+							borderRadius: '8px',
+							boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+						}}
+					>
+						{agents?.length === 0 ? (
+							<div
+								className="no-data"
+								style={{
+									textAlign: 'center',
+									color: '#777',
+								}}
+							>
+								<img
+									src="/img/icons/icoAlert.svg"
+									alt=""
+									style={{
+										width: '50px',
+										height: '50px',
+										marginBottom: '10px',
+									}}
+								/>
+								<p>No Agents found!</p>
+							</div>
+						) : (
+							agents.map((agent: Member) => (
+								<AgentCard
+									agent={agent}
+									subscribeHandler={subscribeHandler}
+									unsubscribeHandler={unsubscribeHandler}
+									key={agent._id}
+									likeMemberHandler={likeMemberHandler}
+								/>
+							))
+						)}
+					</Stack>
+
+					{/* Pagination Section */}
+					<Stack
+						className="pagination"
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							gap: '10px',
+						}}
+					>
+						{agents.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
+							<Pagination
+								page={currentPage}
+								count={Math.ceil(total / searchFilter.limit)}
+								onChange={paginationChangeHandler}
+								shape="circular"
+								color="primary"
+							/>
+						)}
+						{agents.length !== 0 && (
+							<span style={{ fontSize: '0.85rem', color: '#555' }}>
+								Total {total} agent{total > 1 ? 's' : ''} available
+							</span>
+						)}
+					</Stack>
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={'agent-list-page'}>

@@ -169,7 +169,238 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	};
 
 	if (device === 'mobile') {
-		return <div>AGENT DETAIL PAGE MOBILE</div>;
+		return (
+			<Stack
+				className="agent-detail-page"
+				style={{
+					padding: '15px',
+					backgroundColor: '#f9f9f9',
+					gap: '20px',
+				}}
+			>
+				{/* Agent Info */}
+				<Stack
+					className="container"
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						gap: '20px',
+					}}
+				>
+					<Stack
+						className="agent-info"
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							gap: '10px',
+						}}
+					>
+						<img
+							src={agent?.memberImage ? `${REACT_APP_API_URL}/${agent?.memberImage}` : '/img/profile/defaultUser.svg'}
+							alt=""
+							style={{
+								width: '100px',
+								height: '100px',
+								borderRadius: '50%',
+								objectFit: 'cover',
+								boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+							}}
+						/>
+						<Box
+							component="div"
+							className="info"
+							onClick={() => redirectToMemberPageHandler(agent?._id as string)}
+							style={{
+								textAlign: 'center',
+							}}
+						>
+							<strong
+								style={{
+									fontSize: '1rem',
+									fontWeight: '600',
+									color: '#007bff',
+									cursor: 'pointer',
+									display: 'flex',
+									alignItems: 'center',
+									gap: '5px',
+								}}
+							>
+								{`${agent?.memberFirstName ?? ''} ${agent?.memberLastName ?? ''}`.trim()}
+								<ArrowOutwardIcon style={{ fontSize: '1rem', color: '#007bff' }} />
+							</strong>
+							<div
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									gap: '8px',
+									fontSize: '0.85rem',
+									color: '#555',
+								}}
+							>
+								<img src="/img/icons/call.svg" alt="" style={{ width: '16px', height: '16px' }} />
+								<span>{agent?.memberPhone}</span>
+							</div>
+						</Box>
+					</Stack>
+
+					{/* Agent Facilities */}
+					<Stack className="agent-home-list" style={{ width: '100%', gap: '15px' }}>
+						<Stack
+							className="card-wrap"
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								gap: '15px',
+							}}
+						>
+							{agentFacilities.map((rent: Facility) => (
+								<div
+									className="wrap-main"
+									key={rent?._id}
+									style={{
+										width: '100%',
+										backgroundColor: '#fff',
+										borderRadius: '8px',
+										boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+									}}
+								>
+									<FacilityBigCard facility={rent} likeFacilityHandler={likeFacilityHandler} />
+								</div>
+							))}
+						</Stack>
+						<Stack
+							className="pagination"
+							style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}
+						>
+							{facilityTotal ? (
+								<>
+									<Pagination
+										page={searchFilter.page}
+										count={Math.ceil(facilityTotal / searchFilter.limit) || 1}
+										onChange={facilityPaginationChangeHandler}
+										shape="circular"
+										color="primary"
+									/>
+									<span style={{ fontSize: '0.85rem', color: '#555' }}>
+										Total {facilityTotal} facilit{facilityTotal > 1 ? 'ies' : 'y'} available
+									</span>
+								</>
+							) : (
+								<div className="no-data" style={{ textAlign: 'center', color: '#777', fontSize: '0.85rem' }}>
+									<img src="/img/icons/icoAlert.svg" alt="" style={{ width: '40px', marginBottom: '10px' }} />
+									<p>No facilities found!</p>
+								</div>
+							)}
+						</Stack>
+					</Stack>
+
+					{/* Reviews Section */}
+					<Stack
+						className="review-box"
+						style={{
+							width: '100%',
+							backgroundColor: '#fff',
+							borderRadius: '8px',
+							boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+							padding: '15px',
+							gap: '15px',
+						}}
+					>
+						<Stack
+							className="main-intro"
+							style={{
+								textAlign: 'center',
+								gap: '5px',
+							}}
+						>
+							<span style={{ fontSize: '1rem', fontWeight: '600', color: '#333' }}>Reviews</span>
+							<p style={{ fontSize: '0.85rem', color: '#777' }}>We are glad to see you again</p>
+						</Stack>
+
+						{commentTotal !== 0 && (
+							<Stack className="review-wrap" style={{ gap: '15px' }}>
+								<Box
+									component="div"
+									className="title-box"
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										gap: '8px',
+										fontSize: '0.9rem',
+										color: '#333',
+									}}
+								>
+									<StarIcon style={{ color: '#FFD700', fontSize: '1rem' }} />
+									<span>
+										{commentTotal} review{commentTotal > 1 ? 's' : ''}
+									</span>
+								</Box>
+								{agentComments?.map((comment: Comment) => (
+									<ReviewCard comment={comment} key={comment?._id} />
+								))}
+								<Box
+									component="div"
+									className="pagination-box"
+									style={{
+										display: 'flex',
+										justifyContent: 'center',
+									}}
+								>
+									<Pagination
+										page={commentInquiry.page}
+										count={Math.ceil(commentTotal / commentInquiry.limit) || 1}
+										onChange={commentPaginationChangeHandler}
+										shape="circular"
+										color="primary"
+									/>
+								</Box>
+							</Stack>
+						)}
+
+						<Stack className="leave-review-config" style={{ gap: '10px' }}>
+							<Typography className="main-title" style={{ fontSize: '1rem', fontWeight: '600', color: '#333' }}>
+								Leave A Review
+							</Typography>
+							<textarea
+								onChange={({ target: { value } }: any) => {
+									setInsertCommentData({ ...insertCommentData, commentContent: value });
+								}}
+								value={insertCommentData.commentContent}
+								style={{
+									width: '100%',
+									height: '80px',
+									border: '1px solid #ddd',
+									borderRadius: '6px',
+									padding: '10px',
+									fontSize: '0.85rem',
+									color: '#555',
+									resize: 'none',
+								}}
+							></textarea>
+							<Button
+								disabled={insertCommentData.commentContent === '' || user?._id === ''}
+								onClick={createCommentHandler}
+								style={{
+									width: '100%',
+									backgroundColor: '#007bff',
+									color: '#fff',
+									padding: '10px',
+									borderRadius: '6px',
+									fontSize: '0.9rem',
+									fontWeight: '600',
+									cursor: 'pointer',
+								}}
+							>
+								Submit Review
+							</Button>
+						</Stack>
+					</Stack>
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={'agent-detail-page'}>
