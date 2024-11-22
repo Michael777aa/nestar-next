@@ -290,7 +290,7 @@ const Chat = () => {
 						style={{
 							position: 'fixed',
 							bottom: '50px',
-							right: '5px',
+							right: '10px',
 							zIndex: 1100,
 							background: 'green',
 							border: 'none',
@@ -327,7 +327,6 @@ const Chat = () => {
 						overflow: 'hidden',
 					}}
 				>
-					{/* Header */}
 					<Box
 						className="chat-top"
 						component="div"
@@ -341,6 +340,7 @@ const Chat = () => {
 						}}
 					>
 						<Typography
+							component="div"
 							style={{
 								fontFamily: 'Nunito',
 								fontSize: '18px',
@@ -351,6 +351,7 @@ const Chat = () => {
 						</Typography>
 						<Stack direction="column" alignItems="center">
 							<Typography
+								component="span"
 								style={{
 									fontFamily: 'Nunito',
 									fontSize: '12px',
@@ -361,8 +362,6 @@ const Chat = () => {
 							<RippleBadge badgeContent={onlineUsers} />
 						</Stack>
 					</Box>
-
-					{/* Messages */}
 					<Box
 						className="chat-content"
 						id="chat-content"
@@ -403,56 +402,17 @@ const Chat = () => {
 										>
 											<Stack direction="row" alignItems="center" mb={1}>
 												<Avatar src={memberImage} sx={{ width: 28, height: 28, marginRight: '8px' }} />
-												<Typography sx={{ fontSize: '14px', fontWeight: 'bold', color: '#555' }}>
+												<Typography component="span" sx={{ fontSize: '14px', fontWeight: 'bold', color: '#555' }}>
 													{memberName}
 												</Typography>
 											</Stack>
-											<Typography>{renderMessageText(text)}</Typography>
-											<Box
-												sx={{
-													display: 'flex',
-													justifyContent: 'space-between',
-													width: '100%',
-													marginTop: '8px',
-													fontSize: '12px',
-													color: 'rgba(0, 0, 0, 0.5)',
-												}}
-											>
-												{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-												{ele.isEdited && <span style={{ fontStyle: 'italic' }}> (edited)</span>}
-												{memberData?._id === user?._id && (
-													<Box display="flex" gap="8px">
-														<IconButton
-															onClick={() => handleEditMessage(id, text)}
-															sx={{
-																padding: '4px',
-																backgroundColor: '#E0E0E0',
-																'&:hover': { backgroundColor: '#C8E6C9' },
-															}}
-														>
-															<EditIcon fontSize="small" />
-														</IconButton>
-														<IconButton
-															onClick={() => handleRemoveMessage(id)}
-															sx={{
-																padding: '4px',
-																backgroundColor: '#E0E0E0',
-																'&:hover': { backgroundColor: '#FFCDD2' },
-															}}
-														>
-															<DeleteIcon fontSize="small" />
-														</IconButton>
-													</Box>
-												)}
-											</Box>
+											<Typography component="div">{renderMessageText(text)}</Typography>
 										</Box>
 									);
 								})}
 							</Stack>
 						</ScrollableFeed>
 					</Box>
-
-					{/* Input */}
 					<Box
 						className="chat-bottom"
 						sx={{

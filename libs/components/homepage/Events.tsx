@@ -216,7 +216,7 @@ const Events = ({ initialInquiry, ...props }: any) => {
 								</Typography>
 							</Box>
 						) : (
-							allEvents.map((event: Event) => <EventCard event={event} key={event?.eventName} />)
+							allEvents.map((event: Event) => <EventCard event={event} key={event?._id} />)
 						)}
 					</Stack>
 				</Stack>
