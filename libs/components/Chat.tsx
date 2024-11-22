@@ -14,6 +14,7 @@ import { Messages, REACT_APP_API_URL } from '../config';
 import { sweetErrorAlert } from '../sweetAlert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import useDeviceDetect from '../hooks/useDeviceDetect';
 
 interface MessagePayload {
 	id: string;
@@ -35,6 +36,7 @@ const Chat = () => {
 	const chatContentRef = useRef<HTMLDivElement>(null);
 	const [messagesList, setMessagesList] = useState<MessagePayload[]>([]);
 	const [onlineUsers, setOnlineUsers] = useState<number>(0);
+	const device = useDeviceDetect();
 	const [messageInput, setMessageInput] = useState<string>('');
 	const [open, setOpen] = useState(false);
 	const [openButton, setOpenButton] = useState(false);
@@ -279,254 +281,475 @@ const Chat = () => {
 		);
 	};
 
-	return (
-		<>
-			{openButton && (
-				<button
-					onClick={handleOpenChat}
-					style={{
-						position: 'fixed',
-						bottom: '30px',
-						right: '30px',
-						zIndex: 1100,
-						background: '#25D366',
-						border: 'none',
-						color: 'white',
-						borderRadius: '50%',
-						width: '60px',
-						height: '60px',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-						cursor: 'pointer',
-						transition: 'background 0.3s ease',
-					}}
-					onMouseEnter={(e) => (e.currentTarget.style.background = '#1DA855')}
-					onMouseLeave={(e) => (e.currentTarget.style.background = '#25D366')}
-				>
-					{open ? <CloseFullscreenIcon /> : <MarkChatUnreadIcon />}
-				</button>
-			)}
-			<Stack
-				ref={chatContainerRef}
-				className={`chat-frame ${open ? 'open' : 'closed'}`}
-				sx={{
-					position: 'fixed',
-					top: 0,
-					left: 0,
-					width: '40%',
-					height: '100vh',
-					backgroundColor: '#E5DDD5',
-					boxShadow: '2px 0 8px rgba(0, 0, 0, 0.1)',
-					transform: open ? 'translateX(0)' : 'translateX(-100%)',
-					transition: 'transform 0.4s ease-in-out',
-					zIndex: 1000,
-				}}
-			>
-				<Box
-					className="chat-top"
-					component="div"
-					sx={{
-						padding: '20px 25px',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'space-between',
-						backgroundColor: '#075E54',
-						color: 'white',
-						boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-					}}
-				>
-					<div style={{ fontFamily: 'Nunito', fontSize: '22px', fontWeight: 'bold' }}>Chat</div>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
-					>
-						<div style={{ fontFamily: 'Nunito', fontSize: '14px', position: 'relative', bottom: 15, left: 5 }}>
-							Users Online
-						</div>
-						<RippleBadge style={{ marginLeft: '20px' }} badgeContent={onlineUsers} />
-					</div>
-				</Box>
-				<Box
-					className="chat-content"
-					id="chat-content"
-					ref={chatContentRef}
-					onScroll={handleScroll}
-					component="div"
-					sx={{
-						padding: '15px',
-						overflowY: 'auto',
-						flexGrow: 1,
-						backgroundColor: '#E5DDD5',
-					}}
-				>
-					<ScrollableFeed>
-						<Stack className="chat-main" spacing={2}>
-							{messagesList.map((ele: MessagePayload) => {
-								const { id, text, memberData, createdAt } = ele;
-								const memberImage = memberData?.memberImage
-									? `${REACT_APP_API_URL}/${memberData.memberImage}`
-									: '/img/profile/defaultUser.svg';
-								const memberName = memberData?.memberNick || 'Guest';
-
-								return (
-									<Box
-										key={id}
-										display="flex"
-										flexDirection="column"
-										alignItems="flex-start"
-										sx={{
-											maxWidth: 'auto',
-											marginRight: 'auto',
-											padding: '10px 15px',
-											backgroundColor: memberData?._id === user?._id ? '#DCF8C6' : '#ffffff',
-											color: '#303030',
-											borderRadius: '10px',
-											boxShadow: '0 1px 2px rgba(0, 0, 0, 0.15)',
-											overflowWrap: 'break-word',
-											wordBreak: 'break-word',
-										}}
-									>
-										<Box display="flex" alignItems="center" mb={1}>
-											<Avatar alt={memberName} src={memberImage} sx={{ width: 30, height: 30, marginRight: '8px' }} />
-											<Typography variant="body2" color="textSecondary" sx={{ fontWeight: 'bold' }}>
-												{memberName}
-											</Typography>
-										</Box>
-										<div>{renderMessageText(text)}</div>
-										{/* Time, edited label, and edit/remove buttons in a single row */}
-										<Box display="flex" alignItems="center" justifyContent="space-between" width="100%" mt={1}>
-											{/* Time and edited label */}
-											<span
-												style={{
-													fontSize: '12px',
-													color: 'rgba(0, 0, 0, 0.5)',
-												}}
-											>
-												{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-												{ele.isEdited && <span style={{ marginLeft: '5px', fontStyle: 'italic' }}>(edited)</span>}
-											</span>
-
-											{/* Edit and delete buttons for the user's own messages */}
-											{memberData?._id === user?._id && (
-												<Box display="flex" gap={1} style={{ position: 'relative', bottom: '65px', left: '5px' }}>
-													<IconButton
-														onClick={() => handleEditMessage(id, text)}
-														sx={{
-															width: '25px',
-															height: '25px',
-															backgroundColor: '#E0E0E0',
-															color: '#4CAF50',
-															borderRadius: '50%',
-															padding: '4px',
-															'&:hover': { backgroundColor: '#C8E6C9' },
-														}}
-													>
-														<EditIcon fontSize="small" />
-													</IconButton>
-
-													<IconButton
-														onClick={() => handleRemoveMessage(id)}
-														sx={{
-															width: '25px',
-															height: '25px',
-															backgroundColor: '#E0E0E0',
-															color: '#F44336',
-															borderRadius: '50%',
-															padding: '4px',
-															'&:hover': { backgroundColor: '#FFCDD2' },
-														}}
-													>
-														<DeleteIcon fontSize="small" />
-													</IconButton>
-												</Box>
-											)}
-										</Box>
-									</Box>
-								);
-							})}
-						</Stack>
-					</ScrollableFeed>
-				</Box>
-
-				{/* Scroll-to-bottom button */}
-				{showScrollButton && (
-					<IconButton
-						onClick={() => {
-							scrollToBottom();
-							setUserIsAtBottom(true); // Reset the flag to true after scrolling
-						}}
+	if (device === 'mobile') {
+		return (
+			<>
+				{openButton && (
+					<button
+						onClick={handleOpenChat}
 						style={{
 							position: 'fixed',
-							bottom: '85px',
-							right: '15px',
-							backgroundColor: '#25D366',
-							color: 'white',
+							bottom: '50px',
+							right: '5px',
 							zIndex: 1100,
-						}}
-					>
-						<ArrowDownwardIcon />
-					</IconButton>
-				)}
-
-				<Box
-					className="chat-bott"
-					component="div"
-					sx={{
-						display: 'flex',
-						alignItems: 'center',
-						padding: '15px',
-						borderTop: '1px solid #ddd',
-						backgroundColor: '#ffffff',
-					}}
-				>
-					<input
-						type="text"
-						name="message"
-						value={messageInput}
-						className="msg-input"
-						placeholder="Type a message..."
-						onChange={getInputMessageHandler}
-						onKeyDown={getKeyHandler}
-						style={{
-							flexGrow: 1,
-							padding: '12px',
-							border: '1px solid #ccc',
-							borderRadius: '20px',
-							fontSize: '15px',
-						}}
-					/>
-					<button
-						className="send-msg-btn"
-						onClick={onClickHandler}
-						style={{
-							backgroundColor: '#25D366',
+							background: 'green',
 							border: 'none',
+							color: 'white',
 							borderRadius: '50%',
-							width: '45px',
-							height: '45px',
+							width: '30px',
+							height: '30px',
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center',
+							boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
 							cursor: 'pointer',
-							color: 'white',
-							marginLeft: '10px',
 							transition: 'background 0.3s ease',
 						}}
 						onMouseEnter={(e) => (e.currentTarget.style.background = '#1DA855')}
 						onMouseLeave={(e) => (e.currentTarget.style.background = '#25D366')}
 					>
-						<SendIcon />
+						{open ? <CloseFullscreenIcon /> : <MarkChatUnreadIcon />}
 					</button>
-				</Box>
-			</Stack>
-		</>
-	);
+				)}
+				<Stack
+					ref={chatContainerRef}
+					className={`chat-frame ${open ? 'open' : 'closed'}`}
+					sx={{
+						position: 'fixed',
+						bottom: 0,
+						left: 0,
+						width: '100%',
+						height: open ? '100vh' : '0',
+						backgroundColor: '#E5DDD5',
+						boxShadow: '0 -2px 8px rgba(0, 0, 0, 0.1)',
+						transition: 'height 0.4s ease-in-out',
+						zIndex: 1000,
+						overflow: 'hidden',
+					}}
+				>
+					{/* Header */}
+					<Box
+						className="chat-top"
+						component="div"
+						sx={{
+							padding: '12px',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'space-between',
+							backgroundColor: '#075E54',
+							color: 'white',
+						}}
+					>
+						<Typography
+							style={{
+								fontFamily: 'Nunito',
+								fontSize: '18px',
+								fontWeight: 'bold',
+							}}
+						>
+							Chat
+						</Typography>
+						<Stack direction="column" alignItems="center">
+							<Typography
+								style={{
+									fontFamily: 'Nunito',
+									fontSize: '12px',
+								}}
+							>
+								Users Online
+							</Typography>
+							<RippleBadge badgeContent={onlineUsers} />
+						</Stack>
+					</Box>
+
+					{/* Messages */}
+					<Box
+						className="chat-content"
+						id="chat-content"
+						ref={chatContentRef}
+						onScroll={handleScroll}
+						component="div"
+						sx={{
+							padding: '12px',
+							overflowY: 'auto',
+							flexGrow: 1,
+							backgroundColor: '#E5DDD5',
+						}}
+					>
+						<ScrollableFeed>
+							<Stack spacing={2}>
+								{messagesList.map((ele: MessagePayload) => {
+									const { id, text, memberData, createdAt } = ele;
+									const memberImage = memberData?.memberImage
+										? `${REACT_APP_API_URL}/${memberData.memberImage}`
+										: '/img/profile/defaultUser.svg';
+									const memberName = memberData?.memberNick || 'Guest';
+
+									return (
+										<Box
+											key={id}
+											sx={{
+												display: 'flex',
+												flexDirection: 'column',
+												alignItems: 'flex-start',
+												marginBottom: '8px',
+												padding: '10px',
+												backgroundColor: memberData?._id === user?._id ? '#DCF8C6' : '#fff',
+												color: '#303030',
+												borderRadius: '8px',
+												wordBreak: 'break-word',
+												boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)',
+											}}
+										>
+											<Stack direction="row" alignItems="center" mb={1}>
+												<Avatar src={memberImage} sx={{ width: 28, height: 28, marginRight: '8px' }} />
+												<Typography sx={{ fontSize: '14px', fontWeight: 'bold', color: '#555' }}>
+													{memberName}
+												</Typography>
+											</Stack>
+											<Typography>{renderMessageText(text)}</Typography>
+											<Box
+												sx={{
+													display: 'flex',
+													justifyContent: 'space-between',
+													width: '100%',
+													marginTop: '8px',
+													fontSize: '12px',
+													color: 'rgba(0, 0, 0, 0.5)',
+												}}
+											>
+												{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+												{ele.isEdited && <span style={{ fontStyle: 'italic' }}> (edited)</span>}
+												{memberData?._id === user?._id && (
+													<Box display="flex" gap="8px">
+														<IconButton
+															onClick={() => handleEditMessage(id, text)}
+															sx={{
+																padding: '4px',
+																backgroundColor: '#E0E0E0',
+																'&:hover': { backgroundColor: '#C8E6C9' },
+															}}
+														>
+															<EditIcon fontSize="small" />
+														</IconButton>
+														<IconButton
+															onClick={() => handleRemoveMessage(id)}
+															sx={{
+																padding: '4px',
+																backgroundColor: '#E0E0E0',
+																'&:hover': { backgroundColor: '#FFCDD2' },
+															}}
+														>
+															<DeleteIcon fontSize="small" />
+														</IconButton>
+													</Box>
+												)}
+											</Box>
+										</Box>
+									);
+								})}
+							</Stack>
+						</ScrollableFeed>
+					</Box>
+
+					{/* Input */}
+					<Box
+						className="chat-bottom"
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							padding: '10px',
+							borderTop: '1px solid #ddd',
+							backgroundColor: '#fff',
+						}}
+					>
+						<input
+							type="text"
+							name="message"
+							value={messageInput}
+							className="msg-input"
+							placeholder="Type a message..."
+							onChange={getInputMessageHandler}
+							onKeyDown={getKeyHandler}
+							style={{
+								flexGrow: 1,
+								padding: '10px',
+								borderRadius: '20px',
+								border: '1px solid #ccc',
+							}}
+						/>
+						<button
+							className="send-msg-btn"
+							onClick={onClickHandler}
+							style={{
+								backgroundColor: '#25D366',
+								border: 'none',
+								borderRadius: '50%',
+								width: '40px',
+								height: '40px',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								color: 'white',
+								marginLeft: '8px',
+							}}
+						>
+							<SendIcon />
+						</button>
+					</Box>
+				</Stack>
+			</>
+		);
+	} else {
+		return (
+			<>
+				{openButton && (
+					<button
+						onClick={handleOpenChat}
+						style={{
+							position: 'fixed',
+							bottom: '30px',
+							right: '30px',
+							zIndex: 1100,
+							background: '#25D366',
+							border: 'none',
+							color: 'white',
+							borderRadius: '50%',
+							width: '60px',
+							height: '60px',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+							cursor: 'pointer',
+							transition: 'background 0.3s ease',
+						}}
+						onMouseEnter={(e) => (e.currentTarget.style.background = '#1DA855')}
+						onMouseLeave={(e) => (e.currentTarget.style.background = '#25D366')}
+					>
+						{open ? <CloseFullscreenIcon /> : <MarkChatUnreadIcon />}
+					</button>
+				)}
+				<Stack
+					ref={chatContainerRef}
+					className={`chat-frame ${open ? 'open' : 'closed'}`}
+					sx={{
+						position: 'fixed',
+						top: 0,
+						left: 0,
+						width: '40%',
+						height: '100vh',
+						backgroundColor: '#E5DDD5',
+						boxShadow: '2px 0 8px rgba(0, 0, 0, 0.1)',
+						transform: open ? 'translateX(0)' : 'translateX(-100%)',
+						transition: 'transform 0.4s ease-in-out',
+						zIndex: 1000,
+					}}
+				>
+					<Box
+						className="chat-top"
+						component="div"
+						sx={{
+							padding: '20px 25px',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'space-between',
+							backgroundColor: '#075E54',
+							color: 'white',
+							boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+						}}
+					>
+						<div style={{ fontFamily: 'Nunito', fontSize: '22px', fontWeight: 'bold' }}>Chat</div>
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								justifyContent: 'center',
+							}}
+						>
+							<div style={{ fontFamily: 'Nunito', fontSize: '14px', position: 'relative', bottom: 15, left: 5 }}>
+								Users Online
+							</div>
+							<RippleBadge style={{ marginLeft: '20px' }} badgeContent={onlineUsers} />
+						</div>
+					</Box>
+					<Box
+						className="chat-content"
+						id="chat-content"
+						ref={chatContentRef}
+						onScroll={handleScroll}
+						component="div"
+						sx={{
+							padding: '15px',
+							overflowY: 'auto',
+							flexGrow: 1,
+							backgroundColor: '#E5DDD5',
+						}}
+					>
+						<ScrollableFeed>
+							<Stack className="chat-main" spacing={2}>
+								{messagesList.map((ele: MessagePayload) => {
+									const { id, text, memberData, createdAt } = ele;
+									const memberImage = memberData?.memberImage
+										? `${REACT_APP_API_URL}/${memberData.memberImage}`
+										: '/img/profile/defaultUser.svg';
+									const memberName = memberData?.memberNick || 'Guest';
+
+									return (
+										<Box
+											key={id}
+											display="flex"
+											flexDirection="column"
+											alignItems="flex-start"
+											sx={{
+												maxWidth: 'auto',
+												marginRight: 'auto',
+												padding: '10px 15px',
+												backgroundColor: memberData?._id === user?._id ? '#DCF8C6' : '#ffffff',
+												color: '#303030',
+												borderRadius: '10px',
+												boxShadow: '0 1px 2px rgba(0, 0, 0, 0.15)',
+												overflowWrap: 'break-word',
+												wordBreak: 'break-word',
+											}}
+										>
+											<Box display="flex" alignItems="center" mb={1}>
+												<Avatar alt={memberName} src={memberImage} sx={{ width: 30, height: 30, marginRight: '8px' }} />
+												<Typography variant="body2" color="textSecondary" sx={{ fontWeight: 'bold' }}>
+													{memberName}
+												</Typography>
+											</Box>
+											<div>{renderMessageText(text)}</div>
+											{/* Time, edited label, and edit/remove buttons in a single row */}
+											<Box display="flex" alignItems="center" justifyContent="space-between" width="100%" mt={1}>
+												{/* Time and edited label */}
+												<span
+													style={{
+														fontSize: '12px',
+														color: 'rgba(0, 0, 0, 0.5)',
+													}}
+												>
+													{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+													{ele.isEdited && <span style={{ marginLeft: '5px', fontStyle: 'italic' }}>(edited)</span>}
+												</span>
+
+												{/* Edit and delete buttons for the user's own messages */}
+												{memberData?._id === user?._id && (
+													<Box display="flex" gap={1} style={{ position: 'relative', bottom: '65px', left: '5px' }}>
+														<IconButton
+															onClick={() => handleEditMessage(id, text)}
+															sx={{
+																width: '25px',
+																height: '25px',
+																backgroundColor: '#E0E0E0',
+																color: '#4CAF50',
+																borderRadius: '50%',
+																padding: '4px',
+																'&:hover': { backgroundColor: '#C8E6C9' },
+															}}
+														>
+															<EditIcon fontSize="small" />
+														</IconButton>
+
+														<IconButton
+															onClick={() => handleRemoveMessage(id)}
+															sx={{
+																width: '25px',
+																height: '25px',
+																backgroundColor: '#E0E0E0',
+																color: '#F44336',
+																borderRadius: '50%',
+																padding: '4px',
+																'&:hover': { backgroundColor: '#FFCDD2' },
+															}}
+														>
+															<DeleteIcon fontSize="small" />
+														</IconButton>
+													</Box>
+												)}
+											</Box>
+										</Box>
+									);
+								})}
+							</Stack>
+						</ScrollableFeed>
+					</Box>
+
+					{/* Scroll-to-bottom button */}
+					{showScrollButton && (
+						<IconButton
+							onClick={() => {
+								scrollToBottom();
+								setUserIsAtBottom(true); // Reset the flag to true after scrolling
+							}}
+							style={{
+								position: 'fixed',
+								bottom: '85px',
+								right: '15px',
+								backgroundColor: '#25D366',
+								color: 'white',
+								zIndex: 1100,
+							}}
+						>
+							<ArrowDownwardIcon />
+						</IconButton>
+					)}
+
+					<Box
+						className="chat-bott"
+						component="div"
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							padding: '15px',
+							borderTop: '1px solid #ddd',
+							backgroundColor: '#ffffff',
+						}}
+					>
+						<input
+							type="text"
+							name="message"
+							value={messageInput}
+							className="msg-input"
+							placeholder="Type a message..."
+							onChange={getInputMessageHandler}
+							onKeyDown={getKeyHandler}
+							style={{
+								flexGrow: 1,
+								padding: '12px',
+								border: '1px solid #ccc',
+								borderRadius: '20px',
+								fontSize: '15px',
+							}}
+						/>
+						<button
+							className="send-msg-btn"
+							onClick={onClickHandler}
+							style={{
+								backgroundColor: '#25D366',
+								border: 'none',
+								borderRadius: '50%',
+								width: '45px',
+								height: '45px',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								cursor: 'pointer',
+								color: 'white',
+								marginLeft: '10px',
+								transition: 'background 0.3s ease',
+							}}
+							onMouseEnter={(e) => (e.currentTarget.style.background = '#1DA855')}
+							onMouseLeave={(e) => (e.currentTarget.style.background = '#25D366')}
+						>
+							<SendIcon />
+						</button>
+					</Box>
+				</Stack>
+			</>
+		);
+	}
 };
 
 export default Chat;

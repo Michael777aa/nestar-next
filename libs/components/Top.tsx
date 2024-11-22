@@ -358,19 +358,6 @@ const Top = (props: topFilter) => {
 											<span style={{ width: '100%', height: '1px', backgroundColor: '#000000' }}></span>
 										</Link>
 									)}
-									{/* 
-									{user?._id && (
-										<div>
-											<a
-												href="/mypage"
-												onClick={toggleDrawer}
-												style={{ fontSize: '1.2rem', color: '#333', cursor: 'pointer' }}
-											>
-												Profile
-											</a>
-											<span style={{ width: '100%', height: '1px', backgroundColor: '#000000' }}></span>
-										</div>
-									)} */}
 								</Stack>
 								<Box className="lan-box">
 									<List className="language-list" sx={{ display: 'flex', marginTop: '50px' }}>
