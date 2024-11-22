@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Moment from 'react-moment';
 import { BoardArticle } from '../../types/board-article/board-article';
 
@@ -22,7 +22,60 @@ const CommunityCard = ({ vertical, article, index }: CommunityCardProps) => {
 	}
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY CARD (MOBILE)</div>;
+		return (
+			<Link href={`/community/detail?articleCategory=${article.articleCategory}&id=${article._id}`} passHref>
+				<Box
+					component="div"
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						backgroundColor: '#fff',
+						borderRadius: '10px',
+						overflow: 'hidden',
+						boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+						textAlign: 'center',
+						width: '100%',
+						padding: '10px',
+					}}
+				>
+					<div
+						style={{
+							width: '100%',
+							height: '150px',
+							backgroundImage: `url(${articleImage})`,
+							backgroundSize: 'cover',
+							backgroundPosition: 'center',
+							borderRadius: '10px 10px 0 0',
+							marginBottom: '10px',
+						}}
+					></div>
+					<Typography
+						variant="h6"
+						style={{
+							fontSize: '16px',
+							fontWeight: 'bold',
+							color: '#333',
+							marginBottom: '5px',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap',
+						}}
+					>
+						{article.articleTitle}
+					</Typography>
+					<Typography
+						variant="caption"
+						style={{
+							fontSize: '12px',
+							color: '#777',
+						}}
+					>
+						<Moment format="DD.MM.YY">{article.createdAt}</Moment>
+					</Typography>
+				</Box>
+			</Link>
+		);
 	} else {
 		return (
 			<Link href={`/community/detail?articleCategory=${article.articleCategory}&id=${article._id}`} passHref>

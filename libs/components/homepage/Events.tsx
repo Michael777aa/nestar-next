@@ -8,13 +8,96 @@ import { EventInquiry } from '../../types/event/event.input';
 import { GET_EVENTS } from '../../../apollo/user/query';
 import { Event } from '../../types/event/event';
 import { REACT_APP_API_URL } from '../../config';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper';
 
 const EventCard = ({ event }: { event: Event }) => {
 	const device = useDeviceDetect();
 	const event_image = `${REACT_APP_API_URL}/${event.eventImages[0]}`;
 
 	if (device === 'mobile') {
-		return <div>EVENT CARD</div>;
+		return (
+			<>
+				<Stack className="top-card-box">
+					<Box
+						component={'div'}
+						className={'card-img'}
+						style={{
+							backgroundImage: `url(${event_image})`,
+						}}
+					></Box>
+					<Box
+						component="div"
+						className="info"
+						sx={{
+							backgroundColor: '#fff',
+							borderRadius: '8px',
+							boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '4px',
+							width: '100%',
+						}}
+					>
+						<strong
+							className="title"
+							style={{
+								fontSize: '18px',
+								fontWeight: 'bold',
+								color: '#333',
+								textTransform: 'capitalize',
+							}}
+						>
+							{event?.eventName}
+						</strong>
+
+						<p
+							className="desc"
+							style={{
+								fontSize: '14px',
+								fontWeight: '400',
+								color: '#666',
+							}}
+						>
+							{event?.eventLocation}
+						</p>
+
+						<span
+							style={{
+								fontSize: '14px',
+								fontWeight: '500',
+								color: '#000000',
+							}}
+						>
+							{event?.eventTopic}
+						</span>
+
+						<span
+							style={{
+								fontSize: '14px',
+								fontWeight: '400',
+								color: '#888',
+								lineHeight: '1.5',
+							}}
+						>
+							{event?.eventDesc}
+						</span>
+
+						<div
+							style={{
+								fontSize: '12px',
+								fontWeight: '400',
+								color: '#aaa',
+								display: 'flex',
+								alignItems: 'center',
+							}}
+						>
+							<span>{new Date(event?.createdAt).toDateString()}</span>
+						</div>
+					</Box>
+				</Stack>
+			</>
+		);
 	} else {
 		return (
 			<Stack
@@ -62,7 +145,26 @@ const Events = ({ initialInquiry, ...props }: any) => {
 	}, [eventInquiry]);
 
 	if (device === 'mobile') {
-		return <div>EVENT CARD</div>;
+		return (
+			<Stack className={'top-facilities'} mt={4}>
+				<Stack className={'container'}>
+					<Stack className={'info-box'}>
+						<span>Events</span>
+					</Stack>
+					<Stack className={'card-box'}>
+						<Swiper className={'top-facility-swiper'} slidesPerView={'auto'} spaceBetween={15} modules={[Autoplay]}>
+							{allEvents.map((event: Event) => {
+								return (
+									<SwiperSlide className={'top-facility-slide'} key={event?._id}>
+										<EventCard event={event} />
+									</SwiperSlide>
+								);
+							})}
+						</Swiper>
+					</Stack>
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={'events'}>

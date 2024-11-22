@@ -7,7 +7,20 @@ const Entitlement = () => {
 	const device = useDeviceDetect();
 	const { t, i18n } = useTranslation('common');
 	if (device === 'mobile') {
-		return <div>HEADER FILTER MOBILE</div>;
+		return (
+			<>
+				<Stack className="main-entit-container">
+					<Stack className={'left-side'}>
+						<h1>{t('Facility Sports Facilities & Unique Experiences')} </h1>
+						<p>
+							{t(
+								'Accompany us for a game-changing experience with PlaySpot. Facilitying sports facilities like soccer fields, basketball courts, golf courses, and more has never been easier. Discover the perfect venue for your next match, training session, or sports event, all in one place. Let us take your sports experience to the next level.',
+							)}
+						</p>
+					</Stack>
+				</Stack>
+			</>
+		);
 	} else {
 		return (
 			<>

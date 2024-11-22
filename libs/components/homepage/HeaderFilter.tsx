@@ -268,7 +268,11 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>HEADER FILTER MOBILE</div>;
+		return (
+			<>
+				<div>Hello</div>
+			</>
+		);
 	} else {
 		return (
 			<>

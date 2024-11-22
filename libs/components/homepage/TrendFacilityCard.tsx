@@ -68,14 +68,14 @@ const TrendFacilityCard = (props: TrendFacilityCardProps) => {
 								<RemoveRedEyeIcon />
 							</IconButton>
 							<Typography className="view-cnt">{facility?.facilityViews}</Typography>
-							<IconButton color={'default'}>
+							<IconButton color={'default'} className="liked-facilities">
 								{facility?.meLiked && facility?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: 'red' }} />
 								) : (
 									<FavoriteIcon />
 								)}
 							</IconButton>
-							<Typography className="view-cnt">{facility?.facilityLikes}</Typography>
+							<Typography className="liked-facilities">{facility?.facilityLikes}</Typography>
 						</div>
 					</div>
 				</Box>

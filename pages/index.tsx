@@ -33,6 +33,8 @@ const Home: NextPage = (props: TopAgentsProps) => {
 				<Advertisement />
 				<TopFacilities />
 				<TopAgents orderNumber={orderNumber} />
+				<Events />
+				<CommunityBoards />
 			</Stack>
 		);
 	} else {
