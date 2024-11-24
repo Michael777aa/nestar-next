@@ -202,7 +202,6 @@ const Footer = () => {
 									placeholder="Enter your email"
 									type="text"
 								/>
-								<Button className="search-icon">Subscribe </Button>
 							</Stack>
 						</Stack>
 
@@ -332,11 +331,11 @@ const Footer = () => {
 							<Typography variant="h2" className="emaillll22234" mt={2}>
 								Payment Accepted
 							</Typography>
-							<Stack display="flex" gap={2} mt={4}>
-								<img src="/img/footer/master-card.svg" alt="Visa" />
-								<img src="/img/footer/paypal-card.svg" alt="Western Union" />
-								<img src="/img/footer/visa-card.svg" alt="MasterCard" />
-								<img src="/img/footer/western-card.svg" alt="PayPal" />
+							<Stack display="flex" gap={2} mt={4} flexDirection={'row'}>
+								<img src="/img/footer/master-card.svg" width={'80px'} height={'80px'} alt="Visa" />
+								<img src="/img/footer/paypal-card.svg" width={'80px'} height={'80px'} alt="Western Union" />
+								<img src="/img/footer/visa-card.svg" width={'80px'} height={'80px'} alt="MasterCard" />
+								<img src="/img/footer/western-card.svg" width={'80px'} height={'80px'} alt="PayPal" />
 							</Stack>
 						</Stack>
 					</Stack>
