@@ -180,7 +180,7 @@ const Events = ({ initialInquiry, ...props }: any) => {
 								Loading events...
 							</Typography>
 						) : allEvents.length === 0 ? (
-							<Box
+							<Stack
 								sx={{
 									display: 'flex',
 									flexDirection: 'column',
@@ -214,7 +214,7 @@ const Events = ({ initialInquiry, ...props }: any) => {
 								>
 									Please check back later for updates on events.
 								</Typography>
-							</Box>
+							</Stack>
 						) : (
 							allEvents.map((event: Event) => <EventCard event={event} key={event?._id} />)
 						)}

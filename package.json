@@ -10,6 +10,7 @@
 		"lint": "next lint",
 		"changelog": "standard-version --skip.tag"
 	},
+  
 	"dependencies": {
 		"@mui/material": "^5.10.1",
 		"next": "14.2.0",

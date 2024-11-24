@@ -258,7 +258,7 @@ const Chat = () => {
 	const renderMessageText = (text = '') => {
 		const urlRegex = /(https?:\/\/[^\s]+)/g;
 		return (
-			<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+			<Stack sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
 				{text.split(urlRegex).map((part, index) =>
 					urlRegex.test(part) ? (
 						<Box
@@ -277,7 +277,7 @@ const Chat = () => {
 						</span>
 					),
 				)}
-			</Box>
+			</Stack>
 		);
 	};
 
@@ -385,7 +385,7 @@ const Chat = () => {
 									const memberName = memberData?.memberNick || 'Guest';
 
 									return (
-										<Box
+										<Stack
 											key={id}
 											sx={{
 												display: 'flex',
@@ -407,13 +407,13 @@ const Chat = () => {
 												</Typography>
 											</Stack>
 											<Typography component="div">{renderMessageText(text)}</Typography>
-										</Box>
+										</Stack>
 									);
 								})}
 							</Stack>
 						</ScrollableFeed>
 					</Box>
-					<Box
+					<Stack
 						className="chat-bottom"
 						sx={{
 							display: 'flex',
@@ -456,7 +456,7 @@ const Chat = () => {
 						>
 							<SendIcon />
 						</button>
-					</Box>
+					</Stack>
 				</Stack>
 			</>
 		);
@@ -557,7 +557,7 @@ const Chat = () => {
 									const memberName = memberData?.memberNick || 'Guest';
 
 									return (
-										<Box
+										<Stack
 											key={id}
 											display="flex"
 											flexDirection="column"
@@ -574,15 +574,15 @@ const Chat = () => {
 												wordBreak: 'break-word',
 											}}
 										>
-											<Box display="flex" alignItems="center" mb={1}>
+											<Stack display="flex" alignItems="center" mb={1}>
 												<Avatar alt={memberName} src={memberImage} sx={{ width: 30, height: 30, marginRight: '8px' }} />
 												<Typography variant="body2" color="textSecondary" sx={{ fontWeight: 'bold' }}>
 													{memberName}
 												</Typography>
-											</Box>
+											</Stack>
 											<div>{renderMessageText(text)}</div>
 											{/* Time, edited label, and edit/remove buttons in a single row */}
-											<Box display="flex" alignItems="center" justifyContent="space-between" width="100%" mt={1}>
+											<Stack display="flex" alignItems="center" justifyContent="space-between" width="100%" mt={1}>
 												{/* Time and edited label */}
 												<span
 													style={{
@@ -596,7 +596,7 @@ const Chat = () => {
 
 												{/* Edit and delete buttons for the user's own messages */}
 												{memberData?._id === user?._id && (
-													<Box display="flex" gap={1} style={{ position: 'relative', bottom: '65px', left: '5px' }}>
+													<Stack display="flex" gap={1} style={{ position: 'relative', bottom: '65px', left: '5px' }}>
 														<IconButton
 															onClick={() => handleEditMessage(id, text)}
 															sx={{
@@ -626,10 +626,10 @@ const Chat = () => {
 														>
 															<DeleteIcon fontSize="small" />
 														</IconButton>
-													</Box>
+													</Stack>
 												)}
-											</Box>
-										</Box>
+											</Stack>
+										</Stack>
 									);
 								})}
 							</Stack>

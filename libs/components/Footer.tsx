@@ -57,7 +57,6 @@ const Footer = () => {
 					</Stack>
 
 					{/* Divider Line */}
-					<Box className="hover-linesss" borderBottom="1px solid #ffb514" />
 
 					{/* Main Content */}
 					<Stack
@@ -158,7 +157,7 @@ const Footer = () => {
 							<Typography variant="h2" className="emaillll22234" mt={1}>
 								Payment Accepted
 							</Typography>
-							<Box
+							<Stack
 								display="flex"
 								gap={2}
 								mt={2}
@@ -168,7 +167,7 @@ const Footer = () => {
 								<img src="/img/footer/paypal-card.svg" alt="Western Union" />
 								<img src="/img/footer/visa-card.svg" alt="MasterCard" />
 								<img src="/img/footer/western-card.svg" alt="PayPal" />
-							</Box>
+							</Stack>
 						</Stack>
 					</Stack>
 				</Container>
@@ -197,14 +196,14 @@ const Footer = () => {
 
 						{/* Middle Side (Search Box) */}
 						<Stack className="middle-side-up" width={{ xs: '100%', md: '50%' }}>
-							<Box className="search-box-main" display="flex" alignItems="center">
+							<Stack className="search-box-main" display="flex" alignItems="center">
 								<input
 									style={{ borderRadius: '50px', backgroundColor: '#fff', width: '636px', height: '59px' }}
 									placeholder="Enter your email"
 									type="text"
 								/>
 								<Button className="search-icon">Subscribe </Button>
-							</Box>
+							</Stack>
 						</Stack>
 
 						{/* Right Side (Icons) */}
@@ -228,7 +227,6 @@ const Footer = () => {
 					</Stack>
 
 					{/* Divider Line */}
-					<Box className="hover-linesss" borderBottom="1px solid #ffb514" />
 
 					{/* Main Content */}
 					<Stack
@@ -334,12 +332,12 @@ const Footer = () => {
 							<Typography variant="h2" className="emaillll22234" mt={2}>
 								Payment Accepted
 							</Typography>
-							<Box display="flex" gap={2} mt={4}>
+							<Stack display="flex" gap={2} mt={4}>
 								<img src="/img/footer/master-card.svg" alt="Visa" />
 								<img src="/img/footer/paypal-card.svg" alt="Western Union" />
 								<img src="/img/footer/visa-card.svg" alt="MasterCard" />
 								<img src="/img/footer/western-card.svg" alt="PayPal" />
-							</Box>
+							</Stack>
 						</Stack>
 					</Stack>
 				</Container>

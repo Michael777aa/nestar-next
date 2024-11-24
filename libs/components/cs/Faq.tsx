@@ -247,7 +247,7 @@ const Faq: NextPage = ({ initialInquiry, ...props }: any) => {
 							</Accordion>
 						))
 					) : (
-						<Box
+						<Stack
 							sx={{
 								textAlign: 'center',
 								padding: '20px',
@@ -259,7 +259,7 @@ const Faq: NextPage = ({ initialInquiry, ...props }: any) => {
 							<Typography variant="h6" color="textSecondary">
 								No FAQs are available for this category at the moment.
 							</Typography>
-						</Box>
+						</Stack>
 					)}
 				</Box>
 			</Stack>
@@ -378,7 +378,7 @@ const Faq: NextPage = ({ initialInquiry, ...props }: any) => {
 							</Accordion>
 						))
 					) : (
-						<Box
+						<Stack
 							sx={{
 								textAlign: 'center',
 								padding: '2rem',
@@ -390,7 +390,7 @@ const Faq: NextPage = ({ initialInquiry, ...props }: any) => {
 							<Typography variant="h6" color="textSecondary">
 								No FAQs are available for this category at the moment.
 							</Typography>
-						</Box>
+						</Stack>
 					)}
 				</Box>
 			</Stack>

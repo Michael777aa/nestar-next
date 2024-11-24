@@ -104,18 +104,18 @@ const Join: NextPage = () => {
 					boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
 				}}
 			>
-				<Box textAlign="center" mb={3}>
+				<Stack textAlign="center" mb={3}>
 					<Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.5rem', color: '#333' }}>
 						{loginView ? 'Welcome Back!' : 'Create Your Account'}
 					</Typography>
 					<Typography variant="body2" sx={{ color: '#666' }}>
 						{loginView ? 'Please log in to continue.' : 'Sign up to get started.'}
 					</Typography>
-				</Box>
+				</Stack>
 
 				<Box
 					component="form"
-					onKeyDown={(e) => {
+					onKeyDown={(e: any) => {
 						if (e.key === 'Enter') {
 							loginView ? doLogin() : doSignUp();
 						}
@@ -127,7 +127,7 @@ const Join: NextPage = () => {
 						variant="outlined"
 						fullWidth
 						size="small"
-						onChange={(e) => handleInputChange('nick', e.target.value)}
+						onChange={(e: any) => handleInputChange('nick', e.target.value)}
 						required
 						sx={{ borderRadius: '8px' }}
 					/>
@@ -137,7 +137,7 @@ const Join: NextPage = () => {
 						type="password"
 						fullWidth
 						size="small"
-						onChange={(e) => handleInputChange('password', e.target.value)}
+						onChange={(e: any) => handleInputChange('password', e.target.value)}
 						required
 						sx={{ borderRadius: '8px' }}
 					/>
@@ -148,7 +148,7 @@ const Join: NextPage = () => {
 								variant="outlined"
 								fullWidth
 								size="small"
-								onChange={(e) => handleInputChange('firstName', e.target.value)}
+								onChange={(e: any) => handleInputChange('firstName', e.target.value)}
 								required
 								sx={{ borderRadius: '8px' }}
 							/>
@@ -157,7 +157,7 @@ const Join: NextPage = () => {
 								variant="outlined"
 								fullWidth
 								size="small"
-								onChange={(e) => handleInputChange('lastName', e.target.value)}
+								onChange={(e: any) => handleInputChange('lastName', e.target.value)}
 								required
 								sx={{ borderRadius: '8px' }}
 							/>
@@ -167,7 +167,7 @@ const Join: NextPage = () => {
 								type="email"
 								fullWidth
 								size="small"
-								onChange={(e) => handleInputChange('memberEmail', e.target.value)}
+								onChange={(e: any) => handleInputChange('memberEmail', e.target.value)}
 								required
 								sx={{ borderRadius: '8px' }}
 							/>
@@ -176,7 +176,7 @@ const Join: NextPage = () => {
 								variant="outlined"
 								fullWidth
 								size="small"
-								onChange={(e) => handleInputChange('phone', e.target.value)}
+								onChange={(e: any) => handleInputChange('phone', e.target.value)}
 								required
 								sx={{ borderRadius: '8px' }}
 							/>
@@ -241,7 +241,7 @@ const Join: NextPage = () => {
 					</Button>
 				</Box>
 
-				<Box textAlign="center" mt={2}>
+				<Stack textAlign="center" mt={2}>
 					{loginView ? (
 						<Typography
 							onClick={() => viewChangeHandler(false)}
@@ -273,20 +273,20 @@ const Join: NextPage = () => {
 							Have an account? <span>Login</span>
 						</Typography>
 					)}
-				</Box>
+				</Stack>
 			</Container>
 		);
 	} else {
 		return (
 			<Container maxWidth="sm" className="join-page" sx={{ marginTop: 5 }}>
-				<Box textAlign="center" mb={3}>
+				<Stack textAlign="center" mb={3}>
 					<Typography variant="h4" gutterBottom>
 						{loginView ? 'Welcome Back!' : 'Create Your Account'}
 					</Typography>
 					<Typography variant="body1">
 						{loginView ? 'Please log in to continue.' : 'Sign up to get started.'}
 					</Typography>
-				</Box>
+				</Stack>
 				<Stack onKeyPress={handleKeyPress} spacing={2} mt={2}>
 					<TextField
 						label="Nickname"
@@ -368,7 +368,7 @@ const Join: NextPage = () => {
 						{loginView ? 'Login' : 'Sign Up'}
 					</Button>
 				</Stack>
-				<Box textAlign="center" mt={2}>
+				<Stack textAlign="center" mt={2}>
 					{loginView ? (
 						<p onClick={() => viewChangeHandler(false)}>
 							Not registered yet? <span>Sign Up</span>
@@ -378,7 +378,7 @@ const Join: NextPage = () => {
 							Have an account? <span>Login</span>
 						</p>
 					)}
-				</Box>
+				</Stack>
 			</Container>
 		);
 	}

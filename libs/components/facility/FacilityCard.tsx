@@ -214,7 +214,7 @@ const FacilityCard = (props: FacilityCardType) => {
 							marginTop: '10px',
 						}}
 					>
-						<Box
+						<Stack
 							style={{
 								backgroundColor: '#4CAF50',
 								padding: '10px 15px',
@@ -225,7 +225,7 @@ const FacilityCard = (props: FacilityCardType) => {
 							}}
 						>
 							${facility?.facilityPrice}/week
-						</Box>
+						</Stack>
 						<Link
 							href={{
 								pathname: '/facility/detail',
@@ -262,7 +262,7 @@ const FacilityCard = (props: FacilityCardType) => {
 					>
 						<Typography style={{ fontSize: '0.85rem', fontWeight: '600', color: '#333' }}>Amenities:</Typography>
 						{facility?.amenities?.map((amenity) => (
-							<Box
+							<Stack
 								key={amenity}
 								style={{
 									backgroundColor: '#f1f8e9',
@@ -274,7 +274,7 @@ const FacilityCard = (props: FacilityCardType) => {
 								}}
 							>
 								{amenity}
-							</Box>
+							</Stack>
 						))}
 					</Stack>
 				</Stack>
@@ -373,11 +373,11 @@ const FacilityCard = (props: FacilityCardType) => {
 							transition: 'transform 0.3s ease, box-shadow 0.3s ease',
 							cursor: 'pointer',
 						}}
-						onMouseEnter={(e) => {
+						onMouseEnter={(e: any) => {
 							e.currentTarget.style.transform = 'scale(1.05)';
 							e.currentTarget.style.boxShadow = '0px 8px 20px rgba(0, 0, 0, 0.2)';
 						}}
-						onMouseLeave={(e) => {
+						onMouseLeave={(e: any) => {
 							e.currentTarget.style.transform = 'scale(1)';
 							e.currentTarget.style.boxShadow = '0px 6px 12px rgba(0, 0, 0, 0.15)';
 						}}
@@ -422,7 +422,7 @@ const FacilityCard = (props: FacilityCardType) => {
 					>
 						Amenities:
 						{facility?.amenities?.map((amenity) => (
-							<Box
+							<Stack
 								key={amenity}
 								style={{
 									display: 'flex',
@@ -435,7 +435,7 @@ const FacilityCard = (props: FacilityCardType) => {
 								}}
 							>
 								{amenityIcons[amenity] || <span>{amenity}</span>}
-							</Box>
+							</Stack>
 						))}
 					</Stack>
 					<Stack className="divider"></Stack>

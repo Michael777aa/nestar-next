@@ -74,7 +74,7 @@ const CommunityBoards = () => {
 					{ title: 'Humour', articles: humorArticles, category: 'HUMOR' },
 					{ title: 'Free', articles: freeArticles, category: 'FREE' },
 				].map(({ title, articles, category }, idx) => (
-					<Box key={idx} style={{ marginBottom: '20px' }}>
+					<Stack key={idx} style={{ marginBottom: '20px' }}>
 						<Stack
 							style={{
 								flexDirection: 'row',
@@ -116,7 +116,7 @@ const CommunityBoards = () => {
 						>
 							{articles.length > 0 ? (
 								articles.map((article, index) => (
-									<Box
+									<Stack
 										key={article._id}
 										style={{
 											minWidth: '370px',
@@ -130,10 +130,10 @@ const CommunityBoards = () => {
 										}}
 									>
 										<CommunityCard vertical={true} article={article} index={index} />
-									</Box>
+									</Stack>
 								))
 							) : (
-								<Box
+								<Stack
 									style={{
 										padding: '15px',
 										backgroundColor: '#f5f5f5',
@@ -144,10 +144,10 @@ const CommunityBoards = () => {
 									}}
 								>
 									Not available currently
-								</Box>
+								</Stack>
 							)}
 						</Stack>
-					</Box>
+					</Stack>
 				))}
 			</Stack>
 		);
@@ -172,7 +172,7 @@ const CommunityBoards = () => {
 										<CommunityCard vertical={true} article={article} index={index} key={article._id} />
 									))
 								) : (
-									<Box
+									<Stack
 										textAlign="center"
 										position={'relative'}
 										left={'60px'}
@@ -183,7 +183,7 @@ const CommunityBoards = () => {
 										<Typography variant="h6" color="textSecondary">
 											not available currently
 										</Typography>
-									</Box>
+									</Stack>
 								)}
 							</Stack>
 						</Stack>
@@ -200,7 +200,7 @@ const CommunityBoards = () => {
 										<CommunityCard vertical={true} article={article} index={index} key={article._id} />
 									))
 								) : (
-									<Box
+									<Stack
 										textAlign="center"
 										position={'relative'}
 										top={'4px'}
@@ -212,7 +212,7 @@ const CommunityBoards = () => {
 										<Typography variant="h6" color="textSecondary">
 											not available currently
 										</Typography>
-									</Box>
+									</Stack>
 								)}
 							</Stack>
 						</Stack>
@@ -229,7 +229,7 @@ const CommunityBoards = () => {
 										<CommunityCard vertical={true} article={article} index={index} key={article._id} />
 									))
 								) : (
-									<Box
+									<Stack
 										textAlign="center"
 										position={'relative'}
 										top={'4px'}
@@ -241,7 +241,7 @@ const CommunityBoards = () => {
 										<Typography variant="h6" color="textSecondary">
 											not available currently
 										</Typography>
-									</Box>
+									</Stack>
 								)}
 							</Stack>
 						</Stack>
@@ -258,7 +258,7 @@ const CommunityBoards = () => {
 										<CommunityCard vertical={false} article={article} index={index} key={article._id} />
 									))
 								) : (
-									<Box
+									<Stack
 										textAlign="center"
 										position={'relative'}
 										top={'4px'}
@@ -270,7 +270,7 @@ const CommunityBoards = () => {
 										<Typography variant="h6" color="textSecondary">
 											not available currently
 										</Typography>
-									</Box>
+									</Stack>
 								)}
 							</Stack>
 						</Stack>
