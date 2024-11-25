@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Avatar, Stack, Typography, IconButton } from '@mui/material';
+import { Avatar, Box, Stack, Typography, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
@@ -23,13 +23,6 @@ interface MessagePayload {
 	memberData: Member;
 	createdAt: string;
 	isEdited?: boolean;
-}
-
-interface InfoPayload {
-	event: string;
-	totalClients: number;
-	memberData: Member;
-	action: string;
 }
 
 const Chat = () => {
@@ -261,7 +254,7 @@ const Chat = () => {
 			<Stack sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
 				{text.split(urlRegex).map((part, index) =>
 					urlRegex.test(part) ? (
-						<Stack
+						<Box
 							key={index}
 							component="a"
 							href={part}
@@ -270,7 +263,7 @@ const Chat = () => {
 							sx={{ color: '#1DA1F2', textDecoration: 'underline', fontSize: 15, wordBreak: 'break-word' }}
 						>
 							{part}
-						</Stack>
+						</Box>
 					) : (
 						<span key={index} style={{ wordBreak: 'break-word', fontSize: 15 }}>
 							{part}
@@ -327,14 +320,13 @@ const Chat = () => {
 						overflow: 'hidden',
 					}}
 				>
-					<Stack
+					<Box
 						className="chat-top"
 						component="div"
 						sx={{
 							padding: '12px',
 							display: 'flex',
 							alignItems: 'center',
-							flexDirection: 'row',
 							justifyContent: 'space-between',
 							backgroundColor: '#075E54',
 							color: 'white',
@@ -362,8 +354,8 @@ const Chat = () => {
 							</Typography>
 							<RippleBadge badgeContent={onlineUsers} />
 						</Stack>
-					</Stack>
-					<Stack
+					</Box>
+					<Box
 						className="chat-content"
 						id="chat-content"
 						ref={chatContentRef}
@@ -413,7 +405,7 @@ const Chat = () => {
 								})}
 							</Stack>
 						</ScrollableFeed>
-					</Stack>
+					</Box>
 					<Stack
 						className="chat-bottom"
 						sx={{
@@ -507,14 +499,13 @@ const Chat = () => {
 						zIndex: 1000,
 					}}
 				>
-					<Stack
+					<Box
 						className="chat-top"
 						component="div"
 						sx={{
 							padding: '20px 25px',
 							display: 'flex',
 							alignItems: 'center',
-							flexDirection: 'row',
 							justifyContent: 'space-between',
 							backgroundColor: '#075E54',
 							color: 'white',
@@ -535,8 +526,8 @@ const Chat = () => {
 							</div>
 							<RippleBadge style={{ marginLeft: '20px' }} badgeContent={onlineUsers} />
 						</div>
-					</Stack>
-					<Stack
+					</Box>
+					<Box
 						className="chat-content"
 						id="chat-content"
 						ref={chatContentRef}
@@ -583,7 +574,6 @@ const Chat = () => {
 												</Typography>
 											</Stack>
 											<div>{renderMessageText(text)}</div>
-
 											{/* Time, edited label, and edit/remove buttons in a single row */}
 											<Stack display="flex" alignItems="center" justifyContent="space-between" width="100%" mt={1}>
 												{/* Time and edited label */}
@@ -592,9 +582,14 @@ const Chat = () => {
 												{memberData?._id === user?._id && (
 													<Stack
 														display="flex"
-														flexDirection={'row'}
 														gap={1}
-														style={{ position: 'relative', bottom: '80px', left: '450px' }}
+														style={{
+															position: 'relative',
+															bottom: '80px',
+															display: 'flex',
+															flexDirection: 'row',
+															left: '450px',
+														}}
 													>
 														<IconButton
 															onClick={() => handleEditMessage(id, text)}
@@ -642,7 +637,9 @@ const Chat = () => {
 								})}
 							</Stack>
 						</ScrollableFeed>
-					</Stack>
+					</Box>
+
+					{/* Scroll-to-bottom button */}
 					{showScrollButton && (
 						<IconButton
 							onClick={() => {
@@ -662,13 +659,12 @@ const Chat = () => {
 						</IconButton>
 					)}
 
-					<Stack
+					<Box
 						className="chat-bott"
 						component="div"
 						sx={{
 							display: 'flex',
 							alignItems: 'center',
-							flexDirection: 'row',
 							padding: '15px',
 							borderTop: '1px solid #ddd',
 							backgroundColor: '#ffffff',
@@ -712,7 +708,7 @@ const Chat = () => {
 						>
 							<SendIcon />
 						</button>
-					</Stack>
+					</Box>
 				</Stack>
 			</>
 		);

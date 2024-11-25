@@ -328,10 +328,10 @@ const Footer = () => {
 								Payment Accepted
 							</Typography>
 							<Stack display="flex" gap={2} mt={4} flexDirection={'row'}>
-								<img src="/img/footer/master-card.svg" width={'80px'} height={'80px'} alt="Visa" />
-								<img src="/img/footer/paypal-card.svg" width={'80px'} height={'80px'} alt="Western Union" />
-								<img src="/img/footer/visa-card.svg" width={'80px'} height={'80px'} alt="MasterCard" />
-								<img src="/img/footer/western-card.svg" width={'80px'} height={'80px'} alt="PayPal" />
+								<img src="/img/footer/master-card.svg" width={'60px'} height={'60px'} alt="Visa" />
+								<img src="/img/footer/paypal-card.svg" width={'60px'} height={'60px'} alt="Western Union" />
+								<img src="/img/footer/visa-card.svg" width={'60px'} height={'60px'} alt="MasterCard" />
+								<img src="/img/footer/western-card.svg" width={'60px'} height={'60px'} alt="PayPal" />
 							</Stack>
 						</Stack>
 					</Stack>
