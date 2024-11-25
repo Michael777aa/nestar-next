@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
-import { Box, Button, InputAdornment, Stack } from '@mui/material';
+import { Stack, Button, InputAdornment } from '@mui/material';
 import { List, ListItem } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -170,8 +170,8 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 	};
 
 	return (
-		<Box component="div" className="content">
-			<Box component="div" className="title flex_space">
+		<Stack component="div" className="content">
+			<Stack component="div" className="title flex_space">
 				<Typography variant="h2">FAQ Management</Typography>
 				<Button
 					className="btn_add"
@@ -187,11 +187,11 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 					<AddRoundedIcon sx={{ mr: '8px' }} />
 					Add Notice
 				</Button>
-			</Box>
+			</Stack>
 
-			<Box component="div" className="table-wrap">
+			<Stack component="div" className="table-wrap">
 				<TabContext value={value}>
-					<Box component="div">
+					<Stack component="div">
 						<List className={'tab-menu'}>
 							<ListItem
 								onClick={(e) => tabChangeHandler(e, 'ALL')}
@@ -276,7 +276,7 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 							</Stack>
 						</Stack>
 						<Divider sx={{ my: 2 }} />
-					</Box>
+					</Stack>
 
 					<FaqArticlesPanelList
 						anchorEl={anchorEl}
@@ -296,8 +296,8 @@ const FaqArticles: NextPage = ({ initialInquiry, ...props }: any) => {
 						onRowsPerPageChange={changeRowsPerPageHandler}
 					/>
 				</TabContext>
-			</Box>
-		</Box>
+			</Stack>
+		</Stack>
 	);
 };
 

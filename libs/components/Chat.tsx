@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Avatar, Box, Stack, Typography, IconButton } from '@mui/material';
+import { Avatar, Stack, Typography, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread';
@@ -261,7 +261,7 @@ const Chat = () => {
 			<Stack sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
 				{text.split(urlRegex).map((part, index) =>
 					urlRegex.test(part) ? (
-						<Box
+						<Stack
 							key={index}
 							component="a"
 							href={part}
@@ -270,7 +270,7 @@ const Chat = () => {
 							sx={{ color: '#1DA1F2', textDecoration: 'underline', fontSize: 15, wordBreak: 'break-word' }}
 						>
 							{part}
-						</Box>
+						</Stack>
 					) : (
 						<span key={index} style={{ wordBreak: 'break-word', fontSize: 15 }}>
 							{part}
@@ -327,13 +327,14 @@ const Chat = () => {
 						overflow: 'hidden',
 					}}
 				>
-					<Box
+					<Stack
 						className="chat-top"
 						component="div"
 						sx={{
 							padding: '12px',
 							display: 'flex',
 							alignItems: 'center',
+							flexDirection: 'row',
 							justifyContent: 'space-between',
 							backgroundColor: '#075E54',
 							color: 'white',
@@ -361,8 +362,8 @@ const Chat = () => {
 							</Typography>
 							<RippleBadge badgeContent={onlineUsers} />
 						</Stack>
-					</Box>
-					<Box
+					</Stack>
+					<Stack
 						className="chat-content"
 						id="chat-content"
 						ref={chatContentRef}
@@ -412,7 +413,7 @@ const Chat = () => {
 								})}
 							</Stack>
 						</ScrollableFeed>
-					</Box>
+					</Stack>
 					<Stack
 						className="chat-bottom"
 						sx={{
@@ -506,13 +507,14 @@ const Chat = () => {
 						zIndex: 1000,
 					}}
 				>
-					<Box
+					<Stack
 						className="chat-top"
 						component="div"
 						sx={{
 							padding: '20px 25px',
 							display: 'flex',
 							alignItems: 'center',
+							flexDirection: 'row',
 							justifyContent: 'space-between',
 							backgroundColor: '#075E54',
 							color: 'white',
@@ -533,8 +535,8 @@ const Chat = () => {
 							</div>
 							<RippleBadge style={{ marginLeft: '20px' }} badgeContent={onlineUsers} />
 						</div>
-					</Box>
-					<Box
+					</Stack>
+					<Stack
 						className="chat-content"
 						id="chat-content"
 						ref={chatContentRef}
@@ -581,22 +583,19 @@ const Chat = () => {
 												</Typography>
 											</Stack>
 											<div>{renderMessageText(text)}</div>
+
 											{/* Time, edited label, and edit/remove buttons in a single row */}
 											<Stack display="flex" alignItems="center" justifyContent="space-between" width="100%" mt={1}>
 												{/* Time and edited label */}
-												<span
-													style={{
-														fontSize: '12px',
-														color: 'rgba(0, 0, 0, 0.5)',
-													}}
-												>
-													{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-													{ele.isEdited && <span style={{ marginLeft: '5px', fontStyle: 'italic' }}>(edited)</span>}
-												</span>
 
 												{/* Edit and delete buttons for the user's own messages */}
 												{memberData?._id === user?._id && (
-													<Stack display="flex" gap={1} style={{ position: 'relative', bottom: '65px', left: '5px' }}>
+													<Stack
+														display="flex"
+														flexDirection={'row'}
+														gap={1}
+														style={{ position: 'relative', bottom: '80px', left: '450px' }}
+													>
 														<IconButton
 															onClick={() => handleEditMessage(id, text)}
 															sx={{
@@ -629,14 +628,21 @@ const Chat = () => {
 													</Stack>
 												)}
 											</Stack>
+											<span
+												style={{
+													fontSize: '12px',
+													color: 'rgba(0, 0, 0, 0.5)',
+												}}
+											>
+												{new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+												{ele.isEdited && <span style={{ marginLeft: '5px', fontStyle: 'italic' }}>(edited)</span>}
+											</span>
 										</Stack>
 									);
 								})}
 							</Stack>
 						</ScrollableFeed>
-					</Box>
-
-					{/* Scroll-to-bottom button */}
+					</Stack>
 					{showScrollButton && (
 						<IconButton
 							onClick={() => {
@@ -656,12 +662,13 @@ const Chat = () => {
 						</IconButton>
 					)}
 
-					<Box
+					<Stack
 						className="chat-bott"
 						component="div"
 						sx={{
 							display: 'flex',
 							alignItems: 'center',
+							flexDirection: 'row',
 							padding: '15px',
 							borderTop: '1px solid #ddd',
 							backgroundColor: '#ffffff',
@@ -705,7 +712,7 @@ const Chat = () => {
 						>
 							<SendIcon />
 						</button>
-					</Box>
+					</Stack>
 				</Stack>
 			</>
 		);

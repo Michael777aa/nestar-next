@@ -2,7 +2,7 @@ import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Stack, Box, Button, Pagination } from '@mui/material';
+import { Stack, Button, Pagination } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import AgentCard from '../../libs/components/common/AgentCard';
@@ -200,7 +200,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						}}
 					>
 						{/* Search Input */}
-						<Box
+						<Stack
 							className="left"
 							style={{
 								display: 'flex',
@@ -230,10 +230,10 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 									fontSize: '1rem',
 								}}
 							/>
-						</Box>
+						</Stack>
 
 						{/* Sort Dropdown */}
-						<Box
+						<Stack
 							className="right"
 							style={{
 								display: 'flex',
@@ -267,7 +267,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 									))}
 								</Menu>
 							</div>
-						</Box>
+						</Stack>
 					</Stack>
 
 					{/* Agent List */}
@@ -348,7 +348,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			<Stack className={'agent-list-page'}>
 				<Stack className={'container'}>
 					<Stack className={'filter'}>
-						<Box component={'div'} className={'left'}>
+						<Stack component={'div'} className={'left'}>
 							<input
 								type="text"
 								placeholder={'Search for an agent'}
@@ -363,8 +363,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 									}
 								}}
 							/>
-						</Box>
-						<Box component={'div'} className={'right'} sx={{ position: 'relative', right: '50px' }}>
+						</Stack>
+						<Stack component={'div'} className={'right'} sx={{ position: 'relative', right: '50px' }}>
 							<span>Sort by</span>
 							<div>
 								<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
@@ -413,7 +413,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 									</MenuItem>
 								</Menu>
 							</div>
-						</Box>
+						</Stack>
 					</Stack>
 					<Stack className={'card-wrap'}>
 						{agents?.length === 0 ? (

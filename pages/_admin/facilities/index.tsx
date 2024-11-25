@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
-import { Box, List, ListItem, Stack } from '@mui/material';
+import { Stack, List, ListItem } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Select from '@mui/material/Select';
@@ -173,14 +173,14 @@ const AdminFacilities: NextPage = ({ initialInquiry, ...props }: any) => {
 	};
 
 	return (
-		<Box component={'div'} className={'content'}>
+		<Stack component={'div'} className={'content'}>
 			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
 				Facilities List
 			</Typography>
-			<Box component={'div'} className={'table-wrap'}>
-				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
+			<Stack component={'div'} className={'table-wrap'}>
+				<Stack component={'div'} sx={{ width: '100%', typography: 'body1' }}>
 					<TabContext value={value}>
-						<Box component={'div'}>
+						<Stack component={'div'}>
 							<List className={'tab-menu'}>
 								<ListItem
 									onClick={(e) => tabChangeHandler(e, 'ALL')}
@@ -225,7 +225,7 @@ const AdminFacilities: NextPage = ({ initialInquiry, ...props }: any) => {
 								</Select>
 							</Stack>
 							<Divider />
-						</Box>
+						</Stack>
 						<FacilityPanelList
 							facilities={facilities}
 							anchorEl={anchorEl}
@@ -245,9 +245,9 @@ const AdminFacilities: NextPage = ({ initialInquiry, ...props }: any) => {
 							onRowsPerPageChange={changeRowsPerPageHandler}
 						/>
 					</TabContext>
-				</Box>
-			</Box>
-		</Box>
+				</Stack>
+			</Stack>
+		</Stack>
 	);
 };
 

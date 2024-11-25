@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { Stack, Typography, Box, List, ListItem, colors } from '@mui/material';
+import { Stack, Typography, List, ListItem } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Link from 'next/link';
 import { useReactiveVar } from '@apollo/client';
@@ -47,7 +47,7 @@ const MyMenu = () => {
 					}}
 				>
 					{/* Phone Section */}
-					<Box
+					<Stack
 						component="div"
 						className="user-phone"
 						sx={{
@@ -65,10 +65,10 @@ const MyMenu = () => {
 						<Typography className="p-number" sx={{ fontWeight: '600', color: '#1976d2' }}>
 							{user?.memberPhone}
 						</Typography>
-					</Box>
+					</Stack>
 
 					{/* Profile Image */}
-					<Box
+					<Stack
 						component="div"
 						className="profile-img"
 						sx={{
@@ -84,7 +84,7 @@ const MyMenu = () => {
 							alt="member-photo"
 							style={{ width: '100%', height: '100%', objectFit: 'cover' }}
 						/>
-					</Box>
+					</Stack>
 
 					{/* User Info */}
 					<Stack className="user-info" sx={{ alignItems: 'center', gap: '10px' }}>
@@ -263,16 +263,16 @@ const MyMenu = () => {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>
 				<Stack className={'profile'}>
-					<Box component={'div'} className={'user-phone'}>
+					<Stack component={'div'} className={'user-phone'}>
 						<img src={'/img/icons/call.svg'} alt={'icon'} />
 						<Typography className={'p-number'}>{user?.memberPhone}</Typography>
-					</Box>
-					<Box component={'div'} className={'profile-img'}>
+					</Stack>
+					<Stack component={'div'} className={'profile-img'}>
 						<img
 							src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
 							alt={'member-photo'}
 						/>
-					</Box>
+					</Stack>
 					<Stack className={'user-info'}>
 						<Typography className={'user-name'}>{user?.memberNick}</Typography>
 
@@ -420,7 +420,6 @@ const MyMenu = () => {
 											version="1.1"
 											id="Layer_1"
 											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 328 328"
 										>
 											<g id="XMLID_350_">
 												<path
@@ -467,7 +466,6 @@ const MyMenu = () => {
 											version="1.1"
 											id="Layer_1"
 											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 328 328"
 										>
 											<g id="XMLID_334_">
 												<path

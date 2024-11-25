@@ -2,17 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import {
-	Box,
-	Button,
-	Checkbox,
-	FormControlLabel,
-	FormGroup,
-	Stack,
-	TextField,
-	Typography,
-	Container,
-} from '@mui/material';
+import { Button, Checkbox, FormControlLabel, FormGroup, Stack, TextField, Typography, Container } from '@mui/material';
 import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
@@ -113,7 +103,7 @@ const Join: NextPage = () => {
 					</Typography>
 				</Stack>
 
-				<Box
+				<Stack
 					component="form"
 					onKeyDown={(e: any) => {
 						if (e.key === 'Enter') {
@@ -239,7 +229,7 @@ const Join: NextPage = () => {
 					>
 						{loginView ? 'Login' : 'Sign Up'}
 					</Button>
-				</Box>
+				</Stack>
 
 				<Stack textAlign="center" mt={2}>
 					{loginView ? (

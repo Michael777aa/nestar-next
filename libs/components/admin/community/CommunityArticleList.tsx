@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import {
-	Box,
+	Stack,
 	Button,
 	Fade,
 	Menu,
@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
 import OpenInBrowserRoundedIcon from '@mui/icons-material/OpenInBrowserRounded';
 import Moment from 'react-moment';
 import { BoardArticle } from '../../../types/board-article/board-article';
@@ -152,7 +151,7 @@ const CommunityArticleList = (props: CommunityArticleListProps) => {
 								<TableRow hover key={article._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 									<TableCell align="left">{article._id}</TableCell>
 									<TableCell align="left">
-										<Box component={'div'}>
+										<Stack component={'div'}>
 											{article.articleTitle}
 											{article.articleStatus === BoardArticleStatus.ACTIVE && (
 												<Link
@@ -166,7 +165,7 @@ const CommunityArticleList = (props: CommunityArticleListProps) => {
 													</IconButton>
 												</Link>
 											)}
-										</Box>
+										</Stack>
 									</TableCell>
 									<TableCell align="left">{article.articleCategory}</TableCell>
 									<TableCell align="left" className={'name'}>

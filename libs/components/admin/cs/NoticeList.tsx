@@ -9,14 +9,13 @@ import {
 	Table,
 	TableContainer,
 	Button,
-	Box,
+	Stack,
 	Checkbox,
 	Toolbar,
 } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { IconButton, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { Stack } from '@mui/material';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { NotePencil } from 'phosphor-react';
 
@@ -110,8 +109,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 			{numSelected > 0 ? (
 				<>
 					<Toolbar>
-						<Box component={'div'}>
-							<Box component={'div'} className="flex_box">
+						<Stack component={'div'}>
+							<Stack component={'div'} className="flex_box">
 								<Checkbox
 									color="primary"
 									indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -124,11 +123,11 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 								<Typography sx={{ flex: '1 1 100%' }} color="inherit" variant="h6" component="div">
 									{numSelected} selected
 								</Typography>
-							</Box>
+							</Stack>
 							<Button variant={'text'} size={'large'}>
 								Delete
 							</Button>
-						</Box>
+						</Stack>
 					</Toolbar>
 				</>
 			) : (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper';
@@ -75,18 +75,18 @@ const PopularFacilities = (props: PopularFacilitiesProps) => {
 			<Stack className={'popular-facilities'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
+						<Stack component={'div'} className={'left'}>
 							<span>Popular Sport Facilities</span>
 							<p>Popularity is based on views</p>
-						</Box>
-						<Box component={'div'} className={'right'}>
+						</Stack>
+						<Stack component={'div'} className={'right'}>
 							<div className={'more-box'}>
 								<Link href={'/facility'}>
 									<span>Explore All Categories</span>
 								</Link>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
-						</Box>
+						</Stack>
 					</Stack>
 					<Stack className={'card-box'}>
 						<Swiper

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack, Box, Typography, Divider, Button } from '@mui/material';
+import { Stack, Typography, Divider, Button } from '@mui/material';
 import Link from 'next/link';
 import { REACT_APP_API_URL } from '../../config';
 import IconButton from '@mui/material/IconButton';
@@ -71,7 +71,7 @@ const AgentCard = (props: AgentCardProps) => {
 						query: { agentId: agent?._id },
 					}}
 				>
-					<Box
+					<Stack
 						component="div"
 						className="agent-img"
 						style={{
@@ -84,7 +84,7 @@ const AgentCard = (props: AgentCardProps) => {
 							backgroundRepeat: 'no-repeat',
 							boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
 						}}
-					></Box>
+					></Stack>
 				</Link>
 
 				{/* Special Agent Tags */}
@@ -125,7 +125,7 @@ const AgentCard = (props: AgentCardProps) => {
 						gap: '10px',
 					}}
 				>
-					<Box component="div" className="agent-info" style={{ textAlign: 'center' }}>
+					<Stack component="div" className="agent-info" style={{ textAlign: 'center' }}>
 						<Link
 							href={{
 								pathname: '/agent/detail',
@@ -144,10 +144,10 @@ const AgentCard = (props: AgentCardProps) => {
 								{agent?.memberFirstName ?? agent?.memberNick}
 							</strong>
 						</Link>
-					</Box>
+					</Stack>
 
 					{/* Views and Likes */}
-					<Box
+					<Stack
 						className="buttons"
 						style={{
 							display: 'flex',
@@ -183,7 +183,7 @@ const AgentCard = (props: AgentCardProps) => {
 						>
 							{agent?.memberLikes}
 						</Typography>
-					</Box>
+					</Stack>
 				</Stack>
 
 				{/* Follow/Unfollow Button */}
@@ -279,7 +279,7 @@ const AgentCard = (props: AgentCardProps) => {
 						query: { agentId: agent?._id },
 					}}
 				>
-					<Box
+					<Stack
 						component={'div'}
 						className={'agent-img'}
 						style={{
@@ -288,7 +288,7 @@ const AgentCard = (props: AgentCardProps) => {
 							backgroundPosition: 'center',
 							backgroundRepeat: 'no-repeat',
 						}}
-					></Box>
+					></Stack>
 				</Link>
 				<span className="special-agent">
 					<span>Sport</span>
@@ -303,7 +303,7 @@ const AgentCard = (props: AgentCardProps) => {
 				<span className="sport-facility">Sport Facility</span>
 				<Divider style={{ position: 'relative', top: '-155px' }}></Divider>
 				<Stack className={'agent-desc'}>
-					<Box component={'div'} className={'agent-info'}>
+					<Stack component={'div'} className={'agent-info'}>
 						<Link
 							href={{
 								pathname: '/agent/detail',
@@ -315,8 +315,8 @@ const AgentCard = (props: AgentCardProps) => {
 								<ArrowOutwardIcon />
 							</strong>
 						</Link>
-					</Box>
-					<Box component={'div'} className={'buttons'}>
+					</Stack>
+					<Stack component={'div'} className={'buttons'}>
 						<IconButton style={{ color: '#fff' }}>
 							<RemoveRedEyeIcon />
 						</IconButton>
@@ -329,7 +329,7 @@ const AgentCard = (props: AgentCardProps) => {
 							)}
 						</IconButton>
 						<Typography className="view-cnt">{agent?.memberLikes}</Typography>
-					</Box>
+					</Stack>
 				</Stack>
 
 				<Stack

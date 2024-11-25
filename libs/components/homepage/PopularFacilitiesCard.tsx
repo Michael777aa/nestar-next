@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Box, Divider, Typography } from '@mui/material';
+import { Stack, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
@@ -28,7 +28,7 @@ const PopularFacilityCard = (props: PopularFacilityCardProps) => {
 	if (device === 'mobile') {
 		return (
 			<Stack className="popular-card-box">
-				<Box
+				<Stack
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${facility?.facilityImages[0]})` }}
@@ -37,8 +37,8 @@ const PopularFacilityCard = (props: PopularFacilityCardProps) => {
 					}}
 				>
 					<div className={'price'}>${facility.facilityPrice}</div>
-				</Box>
-				<Box component={'div'} className={'info'}>
+				</Stack>
+				<Stack component={'div'} className={'info'}>
 					<strong
 						className={'title'}
 						onClick={() => {
@@ -67,13 +67,13 @@ const PopularFacilityCard = (props: PopularFacilityCardProps) => {
 							<Typography className="view-cnt">{facility?.facilityViews}</Typography>
 						</div>
 					</div>
-				</Box>
+				</Stack>
 			</Stack>
 		);
 	} else {
 		return (
 			<Stack className="popular-card-box">
-				<Box
+				<Stack
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${facility?.facilityImages[0]})` }}
@@ -87,9 +87,9 @@ const PopularFacilityCard = (props: PopularFacilityCardProps) => {
 							<span>Top</span>
 						</div>
 					)}
-				</Box>
+				</Stack>
 
-				<Box component={'div'} className={'info'}>
+				<Stack component={'div'} className={'info'}>
 					<div className={'options'}>
 						<div>
 							<BalconyIcon />
@@ -127,7 +127,7 @@ const PopularFacilityCard = (props: PopularFacilityCardProps) => {
 							<Typography className="view-cnt">{facility?.facilityViews}</Typography>
 						</div>
 					</div>
-				</Box>
+				</Stack>
 			</Stack>
 		);
 	}

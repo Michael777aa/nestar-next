@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Box, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import Moment from 'react-moment';
 import { BoardArticle } from '../../types/board-article/board-article';
 
@@ -24,7 +24,7 @@ const CommunityCard = ({ vertical, article, index }: CommunityCardProps) => {
 	if (device === 'mobile') {
 		return (
 			<Link href={`/community/detail?articleCategory=${article.articleCategory}&id=${article._id}`} passHref>
-				<Box
+				<Stack
 					component="div"
 					style={{
 						display: 'flex',
@@ -73,13 +73,13 @@ const CommunityCard = ({ vertical, article, index }: CommunityCardProps) => {
 					>
 						<Moment format="DD.MM.YY">{article.createdAt}</Moment>
 					</Typography>
-				</Box>
+				</Stack>
 			</Link>
 		);
 	} else {
 		return (
 			<Link href={`/community/detail?articleCategory=${article.articleCategory}&id=${article._id}`} passHref>
-				<Box component="div" className={vertical ? 'vertical-card' : 'horizontal-card'}>
+				<Stack component="div" className={vertical ? 'vertical-card' : 'horizontal-card'}>
 					{vertical ? (
 						<>
 							<div className="community-img" style={{ backgroundImage: `url(${articleImage})` }}></div>
@@ -100,7 +100,7 @@ const CommunityCard = ({ vertical, article, index }: CommunityCardProps) => {
 							</span>
 						</>
 					)}
-				</Box>
+				</Stack>
 			</Link>
 		);
 	}

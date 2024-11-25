@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import { AccordionDetails, Box, ListItem, Stack, TableCell, TableRow, Typography } from '@mui/material';
+import { AccordionDetails, Stack, ListItem, Typography } from '@mui/material';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import { useRouter } from 'next/router';
 import { styled } from '@mui/material/styles';
@@ -118,7 +118,7 @@ const Faq: NextPage = ({ initialInquiry, ...props }: any) => {
 				}}
 			>
 				{/* Categories Section */}
-				<Box
+				<Stack
 					className="categories"
 					component="div"
 					sx={{
@@ -168,10 +168,10 @@ const Faq: NextPage = ({ initialInquiry, ...props }: any) => {
 							{item.label}
 						</ListItem>
 					))}
-				</Box>
+				</Stack>
 
 				{/* FAQ Section */}
-				<Box
+				<Stack
 					className="wrap"
 					component="div"
 					sx={{
@@ -261,13 +261,13 @@ const Faq: NextPage = ({ initialInquiry, ...props }: any) => {
 							</Typography>
 						</Stack>
 					)}
-				</Box>
+				</Stack>
 			</Stack>
 		);
 	} else {
 		return (
 			<Stack className={'faq-content'}>
-				<Box
+				<Stack
 					className="categories"
 					component="div"
 					sx={{
@@ -317,9 +317,9 @@ const Faq: NextPage = ({ initialInquiry, ...props }: any) => {
 							{item.label}
 						</ListItem>
 					))}
-				</Box>
+				</Stack>
 
-				<Box className="wrap" component="div" sx={{ mt: 4 }}>
+				<Stack className="wrap" component="div" sx={{ mt: 4 }}>
 					{allNotices.length !== 0 ? (
 						allNotices.map((notice: Notice) => (
 							<Accordion
@@ -392,7 +392,7 @@ const Faq: NextPage = ({ initialInquiry, ...props }: any) => {
 							</Typography>
 						</Stack>
 					)}
-				</Box>
+				</Stack>
 			</Stack>
 		);
 	}

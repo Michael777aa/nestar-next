@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import MenuList from '../admin/AdminMenuList';
 import Toolbar from '@mui/material/Toolbar';
-import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { Menu, MenuItem } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
@@ -61,7 +60,7 @@ const withAdminLayout = (Component: ComponentType) => {
 
 		return (
 			<main id="pc-wrap" className="admin">
-				<Box component={'div'} sx={{ display: 'flex' }}>
+				<Stack component={'div'} sx={{ display: 'flex' }}>
 					<AppBar
 						position="fixed"
 						sx={{
@@ -98,7 +97,7 @@ const withAdminLayout = (Component: ComponentType) => {
 								open={Boolean(anchorElUser)}
 								onClose={handleCloseUserMenu}
 							>
-								<Box
+								<Stack
 									component={'div'}
 									onClick={handleCloseUserMenu}
 									sx={{
@@ -114,14 +113,14 @@ const withAdminLayout = (Component: ComponentType) => {
 										</Typography>
 									</Stack>
 									<Divider />
-									<Box component={'div'} sx={{ p: 1, py: '6px' }} onClick={logoutHandler}>
+									<Stack component={'div'} sx={{ p: 1, py: '6px' }} onClick={logoutHandler}>
 										<MenuItem sx={{ px: '16px', py: '6px' }}>
 											<Typography variant={'subtitle1'} component={'span'}>
 												Logout
 											</Typography>
 										</MenuItem>
-									</Box>
-								</Box>
+									</Stack>
+								</Stack>
 							</Menu>
 						</Toolbar>
 					</AppBar>
@@ -170,11 +169,11 @@ const withAdminLayout = (Component: ComponentType) => {
 						<MenuList />
 					</Drawer>
 
-					<Box component={'div'} id="bunker" sx={{ flexGrow: 1 }}>
+					<Stack component={'div'} id="bunker" sx={{ flexGrow: 1 }}>
 						{/*@ts-ignore*/}
 						<Component {...props} setSnackbar={setSnackbar} setTitle={setTitle} />
-					</Box>
-				</Box>
+					</Stack>
+				</Stack>
 			</main>
 		);
 	};

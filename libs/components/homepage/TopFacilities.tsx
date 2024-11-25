@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
@@ -85,17 +85,17 @@ const TopFacilities = (props: TopFacilitiesProps) => {
 			<Stack className={'top-facilities'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
+						<Stack component={'div'} className={'left'}>
 							<span>Top Sports Arenas</span>
 							<p>Check out our Leading Sports Arenas</p>
-						</Box>
-						<Box component={'div'} className={'right'}>
+						</Stack>
+						<Stack component={'div'} className={'right'}>
 							<div className={'pagination-box'} style={{ position: 'relative', top: 15, right: 18 }}>
 								<WestIcon className={'swiper-top-prev'} />
 								<div className={'swiper-top-pagination'}></div>
 								<EastIcon className={'swiper-top-next'} />
 							</div>
-						</Box>
+						</Stack>
 					</Stack>
 					<Stack className={'card-box'}>
 						<Swiper

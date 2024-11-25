@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, Box, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { GET_ALL_EVENTS } from '../../../apollo/admin/query';
 import { useQuery } from '@apollo/client';
@@ -19,14 +19,14 @@ const EventCard = ({ event }: { event: Event }) => {
 		return (
 			<>
 				<Stack className="top-card-box">
-					<Box
+					<Stack
 						component={'div'}
 						className={'card-img'}
 						style={{
 							backgroundImage: `url(${event_image})`,
 						}}
-					></Box>
-					<Box
+					></Stack>
+					<Stack
 						component="div"
 						className="info"
 						sx={{
@@ -94,7 +94,7 @@ const EventCard = ({ event }: { event: Event }) => {
 						>
 							<span>{new Date(event?.createdAt).toDateString()}</span>
 						</div>
-					</Box>
+					</Stack>
 				</Stack>
 			</>
 		);
@@ -109,13 +109,13 @@ const EventCard = ({ event }: { event: Event }) => {
 					backgroundRepeat: 'no-repeat',
 				}}
 			>
-				<Box component={'div'} className={'info'}>
+				<Stack component={'div'} className={'info'}>
 					<strong>{event?.eventLocation}</strong>
 					<span>{event?.eventTopic}</span>
-				</Box>
-				<Box component={'div'} className={'more'}>
+				</Stack>
+				<Stack component={'div'} className={'more'}>
 					<span>{event?.eventDesc}</span>
-				</Box>
+				</Stack>
 			</Stack>
 		);
 	}
@@ -170,9 +170,9 @@ const Events = ({ initialInquiry, ...props }: any) => {
 			<Stack className={'events'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
+						<Stack component={'div'} className={'left'}>
 							<span className={'white'}>Events</span>
-						</Box>
+						</Stack>
 					</Stack>
 					<Stack className={'card-wrapper'}>
 						{getEventsLoading ? (

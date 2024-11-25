@@ -1,9 +1,5 @@
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TelegramIcon from '@mui/icons-material/Telegram';
 import useDeviceDetect from '../hooks/useDeviceDetect';
-import { Stack, Box, Container, Typography, Link } from '@mui/material';
-import moment from 'moment';
+import { Stack, Container, Typography, Link } from '@mui/material';
 import { Button } from '@mui/material';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -34,7 +30,7 @@ const Footer = () => {
 							</Typography>
 						</Stack>
 
-						{/* Middle Side (Search Box) */}
+						{/* Middle Side (Search Stack) */}
 
 						{/* Right Side (Icons) */}
 						<Stack className="right-side-up" direction="row" justifyContent="center">
@@ -194,7 +190,7 @@ const Footer = () => {
 							</Typography>
 						</Stack>
 
-						{/* Middle Side (Search Box) */}
+						{/* Middle Side (Search Stack) */}
 						<Stack className="middle-side-up" width={{ xs: '100%', md: '50%' }}>
 							<Stack className="search-box-main" display="flex" alignItems="center">
 								<input

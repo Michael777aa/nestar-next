@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Stack, Typography, Box, List, ListItem, Button } from '@mui/material';
+import { Stack, Typography, List, ListItem, Button } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Link from 'next/link';
 import { Member } from '../../types/member/member';
@@ -44,18 +44,18 @@ const MemberMenu = (props: MemberMenuProps) => {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>
 				<Stack className={'profile'}>
-					<Box component={'div'} className={'profile-img'}>
+					<Stack component={'div'} className={'profile-img'}>
 						<img
 							src={member?.memberImage ? `${REACT_APP_API_URL}/${member?.memberImage}` : '/img/profile/defaultUser.svg'}
 							alt={'member-photo'}
 						/>
-					</Box>
+					</Stack>
 					<Stack className={'user-info'}>
 						<Typography className={'user-name'}>{member?.memberNick}</Typography>
-						<Box component={'div'} className={'user-phone'}>
+						<Stack component={'div'} className={'user-phone'}>
 							<img src={'/img/icons/call.svg'} alt={'icon'} />
 							<Typography className={'p-number'}>{member?.memberPhone}</Typography>
-						</Box>
+						</Stack>
 						<Typography className={'view-list'}>{member?.memberType}</Typography>
 					</Stack>
 				</Stack>
@@ -136,7 +136,6 @@ const MemberMenu = (props: MemberMenuProps) => {
 											version="1.1"
 											id="Layer_1"
 											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 328 328"
 										>
 											<g id="XMLID_350_">
 												<path
@@ -187,7 +186,6 @@ const MemberMenu = (props: MemberMenuProps) => {
 											version="1.1"
 											id="Layer_1"
 											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 328 328"
 										>
 											<g id="XMLID_334_">
 												<path

@@ -310,7 +310,7 @@ All notable changes to this project will be documented in this file. See [standa
 - enable empty list features ([bb3444a](https://github.com/SBekzod/nestar-next/commit/bb3444a8dbb6d05c6c668e1a503a319fbd5c8a9f))
 - env development modification ([738a7c0](https://github.com/SBekzod/nestar-next/commit/738a7c0d791e54032cd671a639c4d972de0f22ba))
 - fiber three js source refactoring ([37e3d86](https://github.com/SBekzod/nestar-next/commit/37e3d86d2397e46fc032f2aba3939139c96d5406))
-- fixed Box related type error ([846f5ea](https://github.com/SBekzod/nestar-next/commit/846f5ead5d600762c0551a41875c8c0fb1ef20c3))
+- fixed Stack related type error ([846f5ea](https://github.com/SBekzod/nestar-next/commit/846f5ead5d600762c0551a41875c8c0fb1ef20c3))
 - home page component refactoring ([70892f1](https://github.com/SBekzod/nestar-next/commit/70892f18239cf30988e69ea5938f2d3380bcc600))
 - home page refactoring ([9facbc7](https://github.com/SBekzod/nestar-next/commit/9facbc78fdda594cf695248833d3d359190b58b3))
 - homepage apartment cards modifications ([9a71305](https://github.com/SBekzod/nestar-next/commit/9a71305d152d3b2c22e0d722a55e39e7242db4b6))
@@ -377,7 +377,7 @@ All notable changes to this project will be documented in this file. See [standa
 - publish apartment detail page in apartment folder ([eeb1a49](https://github.com/SBekzod/nestar-next/commit/eeb1a49187f110d588cc7090a90860f1a6c25e28))
 - refactor apartment to facility logic ([661c33f](https://github.com/SBekzod/nestar-next/commit/661c33f021fb0c3ae1798c498397285e90f90db0))
 - refactor home page related components ([9d3b497](https://github.com/SBekzod/nestar-next/commit/9d3b497048c9f56477a1bb0bb6862f25c57afaf0))
-- refactor MUI Box element ([84d821c](https://github.com/SBekzod/nestar-next/commit/84d821cccdc92252ae7f4a9401b82e7a152c0c41))
+- refactor MUI Stack element ([84d821c](https://github.com/SBekzod/nestar-next/commit/84d821cccdc92252ae7f4a9401b82e7a152c0c41))
 - refactor project standards ([4381fe3](https://github.com/SBekzod/nestar-next/commit/4381fe38058742c477d23c5e81a999d89276c12d))
 - refactor publishing community detail page ([c478956](https://github.com/SBekzod/nestar-next/commit/c478956939339b6d873645fb0b85983ef8cc96c1))
 - refactor scss files ([56f0a81](https://github.com/SBekzod/nestar-next/commit/56f0a81c67127080ce3436a65d0f206c7944d79d))
@@ -444,7 +444,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 - completed makler filter ([68453ee](https://github.com/SBekzod/nestar-next/commit/68453eed82d8dc6d7846932c012f30ef1dad3dc5))
-- fixed Box related type error ([846f5ea](https://github.com/SBekzod/nestar-next/commit/846f5ead5d600762c0551a41875c8c0fb1ef20c3))
+- fixed Stack related type error ([846f5ea](https://github.com/SBekzod/nestar-next/commit/846f5ead5d600762c0551a41875c8c0fb1ef20c3))
 - homepage apartment cards modifications ([9a71305](https://github.com/SBekzod/nestar-next/commit/9a71305d152d3b2c22e0d722a55e39e7242db4b6))
 - homepage event card ui/ux design ([863b2ff](https://github.com/SBekzod/nestar-next/commit/863b2ff68bd95e360946c22adfc3c9d254fc5a43))
 - homepage popular and recommended apartments ([14ab6b7](https://github.com/SBekzod/nestar-next/commit/14ab6b7f307cfb15d383f8df941bea1b73ced16f))
@@ -517,7 +517,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 - completed makler filter ([68453ee](https://github.com/SBekzod/nestar-next/commit/68453eed82d8dc6d7846932c012f30ef1dad3dc5))
-- fixed Box related type error ([846f5ea](https://github.com/SBekzod/nestar-next/commit/846f5ead5d600762c0551a41875c8c0fb1ef20c3))
+- fixed Stack related type error ([846f5ea](https://github.com/SBekzod/nestar-next/commit/846f5ead5d600762c0551a41875c8c0fb1ef20c3))
 - homepage apartment cards modifications ([9a71305](https://github.com/SBekzod/nestar-next/commit/9a71305d152d3b2c22e0d722a55e39e7242db4b6))
 - homepage event card ui/ux design ([863b2ff](https://github.com/SBekzod/nestar-next/commit/863b2ff68bd95e360946c22adfc3c9d254fc5a43))
 - homepage popular and recommended apartments ([14ab6b7](https://github.com/SBekzod/nestar-next/commit/14ab6b7f307cfb15d383f8df941bea1b73ced16f))
@@ -589,7 +589,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 - completed makler filter ([68453ee](https://github.com/SBekzod/nestar-next/commit/68453eed82d8dc6d7846932c012f30ef1dad3dc5))
-- fixed Box related type error ([846f5ea](https://github.com/SBekzod/nestar-next/commit/846f5ead5d600762c0551a41875c8c0fb1ef20c3))
+- fixed Stack related type error ([846f5ea](https://github.com/SBekzod/nestar-next/commit/846f5ead5d600762c0551a41875c8c0fb1ef20c3))
 - homepage apartment cards modifications ([9a71305](https://github.com/SBekzod/nestar-next/commit/9a71305d152d3b2c22e0d722a55e39e7242db4b6))
 - homepage event card ui/ux design ([863b2ff](https://github.com/SBekzod/nestar-next/commit/863b2ff68bd95e360946c22adfc3c9d254fc5a43))
 - homepage popular and recommended apartments ([14ab6b7](https://github.com/SBekzod/nestar-next/commit/14ab6b7f307cfb15d383f8df941bea1b73ced16f))
@@ -661,7 +661,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 - completed makler filter ([68453ee](https://github.com/SBekzod/nestar-next/commit/68453eed82d8dc6d7846932c012f30ef1dad3dc5))
-- fixed Box related type error ([846f5ea](https://github.com/SBekzod/nestar-next/commit/846f5ead5d600762c0551a41875c8c0fb1ef20c3))
+- fixed Stack related type error ([846f5ea](https://github.com/SBekzod/nestar-next/commit/846f5ead5d600762c0551a41875c8c0fb1ef20c3))
 - homepage apartment cards modifications ([9a71305](https://github.com/SBekzod/nestar-next/commit/9a71305d152d3b2c22e0d722a55e39e7242db4b6))
 - homepage event card ui/ux design ([863b2ff](https://github.com/SBekzod/nestar-next/commit/863b2ff68bd95e360946c22adfc3c9d254fc5a43))
 - homepage popular and recommended apartments ([14ab6b7](https://github.com/SBekzod/nestar-next/commit/14ab6b7f307cfb15d383f8df941bea1b73ced16f))

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Box, Divider, Typography } from '@mui/material';
+import { Stack, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -44,7 +44,7 @@ const FacilityBigCard = (props: FacilityBigCardProps) => {
 					transition: 'transform 0.3s ease, box-shadow 0.3s ease',
 				}}
 			>
-				<Box
+				<Stack
 					component="div"
 					className="card-img"
 					onClick={() => goFacilityDetatilPage(facility?._id)}
@@ -58,7 +58,7 @@ const FacilityBigCard = (props: FacilityBigCardProps) => {
 						borderRadius: '8px 8px 0 0',
 					}}
 				/>
-				<Box
+				<Stack
 					component="div"
 					className="info"
 					style={{
@@ -164,7 +164,7 @@ const FacilityBigCard = (props: FacilityBigCardProps) => {
 							</Typography>
 						</div>
 					</div>
-				</Box>
+				</Stack>
 			</Stack>
 		);
 	} else {
@@ -181,7 +181,7 @@ const FacilityBigCard = (props: FacilityBigCardProps) => {
 					transition: 'transform 0.3s ease, box-shadow 0.3s ease',
 				}}
 			>
-				<Box
+				<Stack
 					component="div"
 					className="card-img"
 					onClick={() => goFacilityDetatilPage(facility?._id)}
@@ -195,7 +195,7 @@ const FacilityBigCard = (props: FacilityBigCardProps) => {
 						borderRadius: '12px 12px 0 0',
 					}}
 				/>
-				<Box
+				<Stack
 					component="div"
 					className="info"
 					style={{
@@ -295,7 +295,7 @@ const FacilityBigCard = (props: FacilityBigCardProps) => {
 							</Typography>
 						</div>
 					</div>
-				</Box>
+				</Stack>
 			</Stack>
 		);
 	}

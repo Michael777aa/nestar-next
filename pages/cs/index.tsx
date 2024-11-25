@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { Box, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import Notice from '../../libs/components/cs/Notice';
@@ -54,7 +54,7 @@ const CS: NextPage = () => {
 					}}
 				>
 					{/* Main Info Section */}
-					<Box
+					<Stack
 						component="div"
 						className="cs-main-info"
 						sx={{
@@ -68,7 +68,7 @@ const CS: NextPage = () => {
 							boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
 						}}
 					>
-						<Box
+						<Stack
 							component="div"
 							className="info"
 							sx={{
@@ -92,10 +92,10 @@ const CS: NextPage = () => {
 							>
 								I will answer your questions
 							</Typography>
-						</Box>
+						</Stack>
 
 						{/* Tabs */}
-						<Box
+						<Stack
 							component="div"
 							className="btns"
 							sx={{
@@ -103,7 +103,7 @@ const CS: NextPage = () => {
 								gap: '10px',
 							}}
 						>
-							<Box
+							<Stack
 								component="div"
 								sx={{
 									padding: '8px 16px',
@@ -121,8 +121,8 @@ const CS: NextPage = () => {
 								}}
 							>
 								Notice
-							</Box>
-							<Box
+							</Stack>
+							<Stack
 								component="div"
 								sx={{
 									padding: '8px 16px',
@@ -140,12 +140,12 @@ const CS: NextPage = () => {
 								}}
 							>
 								FAQ
-							</Box>
-						</Box>
-					</Box>
+							</Stack>
+						</Stack>
+					</Stack>
 
 					{/* Content Section */}
-					<Box
+					<Stack
 						component="div"
 						className="cs-content"
 						sx={{
@@ -157,7 +157,7 @@ const CS: NextPage = () => {
 					>
 						{tab === 'notice' && <Notice />}
 						{tab === 'faq' && <Faq />}
-					</Box>
+					</Stack>
 				</Stack>
 			</Stack>
 		);
@@ -165,12 +165,12 @@ const CS: NextPage = () => {
 		return (
 			<Stack className={'cs-page'}>
 				<Stack className={'container'}>
-					<Box component={'div'} className={'cs-main-info'}>
-						<Box component={'div'} className={'info'}>
+					<Stack component={'div'} className={'cs-main-info'}>
+						<Stack component={'div'} className={'info'}>
 							<span>Cs center</span>
 							<p>I will answer your questions</p>
-						</Box>
-						<Box component={'div'} className={'btns'}>
+						</Stack>
+						<Stack component={'div'} className={'btns'}>
 							<div
 								className={tab == 'notice' ? 'active' : ''}
 								onClick={() => {
@@ -187,14 +187,14 @@ const CS: NextPage = () => {
 							>
 								FAQ
 							</div>
-						</Box>
-					</Box>
+						</Stack>
+					</Stack>
 
-					<Box component={'div'} className={'cs-content'}>
+					<Stack component={'div'} className={'cs-content'}>
 						{tab === 'notice' && <Notice />}
 
 						{tab === 'faq' && <Faq />}
-					</Box>
+					</Stack>
 				</Stack>
 			</Stack>
 		);

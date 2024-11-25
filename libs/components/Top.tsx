@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box, Typography, Badge, Drawer, TableRow, TableCell, InputBase, IconButton } from '@mui/material';
+import { Stack, Typography, Badge, Drawer, TableRow, TableCell, InputBase, IconButton } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -304,7 +304,7 @@ const Top = (props: topFilter) => {
 								},
 							}}
 						>
-							<Box>
+							<Stack>
 								<Stack
 									className="drawer-menu"
 									sx={{
@@ -359,7 +359,7 @@ const Top = (props: topFilter) => {
 										</Link>
 									)}
 								</Stack>
-								<Box className="lan-box">
+								<Stack className="lan-box">
 									<List className="language-list" sx={{ display: 'flex', marginTop: '50px' }}>
 										{/* English Option */}
 										<ListItem
@@ -369,6 +369,7 @@ const Top = (props: topFilter) => {
 											sx={{
 												cursor: 'pointer',
 												display: 'flex',
+
 												alignItems: 'center',
 												justifyContent: 'center',
 												borderBottom: selectedLang === 'en' ? '2px solid red' : '2px solid transparent',
@@ -433,8 +434,8 @@ const Top = (props: topFilter) => {
 											{t('Russian')}
 										</ListItem>
 									</List>
-								</Box>
-							</Box>
+								</Stack>
+							</Stack>
 						</Drawer>
 						<Drawer
 							anchor="top"
@@ -451,7 +452,7 @@ const Top = (props: topFilter) => {
 								},
 							}}
 						>
-							<Box>
+							<Stack>
 								<Stack direction="row" spacing={2} alignItems="center">
 									<InputBase
 										style={{
@@ -475,7 +476,7 @@ const Top = (props: topFilter) => {
 										<SearchIcon />
 									</IconButton>
 								</Stack>
-							</Box>
+							</Stack>
 						</Drawer>
 						{/* <MenuIcon className="left-icon" onClick={toggleDrawer} /> */}
 						<IconButton
@@ -501,7 +502,7 @@ const Top = (props: topFilter) => {
 								},
 							}}
 						>
-							<Box>
+							<Stack>
 								<Stack direction="row" spacing={2} alignItems="center">
 									<InputBase
 										style={{
@@ -525,7 +526,7 @@ const Top = (props: topFilter) => {
 										<SearchIcon />
 									</IconButton>
 								</Stack>
-							</Box>
+							</Stack>
 						</Drawer>
 					</Stack>
 				</Stack>
@@ -662,7 +663,7 @@ const Top = (props: topFilter) => {
 									</Typography>
 								) : (
 									notifications.map((notification) => (
-										<Box
+										<Stack
 											key={notification._id}
 											sx={{
 												position: 'relative',
@@ -687,7 +688,7 @@ const Top = (props: topFilter) => {
 												}}
 											>
 												{notification.notificationStatus === 'WAIT' && (
-													<Box
+													<Stack
 														sx={{
 															width: '10px',
 															height: '10px',
@@ -699,7 +700,7 @@ const Top = (props: topFilter) => {
 														}}
 													/>
 												)}
-												<Box sx={{ width: '100%' }}>
+												<Stack sx={{ width: '100%' }}>
 													{notification.notificationName && (
 														<Typography
 															variant="body1"
@@ -740,9 +741,9 @@ const Top = (props: topFilter) => {
 													>
 														{notification.notificationDesc}
 													</Typography>
-												</Box>
+												</Stack>
 											</MenuItem>
-										</Box>
+										</Stack>
 									))
 								)}
 							</Stack>
@@ -775,7 +776,7 @@ const Top = (props: topFilter) => {
 								</a>
 							</Stack>
 							<Stack className={'right-top-menu'}>
-								<Box component={'div'} className={'right-top-box'}>
+								<Stack component={'div'} className={'right-top-box'}>
 									<Link href={'/about'} className={'link'}>
 										<div>{t('About')} </div>
 									</Link>
@@ -790,7 +791,15 @@ const Top = (props: topFilter) => {
 											onClick={langClick}
 											endIcon={<CaretDown size={10} color="#000000" weight="fill" />}
 										>
-											<Box component={'div'} className={'flag'}>
+											<Stack
+												component={'div'}
+												className={'flag'}
+												style={{
+													display: 'flex',
+													flexDirection: 'row',
+													alignItems: 'center',
+												}}
+											>
 												{lang !== null ? (
 													<>
 														<img src={`/img/flag/lang${lang}.png`} alt={'Flag'} />
@@ -801,7 +810,7 @@ const Top = (props: topFilter) => {
 												) : (
 													<img src={`/img/flag/langen.png`} alt={'Flag'} />
 												)}
-											</Box>
+											</Stack>
 										</Button>
 
 										<Menu
@@ -848,18 +857,18 @@ const Top = (props: topFilter) => {
 											</MenuItem>
 										</Menu>
 									</Stack>
-								</Box>
+								</Stack>
 							</Stack>
 						</Stack>
 						{/* UPPER SIDE */}
 						<Stack className={'navbar-middle-menu'}>
 							<Stack className={'left-middle-menu'}>
-								<Box component={'div'} className={'logo-box'}>
+								<Stack component={'div'} className={'logo-box'}>
 									<Link href={'/'} className={'entitlement'}>
 										<h1>PlaySpot 🏟️</h1>
 									</Link>
-								</Box>
-								<Box component={'div'} className={'router-box'}>
+								</Stack>
+								<Stack component={'div'} className={'router-box'}>
 									<Link href={'/'}>
 										<div>{t('Home')}</div>
 									</Link>
@@ -877,7 +886,7 @@ const Top = (props: topFilter) => {
 											<div> {t('My Page')} </div>
 										</Link>
 									)}
-								</Box>
+								</Stack>
 							</Stack>
 							<Stack className={'right-middle-menu'}>
 								<Stack className={'search-b'}>
@@ -966,7 +975,7 @@ const Top = (props: topFilter) => {
 												</Typography>
 											) : (
 												notifications.map((notification) => (
-													<Box
+													<Stack
 														key={notification._id}
 														sx={{
 															position: 'relative',
@@ -986,7 +995,7 @@ const Top = (props: topFilter) => {
 															sx={{ padding: '0', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
 														>
 															{notification.notificationStatus === NotificationStatus.WAIT && (
-																<Box
+																<Stack
 																	sx={{
 																		width: '10px',
 																		height: '10px',
@@ -998,7 +1007,7 @@ const Top = (props: topFilter) => {
 																	}}
 																/>
 															)}
-															<Box sx={{ width: '100%' }}>
+															<Stack sx={{ width: '100%' }}>
 																{notification.notificationName && (
 																	<Typography
 																		variant="body1"
@@ -1074,9 +1083,9 @@ const Top = (props: topFilter) => {
 																>
 																	{new Date(notification.createdAt).toLocaleString()}
 																</Typography>
-															</Box>
+															</Stack>
 														</MenuItem>
-													</Box>
+													</Stack>
 												))
 											)}
 										</Stack>

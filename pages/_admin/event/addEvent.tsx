@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { Button, Typography, Stack, TextField, Box } from '@mui/material';
+import { Button, Typography, Stack, TextField } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { CREATE_EVENT } from '../../../apollo/admin/mutation';
 import { sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert } from '../../../libs/sweetAlert';
@@ -122,7 +122,7 @@ const CreateEvent = ({ initialValues, ...props }: any) => {
 		return <div>Add new Event MOBILE PAGE</div>;
 	} else {
 		return (
-			<Box
+			<Stack
 				sx={{ maxWidth: 600, margin: '0 auto', padding: 3, backgroundColor: '#f9f9f9', borderRadius: 2, boxShadow: 1 }}
 			>
 				<Typography variant="h1" component="h2" align="center" gutterBottom>
@@ -165,7 +165,7 @@ const CreateEvent = ({ initialValues, ...props }: any) => {
 					/>
 
 					{/* Upload Section */}
-					<Box>
+					<Stack>
 						<Typography variant="body1" sx={{ marginBottom: 1 }}>
 							Upload Images (Max: 5)
 						</Typography>
@@ -190,7 +190,7 @@ const CreateEvent = ({ initialValues, ...props }: any) => {
 								const imagePath: string = `${REACT_APP_API_URL}/${image}`;
 
 								return (
-									<Box
+									<Stack
 										sx={{
 											width: 80,
 											height: 80,
@@ -204,7 +204,7 @@ const CreateEvent = ({ initialValues, ...props }: any) => {
 								);
 							})}
 						</Stack>
-					</Box>
+					</Stack>
 
 					{/* Save Button */}
 					<Button
@@ -217,7 +217,7 @@ const CreateEvent = ({ initialValues, ...props }: any) => {
 						Create Event
 					</Button>
 				</Stack>
-			</Box>
+			</Stack>
 		);
 	}
 };

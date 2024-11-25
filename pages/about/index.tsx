@@ -2,7 +2,7 @@ import React from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Stack, Box, Container } from '@mui/material';
+import { Stack, Container } from '@mui/material';
 
 const About: NextPage = () => {
 	const device = useDeviceDetect();
@@ -55,18 +55,18 @@ const About: NextPage = () => {
 									<img src="/img/banner/9ed73c93-f122-4e05-87ac-539f413f649f.webp" alt="" />
 								</Stack>
 								<Stack className={'info'}>
-									<Box component={'div'}>
+									<Stack component={'div'}>
 										<strong>10M</strong>
 										<p>Award Winning</p>
-									</Box>
-									<Box component={'div'}>
+									</Stack>
+									<Stack component={'div'}>
 										<strong>45K</strong>
 										<p>Arena Ready</p>
-									</Box>
-									<Box component={'div'}>
+									</Stack>
+									<Stack component={'div'}>
 										<strong>20M</strong>
 										<p>Happy Customer</p>
-									</Box>
+									</Stack>
 								</Stack>
 							</Stack>
 						</Stack>
@@ -120,11 +120,11 @@ const About: NextPage = () => {
 						</Stack>
 						<Stack className={'help'}>
 							<Stack className={'container'}>
-								<Box component={'div'} className={'left'}>
+								<Stack component={'div'} className={'left'}>
 									<strong>Need help? Talk to our expert.</strong>
 									<p>Speak to our specialists or discover the perfect sports facility for your needs.</p>
-								</Box>
-								<Box component={'div'} className={'right'}>
+								</Stack>
+								<Stack component={'div'} className={'right'}>
 									<div className={'white'}>
 										Contact Us
 										<img src="/img/icons/rightup.svg" alt="" />
@@ -133,7 +133,7 @@ const About: NextPage = () => {
 										<img src="/img/icons/call.svg" alt="" />
 										82 10 2877 1575
 									</div>
-								</Box>
+								</Stack>
 							</Stack>
 						</Stack>
 					</Stack>

@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { Box, Button, FormControl, MenuItem, Stack, Typography, Select, TextField } from '@mui/material';
+import { Stack, Button, FormControl, MenuItem, Typography, Select, TextField } from '@mui/material';
 import { BoardArticleCategory } from '../../enums/board-article.enum';
 import { Editor } from '@toast-ui/react-editor';
 import { getJwtToken } from '../../auth';
@@ -144,7 +144,7 @@ const TuiEditor = () => {
 					}}
 				>
 					{/* Category Selection */}
-					<Box component={'div'} style={{ width: '100%' }}>
+					<Stack component={'div'} style={{ width: '100%' }}>
 						<Typography
 							style={{
 								color: '#7f838d',
@@ -175,10 +175,10 @@ const TuiEditor = () => {
 								<MenuItem value={BoardArticleCategory.RECOMMEND}>Recommendation</MenuItem>
 							</Select>
 						</FormControl>
-					</Box>
+					</Stack>
 
 					{/* Title Input */}
-					<Box component={'div'} style={{ width: '100%' }}>
+					<Stack component={'div'} style={{ width: '100%' }}>
 						<Typography
 							style={{
 								color: '#7f838d',
@@ -200,7 +200,7 @@ const TuiEditor = () => {
 								borderRadius: '8px',
 							}}
 						/>
-					</Box>
+					</Stack>
 				</Stack>
 
 				{/* Editor */}
@@ -248,7 +248,7 @@ const TuiEditor = () => {
 		return (
 			<Stack>
 				<Stack direction="row" style={{ margin: '40px' }} justifyContent="space-evenly">
-					<Box component={'div'} className={'form_row'} style={{ width: '300px' }}>
+					<Stack component={'div'} className={'form_row'} style={{ width: '300px' }}>
 						<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
 							Category
 						</Typography>
@@ -267,8 +267,8 @@ const TuiEditor = () => {
 								<MenuItem value={BoardArticleCategory.RECOMMEND}>Recommendation</MenuItem>
 							</Select>
 						</FormControl>
-					</Box>
-					<Box component={'div'} style={{ width: '300px', flexDirection: 'column' }}>
+					</Stack>
+					<Stack component={'div'} style={{ width: '300px', flexDirection: 'column' }}>
 						<Typography style={{ color: '#7f838d', margin: '10px' }} variant="h3">
 							Title
 						</Typography>
@@ -278,7 +278,7 @@ const TuiEditor = () => {
 							label="Type Title"
 							style={{ width: '300px', background: 'white' }}
 						/>
-					</Box>
+					</Stack>
 				</Stack>
 
 				<Editor

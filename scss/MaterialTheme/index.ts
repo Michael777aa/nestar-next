@@ -63,7 +63,7 @@ export const light = {
 				},
 			},
 		},
-		MuiBox: {
+		MuiStack: {
 			styleOverrides: {
 				root: {
 					padding: '0',
@@ -75,7 +75,7 @@ export const light = {
 				},
 			},
 			sx: {
-				'&.MuiBox-root': {
+				'&.MuiStack-root': {
 					component: 'div',
 				},
 			},

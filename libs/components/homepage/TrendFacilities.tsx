@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Box } from '@mui/material';
+import { Stack } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
@@ -72,9 +72,9 @@ const TrendFacilities = (props: TrendFacilitiesProps) => {
 					</Stack>
 					<Stack className={'card-box'}>
 						{trendFacilities.length === 0 ? (
-							<Box component={'div'} className={'empty-list'}>
+							<Stack component={'div'} className={'empty-list'}>
 								Trends not availably currently
-							</Box>
+							</Stack>
 						) : (
 							<Swiper
 								className={'trend-facility-swiper'}
@@ -101,23 +101,23 @@ const TrendFacilities = (props: TrendFacilitiesProps) => {
 			<Stack className={'trend-facilities'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
+						<Stack component={'div'} className={'left'}>
 							<span>Trend Sport Facilities</span>
 							<p>Trend is based on likes</p>
-						</Box>
-						<Box component={'div'} className={'right'}>
+						</Stack>
+						<Stack component={'div'} className={'right'}>
 							<div className={'pagination-box'}>
 								<WestIcon className={'swiper-trend-prev'} />
 								<div className={'swiper-trend-pagination'}></div>
 								<EastIcon className={'swiper-trend-next'} />
 							</div>
-						</Box>
+						</Stack>
 					</Stack>
 					<Stack className={'card-box'}>
 						{trendFacilities.length === 0 ? (
-							<Box component={'div'} className={'empty-list'}>
+							<Stack component={'div'} className={'empty-list'}>
 								Trends not availably currently
-							</Box>
+							</Stack>
 						) : (
 							<Swiper
 								className={'trend-facility-swiper'}

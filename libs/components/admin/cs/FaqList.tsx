@@ -11,7 +11,7 @@ import {
 	Fade,
 	MenuItem,
 	Typography,
-	Box,
+	Stack,
 } from '@mui/material';
 import { Notice } from '../../../types/notice/notice';
 import { NoticeStatus } from '../../../enums/notice.enum';
@@ -135,7 +135,7 @@ export const FaqArticlesPanelList = (props: FaqArticlesPanelListType) => {
 							<TableRow hover key={notice._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 								<TableCell align="left">{notice._id}</TableCell>
 								<TableCell align="left">
-									<Box component={'div'}>{notice.noticeTitle}</Box>
+									<Stack component={'div'}>{notice.noticeTitle}</Stack>
 								</TableCell>
 								<TableCell align="left">{notice.noticeField}</TableCell>
 								<TableCell align="left">{notice.targetAudience ? notice.targetAudience : 'No Target'}</TableCell>

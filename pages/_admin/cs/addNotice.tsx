@@ -1,18 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import {
-	Box,
-	Button,
-	TextField,
-	FormControl,
-	InputLabel,
-	Select,
-	MenuItem,
-	Typography,
-	Stack,
-	Paper,
-} from '@mui/material';
+import { Button, TextField, FormControl, InputLabel, Select, MenuItem, Typography, Stack, Paper } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { CREATE_NOTICE } from '../../../apollo/admin/mutation';
 import { NoticeCategory, NoticeField, NoticeStatus } from '../../../libs/enums/notice.enum';
@@ -52,7 +41,7 @@ const AddNotice = ({ initialValues, ...props }: any) => {
 	}, [noticeData]);
 
 	return (
-		<Box
+		<Stack
 			component="div"
 			sx={{
 				backgroundColor: '#f4f6f9',
@@ -76,7 +65,7 @@ const AddNotice = ({ initialValues, ...props }: any) => {
 				}}
 			>
 				{/* Form Section */}
-				<Box sx={{ flex: 2 }}>
+				<Stack sx={{ flex: 2 }}>
 					<Typography variant="h4" fontWeight="bold" gutterBottom>
 						Create Notice
 					</Typography>
@@ -165,10 +154,10 @@ const AddNotice = ({ initialValues, ...props }: any) => {
 					>
 						Create Notice
 					</Button>
-				</Box>
+				</Stack>
 
 				{/* Target Audience Side Panel */}
-				<Box
+				<Stack
 					sx={{
 						flex: 1,
 						padding: '1rem',
@@ -213,9 +202,9 @@ const AddNotice = ({ initialValues, ...props }: any) => {
 							))}
 						</Select>
 					</FormControl>
-				</Box>
+				</Stack>
 			</Paper>
-		</Box>
+		</Stack>
 	);
 };
 

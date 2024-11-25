@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Box, Link } from '@mui/material';
+import { Stack, Link } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -70,28 +70,28 @@ const TopAgents = (props: TopAgentsProps) => {
 			<Stack className={'top-agents'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
+						<Stack component={'div'} className={'left'}>
 							<span>Best Agents</span>
 							<p>Our senior leadership is consistently at your service.</p>
-						</Box>
-						<Box component={'div'} className={'right'}>
+						</Stack>
+						<Stack component={'div'} className={'right'}>
 							<div className={'more-box'}>
 								<Link href={'/agent'}>
 									<span>View All Agents</span>
 								</Link>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
-						</Box>
+						</Stack>
 					</Stack>
 					<Stack className={'wrapper'}>
-						<Box
+						<Stack
 							component={'div'}
 							style={{ position: 'relative', right: 20 }}
 							className={'switch-btn swiper-agents-prev'}
 						>
 							<ArrowBackIosNewIcon />
-						</Box>
-						<Box component={'div'} className={'card-wrapper'}>
+						</Stack>
+						<Stack component={'div'} className={'card-wrapper'}>
 							<Swiper
 								className={'top-agents-swiper'}
 								slidesPerView={'auto'}
@@ -111,14 +111,14 @@ const TopAgents = (props: TopAgentsProps) => {
 									);
 								})}
 							</Swiper>
-						</Box>
-						<Box
+						</Stack>
+						<Stack
 							component={'div'}
 							className={'switch-btn swiper-agents-next lefsfdsd'}
 							style={{ position: 'relative', left: 20 }}
 						>
 							<ArrowBackIosNewIcon />
-						</Box>
+						</Stack>
 					</Stack>
 				</Stack>
 			</Stack>

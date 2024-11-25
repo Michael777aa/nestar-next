@@ -224,7 +224,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 										gap: '15px',
 									}}
 								>
-									{/* Title Box */}
+									{/* Title Stack */}
 									<Stack
 										className="title-box"
 										style={{

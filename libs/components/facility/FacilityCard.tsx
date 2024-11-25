@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Typography, Box } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -353,7 +353,7 @@ const FacilityCard = (props: FacilityCardType) => {
 							</Stack>
 						)}
 					</Stack>
-					<Box
+					<Stack
 						component={'div'}
 						style={{
 							display: 'flex',
@@ -383,7 +383,7 @@ const FacilityCard = (props: FacilityCardType) => {
 						}}
 					>
 						<Typography style={{ fontSize: '15px' }}>${facility?.facilityPrice}/week</Typography>
-					</Box>
+					</Stack>
 					<Link
 						href={{
 							pathname: '/facility/detail',

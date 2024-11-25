@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Box, Divider, Typography } from '@mui/material';
+import { Stack, Divider, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -32,7 +32,7 @@ const TopFacilityCard = (props: TopFacilityCardProps) => {
 	if (device === 'mobile') {
 		return (
 			<Stack className="top-card-box">
-				<Box
+				<Stack
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${facility?.facilityImages[0]})` }}
@@ -41,8 +41,8 @@ const TopFacilityCard = (props: TopFacilityCardProps) => {
 					}}
 				>
 					<div>${facility?.facilityPrice}</div>
-				</Box>
-				<Box component={'div'} className={'info'}>
+				</Stack>
+				<Stack component={'div'} className={'info'}>
 					<strong
 						className={'title'}
 						onClick={() => {
@@ -79,21 +79,21 @@ const TopFacilityCard = (props: TopFacilityCardProps) => {
 							<Typography className="view-cnt">{facility?.facilityLikes}</Typography>
 						</div>
 					</div>
-				</Box>
+				</Stack>
 			</Stack>
 		);
 	} else {
 		return (
 			<Stack className="top-card-box">
-				<Box
+				<Stack
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${facility?.facilityImages[0]})` }}
 					onClick={() => {
 						pushDetailHandler(facility._id);
 					}}
-				></Box>
-				<Box component={'div'} className={'info'}>
+				></Stack>
+				<Stack component={'div'} className={'info'}>
 					<strong
 						className={'title'}
 						onClick={() => {
@@ -151,7 +151,7 @@ const TopFacilityCard = (props: TopFacilityCardProps) => {
 							<Typography className="view-cnt">{facility?.facilityLikes}</Typography>
 						</div>
 					</div>
-				</Box>
+				</Stack>
 			</Stack>
 		);
 	}

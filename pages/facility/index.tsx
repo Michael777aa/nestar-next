@@ -1,6 +1,6 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
-import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography } from '@mui/material';
+import { Stack, Button, Menu, MenuItem, Pagination, Typography } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { useRouter } from 'next/router';
@@ -129,7 +129,7 @@ const FacilityList: NextPage = ({ initialInput, ...props }: any) => {
 		return (
 			<div id="facility-list-page" style={{ position: 'relative', marginTop: '100px' }}>
 				<div className="container">
-					<Box
+					<Stack
 						component={'div'}
 						style={{
 							display: 'flex',
@@ -209,7 +209,7 @@ const FacilityList: NextPage = ({ initialInput, ...props }: any) => {
 								))}
 							</Menu>
 						</div>
-					</Box>
+					</Stack>
 
 					<Stack className={'facility-page'}>
 						<Stack className={'filter-config'}>
@@ -262,7 +262,7 @@ const FacilityList: NextPage = ({ initialInput, ...props }: any) => {
 		return (
 			<div id="facility-list-page" style={{ position: 'relative' }}>
 				<div className="container">
-					<Box component={'div'} className={'right'}>
+					<Stack component={'div'} className={'right'}>
 						<span>Sort by</span>
 						<div>
 							<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
@@ -292,7 +292,7 @@ const FacilityList: NextPage = ({ initialInput, ...props }: any) => {
 								))}
 							</Menu>
 						</div>
-					</Box>
+					</Stack>
 					<Stack className={'facility-page'}>
 						<Stack className={'filter-config'}>
 							{/* @ts-ignore */}
